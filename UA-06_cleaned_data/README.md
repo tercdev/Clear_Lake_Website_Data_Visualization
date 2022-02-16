@@ -1,6 +1,6 @@
 # Clear Lake – Data Visualization: Files Description
 
-###UA06-Temperature
+**UA06-Temperature**
 - It contains lake temperature time series at multiple depths and the lake level (or water column height)
 - Column definition:
     - A: Sampling date and time (hourly frequency)
@@ -15,7 +15,7 @@
     - J: Lake temperature at the lake height above the bottom indicated in the cell J2 (degC)
     - K: Maximum lake height or lake level (m)
 
-###UA06-Oxygen
+**UA06-Oxygen**
 - It contains lake dissolved oxygen time series at multiple depths and the lake level (or water column
 height)
 - Column definition:
@@ -25,11 +25,10 @@ height)
     - D: Lake dissolved oxygen at the lake height above the bottom indicated in the cell D2 (mg/L)
     - E: Maximum lake height or lake level (m)
 
-###Profile Data
+**Profile Data**
 - It contains profiles of multiple variables at multiple sites (UA06, UA07, UA08, UA01, LA04, OA04). Note
 that when sites have an appendix (_SBE19 or _SBE25) it means the type of instrument we used for that
-particular profile. That’s indicated when we used both instruments on the same day (i.e. two profiles). By
-default, we use SBE19
+particular profile. That’s indicated when we used both instruments on the same day (i.e. two profiles). By default, we use SBE19
 
 - Column definition:
     - A: Date

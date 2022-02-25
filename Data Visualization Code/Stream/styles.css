@@ -107,11 +107,9 @@ input[type="date"] {
   padding: 40px 70px 30px 70px;
 }
 
-.description {
+.title {
   text-align: center;
-}
-
-.note {
-  text-align: center;
-  color:rgb(233, 99, 75);
+  color: #2a5889;
+  font-size: 30px;
+  margin: 0;
 }

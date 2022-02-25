@@ -34,7 +34,7 @@ Highcharts.chart('container', {
     },
   
     title: {
-      text: 'Oxygen Temperature',
+      text: 'Lake Temperature - UA-06',
       align: 'left',
       x: 40
     },

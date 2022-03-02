@@ -1,10 +1,94 @@
 var rainURL = "/Clean Data/Stream/precipitation/";
 
+function cleanTurbMeanData(data) {
+
+    // arrays to store dates to clean data in format: from,to,threshold
+    // if no threshhold then -1
+    var KelseyTimetoNAN = [
+        [new Date("2019-02-26 02:30:00"), new Date("2019-03-04 23:00:00"),-1], // clogged sensor
+        [new Date("2019-06-01 00:00:00"), new Date("2019-06-22 00:00:00"),-1], // high values during low flow
+        [new Date("2021-01-12 00:00:00"), new Date("2021-01-26 00:00:00"),-1], // high values during low flow
+        [new Date("2021-04-12 00:00:00"), new Date("2021-07-26 00:00:00"),-1], // remove nans for short period in may 2021 when sensor was briefly turned on
+        [new Date("2021-11-01 00:00:00"), new Date("2021-12-13 16:00:00"),-1], // high values during low flow
+    ]
+    var MiddleTimetoNAN = [
+        [new Date("2019-06-04 00:00:00"), new Date("2019-07-17 00:00:00"),-1], // high values during low flow
+        [new Date("2020-06-04 00:00:00"), new Date("2020-03-04 22:00:00"),-1], // high values during low flow
+        [new Date("2020-04-08 23:30:00"), new Date("2020-05-17 04:00:00"),-1], // high values during low flow
+        [new Date("2020-05-19 15:00:00"), new Date("2020-07-17 04:00:00"),-1], // high values during low flow
+        [new Date("2021-01-19 15:00:00"), new Date("2021-01-27 20:45:00"),-1],
+        [new Date("2021-03-19 20:50:00"), new Date("2021-08-27 20:45:00"),-1], // % high values during low flow
+        [new Date("2021-12-26 02:40:00"), new Date("2022-01-12 06:40:00"),-1], // clogged sensor
+        [new Date("2022-01-18 00:00:00"), new Date("2022-02-14 00:00:00"),10]
+    ]
+    var ScottsTimetoNAN = [
+        [new Date("2019-01-18 05:40:00"), new Date("2019-02-09 00:30:00"),-1], // clogged sensor
+        [new Date("2019-03-23 16:30:00"), new Date("2019-03-25 08:50:00"),-1], // clogged sensor
+        [new Date("2019-03-31 09:30:00"), new Date("2019-04-04 02:10:00"),-1],// clogged sensor
+        [new Date("2019-03-31 09:30:00"), new Date("2019-04-04 02:10:00"),-1],// clogged sensor
+        [new Date("2019-05-07 05:00:00"), new Date("2019-07-14 00:00:00"),-1], // sunlight interference Fix #3 MICAH
+        [new Date("2019-11-26 21:00:00"), new Date("2019-11-27 12:00:00"),-1], // clogged sensor
+        [new Date("2019-11-30 18:30:00"), new Date("2019-12-04 22:20:00"),-1], //clogged sensor
+        [new Date("2019-12-28 05:12:00"), new Date("2019-12-28 14:20:00"),-1], //clogged sensor
+        [new Date("2019-12-29 19:50:00"), new Date("2019-12-30 01:20:00"),-1], // cloggged sensor
+        [new Date("2019-12-29 19:50:00"), new Date("2020-01-09 01:20:00"),5], //removing all values above 5 NTu when flow was less than 20 in jan 2020
+         [new Date("2022-01-18 00:00:00"), new Date("2022-02-14 00:00:00"),-1],
+         // removing vals
+        [new Date("2019-01-17 14:20:00"), new Date("2019-01-20 01:20:00"),-1], // clogged sensor
+        [new Date("2020-01-11 00:00:00"), new Date("2020-01-14 06:20:00"),5],//removing all values above 5 NTu when flow was less than 20 in jan 2020
+
+        [new Date("2020-02-05 06:00:00"), new Date("2020-02-06 06:20:00"),-1], // clogged sensor
+        [new Date("2020-02-07 00:00:00"), new Date("2020-03-14 05:50:00"),1], // sensor looks to be dry removing any values above 1 NTU0 from 2/7/20 - 3/14/20
+        [new Date("2020-03-06 00:00:00"), new Date("2021-03-10 05:20:00"),1], //sensor looks to be dry removing any values above 1 NTU
+        [new Date("2020-03-13 00:00:00"), new Date("2020-04-04 18:10:00"),1], // sensor looks to be dry removing any values above 1 NTU0 from 3/19/20 - % 4/4/20
+        [new Date("2020-04-08 00:00:00"), new Date("2020-05-11 00:00:00"),1], // sensor looks to be dry removing any values above 1 NTU0 from 3/19/20 - 4/4/20
+        [new Date("2020-05-15 00:00:00"), new Date("2020-05-18 06:20:00"),1], //sensor looks to be dry removing any values above 1 NTU0 
+        [new Date("2020-05-20 06:00:00"), new Date("2020-06-20 05:50:00"),-1], //S clogged sensor
+        [new Date("2020-12-01 00:00:00"), new Date("2021-08-01 21:15:00"),1], //sensor looks to be dry removing any values above 1 NTU0 from 3/19/20 -4/4/20
+        [new Date("2021-04-25 17:50:00"), new Date("2021-04-25 19:40:00"),-1], // clogged sensor
+        [new Date("2021-05-18 16:40:00"), new Date("2020-05-19 05:40:00"),-1], // clogged sensor
+        [new Date("2021-05-15 22:10:00"), new Date("2020-05-15 22:30:00"),-1], // clogged sensor
+        [new Date("2021-06-14 12:10:00"),new Date("2021-06-14 12:10:00"),-1], // clogged sensor
+        [new Date("2022-01-04 00:00:00"), new Date("2022-05-11 00:00:00"),1] // MICAH
+
+    ]
+    var cleanDates = 0;
+    if (data[0].Creek == "Kelsey") {
+        var cleanDates = KelseyTimetoNAN;
+    }
+    else if (data[0].Creek == "Middle") {
+        var cleanDates = MiddleTimetoNAN;
+    }
+    else if (data[0].Creek == "Scotts") {
+        var cleanDates = ScottsTimetoNAN;
+    }
+    data.forEach((element) => { 
+        //  set all values >1600 NTU = NTU (Max sensor range)
+        if (element.Turb_BES > 1600) {
+            element.Turb_BES = 1600;
+        }
+        
+        cleanDates.forEach((elem)=>{
+            var tempDate = new Date(element.TmStamp)
+
+            if (tempDate >= elem[0] && tempDate <= elem[1] && element.Turb_BES > elem[2]) {
+                console.log("clean",elem[0])
+                element.Turb_BES = "NAN"
+            }
+        })
+    });
+    return data;
+}
+
 // get data based on graph type
 function getFilteredData(data, dataType) {
     let m = [];
+    if (dataType == "Turb_BES") {
+        var data = cleanTurbMeanData(data,dataType)
+    }
     data.forEach((element => {
         let pstTime = convertGMTtoPSTTime(new Date(element.TmStamp));
+
         m.push([pstTime.getTime(), parseFloat(element[dataType])]);
     }));
     return m;

@@ -34,13 +34,13 @@ Highcharts.chart('container', {
     },
   
     title: {
-      text: 'Lake Temperature - UA-06 (3/23/2019 - 9/7/2021)',
+      text: 'Dissolved Oxygen - UA-06 (3/23/2019 - 9/7/2021)',
       align: 'left',
       x: 40
     },
   
     subtitle: {
-      text: 'Temperature variation by date and hour',
+      text: 'Dissolved oxygen time series by date and hour',
       align: 'left',
       x: 40
     },
@@ -67,13 +67,13 @@ Highcharts.chart('container', {
         format: '{value}'
       },
       minPadding: 0,
-      maxPadding: 0,
+      maxPadding: 10,
       startOnTick: false,
       endOnTick: false,
-      tickPositions: [0,2,4,6,8,10,12],
+      tickPositions: [0,1,2,3,4,5],
       tickWidth: 1,
       min: 0,
-      max: 12,
+      max: 5,
       reversed: false
     },
 
@@ -86,12 +86,12 @@ Highcharts.chart('container', {
         [0.9, '#c4463a'],
         [1, '#c4463a']
       ],
-      min: 5,
-      max: 30,
+      min: 0,
+      max: 13,
       startOnTick: false,
       endOnTick: false,
       labels: {
-        format: '{value}℃'
+        format: '{value}mg/L'
       }
     },
   
@@ -102,7 +102,7 @@ Highcharts.chart('container', {
       colsize: 24 * 36e5, // one day
       tooltip: {
         headerFormat: 'Temperature<br/>',
-        pointFormat: 'Date = {point.x:%e %b %Y %k:30}, Height = {point.y}m,  <b>{point.value} ℃</b>'
+        pointFormat: 'Date = {point.x:%e %b %Y %k:30}, Height = {point.y}m,  <b>{point.value} mg/L</b>'
       },
       turboThreshold: Number.MAX_VALUE // #3404, remove after 4.0.5 release
     }]

@@ -34,7 +34,7 @@ Highcharts.chart('container', {
     },
   
     title: {
-      text: 'Lake Temperature - UA-06',
+      text: 'Lake Temperature - UA-06 (3/21/2019 - 9/7/2021)',
       align: 'left',
       x: 40
     },

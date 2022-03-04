@@ -1,0 +1,40 @@
+.titleContainer {
+    text-align: left;
+    display: flex;
+    margin-inline: 20px;
+    margin-top: 20px;
+}
+
+.logoImage {
+    margin: 20px;  
+}
+
+img {
+    max-width: 100%;
+    height: 80px;
+}
+
+.main-title {
+    margin: 0;
+    font-size: 40px;
+    font-weight: 500;
+}
+
+.sub-title {
+    font-weight: 400;
+    font-size: 30px;
+}
+
+@media (max-width: 600px) {
+    .titleContainer {
+        margin-inline: 0;
+    }
+
+    .main-title {
+        font-size: 30px;
+    }
+
+    .sub-title {
+        font-size: 20px;
+    }
+}

@@ -3,7 +3,10 @@
 var form = document.querySelector("#turb-mean-form-info");
 var fromTime = "20190323";
 var toTime = "20210907";
+
+
 makeChart(fromTime,toTime);
+
 if (form) {
     form.addEventListener("submit", function (event) {
         event.preventDefault();
@@ -22,7 +25,8 @@ function makeChart(fromDate,toDate) {
 Highcharts.chart('container', {
 
     data: {
-      csv: document.getElementById('csv').innerHTML
+      //csvURL: 'Users/kennethlieu/Desktop/ECS/temperatures.csv'
+      csvURL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTmVKAPmOSZ_7jeBCMfZ6WWQYK80QD6_mrqZgCe6NCcOWrGoRGeLCmjVVX9rekBnFkK_Ii-tzhmOa2h/pub?output=csv'
     },
   
     chart: {
@@ -34,7 +38,7 @@ Highcharts.chart('container', {
     },
   
     title: {
-      text: 'Lake Temperature - UA-06',
+      text: 'Lake Temperature - UA-06 (3/23/2019 - 9/7/2021)',
       align: 'left',
       x: 40
     },
@@ -109,3 +113,14 @@ Highcharts.chart('container', {
   
   });
 }
+
+/*
+var path = '/Users/kennethlieu/Desktop/ECS/temperatures.csv'
+getData();
+
+async function getData() {
+  const response = await fetch(path);
+  const data = await response.text();
+  console.log(data);
+}
+*/

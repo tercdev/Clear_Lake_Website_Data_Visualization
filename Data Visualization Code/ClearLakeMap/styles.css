@@ -1,0 +1,10 @@
+body {
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 14px;
+    color: #333;
+  }
+  
+#content .map path {
+    fill: #ddd;
+    stroke: #aaa;
+}

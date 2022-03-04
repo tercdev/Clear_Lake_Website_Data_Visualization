@@ -426,11 +426,20 @@ var MyTemperatureChart = {
 
       
 
-function main() {
+function main(name) {
     var currentTime = getCurrentTime();
     var lastWeekDate = getPreviousWeekDate();
     var idValue = parseInt($("#myInputHidden").val());
+    if (name == "kelsey") {
+        idValue = 1
+    } else if (name == "middle") {
+        idValue = 2
+    } else if (name == "scotts") {
+        idValue = 3
+    }
     console.log(idValue);  
+    
+    rainURL = "/Clean Data/Stream/precipitation/";
 
     if (idValue == 1) {
         rainURL += "KCK_precip_WWG.json";
@@ -447,7 +456,46 @@ function main() {
     MyRainChart.initHighCharts();
     MyTemperatureChart.initHighCharts();
     MyTemperatureChart.updateData(idValue, lastWeekDate, currentTime);
+
+    document.getElementById("subtitle").textContent = name + " creek"
 }
 
-main();
+// main();
+
+d3.json("../ClearLakeMap/withstreamslakeoutline.geojson").then(geodata => {
+    let projection = d3.geoMercator()
+      .fitSize([600, 600], geodata);
+    let generator = d3.geoPath().projection(projection);
+    d3.select("#content g.map")
+      .selectAll("path")
+      .data(geodata.features)
+      .join("path")
+      .attr("d", generator)
+      .attr('stroke', '#000')
+    //   .attr('fill', '#AADAFF')
+      .attr('fill', '#FFFFFF')
+    
+    d3.select("#content g.map")
+      .selectAll("path")
+      .each(addClick)
+    
+    function addClick(d) {
+        console.log(d)
+        if (d.geometry.type == "Point") {
+            return d3.select(this)
+            .on("click", function() {displayGraphs(d.properties.name);})
+            // .on("mouseover", function(d) { });
+            // .append("title")
+            // .text(d.properties.name)
+            .attr('fill', '#F6CF65')
+        }
+        return d3.select(this);
+    }
+  });
+
+
+function displayGraphs(name) {
+    console.log(name);
+    main(name)
+}
  

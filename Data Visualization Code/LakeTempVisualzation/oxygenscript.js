@@ -3,13 +3,15 @@
 var form = document.querySelector("#turb-mean-form-info");
 var fromTime = "20190323";
 var toTime = "20210907";
-makeChart(fromTime,toTime);
+
+makeChart(fromTime, toTime);
+
 if (form) {
     form.addEventListener("submit", function (event) {
         event.preventDefault();
         fromTime = form.elements["from-time"].value.replace(/-/g,'');
         toTime = form.elements["to-time"].value.replace(/-/g,'');
-        makeChart(fromTime,toTime);
+        makeChart(fromTime, toTime);
     })
 }
 function makeChart(fromDate,toDate) {
@@ -22,7 +24,7 @@ function makeChart(fromDate,toDate) {
 Highcharts.chart('container', {
 
     data: {
-      csv: document.getElementById('csv').innerHTML
+      csvURL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTkkVTHrk3eRr_EL9ImqyBee0sl_dT_FYn_QZGBN2-oyrJVyE8NO-4IYWRHIinDpOemoUZaKxh72bl-/pub?output=csv"
     },
   
     chart: {

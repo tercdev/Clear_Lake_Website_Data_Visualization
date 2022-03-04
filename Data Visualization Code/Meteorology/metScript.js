@@ -129,7 +129,15 @@ function cardinalToDeg(direction) {
     if (direction == 'NNW') {
         return 157.5
     };
-}       
+}   
+
+var obj = {
+    0: 'South',
+    90: 'West',
+    180: 'North',
+    270: 'East',
+    360: 'South'
+}
 
 // get the inputted time from the time form
 var timeForm = document.querySelector("#time-form-info");
@@ -349,7 +357,34 @@ var MyWindSpeedDirChart = {
                 type: 'datetime'
             },
             yAxis: 
-            [{ // Primary yAxis
+            [{ 
+                title: {
+                    text: 'Wind Direction [degrees]',
+                    style: {
+                        color: Highcharts.getOptions().colors[3]
+                    }
+                },
+                // labels: {
+                //     format: '{value}°',
+                //     style: {
+                //         color: Highcharts.getOptions().colors[3]
+                //     }
+                // },
+                // labels: {
+                tickPositions: [0, 90, 180, 270, 360],
+                labels: {
+                    formatter: function() {
+                    return (obj[this.value])
+                    }
+                },
+                // height: '50%',
+                // top: '50%',
+                lineColor: Highcharts.getOptions().colors[3],
+                lineWidth: 5,
+                max: 360,
+                tickInterval: 90
+            },
+            { 
                 labels: {
                     format: '{value} m/s',
                     style: {
@@ -363,29 +398,11 @@ var MyWindSpeedDirChart = {
                     }
                 },
                 opposite: true,
-                // height: '50%',
                 lineColor: Highcharts.getOptions().colors[0],
                 lineWidth: 5,
-               
-            }, { // Secondary yAxis
-                title: {
-                    text: 'Wind Direction [degrees]',
-                    style: {
-                        color: Highcharts.getOptions().colors[3]
-                    }
-                },
-                labels: {
-                    format: '{value}°',
-                    style: {
-                        color: Highcharts.getOptions().colors[3]
-                    }
-                },
-                // height: '50%',
-                // top: '50%',
-                lineColor: Highcharts.getOptions().colors[3],
-                lineWidth: 5,
-                
-            }],
+                gridLineWidth: 0,
+            }, 
+        ],
             plotOptions: {
                 scatter: {
                     marker: {
@@ -408,7 +425,6 @@ var MyWindSpeedDirChart = {
                         headerFormat: '<b>{series.name} {point.y}°</b><br>',
                         pointFormat: '{point.x:%m/%d/%y %H:%M:%S}'
                     }
-
                 },
                 line: {
                     tooltip: {
@@ -420,22 +436,21 @@ var MyWindSpeedDirChart = {
 
             series: [
                 {
-                    name: 'Wind Speed',
-                    data: [],
-                    selected: true,
-                    yAxis: 0,
-                    color: Highcharts.getOptions().colors[0],
-                    type: 'line',
-                }, 
-                {
                     name: 'Wind Direction',
                     data: [],
                     selected: true,
-                    yAxis: 1,
+                    yAxis: 0,
                     color: Highcharts.getOptions().colors[3],
                     type: 'scatter',
-                    
                 },
+                {
+                    name: 'Wind Speed',
+                    data: [],
+                    selected: true,
+                    yAxis: 1,
+                    color: Highcharts.getOptions().colors[0],
+                    type: 'line',
+                }, 
                  
             ],
             updateTime: {
@@ -456,9 +471,8 @@ var MyWindSpeedDirChart = {
         let windSpeedData = await asyncGetData(id,rptdate,rptend,"Wind_Speed");
         let windDirData = await asyncGetData(id,rptdate,rptend,"Wind_Dir");           
         this.chart.hideLoading();
-        this.chart.series[0].setData(windSpeedData);
-        this.chart.series[1].setData(windDirData);
-                
+        this.chart.series[1].setData(windSpeedData);
+        this.chart.series[0].setData(windDirData);         
     }
 }
 

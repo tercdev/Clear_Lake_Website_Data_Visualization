@@ -250,7 +250,7 @@ var MyTurbMean_FlowChart = {
                     }
                 },
                 title: {
-                    text: 'Turbity [NTU]',
+                    text: 'Turbidity [NTU]',
                     style: {
                         color: Highcharts.getOptions().colors[3]
                     }
@@ -301,7 +301,7 @@ var MyTurbMean_FlowChart = {
 
             series: [
                 {
-                    name: 'Turbity',
+                    name: 'Turbidity',
                     data: [],
                     selected: true,
                     yAxis: 0,

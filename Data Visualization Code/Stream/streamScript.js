@@ -187,18 +187,15 @@ var MyRainChart = {
                     result.push([new Date(m.Date).getTime(), m.Rain]);
                     //console.log([m.Date + " " + m.Time.toString(), parseFloat(m.Latest_Rain)]);
                 })
-                console.log(result);
+                //console.log(result);
                 Highcharts.chart('rain-container', {
                     chart: {
                     zoomType: 'x'
                     },
                     title: {
-                    text: 'Precipitation'
+                    text: ''
                     },
-                    subtitle: {
-                    text: document.ontouchstart === undefined ?
-                        'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
-                    },
+                    
                     xAxis: {
                     type: 'datetime'
                     },
@@ -217,7 +214,12 @@ var MyRainChart = {
                             data: result,
                         }, 
                         
-                    ]
+                    ],
+                    tooltip: {
+                        headerFormat: '<b>{series.name} {point.y} in</b><br>',
+                        pointFormat: '{point.x:%m/%d/%y %H:%M:%S} PST'
+                    },
+                    
                 });
             }
         );
@@ -231,14 +233,10 @@ var MyTurbMean_FlowChart = {
         this.chart = new Highcharts.chart('turb-container', {
             chart: {
                 zoomType: 'x',
-                height: 700,
-            },
-            subtitle: {
-                text: document.ontouchstart === undefined ?
-                    'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+                //height: 700,
             },
             title: {
-                text: 'Turbity Mean and Flow Chart'
+                text: ''
             },
             xAxis: {
                 type: 'datetime'
@@ -258,7 +256,7 @@ var MyTurbMean_FlowChart = {
                     }
                 },
                 opposite: true,
-                height: '50%',
+                // height: '50%',
                 lineColor: Highcharts.getOptions().colors[3],
                 lineWidth: 5,
                
@@ -275,8 +273,8 @@ var MyTurbMean_FlowChart = {
                         color: Highcharts.getOptions().colors[0]
                     }
                 },
-                height: '50%',
-                top: '50%',
+                // height: '50%',
+                // top: '50%',
                 lineColor: Highcharts.getOptions().colors[0],
                 lineWidth: 5,
                 
@@ -351,12 +349,9 @@ var MyTemperatureChart = {
             chart: {
                 zoomType: 'x'
             },
-            subtitle: {
-                text: document.ontouchstart === undefined ?
-                    'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
-            },
             title: {
-                text: 'Stream Temperature'
+                text: 'stream temperature',
+                text: null
             },
             xAxis: {
                 type: 'datetime'
@@ -374,6 +369,10 @@ var MyTemperatureChart = {
                     selected: true
                 },
             ],
+            tooltip: {
+                headerFormat: '<b>{series.name} {point.y} °C</b><br>',
+                pointFormat: '{point.x:%m/%d/%y %H:%M:%S} PST'
+            },
             updateTime: {
                 setTime: 0,
                 endTime: 0,
@@ -424,6 +423,14 @@ var MyTemperatureChart = {
 //     // alert(lines);
 // }
 
+    
+// async function getCSVData() {
+//     console.log(document.getElementById('myHiddenFilename').value)
+//     const response = await fetch(document.getElementById('myHiddenFilename').value);
+//     const table = await response.text();
+//     console.log(table);
+//     return table;
+// }
       
 
 function main() {
@@ -431,6 +438,8 @@ function main() {
     var lastWeekDate = getPreviousWeekDate();
     var idValue = parseInt($("#myInputHidden").val());
     console.log(idValue);  
+
+   // getCSVData();
 
     if (idValue == 1) {
         rainURL += "KCK_precip_WWG.json";
@@ -440,7 +449,7 @@ function main() {
         rainURL += "SCS_precip_WWG.json";
     }
 
-    console.log(rainURL);
+    //console.log(rainURL);
     // will show a graph of current week's data when page first loads
     MyTurbMean_FlowChart.initHighCharts();
     MyTurbMean_FlowChart.updateData(idValue, lastWeekDate, currentTime);

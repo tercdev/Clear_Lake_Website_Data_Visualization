@@ -1,9 +1,15 @@
 // get data based on graph type
 function getFilteredData(data, dataType) {
     let m = [];
+
     data.forEach((element => {
         let pstTime = convertGMTtoPSTTime(new Date(element.DateTime_UTC));
-        m.push([pstTime.getTime(), parseFloat(element[dataType])]);
+        if (dataType == "Wind_Dir") {
+            m.push([pstTime.getTime(), cardinalToDeg(element[dataType])]);
+        } else {
+            m.push([pstTime.getTime(), parseFloat(element[dataType])]);
+        }
+        
     }));
     return m;
 }
@@ -73,6 +79,58 @@ function getCurrentTime() {
     return curTime;
 }
 
+//conversion from API cardinal to prgm degree
+function cardinalToDeg(direction) {
+    if (direction == 'N') {
+        return 180
+    };
+    if (direction == 'NNE') {
+        return 202.5
+    };
+    if (direction == 'NE') {
+        return 225
+    };
+    if (direction == 'ENE') {
+        return 247.5
+    };
+    if (direction == 'E') {
+        return 270
+    };
+    if (direction == 'ESE') {
+        return 292.5
+    };
+    if (direction == 'SE') {
+        return 315
+    };
+    if (direction == 'SSE') {
+        return 337.5
+    };
+    if (direction == 'S') {
+        return 0
+    };
+    if (direction == 'SSW') {
+        return 22.5
+    };
+    if (direction == 'SW') {
+        return 45
+    };
+    if (direction == 'WSW') {
+        return 67.5
+    };
+    if (direction == 'W') {
+        return 90
+    };
+    if (direction == 'WNW') {
+        return 112.5
+    };
+    if (direction == 'NW') {
+        return 135
+    };
+    if (direction == 'NNW') {
+        return 157.5
+    };
+}       
+
 // get the inputted time from the time form
 var timeForm = document.querySelector("#time-form-info");
 
@@ -97,14 +155,10 @@ var MyAirTemp_RelHumChart = {
         this.chart = new Highcharts.chart('air-temp-rel-hum-container', {
             chart: {
                 zoomType: 'x',
-                height: 700,
-            },
-            subtitle: {
-                text: document.ontouchstart === undefined ?
-                    'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+                //height: 500,
             },
             title: {
-                text: 'Air Temperature and Relative Humidity'
+                text: ''
             },
             xAxis: {
                 type: 'datetime'
@@ -124,7 +178,7 @@ var MyAirTemp_RelHumChart = {
                     }
                 },
                 opposite: true,
-                height: '50%',
+                // height: '50%',
                 lineColor: Highcharts.getOptions().colors[3],
                 lineWidth: 5,
                
@@ -141,8 +195,8 @@ var MyAirTemp_RelHumChart = {
                         color: Highcharts.getOptions().colors[0]
                     }
                 },
-                height: '50%',
-                top: '50%',
+                // height: '50%',
+                // top: '50%',
                 lineColor: Highcharts.getOptions().colors[0],
                 lineWidth: 5,
                 
@@ -156,11 +210,17 @@ var MyAirTemp_RelHumChart = {
                     const Year = new Date(this.x).getFullYear();
                     const TimeHrs = new Date(this.x).getHours();
                     const TimeMins = new Date(this.x).getMinutes();
-                    const dateString = (Month + 1) + "-" + DayOfMonth + "-" + Year + "  " + TimeHrs + ":" + TimeMins;
+                    const dateString = (Month + 1) + "-" + DayOfMonth + "-" + Year + "  " + TimeHrs + ":" + TimeMins + ' PST';
                     return [dateString].concat(
                         this.points ?
                             this.points.map(function (point) {
-                                return point.series.name + ': ' + point.y;
+                                if (point.series.name  == 'Relative Humidity') {
+                                    return point.series.name + ': ' + point.y +'%'
+                                }
+                                else {
+                                    return point.series.name + ': ' + point.y +'°C';
+                                }
+                                
                             }) : []
                     );
                 },
@@ -217,12 +277,8 @@ var MyAtmPressureChart = {
             chart: {
                 zoomType: 'x'
             },
-            subtitle: {
-                text: document.ontouchstart === undefined ?
-                    'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
-            },
             title: {
-                text: 'Atmospheric Pressure'
+                text: ''
             },
             xAxis: {
                 type: 'datetime'
@@ -252,6 +308,10 @@ var MyAtmPressureChart = {
                     color: Highcharts.getOptions().colors[4]
                 },
             ],
+            tooltip: {
+                headerFormat: '<b>{series.name} {point.y} kPA</b><br>',
+                pointFormat: '{point.x:%m/%d/%y %H:%M:%S} PST'
+            },
             updateTime: {
                 setTime: 0,
                 endTime: 0,
@@ -280,14 +340,10 @@ var MyWindSpeedDirChart = {
         this.chart = new Highcharts.chart('wind-speed-dir-container', {
             chart: {
                 zoomType: 'x',
-                height: 700,
-            },
-            subtitle: {
-                text: document.ontouchstart === undefined ?
-                    'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+                // height: 700,
             },
             title: {
-                text: 'Wind Speed and Direction'
+                text: ''
             },
             xAxis: {
                 type: 'datetime'
@@ -297,57 +353,69 @@ var MyWindSpeedDirChart = {
                 labels: {
                     format: '{value} m/s',
                     style: {
-                        color: Highcharts.getOptions().colors[3]
+                        color: Highcharts.getOptions().colors[0]
                     }
                 },
                 title: {
                     text: 'Wind Speed [m/s]',
                     style: {
-                        color: Highcharts.getOptions().colors[3]
+                        color: Highcharts.getOptions().colors[0]
                     }
                 },
                 opposite: true,
-                height: '50%',
-                lineColor: Highcharts.getOptions().colors[3],
+                // height: '50%',
+                lineColor: Highcharts.getOptions().colors[0],
                 lineWidth: 5,
                
             }, { // Secondary yAxis
                 title: {
                     text: 'Wind Direction [degrees]',
                     style: {
-                        color: Highcharts.getOptions().colors[0]
+                        color: Highcharts.getOptions().colors[3]
                     }
                 },
                 labels: {
                     format: '{value}°',
                     style: {
-                        color: Highcharts.getOptions().colors[0]
+                        color: Highcharts.getOptions().colors[3]
                     }
                 },
-                height: '50%',
-                top: '50%',
-                lineColor: Highcharts.getOptions().colors[0],
+                // height: '50%',
+                // top: '50%',
+                lineColor: Highcharts.getOptions().colors[3],
                 lineWidth: 5,
                 
             }],
-            tooltip: {
-                formatter: function () {
-                    // The first returned item is the header, subsequent items are the
-                    // points
-                    const DayOfMonth = new Date(this.x).getDate();
-                    const Month = new Date(this.x).getMonth(); // Be careful! January is 0, not 1
-                    const Year = new Date(this.x).getFullYear();
-                    const TimeHrs = new Date(this.x).getHours();
-                    const TimeMins = new Date(this.x).getMinutes();
-                    const dateString = (Month + 1) + "-" + DayOfMonth + "-" + Year + "  " + TimeHrs + ":" + TimeMins;
-                    return [dateString].concat(
-                        this.points ?
-                            this.points.map(function (point) {
-                                return point.series.name + ': ' + point.y;
-                            }) : []
-                    );
+            plotOptions: {
+                scatter: {
+                    marker: {
+                        radius: 5,
+                        states: {
+                            hover: {
+                                enabled: true,
+                                lineColor: 'rgb(100,100,100)'
+                            }
+                        }
+                    },
+                    states: {
+                        hover: {
+                            marker: {
+                                enabled: false
+                            }
+                        }
+                    },
+                    tooltip: {
+                        headerFormat: '<b>{series.name} {point.y}°</b><br>',
+                        pointFormat: '{point.x:%m/%d/%y %H:%M:%S}'
+                    }
+
                 },
-                split: true
+                line: {
+                    tooltip: {
+                        headerFormat: '<b>{series.name} {point.y} m/s</b><br>',
+                        pointFormat: '{point.x:%m/%d/%y %H:%M:%S}'
+                    }
+                }
             },
 
             series: [
@@ -356,14 +424,17 @@ var MyWindSpeedDirChart = {
                     data: [],
                     selected: true,
                     yAxis: 0,
-                    color: Highcharts.getOptions().colors[3],
+                    color: Highcharts.getOptions().colors[0],
+                    type: 'line',
                 }, 
                 {
                     name: 'Wind Direction',
                     data: [],
                     selected: true,
                     yAxis: 1,
-                    color: Highcharts.getOptions().colors[0],
+                    color: Highcharts.getOptions().colors[3],
+                    type: 'scatter',
+                    
                 },
                  
             ],
@@ -390,6 +461,61 @@ var MyWindSpeedDirChart = {
                 
     }
 }
+
+
+
+var MySolarChart = {
+    initHighCharts: function() {
+        this.chart = Highcharts.getJSON(
+            // had temporarily delete some data since too much
+            // will fix when API up
+            cleanDataURL,
+            function (data) {
+                console.log(data);
+                let result = [];
+                data.forEach(m => {
+                    result.push([new Date(m.doy).getTime(), m.SWin]);
+                })
+                console.log(result);
+                Highcharts.chart('solar-container', {
+                    chart: {
+                    zoomType: 'x'
+                    },
+                    title: {
+                    text: '',
+                    color: Highcharts.getOptions().colors[0],
+                    },
+                    
+                    xAxis: {
+                    type: 'datetime'
+                    },
+                    yAxis: {
+                    title: {
+                        text: 'Solar [W/m2]'
+                    }
+                    },
+                    legend: {
+                    enabled: false
+                    },
+                    series: [
+                        {
+                            // type: 'area',
+                            name: 'Solar',
+                            data: result,
+                            color: Highcharts.getOptions().colors[0],
+                        }, 
+                        
+                    ],
+                    tooltip: {
+                        headerFormat: '<b>{series.name} {point.y} W/m2</b><br>',
+                        pointFormat: '{point.x:%m/%d/%y %H:%M:%S} PST'
+                    }
+                });
+            }
+        );
+    }
+}
+
   
 Highcharts.setOptions({
     time: {
@@ -397,12 +523,24 @@ Highcharts.setOptions({
     }
 });
 
+// async function getCSVData() {
+//     console.log(document.getElementById('myHiddenFilename').value)
+//     const response = await fetch(document.getElementById('myHiddenFilename').value);
+//     const table = await response.text();
+//     console.log(table);
+// }
+
 function main() {
     var currentTime = getCurrentTime();
     var lastWeekDate = getPreviousWeekDate();
 
     var idValue = parseInt($("#myInputHidden").val());
     console.log(idValue);   
+   // getCSVData();
+
+    // if (idValue == 1) {
+        cleanDataURL = "/Clean Data/Meteorological/Clear Lake - Met data/BKP.json";
+    // } 
 
     // will show a graph of current week's data when page first loads
     MyAirTemp_RelHumChart.initHighCharts();
@@ -411,6 +549,7 @@ function main() {
     MyAtmPressureChart.updateData(idValue, lastWeekDate, currentTime);
     MyWindSpeedDirChart.initHighCharts();
     MyWindSpeedDirChart.updateData(idValue, lastWeekDate, currentTime);
+    MySolarChart.initHighCharts();
 }
 
 main();

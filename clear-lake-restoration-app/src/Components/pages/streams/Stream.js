@@ -1,8 +1,6 @@
 import React from 'react';
-
-import Map from '../../Map.js'
-
-export default function Stream() {
+import StreamChart from '../../StreamChart';
+export default function Stream(props) {
     return (
         <div>
             <h1 className='stream'>Stream Monitoring Sites</h1>

@@ -5,12 +5,20 @@
   font-family: 'Open Sans', sans-serif;
 }
 
-.home, .kelsey, .middle, .scotts, .contact-us, .stream {
+.home, .kelsey, .middle, .scotts, .contact-us, .stream-home{
   display: flex;
   height: 90vh;
   align-items: center;
   justify-content: center;
   font-size: 3rem;
+}
+
+.stream {
+  display: flex;
+  height: 300px;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem; 
 }
 
 .home {

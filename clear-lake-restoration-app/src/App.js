@@ -1,17 +1,15 @@
 import React, { useRef, useEffect, useState } from 'react';
 import './App.css';
-import Navbar from './Components/Navbar';
-import Title from './Components/Title';
+import Navbar from './components/Navbar';
+import Title from './components/Title';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import Home from './Components/pages/Home.js';
-import Stream from './Components/pages/streams/Stream.js';
-import Kelsey from './Components/pages/streams/Kelsey.js';
-import Middle from './Components/pages/streams/Middle.js';
-import Scotts from './Components/pages/streams/Scotts.js';
-import ContactUs from './Components/pages/ContactUs.js';
-import Met from './Components/pages/met/Met.js';
-import Lake from './Components/pages/lake/Lake.js';
+import Home from './components/pages/Home.js';
+import Stream from './components/pages/streams/Stream.js';
+import Kelsey from './components/pages/streams/Kelsey.js';
+import Middle from './components/pages/streams/Middle.js';
+import StreamHome from './components/pages/streams/StreamHome.js';
+import ContactUs from './components/pages/ContactUs.js';
 
 function getCurrentTime() {
   var time = new Date().toLocaleDateString();
@@ -54,10 +52,10 @@ function App() {
       <Navbar/>
       <Routes>
         <Route path='/' exact element={<Home/>} />
-        <Route path='/stream' exact element={<Stream />} />
-        <Route path='/kelsey' exact element={<Stream fromDate={fromDate} endDate={toDate}/>} />
-        <Route path='/middle' exact element={<Middle/>} />
-        <Route path='/scotts' exact element={<Scotts/>} />
+        <Route path='/stream' exact element={<StreamHome />} />
+        <Route path='/kelsey' exact element={<Stream fromDate={fromDate} endDate={toDate} id={"1"} name={"Kelsey"}/>} />
+        <Route path='/middle' exact element={<Stream fromDate={fromDate} endDate={toDate} id={"2"} name={"Middle"}/>} />
+        <Route path='/scotts' exact element={<Stream fromDate={fromDate} endDate={toDate} id={"3"} name={"Scotts"}/>} />
         <Route path='/contact-us' exact element={<ContactUs/>} />
         <Route path='/met' exact element={<Met/>} />
         <Route path='/lake' exact element={<Lake/>} />

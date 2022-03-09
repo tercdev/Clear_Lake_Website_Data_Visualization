@@ -7,7 +7,7 @@ export default function Map(props) {
     const mapContainer = useRef(null);
     const map = useRef(null);
     const [lng, setLng] = useState(-122.8);
-    const [lat, setLat] = useState(39);
+    const [lat, setLat] = useState(39.06);
     const [zoom, setZoom] = useState(10.5);
 
     function addStreamMarkers() {
@@ -152,7 +152,7 @@ export default function Map(props) {
     });
 
     return (
-    <div>
+    <div className="map">
         <div className="sidebar">
         Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
         </div>

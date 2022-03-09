@@ -1,0 +1,36 @@
+.footerContainer {
+    margin-top: 150px;
+    background-color: #022851;
+    padding: 80px;
+    color: white;
+}
+
+.title-footer {
+    text-align: center;
+}
+
+.main-title {
+    margin: 0;
+    font-size: 40px;
+    font-weight: 600;
+}
+
+.sub-title {
+    font-weight: 300;
+    font-size: 30px;
+}
+
+
+@media (max-width: 600px) {
+    .footerContainer {
+        margin-inline: 0;
+    }
+
+    .main-title {
+        font-size: 30px;
+    }
+
+    .sub-title {
+        font-size: 20px;
+    }
+}

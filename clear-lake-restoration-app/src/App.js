@@ -10,6 +10,8 @@ import Kelsey from './components/pages/streams/Kelsey.js';
 import Middle from './components/pages/streams/Middle.js';
 import StreamHome from './components/pages/streams/StreamHome.js';
 import ContactUs from './components/pages/ContactUs.js';
+import Met from './components/pages/met/Met.js';
+import Lake from './components/pages/lake/Lake.js';
 
 function getCurrentTime() {
   var time = new Date().toLocaleDateString();

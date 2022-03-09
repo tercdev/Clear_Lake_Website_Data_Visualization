@@ -1,7 +1,7 @@
-import React from 'react'
+import React, {useState,useEffect,useRef } from 'react'
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-
+import useFetch from 'react-fetch-hook'
 const options = {
     chart: {
         zoomType: 'x',
@@ -99,28 +99,61 @@ const options = {
     }
   };
 
-export default function StreamChart() {
+  // get data based on graph type
+function getFilteredData(data, dataType) {
+    let m = [];
+    // if (dataType == "Turb_BES") {
+    //     var data = cleanTurbMeanData(data,dataType)
+    // }
+    data.forEach((element => {
+        //let pstTime = convertGMTtoPSTTime(new Date(element.TmStamp));
 
-    async function updateData(id,rptdate,rptend) {
-        this.chart.showLoading();
-        let turbData = await asyncGetData(id,rptdate,rptend,"Turb_BES");
-        //let flowData = await asyncGetData(id,rptdate,rptend,"");           
-        this.chart.hideLoading();
-        this.chart.series[0].setData(turbData);
-        //this.chart.series[1].setData(flowData);
-                
+        m.push([new Date(element.TmStamp).getTime(), parseFloat(element[dataType])]);
+    }));
+    return m;
+}
+
+export default function StreamChart({
+    fromDate,
+    endDate,
+    id,
+    dataType,
+    chartProps
+}) {
+
+  const chartComponent = useRef(null); 
+  const [chartOptions, setChartOptions] = useState(chartProps)
+  var url = new URL('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/cl-creeks');
+  var search_params = url.searchParams;
+  search_params.set('id',id);
+  search_params.set('rptdate',fromDate);
+  search_params.set('rptend',endDate);
+  url.search = search_params.toString();
+
+  var new_url = url.toString();
+  const {isLoading,data} = useFetch(new_url);
+
+  useEffect(()=> {
+    console.log(isLoading)
+    if (!isLoading) {
+        var filteredData = getFilteredData(data,dataType)
+        console.log(filteredData)
+        setChartOptions(()=> ({
+            series: [
+                {
+                    data: filteredData
+                }
+            ]
+        }))
     }
-    useEffect(() => {
-        updateData(1, lastWeekDate, currentTime);
-    })
-    
-    
+  },[isLoading])
+
   return (
     <div>
         <HighchartsReact 
             highcharts={Highcharts}
             ref={chartComponent}
-            allowChartUpdate={this.allowChartUpdate}
+            allowChartUpdate={true}
             options={chartOptions}  />
     </div>
   )

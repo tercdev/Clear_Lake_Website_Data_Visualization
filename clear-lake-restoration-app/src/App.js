@@ -64,7 +64,6 @@ function App() {
         <Route path='/lake' exact element={<Lake/>} />
       </Routes>
       <Footer />
-      {/* <Map/> */}
     </Router>
 
   );

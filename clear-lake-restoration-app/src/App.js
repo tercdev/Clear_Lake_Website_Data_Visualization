@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import Title from './components/Title';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -62,7 +63,7 @@ function App() {
         <Route path='/met' exact element={<Met/>} />
         <Route path='/lake' exact element={<Lake/>} />
       </Routes>
-      {/* <Map/> */}
+      <Footer />
     </Router>
 
   );

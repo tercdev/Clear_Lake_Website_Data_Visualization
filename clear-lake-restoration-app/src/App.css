@@ -5,7 +5,7 @@
   font-family: 'Open Sans', sans-serif;
 }
 
-.home, .kelsey, .middle, .scotts, .contact-us, .stream-home{
+.home, .kelsey, .middle, .scotts, .contact-us {
   display: flex;
   height: 90vh;
   align-items: center;
@@ -13,7 +13,7 @@
   font-size: 3rem;
 }
 
-.stream {
+.stream, .stream-home {
   display: flex;
   height: 300px;
   align-items: center;

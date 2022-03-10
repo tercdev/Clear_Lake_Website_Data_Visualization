@@ -9,11 +9,14 @@ export default class Footer extends Component {
   render() {
     return (
       <div className="footerContainer">
-            
             <div className="title-footer">
                 <p className="main-title">Clear Lake</p>
                 <p className="sub-title">Tahoe Environmental Research Center </p>
+                <Link to='/'  >
+                  <img className='footer-logo' src={logo} alt="Logo" />
+                </Link>
             </div>
+            
       </div>
     )
   }

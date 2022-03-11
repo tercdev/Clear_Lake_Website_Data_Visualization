@@ -77,10 +77,37 @@ export default function Map(props) {
             map.current.on("mouseenter", "met", e => {
                 if (e.features.length) {
                     map.current.getCanvas().style.cursor = "pointer";
+                    const coordinates = e.features[0].geometry.coordinates.slice();
+                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                    }
+                    let description = ""
+                    if (e.features[0].properties.name == "bkp") {
+                        description = "Buckingham Point";
+                    } else if (e.features[0].properties.name == "nic") {
+                        description = "Nice"
+                    } else if (e.features[0].properties.name == "nlp") {
+                        description = "North Lakeport"
+                    } else if (e.features[0].properties.name == "bvr") {
+                        description = "Big Valley Rancheria"
+                    } else if (e.features[0].properties.name == "knb") {
+                        description = "Konocti Bay"
+                    } else if (e.features[0].properties.name == "clo") {
+                        description = "Clearlake Oaks"
+                    } else if (e.features[0].properties.name == "jgb") {
+                        description = "Jago Bay"
+                    } else {
+                        description = "Beakbane Island"
+                    }
+                    new mapboxgl.Popup().setLngLat(coordinates).setHTML(description).addTo(map.current)
                 }
             });
             map.current.on("mouseleave", "met", () => {
                 map.current.getCanvas().style.cursor = "";
+                const popup = document.getElementsByClassName('mapboxgl-popup');
+                if (popup.length) {
+                    popup[0].remove();
+                }
             });
             map.current.on("click", "met", e => {
                 console.log(e.features[0].properties.name);

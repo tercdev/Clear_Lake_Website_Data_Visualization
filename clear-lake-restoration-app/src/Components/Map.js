@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import LegendControl from 'mapboxgl-legend';
+import { Link } from "react-router-dom"
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiY2hlbmFsaSIsImEiOiJjbDBqY2V2bGowYjlrM2NtaXhjYzlyM2pxIn0.BxtrB0AyBeGd8lug5c6mUg';
 
@@ -37,24 +38,34 @@ export default function Map(props) {
             map.current.on("mouseenter", "streams", e => {
                 if (e.features.length) {
                     map.current.getCanvas().style.cursor = "pointer";
+                    // const coordinates = e.features[0].geometry.coordinates.slice();
+                    // while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                    //     coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                    // }
+                    // const description = e.features[0].properties.name.charAt(0).toUpperCase() + e.features[0].properties.name.slice(1) + " Creek"
+                    // new mapboxgl.Popup().setLngLat(coordinates).setHTML(description).addTo(map.current)
+                }
+            });
+            map.current.on("mouseleave", "streams", () => {
+                map.current.getCanvas().style.cursor = "";
+                // const popup = document.getElementsByClassName('mapboxgl-popup');
+                // if (popup.length) {
+                //     popup[0].remove();
+                // }
+            });
+            map.current.on("click", "streams", e => {
+                console.log(e.features[0].properties.name);
+                // window.location.href='/'+e.features[0].properties.name;
+                if (e.features.length) {
+                    map.current.getCanvas().style.cursor = "pointer";
                     const coordinates = e.features[0].geometry.coordinates.slice();
                     while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
                         coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
                     }
                     const description = e.features[0].properties.name.charAt(0).toUpperCase() + e.features[0].properties.name.slice(1) + " Creek"
-                    new mapboxgl.Popup().setLngLat(coordinates).setHTML(description).addTo(map.current)
+                    const link = "<a href='/" + e.features[0].properties.name + "'>" + description + "</a>"                    
+                    new mapboxgl.Popup().setLngLat(coordinates).setHTML(link).addTo(map.current)
                 }
-            });
-            map.current.on("mouseleave", "streams", () => {
-                map.current.getCanvas().style.cursor = "";
-                const popup = document.getElementsByClassName('mapboxgl-popup');
-                if (popup.length) {
-                    popup[0].remove();
-                }
-            });
-            map.current.on("click", "streams", e => {
-                console.log(e.features[0].properties.name);
-                window.location.href='/'+e.features[0].properties.name;
             });
         });
     }
@@ -84,6 +95,45 @@ export default function Map(props) {
             map.current.on("mouseenter", "met", e => {
                 if (e.features.length) {
                     map.current.getCanvas().style.cursor = "pointer";
+                    // const coordinates = e.features[0].geometry.coordinates.slice();
+                    // while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                    //     coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                    // }
+                    // let description = ""
+                    // if (e.features[0].properties.name == "bkp") {
+                    //     description = "Buckingham Point";
+                    // } else if (e.features[0].properties.name == "nic") {
+                    //     description = "Nice"
+                    // } else if (e.features[0].properties.name == "nlp") {
+                    //     description = "North Lakeport"
+                    // } else if (e.features[0].properties.name == "bvr") {
+                    //     description = "Big Valley Rancheria"
+                    // } else if (e.features[0].properties.name == "knb") {
+                    //     description = "Konocti Bay"
+                    // } else if (e.features[0].properties.name == "clo") {
+                    //     description = "Clearlake Oaks"
+                    // } else if (e.features[0].properties.name == "jgb") {
+                    //     description = "Jago Bay"
+                    // } else {
+                    //     description = "Beakbane Island"
+                    // }
+                    // new mapboxgl.Popup().setLngLat(coordinates).setHTML(description).addTo(map.current)
+                }
+            });
+            map.current.on("mouseleave", "met", () => {
+                map.current.getCanvas().style.cursor = "";
+                // const popup = document.getElementsByClassName('mapboxgl-popup');
+                // if (popup.length) {
+                //     popup[0].remove();
+                // }
+            });
+            map.current.on("click", "met", e => {
+                console.log(e.features[0].properties.name);
+                // window.location.href='/'+e.features[0].properties.name;
+                // const link = "/" + e.features[0].properties.name
+                // return <Link to={link}></Link>
+                if (e.features.length) {
+                    map.current.getCanvas().style.cursor = "pointer";
                     const coordinates = e.features[0].geometry.coordinates.slice();
                     while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
                         coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
@@ -106,19 +156,9 @@ export default function Map(props) {
                     } else {
                         description = "Beakbane Island"
                     }
-                    new mapboxgl.Popup().setLngLat(coordinates).setHTML(description).addTo(map.current)
+                    const link = "<a href='/" + e.features[0].properties.name + "'>" + description + "</a>"
+                    new mapboxgl.Popup().setLngLat(coordinates).setHTML(link).addTo(map.current)
                 }
-            });
-            map.current.on("mouseleave", "met", () => {
-                map.current.getCanvas().style.cursor = "";
-                const popup = document.getElementsByClassName('mapboxgl-popup');
-                if (popup.length) {
-                    popup[0].remove();
-                }
-            });
-            map.current.on("click", "met", e => {
-                console.log(e.features[0].properties.name);
-                window.location.href='/'+e.features[0].properties.name;
             });
         });
     }
@@ -148,24 +188,35 @@ export default function Map(props) {
             map.current.on("mouseenter", "lake", e => {
                 if (e.features.length) {
                     map.current.getCanvas().style.cursor = "pointer";
+                    // const coordinates = e.features[0].geometry.coordinates.slice();
+                    // while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                    //     coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                    // }
+                    // const description = e.features[0].properties.name.slice(0,2).toUpperCase() + e.features[0].properties.name.slice(2).toUpperCase()
+                    // const link = "<a href='/" + e.features[0].properties.name + "'>" + description + "</a>"
+                    // new mapboxgl.Popup().setLngLat(coordinates).setHTML(link).addTo(map.current)
+                }
+            });
+            map.current.on("mouseleave", "lake", () => {
+                map.current.getCanvas().style.cursor = "";
+                // const popup = document.getElementsByClassName('mapboxgl-popup');
+                // if (popup.length) {
+                //     popup[0].remove();
+                // }
+            });
+            map.current.on("click", "lake", e => {
+                console.log(e.features[0].properties.name);
+                // window.location.href='/'+e.features[0].properties.name;
+                if (e.features.length) {
+                    map.current.getCanvas().style.cursor = "pointer";
                     const coordinates = e.features[0].geometry.coordinates.slice();
                     while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
                         coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
                     }
                     const description = e.features[0].properties.name.slice(0,2).toUpperCase() + e.features[0].properties.name.slice(2).toUpperCase()
-                    new mapboxgl.Popup().setLngLat(coordinates).setHTML(description).addTo(map.current)
+                    const link = "<a href='/" + e.features[0].properties.name + "'>" + description + "</a>"
+                    new mapboxgl.Popup().setLngLat(coordinates).setHTML(link).addTo(map.current)
                 }
-            });
-            map.current.on("mouseleave", "lake", () => {
-                map.current.getCanvas().style.cursor = "";
-                const popup = document.getElementsByClassName('mapboxgl-popup');
-                if (popup.length) {
-                    popup[0].remove();
-                }
-            });
-            map.current.on("click", "lake", e => {
-                console.log(e.features[0].properties.name);
-                window.location.href='/'+e.features[0].properties.name;
             });
         });
     }

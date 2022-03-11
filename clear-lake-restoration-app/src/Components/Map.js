@@ -33,10 +33,20 @@ export default function Map(props) {
             map.current.on("mouseenter", "streams", e => {
                 if (e.features.length) {
                     map.current.getCanvas().style.cursor = "pointer";
+                    const coordinates = e.features[0].geometry.coordinates.slice();
+                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                    }
+                    const description = e.features[0].properties.name.charAt(0).toUpperCase() + e.features[0].properties.name.slice(1) + " Creek"
+                    new mapboxgl.Popup().setLngLat(coordinates).setHTML(description).addTo(map.current)
                 }
             });
             map.current.on("mouseleave", "streams", () => {
                 map.current.getCanvas().style.cursor = "";
+                const popup = document.getElementsByClassName('mapboxgl-popup');
+                if (popup.length) {
+                    popup[0].remove();
+                }
             });
             map.current.on("click", "streams", e => {
                 console.log(e.features[0].properties.name);

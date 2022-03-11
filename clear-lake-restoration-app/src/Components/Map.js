@@ -121,7 +121,7 @@ export default function Map(props) {
                 type: 'geojson',
                 data: {
                     type: 'FeatureCollection',
-                    features: [{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[-122.85839080810547,39.086103610256714]}},{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[-122.8652572631836,39.05758374935667]}},{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[-122.82714843749999,39.07357761413151]}},{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[-122.7945327758789,39.02131757437681]}},{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[-122.75299072265624,39.027185423531215]}},{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[-122.71350860595702,38.96848501741372]}},{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[-122.71556854248048,39.01198135604184]}}],
+                    features: [{"type":"Feature","properties":{"name": "ua08"},"geometry":{"type":"Point","coordinates":[-122.85839080810547,39.086103610256714]}},{"type":"Feature","properties":{"name": "ua07"},"geometry":{"type":"Point","coordinates":[-122.8652572631836,39.05758374935667]}},{"type":"Feature","properties":{"name": "ua06"},"geometry":{"type":"Point","coordinates":[-122.82714843749999,39.07357761413151]}},{"type":"Feature","properties":{"name": "ua01"},"geometry":{"type":"Point","coordinates":[-122.7945327758789,39.02131757437681]}},{"type":"Feature","properties":{"name": "nr02"},"geometry":{"type":"Point","coordinates":[-122.75299072265624,39.027185423531215]}},{"type":"Feature","properties":{"name": "la03"},"geometry":{"type":"Point","coordinates":[-122.71350860595702,38.96848501741372]}},{"type":"Feature","properties":{"name": "oa04"},"geometry":{"type":"Point","coordinates":[-122.71556854248048,39.01198135604184]}}],
                 },
             });
             map.current.addLayer({
@@ -138,10 +138,20 @@ export default function Map(props) {
             map.current.on("mouseenter", "lake", e => {
                 if (e.features.length) {
                     map.current.getCanvas().style.cursor = "pointer";
+                    const coordinates = e.features[0].geometry.coordinates.slice();
+                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                    }
+                    const description = e.features[0].properties.name.slice(0,2).toUpperCase() + e.features[0].properties.name.slice(2).toUpperCase()
+                    new mapboxgl.Popup().setLngLat(coordinates).setHTML(description).addTo(map.current)
                 }
             });
             map.current.on("mouseleave", "lake", () => {
                 map.current.getCanvas().style.cursor = "";
+                const popup = document.getElementsByClassName('mapboxgl-popup');
+                if (popup.length) {
+                    popup[0].remove();
+                }
             });
             map.current.on("click", "lake", e => {
                 console.log(e.features[0].properties.name);

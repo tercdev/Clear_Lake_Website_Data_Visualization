@@ -160,42 +160,36 @@ export default function Map(props) {
         });
     }
     useEffect(() => {
-    if (map.current) return; // initialize map only once
-    map.current = new mapboxgl.Map({
-        container: mapContainer.current,
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: [lng, lat],
-        zoom: zoom
-    });
-    if (props.name == "stream") {
-        addStreamMarkers();
-        
-        // const scotts = new mapboxgl.Marker().setLngLat([-122.96109, 39.0954]).addTo(map.current)
-        // const middle = new mapboxgl.Marker().setLngLat([-122.91274, 39.18307]).addTo(map.current)
-        // const kelsey = new mapboxgl.Marker().setLngLat([-122.84087, 39.00895]).addTo(map.current).on("click", displayCharts)
-    }
-    if (props.name == "met") {
-        addMetMarkers();
-        
-    }
-    if (props.name == "lake") {
-        addLakeMarkers();
-        
-    }
-    if (props.name == "all") {
-        addStreamMarkers();
-        addMetMarkers();
-        addLakeMarkers();
-    }
+        if (map.current) return; // initialize map only once
+        map.current = new mapboxgl.Map({
+            container: mapContainer.current,
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [lng, lat],
+            zoom: zoom
+        });
+        if (props.name == "stream") {
+            addStreamMarkers();
+        }
+        if (props.name == "met") {
+            addMetMarkers();
+        }
+        if (props.name == "lake") {
+            addLakeMarkers();
+        }
+        if (props.name == "all") {
+            addStreamMarkers();
+            addMetMarkers();
+            addLakeMarkers();
+        }
     });
 
     useEffect(() => {
-    if (!map.current) return; // wait for map to initialize
-    map.current.on('move', () => {
-        setLng(map.current.getCenter().lng.toFixed(4));
-        setLat(map.current.getCenter().lat.toFixed(4));
-        setZoom(map.current.getZoom().toFixed(2));
-    });
+        if (!map.current) return; // wait for map to initialize
+        map.current.on('move', () => {
+            setLng(map.current.getCenter().lng.toFixed(4));
+            setLat(map.current.getCenter().lat.toFixed(4));
+            setZoom(map.current.getZoom().toFixed(2));
+        });
     });
 
     return (

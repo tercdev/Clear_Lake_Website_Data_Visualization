@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
+import LegendControl from 'mapboxgl-legend';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiY2hlbmFsaSIsImEiOiJjbDBqY2V2bGowYjlrM2NtaXhjYzlyM2pxIn0.BxtrB0AyBeGd8lug5c6mUg';
 
@@ -29,6 +30,9 @@ export default function Map(props) {
                     'circle-stroke-width': 2,
                     'circle-stroke-color': '#ffffff',
                 },
+                metadata: {
+                    "name": "Stream Monitoring Sites"
+                }
             });
             map.current.on("mouseenter", "streams", e => {
                 if (e.features.length) {
@@ -73,6 +77,9 @@ export default function Map(props) {
                     'circle-stroke-width': 2,
                     'circle-stroke-color': '#ffffff',
                 },
+                metadata: {
+                    name: "Meteorological Stations",
+                }
             });
             map.current.on("mouseenter", "met", e => {
                 if (e.features.length) {
@@ -134,6 +141,9 @@ export default function Map(props) {
                     'circle-stroke-width': 2,
                     'circle-stroke-color': '#ffffff',
                 },
+                metadata: {
+                    "name": "Lake Monitoring Sites"
+                }
             });
             map.current.on("mouseenter", "lake", e => {
                 if (e.features.length) {
@@ -181,6 +191,8 @@ export default function Map(props) {
             addMetMarkers();
             addLakeMarkers();
         }
+        const legend = new LegendControl({toggler: true, collapsed: false});
+        map.current.addControl(legend, 'bottom-left');
     });
 
     useEffect(() => {

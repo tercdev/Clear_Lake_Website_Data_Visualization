@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/Clear_Lake_Website_Data_Visualization/static/css/main.40ae91cc.css",
-    "main.js": "/Clear_Lake_Website_Data_Visualization/static/js/main.a993c8aa.js",
-    "static/media/Home1.jpg": "/Clear_Lake_Website_Data_Visualization/static/media/Home1.a9fa5a0ab37ed3fe6187.jpg",
-    "index.html": "/Clear_Lake_Website_Data_Visualization/index.html",
-    "main.40ae91cc.css.map": "/Clear_Lake_Website_Data_Visualization/static/css/main.40ae91cc.css.map",
-    "main.a993c8aa.js.map": "/Clear_Lake_Website_Data_Visualization/static/js/main.a993c8aa.js.map"
+    "main.css": "/Clear_Lake_Website_Data_Visualization/clear-lake-restoration-app/static/css/main.b796f0e6.css",
+    "main.js": "/Clear_Lake_Website_Data_Visualization/clear-lake-restoration-app/static/js/main.d115aef1.js",
+    "static/media/Home1.jpg": "/Clear_Lake_Website_Data_Visualization/clear-lake-restoration-app/static/media/Home1.a9fa5a0ab37ed3fe6187.jpg",
+    "index.html": "/Clear_Lake_Website_Data_Visualization/clear-lake-restoration-app/index.html",
+    "main.b796f0e6.css.map": "/Clear_Lake_Website_Data_Visualization/clear-lake-restoration-app/static/css/main.b796f0e6.css.map",
+    "main.d115aef1.js.map": "/Clear_Lake_Website_Data_Visualization/clear-lake-restoration-app/static/js/main.d115aef1.js.map"
   },
   "entrypoints": [
-    "static/css/main.40ae91cc.css",
-    "static/js/main.a993c8aa.js"
+    "static/css/main.b796f0e6.css",
+    "static/js/main.d115aef1.js"
   ]
 }

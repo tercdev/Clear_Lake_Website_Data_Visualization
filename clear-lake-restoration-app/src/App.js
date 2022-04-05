@@ -10,7 +10,7 @@ import Stream from './Components/pages/streams/Stream.js';
 import Kelsey from './Components/pages/streams/Kelsey.js';
 import Middle from './Components/pages/streams/Middle.js';
 import StreamHome from './Components/pages/streams/StreamHome.js';
-import ContactUs from './Components/pages/ContactUs.js';
+import DropCSVFile from './Components/pages/DropCSVFile.js';
 import Met from './Components/pages/met/Met.js';
 import Lake from './Components/pages/lake/Lake.js';
 
@@ -59,7 +59,7 @@ function App() {
         <Route path='/kelsey' exact element={<Stream fromDate={fromDate} endDate={toDate} id={"1"} name={"Kelsey"}/>} />
         <Route path='/middle' exact element={<Stream fromDate={fromDate} endDate={toDate} id={"2"} name={"Middle"}/>} />
         <Route path='/scotts' exact element={<Stream fromDate={fromDate} endDate={toDate} id={"3"} name={"Scotts"}/>} />
-        <Route path='/contact-us' exact element={<ContactUs/>} />
+        <Route path='/uploadCSV' exact element={<DropCSVFile/>} />
         <Route path='/met' exact element={<Met/>} />
         <Route path='/lake' exact element={<Lake/>} />
       </Routes>

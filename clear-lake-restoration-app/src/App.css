@@ -5,13 +5,24 @@
   font-family: 'Open Sans', sans-serif;
 }
 
-.home, .kelsey, .middle, .scotts, .contact-us {
+.home, .kelsey, .middle, .scotts {
   display: flex;
   height: 90vh;
   align-items: center;
   justify-content: center;
   font-size: 3rem;
 }
+
+.drop-csv-header {
+  display: flex;
+  height: 30vh;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  background-color: rgba(115, 143, 172, 0.9);
+  margin: 30px;
+}
+
 
 .stream, .stream-home {
   display: flex;

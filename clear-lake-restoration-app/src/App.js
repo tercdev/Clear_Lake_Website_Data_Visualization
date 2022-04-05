@@ -63,6 +63,7 @@ function App() {
         <Route path='/contact-us' exact element={<ContactUs/>} />
         <Route path='/met' exact element={<Met/>} />
         <Route path='/lake' exact element={<Lake/>} />
+        <Route path='/nic' exact element={<Lake/>} />
       </Routes>
       <Footer />
     </Router>

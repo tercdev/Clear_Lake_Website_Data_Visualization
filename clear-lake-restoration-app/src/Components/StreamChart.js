@@ -82,6 +82,7 @@ const options = {
             selected: true,
             yAxis: 0,
             color: Highcharts.getOptions().colors[3],
+            redraw: true,
             
         }, 
         {
@@ -90,6 +91,7 @@ const options = {
             selected: true,
             yAxis: 1,
             color: Highcharts.getOptions().colors[0],
+            redraw: true,
         },
          
     ],

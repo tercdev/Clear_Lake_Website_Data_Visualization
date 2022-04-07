@@ -11,7 +11,7 @@ import Stream from './Components/pages/streams/Stream.js';
 import Kelsey from './Components/pages/streams/Kelsey.js';
 import Middle from './Components/pages/streams/Middle.js';
 import StreamHome from './Components/pages/streams/StreamHome.js';
-import ContactUs from './Components/pages/ContactUs.js';
+import DropCSVFile from './Components/pages/DropCSVFile';
 import Met from './Components/pages/met/Met.js';
 import Lake from './Components/pages/lake/Lake.js';
 
@@ -72,6 +72,9 @@ function App() {
         <Route path='/nlp' exact element={<Lake fromDate={fromDate} endDate={toDate} id={"6"} name={"North Lakeport"}/>} />
         <Route path='/bvr' exact element={<Lake fromDate={fromDate} endDate={toDate} id={"7"} name={"Big Valley Rancheria"}/>} />
 
+        <Route path='/upload-csv' exact element={<DropCSVFile/>} />
+        <Route path='/met' exact element={<Met/>} />
+        <Route path='/lake' exact element={<Lake/>} />
       </Routes>
       <Footer />
     </Router>

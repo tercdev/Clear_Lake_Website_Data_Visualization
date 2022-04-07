@@ -201,8 +201,8 @@ function Navbar() {
 
            
            <li className='nav-item'>
-             <Link to='/contact-us' className='nav-links' onClick={closeMobileMenu}>
-               Contact Us
+             <Link to='/upload-csv' className='nav-links' onClick={closeMobileMenu}>
+               Upload CSV
              </Link>
            </li>
            

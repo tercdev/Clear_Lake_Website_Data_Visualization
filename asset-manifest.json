@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/Clear_Lake_Website_Data_Visualization/static/css/main.40ae91cc.css",
-    "main.js": "/Clear_Lake_Website_Data_Visualization/static/js/main.73a94804.js",
+    "main.css": "/Clear_Lake_Website_Data_Visualization/static/css/main.7c210d3f.css",
+    "main.js": "/Clear_Lake_Website_Data_Visualization/static/js/main.bdd290ff.js",
     "static/media/Home1.jpg": "/Clear_Lake_Website_Data_Visualization/static/media/Home1.a9fa5a0ab37ed3fe6187.jpg",
     "index.html": "/Clear_Lake_Website_Data_Visualization/index.html",
-    "main.40ae91cc.css.map": "/Clear_Lake_Website_Data_Visualization/static/css/main.40ae91cc.css.map",
-    "main.73a94804.js.map": "/Clear_Lake_Website_Data_Visualization/static/js/main.73a94804.js.map"
+    "main.7c210d3f.css.map": "/Clear_Lake_Website_Data_Visualization/static/css/main.7c210d3f.css.map",
+    "main.bdd290ff.js.map": "/Clear_Lake_Website_Data_Visualization/static/js/main.bdd290ff.js.map"
   },
   "entrypoints": [
-    "static/css/main.40ae91cc.css",
-    "static/js/main.73a94804.js"
+    "static/css/main.7c210d3f.css",
+    "static/js/main.bdd290ff.js"
   ]
 }

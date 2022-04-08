@@ -1,6 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import StreamChart from '../../StreamChart';
 import Highcharts from 'highcharts';
+
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+
+import "./Stream.css";
+
 export default function Stream(props) {
     
     var tempProps = {
@@ -128,23 +135,53 @@ export default function Stream(props) {
             endTime: 0,
         }
     }
+
+    var today = new Date();
+    console.log(today);
+    var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
+    console.log(lastWeek);
+    const [startDate, setStartDate] = useState(lastWeek);
+    const [endDate, setEndDate] = useState(today);
     return (
-        <div>
+        <div className="stream-container">
             <h1 className='stream'>{props.name}</h1>
             <StreamChart 
-                fromDate={props.fromDate} 
-                endDate={props.endDate} 
+                fromDate={startDate} 
+                endDate={endDate} 
                 id={props.id}
                 dataType={"Turb_BES"}
                 chartProps={turbProps}
              />
             <StreamChart 
-                fromDate={props.fromDate} 
-                endDate={props.endDate} 
+                fromDate={startDate} 
+                endDate={endDate} 
                 id={props.id}
                 dataType={"Turb_Temp"}
                 chartProps={tempProps}
              />
+            <div className='date-container'>
+                <div className='one-date-container'>
+                <p>Start Date</p>
+                <DatePicker
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                    selectsStart
+                    startDate={startDate}
+                    endDate={endDate}
+                />
+                </div>
+                <div className='one-date-container'>
+                <p>End Date</p>
+                <DatePicker
+                    selected={endDate}
+                    onChange={(date) => setEndDate(date)}
+                    selectsEnd
+                    startDate={startDate}
+                    endDate={endDate}
+                    minDate={startDate}
+                />
+                </div>
+            </div>
         </div>
     )
 }

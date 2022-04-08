@@ -82,6 +82,7 @@ const options = {
             selected: true,
             yAxis: 0,
             color: Highcharts.getOptions().colors[3],
+            redraw: true,
             
         }, 
         {
@@ -90,6 +91,7 @@ const options = {
             selected: true,
             yAxis: 1,
             color: Highcharts.getOptions().colors[0],
+            redraw: true,
         },
          
     ],
@@ -113,6 +115,19 @@ function getFilteredData(data, dataType) {
     return m;
 }
 
+function convertDate(date) {
+    let year = date.getFullYear().toString();
+    let month = (date.getMonth()+1).toString();
+    let day = date.getDate().toString();
+    if (month.length < 2) {
+        month = '0' + month;
+    }
+    if (day.length < 2) {
+        day = '0' + day;
+    }
+    return year+month+day;
+}
+
 export default function StreamChart({
     fromDate,
     endDate,
@@ -126,8 +141,8 @@ export default function StreamChart({
   var url = new URL('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/cl-creeks');
   var search_params = url.searchParams;
   search_params.set('id',id);
-  search_params.set('rptdate',fromDate);
-  search_params.set('rptend',endDate);
+  search_params.set('rptdate',convertDate(fromDate));
+  search_params.set('rptend',convertDate(endDate));
   url.search = search_params.toString();
 
   var new_url = url.toString();

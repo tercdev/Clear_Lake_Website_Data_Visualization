@@ -40,7 +40,7 @@ export default function Map(props) {
             });
             map.current.on("click", "streams", e => {
                 console.log(e.features[0].properties.name);
-                window.location.href='/'+e.features[0].properties.name;
+                window.location.href='/Clear_Lake_Website_Data_Visualization/'+e.features[0].properties.name;
             });
         });
     }
@@ -74,7 +74,7 @@ export default function Map(props) {
             });
             map.current.on("click", "met", e => {
                 console.log(e.features[0].properties.name);
-                window.location.href='/'+e.features[0].properties.name;
+                window.location.href='/Clear_Lake_Website_Data_Visualization/'+e.features[0].properties.name;
             });
         });
     }
@@ -108,7 +108,7 @@ export default function Map(props) {
             });
             map.current.on("click", "lake", e => {
                 console.log(e.features[0].properties.name);
-                window.location.href='/'+e.features[0].properties.name;
+                window.location.href='/Clear_Lake_Website_Data_Visualization/'+e.features[0].properties.name;
             });
         });
     }

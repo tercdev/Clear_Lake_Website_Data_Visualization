@@ -4,6 +4,7 @@ import Navbar from './Components/Navbar';
 import Footer from './Components/Footer';
 import Title from './Components/Title';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 import Home from './Components/pages/Home.js';
 import Stream from './Components/pages/streams/Stream.js';
@@ -50,7 +51,7 @@ function App() {
   var fromDate = getPreviousWeekDate();
   var toDate = getCurrentTime();
   return (
-    <Router>
+    <Router basename='/Clear_Lake_Website_Data_Visualization/'>
       <Title/>
       <Navbar/>
       <Routes>

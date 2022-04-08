@@ -61,8 +61,17 @@ function App() {
         <Route path='/middle' exact element={<Stream fromDate={fromDate} endDate={toDate} id={"2"} name={"Middle"}/>} />
         <Route path='/scotts' exact element={<Stream fromDate={fromDate} endDate={toDate} id={"3"} name={"Scotts"}/>} />
         <Route path='/contact-us' exact element={<ContactUs/>} />
-        <Route path='/met' exact element={<Met/>} />
-        <Route path='/lake' exact element={<Lake/>} />
+        <Route path='/met' exact element={<Met />} />
+        <Route path='/lake' exact element={<Lake />} />
+        
+        <Route path='/bkp' exact element={<Lake fromDate={fromDate} endDate={toDate} id={"1"} name={"Buckingham Point"}/>} />
+        <Route path='/clo' exact element={<Lake fromDate={fromDate} endDate={toDate} id={"2"} name={"Clearlake Oaks"}/>} />
+        <Route path='/jgb' exact element={<Lake fromDate={fromDate} endDate={toDate} id={"3"} name={"Jago Bay"}/>} />
+        <Route path='/knb' exact element={<Lake fromDate={fromDate} endDate={toDate} id={"4"} name ={"Konocti Bay"}/>} />
+        <Route path='/nic' exact element={<Lake fromDate={fromDate} endDate={toDate} id={"5"} name={"Nice"}/>} />
+        <Route path='/nlp' exact element={<Lake fromDate={fromDate} endDate={toDate} id={"6"} name={"North Lakeport"}/>} />
+        <Route path='/bvr' exact element={<Lake fromDate={fromDate} endDate={toDate} id={"7"} name={"Big Valley Rancheria"}/>} />
+
       </Routes>
       <Footer />
     </Router>

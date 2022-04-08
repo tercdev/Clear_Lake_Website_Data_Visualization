@@ -112,7 +112,7 @@ function getFilteredData(data, dataType) {
 
         m.push([new Date(element.TmStamp).getTime(), parseFloat(element[dataType])]);
     }));
-    return m;
+    return m.reverse();
 }
 
 function convertDate(date) {

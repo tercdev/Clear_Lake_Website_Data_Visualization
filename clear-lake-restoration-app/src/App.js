@@ -1,19 +1,18 @@
 import React, { useRef, useEffect, useState } from 'react';
 import './App.css';
-import Navbar from './Components/Navbar';
-import Footer from './Components/Footer';
-import Title from './Components/Title';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import Title from './components/Title';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Link } from "react-router-dom";
 
-import Home from './Components/pages/Home.js';
-import Stream from './Components/pages/streams/Stream.js';
-import Kelsey from './Components/pages/streams/Kelsey.js';
-import Middle from './Components/pages/streams/Middle.js';
-import StreamHome from './Components/pages/streams/StreamHome.js';
-import ContactUs from './Components/pages/ContactUs.js';
-import Met from './Components/pages/met/Met.js';
-import Lake from './Components/pages/lake/Lake.js';
+import Home from './components/pages/Home.js';
+import Stream from './components/pages/streams/Stream.js';
+import Kelsey from './components/pages/streams/Kelsey.js';
+import Middle from './components/pages/streams/Middle.js';
+import StreamHome from './components/pages/streams/StreamHome.js';
+import ContactUs from './components/pages/ContactUs.js';
+import Met from './components/pages/met/Met.js';
+import Lake from './components/pages/lake/Lake.js';
 
 function getCurrentTime() {
   var time = new Date().toLocaleDateString();
@@ -51,7 +50,7 @@ function App() {
   var fromDate = getPreviousWeekDate();
   var toDate = getCurrentTime();
   return (
-    <Router basename='/Clear_Lake_Website_Data_Visualization/'>
+    <Router>
       <Title/>
       <Navbar/>
       <Routes>

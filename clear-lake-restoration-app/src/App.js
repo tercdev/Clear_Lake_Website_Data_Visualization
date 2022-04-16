@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import './App.css';
-import Navbar from './Components/Navbar';
+import Navigation from './Components/Navigation';
 import Footer from './Components/Footer';
 import Title from './Components/Title';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -53,7 +53,7 @@ function App() {
   return (
     <Router basename='/Clear_Lake_Website_Data_Visualization/'>
       <Title/>
-      <Navbar/>
+      <Navigation/>
       <Routes>
         <Route path='/' exact element={<Home/>} />
         <Route path='/stream' exact element={<StreamHome />} />

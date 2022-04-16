@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import './App.css';
-import Navbar from './Components/Navbar';
+import Navigation from './Components/Navigation';
 import Footer from './Components/Footer';
 import Title from './Components/Title';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -11,7 +11,7 @@ import Stream from './Components/pages/streams/Stream.js';
 import Kelsey from './Components/pages/streams/Kelsey.js';
 import Middle from './Components/pages/streams/Middle.js';
 import StreamHome from './Components/pages/streams/StreamHome.js';
-import ContactUs from './Components/pages/ContactUs.js';
+import DropCSVFile from './Components/pages/DropCSVFile';
 import Met from './Components/pages/met/Met.js';
 import Lake from './Components/pages/lake/Lake.js';
 
@@ -53,16 +53,13 @@ function App() {
   return (
     <Router basename='/Clear_Lake_Website_Data_Visualization/'>
       <Title/>
-      <Navbar/>
+      <Navigation/>
       <Routes>
         <Route path='/' exact element={<Home/>} />
         <Route path='/stream' exact element={<StreamHome />} />
         <Route path='/kelsey' exact element={<Stream fromDate={fromDate} endDate={toDate} id={"1"} name={"Kelsey"}/>} />
         <Route path='/middle' exact element={<Stream fromDate={fromDate} endDate={toDate} id={"2"} name={"Middle"}/>} />
         <Route path='/scotts' exact element={<Stream fromDate={fromDate} endDate={toDate} id={"3"} name={"Scotts"}/>} />
-        <Route path='/contact-us' exact element={<ContactUs/>} />
-        <Route path='/met' exact element={<Met />} />
-        <Route path='/lake' exact element={<Lake />} />
         
         <Route path='/bkp' exact element={<Lake fromDate={fromDate} endDate={toDate} id={"1"} name={"Buckingham Point"}/>} />
         <Route path='/clo' exact element={<Lake fromDate={fromDate} endDate={toDate} id={"2"} name={"Clearlake Oaks"}/>} />
@@ -72,6 +69,9 @@ function App() {
         <Route path='/nlp' exact element={<Lake fromDate={fromDate} endDate={toDate} id={"6"} name={"North Lakeport"}/>} />
         <Route path='/bvr' exact element={<Lake fromDate={fromDate} endDate={toDate} id={"7"} name={"Big Valley Rancheria"}/>} />
 
+        <Route path='/upload-csv' exact element={<DropCSVFile/>} />
+        <Route path='/met' exact element={<Met/>} />
+        <Route path='/lake' exact element={<Lake/>} />
       </Routes>
       <Footer />
     </Router>

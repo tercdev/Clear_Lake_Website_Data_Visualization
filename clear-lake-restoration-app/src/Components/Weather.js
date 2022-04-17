@@ -2,13 +2,13 @@ import React from 'react';
 import './Weather.css';
 import ReactWeather, { useOpenWeather } from 'react-open-weather';
 
-const Weather = () => {
+const Weather = (props) => {
     const { data, isLoading, errorMessage } = useOpenWeather({
         key: '39a0efe4b13f3c2c01d5ee665e14217e',
         lat: '38.9582',
         lon: '-122.6264',
         lang: 'en',
-        unit: 'metric', // values are (metric, standard, imperial)
+        unit: 'imperial', // values are (metric, standard, imperial)
       });
     if (data) {
         const { forecast, current } = data;
@@ -18,20 +18,23 @@ const Weather = () => {
         if (errorMessage) {
             return <div>{errorMessage}</div>;
         }
-        console.log(current);
+        // console.log(props.show);
+        let icon_name = "";
+        {props.show ? icon_name = "fa-solid fa-angle-up" : icon_name = "fa-solid fa-angle-down"}
         return (
-            <div className='weather-container'>
-                <h2>{current.temperature.current}&#176;C</h2>
+            <div className="inner-container">
+                <h2>{current.temperature.current}&#176;F</h2>
                 <svg
                 version="1.1"
                 xmlns="http://www.w3.org/2000/svg"
                 width="50"
                 height="50"
                 viewBox="0 -5 35 40"
-                fill="#022851">
+                fill='#022851'>
                     <title>{current.description}</title>
                     <path d={current.icon} />
                 </svg>
+                <i className={icon_name}></i>
             </div>
         );
     }

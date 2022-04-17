@@ -14,6 +14,8 @@ import StreamHome from './Components/pages/streams/StreamHome.js';
 import DropCSVFile from './Components/pages/DropCSVFile';
 import Met from './Components/pages/met/Met.js';
 import Lake from './Components/pages/lake/Lake.js';
+import WeatherWidget from './Components/WeatherWidget.js';
+import Weather from './Components/Weather.js'
 
 function getCurrentTime() {
   var time = new Date().toLocaleDateString();
@@ -50,9 +52,17 @@ function getPreviousWeekDate() {
 function App() {
   var fromDate = getPreviousWeekDate();
   var toDate = getCurrentTime();
+  const [show, setShow] = useState(false);
+  const handleShow = () => setShow(!show);
   return (
     <Router basename='/Clear_Lake_Website_Data_Visualization/'>
-      <Title/>
+      <div className="full-header">
+        <Title/>
+        <div className='weather-container' onClick={handleShow}>
+          <Weather show={show}/>
+        </div>
+      </div>
+      {show ? <WeatherWidget /> : null}
       <Navigation/>
       <Routes>
         <Route path='/' exact element={<Home/>} />

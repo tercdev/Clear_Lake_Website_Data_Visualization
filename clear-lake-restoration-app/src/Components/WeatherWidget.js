@@ -1,6 +1,6 @@
 import React from 'react';
-import './WeatherWidget.css';
 import ReactWeather, { useOpenWeather } from 'react-open-weather';
+import './WeatherWidget.css';
 
 const WeatherWidget = () => {
     const { data, isLoading, errorMessage } = useOpenWeather({
@@ -8,7 +8,7 @@ const WeatherWidget = () => {
         lat: '38.9582',
         lon: '-122.6264',
         lang: 'en',
-        unit: 'metric', // values are (metric, standard, imperial)
+        unit: 'imperial', // values are (metric, standard, imperial)
       });
     console.log(data)
     // console.log(data.current.temperature.current);
@@ -41,7 +41,7 @@ const WeatherWidget = () => {
           data={data}
           lang="en"
           locationLabel="Clear Lake"
-          unitsLabels={{ temperature: 'C', windSpeed: 'Km/h' }}
+          unitsLabels={{ temperature: "°F", windSpeed: 'miles/h' }}
           showForecast
         />
       );

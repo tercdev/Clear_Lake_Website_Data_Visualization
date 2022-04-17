@@ -5,9 +5,9 @@ import './Navigation.css';
 import WeatherWidget from './WeatherWidget.js';
 
 const Navigation = () => {
-  const [show, setShow] = useState(false);
+  // const [show, setShow] = useState(false);
   // const handleClose = () => setShow(false);
-  const handleShow = () => setShow(!show);
+  // const handleShow = () => setShow(!show);
   return (
     <>
     <Navbar collapseOnSelect expand='sm' variant='dark'>
@@ -43,9 +43,9 @@ const Navigation = () => {
               <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/la03">LA-03</NavDropdown.Item>
             </NavDropdown>
             <Nav.Link href='/Clear_Lake_Website_Data_Visualization/upload-csv'>Upload CSV</Nav.Link>
-            <Nav.Link onClick={handleShow}> 
+            {/* <Nav.Link onClick={handleShow}> 
               Weather
-            </Nav.Link>
+            </Nav.Link> */}
             {/* <Modal show={show} onHide={handleClose}>
               <Modal.Header closeButton>
                 <Modal.Title>Weather</Modal.Title>
@@ -56,7 +56,7 @@ const Navigation = () => {
         </Navbar.Collapse>
       </Container>
     </Navbar>
-    {show ? <WeatherWidget /> : null}
+    {/* {show ? <WeatherWidget /> : null} */}
     </>
     
   )

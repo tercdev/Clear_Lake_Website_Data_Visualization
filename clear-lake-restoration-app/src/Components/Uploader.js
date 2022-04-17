@@ -15,11 +15,11 @@ const Uploader = () => {
   
     const handleSubmit = async (files) => {
         const f = files[0];
-        let parsedFileName = f['file'].name.split("_");
+        let parsedFileName = f['file'].name.toLowerCase().split("_");
         let fileName;
         console.log(parsedFileName);
 
-        if ((parsedFileName[0] == "met") || (parsedFileName[0] == "streams")) {
+        if ((parsedFileName[0] == "met") || (parsedFileName[0] == "streams") || (parsedFileName[0] == "clearlake")) {
           fileName = parsedFileName[0] +"/"+ parsedFileName[1] +"/"+ f['file'].name
         } else {
           fileName = f['file'].name

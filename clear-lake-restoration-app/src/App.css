@@ -7,7 +7,7 @@
 
 .home, .kelsey, .middle, .scotts {
   display: flex;
-  height: 90vh;
+  height: 50vh;
   align-items: center;
   justify-content: center;
   font-size: 3rem;

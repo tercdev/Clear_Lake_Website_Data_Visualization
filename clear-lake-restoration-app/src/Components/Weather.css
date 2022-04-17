@@ -1,0 +1,20 @@
+h2 {
+    align-self: center;
+    font-weight: 600;
+    margin: 0;
+}
+
+.weather-container {
+    position: absolute;
+    right: 0;
+    margin-right: 10px;
+    display: flex;
+    gap: 10px;
+    padding-bottom: 20px;
+}
+
+@media (max-width: 750px) {
+    .weather-container {
+        display: none;
+    }
+}

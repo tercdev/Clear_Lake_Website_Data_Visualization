@@ -10,6 +10,7 @@ const WeatherWidget = () => {
         lang: 'en',
         unit: 'metric', // values are (metric, standard, imperial)
       });
+    console.log(data)
     // console.log(data.current.temperature.current);
     // console.log(data.current.description);
     // console.log(data.current.icon);

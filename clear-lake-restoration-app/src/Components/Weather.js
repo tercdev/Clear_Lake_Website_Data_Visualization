@@ -10,37 +10,32 @@ const Weather = () => {
         lang: 'en',
         unit: 'metric', // values are (metric, standard, imperial)
       });
-    const customStyles = {
-        fontFamily:  'Helvetica, sans-serif',
-        gradientStart:  '#0181C2',
-        gradientMid:  '#04A7F9',
-        gradientEnd:  '#4BC4F7',
-        locationFontColor:  '#FFF',
-        todayTempFontColor:  '#FFF',
-        todayDateFontColor:  '#B5DEF4',
-        todayRangeFontColor:  '#B5DEF4',
-        todayDescFontColor:  '#B5DEF4',
-        todayInfoFontColor:  '#B5DEF4',
-        todayIconColor:  '#FFF',
-        forecastBackgroundColor:  '#FFF',
-        forecastSeparatorColor:  '#DDD',
-        forecastDateColor:  '#777',
-        forecastDescColor:  '#777',
-        forecastRangeColor:  '#777',
-        forecastIconColor:  '#4BC4F7',
-    };
-      return (
-        <ReactWeather
-          theme={customStyles}
-          isLoading={isLoading}
-          errorMessage={errorMessage}
-          data={data}
-          lang="en"
-          locationLabel="Clear Lake"
-          unitsLabels={{ temperature: 'C', windSpeed: 'Km/h' }}
-          showForecast
-        />
-      );
+    if (data) {
+        const { forecast, current } = data;
+        if (isLoading) {
+            return <div>Loading...</div>;
+        }
+        if (errorMessage) {
+            return <div>{errorMessage}</div>;
+        }
+        console.log(current);
+        return (
+            <div className='weather-container'>
+                <h2>{current.temperature.current}&#176;C</h2>
+                <svg
+                version="1.1"
+                xmlns="http://www.w3.org/2000/svg"
+                width="50"
+                height="50"
+                viewBox="0 -5 35 40"
+                fill="#022851">
+                    <title>{current.description}</title>
+                    <path d={current.icon} />
+                </svg>
+            </div>
+        );
+    }
+    return null;
 };
 
 export default Weather;

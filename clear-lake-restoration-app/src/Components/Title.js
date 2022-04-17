@@ -16,7 +16,7 @@ export default class TitleComponent extends Component {
                 <p className="main-title">Clear Lake</p>
                 <p className="sub-title">Tahoe Environmental Research Center </p>
             </div>
-            {/* <Weather/> */}
+            <Weather/>
       </div>
     )
   }

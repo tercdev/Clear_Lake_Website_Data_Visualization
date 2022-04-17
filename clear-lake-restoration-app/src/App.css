@@ -30,6 +30,23 @@
   background-repeat: no-repeat;
   color: #fff;
   font-size: 90px;
+  text-align: center;
+}
+
+.mission-container{
+  margin: 100px;
+  text-align: center;
+}
+
+.info-text {
+  font-size: 20px;
+}
+
+.info-header {
+  font-weight: 600;
+  font-size: 30px;
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 .map {
@@ -57,4 +74,31 @@
 .mapboxgl-popup {
   max-width: 400px;
   font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
+@media only screen and (max-width: 600px) {
+  .mission-container{
+    margin: 50px;
+  } 
+
+  .info-text {
+    font-size: 14px;
+  }
+
+  .home {
+    background-image: url('./images/Home1.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: #fff;
+    font-size: 90px;
+  }
+
+  .home, .kelsey, .middle, .scotts {
+    display: flex;
+    height: 40vh;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+  }
 }

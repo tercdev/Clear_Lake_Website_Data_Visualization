@@ -83,7 +83,7 @@ function getFilteredData(data, dataType) {
     return m.reverse();
 }
 
-export default function LakeChart({
+export default function MetChart({
     fromDate,
     endDate,
     id,

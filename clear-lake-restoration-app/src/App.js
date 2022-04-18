@@ -10,8 +10,9 @@ import Home from './Components/pages/Home.js';
 import Stream from './Components/pages/streams/Stream.js';
 import StreamHome from './Components/pages/streams/StreamHome.js';
 import DropCSVFile from './Components/pages/DropCSVFile';
+import MetHome from './Components/pages/met/MetHome.js';
 import Met from './Components/pages/met/Met.js';
-import Lake from './Components/pages/lake/Lake.js';
+import LakeHome from './Components/pages/lake/LakeHome.js';
 
 function getCurrentTime() {
   var time = new Date().toLocaleDateString();
@@ -59,17 +60,17 @@ function App() {
         <Route path='/middle' exact element={<Stream fromDate={fromDate} endDate={toDate} id={"2"} name={"Middle Creek"}/>} />
         <Route path='/scotts' exact element={<Stream fromDate={fromDate} endDate={toDate} id={"3"} name={"Scotts Creek"}/>} />
         
-        <Route path='/bkp' exact element={<Lake fromDate={fromDate} endDate={toDate} id={"1"} name={"Buckingham Point"}/>} />
-        <Route path='/clo' exact element={<Lake fromDate={fromDate} endDate={toDate} id={"2"} name={"Clearlake Oaks"}/>} />
-        <Route path='/jgb' exact element={<Lake fromDate={fromDate} endDate={toDate} id={"3"} name={"Jago Bay"}/>} />
-        <Route path='/knb' exact element={<Lake fromDate={fromDate} endDate={toDate} id={"4"} name ={"Konocti Bay"}/>} />
-        <Route path='/nic' exact element={<Lake fromDate={fromDate} endDate={toDate} id={"5"} name={"Nice"}/>} />
-        <Route path='/nlp' exact element={<Lake fromDate={fromDate} endDate={toDate} id={"6"} name={"North Lakeport"}/>} />
-        <Route path='/bvr' exact element={<Lake fromDate={fromDate} endDate={toDate} id={"7"} name={"Big Valley Rancheria"}/>} />
+        <Route path='/bkp' exact element={<Met fromDate={fromDate} endDate={toDate} id={"1"} name={"Buckingham Point"}/>} />
+        <Route path='/clo' exact element={<Met fromDate={fromDate} endDate={toDate} id={"2"} name={"Clearlake Oaks"}/>} />
+        <Route path='/jgb' exact element={<Met fromDate={fromDate} endDate={toDate} id={"3"} name={"Jago Bay"}/>} />
+        <Route path='/knb' exact element={<Met fromDate={fromDate} endDate={toDate} id={"4"} name ={"Konocti Bay"}/>} />
+        <Route path='/nlp' exact element={<Met fromDate={fromDate} endDate={toDate} id={"6"} name={"North Lakeport"}/>} />
+        <Route path='/nic' exact element={<Met fromDate={fromDate} endDate={toDate} id={"5"} name={"Nice"}/>} />
+        <Route path='/bvr' exact element={<Met fromDate={fromDate} endDate={toDate} id={"7"} name={"Big Valley Rancheria"}/>} />
 
         <Route path='/upload-csv' exact element={<DropCSVFile/>} />
-        <Route path='/met' exact element={<Met/>} />
-        <Route path='/lake' exact element={<Lake/>} />
+        <Route path='/met' exact element={<MetHome/>} />
+        <Route path='/lake' exact element={<LakeHome/>} />
       </Routes>
       <Footer />
     </Router>

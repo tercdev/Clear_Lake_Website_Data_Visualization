@@ -5,9 +5,9 @@
   font-family: 'Open Sans', sans-serif;
 }
 
-.home, .kelsey, .middle, .scotts {
+.home {
   display: flex;
-  height: 90vh;
+  height: 50vh;
   align-items: center;
   justify-content: center;
   font-size: 3rem;
@@ -19,8 +19,26 @@
   align-items: center;
   justify-content: center;
   font-size: 3rem;
-  margin: 100px;
+  margin-bottom: 100px;
   background-color: #9fb1d1; 
+}
+
+.data-disclaimer{
+  margin-top: 70px;
+  margin-bottom: 70px;
+  margin-left: 200px;
+  margin-right: 200px;
+  text-align: center;
+}
+
+.disclaimer2{
+  font-size: 18px;
+}
+
+.disclaimer1{
+  color: rgb(221, 73, 73);
+  font-weight: 600;
+  font-size: 20px;
 }
 
 .home {
@@ -30,6 +48,23 @@
   background-repeat: no-repeat;
   color: #fff;
   font-size: 90px;
+  text-align: center;
+}
+
+.mission-container{
+  margin: 100px;
+  text-align: center;
+}
+
+.info-text {
+  font-size: 20px;
+}
+
+.info-header {
+  font-weight: 600;
+  font-size: 30px;
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 .map {
@@ -62,18 +97,32 @@
 .full-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
-.weather-container {
-  position: absolute;
-  right: 0;
-  margin-right: 10px;
-  display: flex;
-  gap: 10px;
-  /* padding-bottom: 20px; */
-  margin-inline: 20px;
-}
+@media only screen and (max-width: 600px) {
+  .mission-container{
+    margin: 50px;
+  } 
 
-.weather-container:hover {
-  cursor: pointer;
+  .info-text {
+    font-size: 14px;
+  }
+
+  .home {
+    background-image: url('./images/Home1.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: #fff;
+    font-size: 90px;
+  }
+
+  .home, .kelsey, .middle, .scotts {
+    display: flex;
+    height: 40vh;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+  }
 }

@@ -8,8 +8,6 @@ import { Link } from "react-router-dom";
 
 import Home from './Components/pages/Home.js';
 import Stream from './Components/pages/streams/Stream.js';
-import Kelsey from './Components/pages/streams/Kelsey.js';
-import Middle from './Components/pages/streams/Middle.js';
 import StreamHome from './Components/pages/streams/StreamHome.js';
 import DropCSVFile from './Components/pages/DropCSVFile';
 import Met from './Components/pages/met/Met.js';
@@ -57,9 +55,9 @@ function App() {
       <Routes>
         <Route path='/' exact element={<Home/>} />
         <Route path='/stream' exact element={<StreamHome />} />
-        <Route path='/kelsey' exact element={<Stream fromDate={fromDate} endDate={toDate} id={"1"} name={"Kelsey"}/>} />
-        <Route path='/middle' exact element={<Stream fromDate={fromDate} endDate={toDate} id={"2"} name={"Middle"}/>} />
-        <Route path='/scotts' exact element={<Stream fromDate={fromDate} endDate={toDate} id={"3"} name={"Scotts"}/>} />
+        <Route path='/kelsey' exact element={<Stream fromDate={fromDate} endDate={toDate} id={"1"} name={"Kelsey Creek"}/>} />
+        <Route path='/middle' exact element={<Stream fromDate={fromDate} endDate={toDate} id={"2"} name={"Middle Creek"}/>} />
+        <Route path='/scotts' exact element={<Stream fromDate={fromDate} endDate={toDate} id={"3"} name={"Scotts Creek"}/>} />
         
         <Route path='/bkp' exact element={<Lake fromDate={fromDate} endDate={toDate} id={"1"} name={"Buckingham Point"}/>} />
         <Route path='/clo' exact element={<Lake fromDate={fromDate} endDate={toDate} id={"2"} name={"Clearlake Oaks"}/>} />

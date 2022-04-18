@@ -296,6 +296,15 @@ export default function Lake(props) {
              />
 
             {/* <Map name="lake"/> */}
+
+            <div className='data-disclaimer'>
+                <p className='disclaimer1'>Note: These data are provisional and not error checked!</p>
+                <p className='disclaimer2'>These data were collected and are currently being processed and analyzed by 
+                    the UC Davis Tahoe Environmental Research Center (TERC). They are 
+                    considered preliminary. Do not use or distribute without written permission 
+                    from TERC.</p>
+            </div>
         </div>
+        
     )
 }

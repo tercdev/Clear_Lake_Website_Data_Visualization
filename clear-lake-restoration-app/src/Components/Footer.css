@@ -26,6 +26,17 @@
     margin-top: 50px;
 }
 
+.funding-container {
+    margin: 30px;
+}
+
+.image-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 20px;
+}
+
 
 @media (max-width: 600px) {
     .footerContainer {

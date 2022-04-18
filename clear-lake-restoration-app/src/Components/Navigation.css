@@ -54,10 +54,3 @@
     gap: 30px;
   }
 }
-/* @media all and (min-width: 992px) {
-	.navbar .nav-item .dropdown-menu{ display: none; }
-	.navbar .nav-item:hover .nav-link{ display: block;  }
-	.navbar .nav-item:hover .dropdown-menu{ display: block; }
-  .navbar .nav-item:hover #collasible-nav-dropdown{display: block; }
-	.navbar .nav-item .dropdown-menu{ margin-top:0; }
-} */

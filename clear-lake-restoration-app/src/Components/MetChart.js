@@ -83,6 +83,19 @@ function getFilteredData(data, dataType) {
     return m.reverse();
 }
 
+function convertDate(date) {
+    let year = date.getFullYear().toString();
+    let month = (date.getMonth()+1).toString();
+    let day = date.getDate().toString();
+    if (month.length < 2) {
+        month = '0' + month;
+    }
+    if (day.length < 2) {
+        day = '0' + day;
+    }
+    return year+month+day;
+}
+
 export default function MetChart({
     fromDate,
     endDate,
@@ -97,8 +110,8 @@ export default function MetChart({
   var url = new URL('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/metweatherlink');
   var search_params = url.searchParams;
   search_params.set('id',id);
-  search_params.set('rptdate',fromDate);
-  search_params.set('rptend',endDate);
+  search_params.set('rptdate',convertDate(fromDate));
+  search_params.set('rptend',convertDate(endDate));
   url.search = search_params.toString();
 
   var new_url = url.toString();

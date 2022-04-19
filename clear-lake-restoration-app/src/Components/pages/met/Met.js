@@ -12,7 +12,9 @@ export default function Met(props) {
     var MyAirTemp_RelHumChartProps = {
         chart: {
             zoomType: 'x',
-            //height: 500,
+        },
+        time: {
+            useUTC: false
         },
         title: {
             text: ''
@@ -111,6 +113,9 @@ export default function Met(props) {
         chart: {
             zoomType: 'x'
         },
+        time: {
+            useUTC: false
+        },
         title: {
             text: ''
         },
@@ -155,6 +160,9 @@ export default function Met(props) {
                 chart: {
                     zoomType: 'x',
                     // height: 700,
+                },
+                time : {
+                    useUTC:false
                 },
                 title: {
                     text: ''

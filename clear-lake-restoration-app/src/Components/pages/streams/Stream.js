@@ -14,6 +14,9 @@ export default function Stream(props) {
         chart: {
             zoomType: 'x'
         },
+        time: {
+            useUTC: false
+        },
         title: {
             text: 'stream temperature',
             text: null
@@ -47,6 +50,9 @@ export default function Stream(props) {
         chart: {
             zoomType: 'x',
             //height: 700,
+        },
+        time: {
+            useUTC: false
         },
         title: {
             text: ''
@@ -181,6 +187,7 @@ export default function Stream(props) {
                 endDate={endDate} 
                 id={props.id}
                 dataType={"Turb_BES"}
+                dataType2={"Flow"}
                 chartProps={turbProps}
              />
             <StreamChart 

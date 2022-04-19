@@ -104,14 +104,25 @@ const options = {
   // get data based on graph type
 function getFilteredData(data, dataType) {
     let m = [];
-    // if (dataType == "Turb_BES") {
-    //     var data = cleanTurbMeanData(data,dataType)
-    // }
-    data.forEach((element => {
+    console.log(data)
+    console.log("datatype:",dataType)
+    if (dataType == "Flow") {
+        //var data = cleanTurbMeanData(data,dataType)
+        console.log("flow data")
+        data.forEach((element => {
+            //let pstTime = convertGMTtoPSTTime(new Date(element.TmStamp));
+    
+            m.push([new Date(element.DateTime_UTC).getTime(), parseFloat(element[dataType])]);
+        }));
+    }
+    else {
+        data.forEach((element => {
         //let pstTime = convertGMTtoPSTTime(new Date(element.TmStamp));
 
         m.push([new Date(element.TmStamp).getTime(), parseFloat(element[dataType])]);
     }));
+}
+    console.log(m)
     return m.reverse();
 }
 
@@ -133,12 +144,26 @@ export default function StreamChart({
     endDate,
     id,
     dataType,
+    dataType2 = null,
     chartProps
 }) {
 
   const chartComponent = useRef(null); 
   const [chartOptions, setChartOptions] = useState(chartProps)
   var url = new URL('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/cl-creeks');
+  var flowurl = new URL('https://b8xms0pkrf.execute-api.us-west-2.amazonaws.com/default/clearlake-streams')
+
+  var search_params_flow = flowurl.searchParams;
+  search_params_flow.set('id',id);
+  search_params_flow.set('start',convertDate(fromDate));
+  search_params_flow.set('end',convertDate(endDate));
+  flowurl.search = search_params_flow.toString();
+  console.log(flowurl)
+  var flow_new_url = flowurl.toString();
+  console.log(flow_new_url)
+  
+  const flowData = useFetch(flow_new_url);
+
   var search_params = url.searchParams;
   search_params.set('id',id);
   search_params.set('rptdate',convertDate(fromDate));
@@ -146,22 +171,39 @@ export default function StreamChart({
   url.search = search_params.toString();
 
   var new_url = url.toString();
-  const {isLoading,data} = useFetch(new_url);
+  const creekData = useFetch(new_url);
 
   useEffect(()=> {
-    console.log(isLoading)
-    if (!isLoading) {
-        var filteredData = getFilteredData(data,dataType)
-        console.log(filteredData)
-        setChartOptions(()=> ({
-            series: [
-                {
-                    data: filteredData
-                }
-            ]
-        }))
-    }
-  },[isLoading])
+
+    if ( !creekData.isLoading) {
+        var filteredData = getFilteredData(creekData.data,dataType)
+        if (dataType2) {
+            if (!flowData.isLoading){
+                var filteredData2 = getFilteredData(flowData.data,dataType2)
+                setChartOptions(()=> ({
+                    series: [
+                        {
+                            data: filteredData
+                        },
+                        {
+                            data: filteredData2
+                        }
+                    ]
+                }))
+            }
+        }
+        else {
+            setChartOptions(()=> ({
+                series: [
+                    {
+                        data: filteredData
+                    }
+                ]
+            }))
+        }
+
+     }
+  },[creekData.isLoading])
 
   return (
     <div>

@@ -1,0 +1,23 @@
+h2 {
+    align-self: center;
+    font-weight: 600;
+    margin: 0;
+}
+
+.inner-container {
+    display: flex;
+    gap: 10px;
+    border-radius: 0.25rem;
+    color: #022851;
+    padding: 20px;
+}
+
+.clicked {
+    height: auto;
+    border-bottom: 0;
+    border: 0;
+}
+
+svg,i {
+    align-self: center;
+}

@@ -1,8 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import './App.css';
+import FullHeader from './Components/FullHeader'
 import Navigation from './Components/Navigation';
 import Footer from './Components/Footer';
-import Title from './Components/Title';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Link } from "react-router-dom";
 
@@ -51,7 +51,7 @@ function App() {
   var toDate = getCurrentTime();
   return (
     <Router basename='/Clear_Lake_Website_Data_Visualization/'>
-      <Title/>
+      <FullHeader />
       <Navigation/>
       <Routes>
         <Route path='/' exact element={<Home/>} />

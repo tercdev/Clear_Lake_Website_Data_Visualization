@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Clear_Lake_Website_Data_Visualization/static/css/main.a67b07c3.css",
-    "main.js": "/Clear_Lake_Website_Data_Visualization/static/js/main.44133ef2.js",
+    "main.js": "/Clear_Lake_Website_Data_Visualization/static/js/main.4422ffa1.js",
     "static/media/Home1.jpg": "/Clear_Lake_Website_Data_Visualization/static/media/Home1.a9fa5a0ab37ed3fe6187.jpg",
     "static/media/CLSC.png": "/Clear_Lake_Website_Data_Visualization/static/media/CLSC.24ada85d22a83a6fbce4.png",
     "static/media/rivieraWest.png": "/Clear_Lake_Website_Data_Visualization/static/media/rivieraWest.30dee119f134fe2ae284.png",
@@ -15,10 +15,10 @@
     "static/media/CAFW.webp": "/Clear_Lake_Website_Data_Visualization/static/media/CAFW.053944fedecc80c95c29.webp",
     "index.html": "/Clear_Lake_Website_Data_Visualization/index.html",
     "main.a67b07c3.css.map": "/Clear_Lake_Website_Data_Visualization/static/css/main.a67b07c3.css.map",
-    "main.44133ef2.js.map": "/Clear_Lake_Website_Data_Visualization/static/js/main.44133ef2.js.map"
+    "main.4422ffa1.js.map": "/Clear_Lake_Website_Data_Visualization/static/js/main.4422ffa1.js.map"
   },
   "entrypoints": [
     "static/css/main.a67b07c3.css",
-    "static/js/main.44133ef2.js"
+    "static/js/main.4422ffa1.js"
   ]
 }

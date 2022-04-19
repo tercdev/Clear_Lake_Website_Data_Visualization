@@ -4,6 +4,10 @@
     justify-content: space-between;
 }
 
+.weather-container {
+    cursor: pointer;
+}
+
 @media (max-width: 750px) {
     .weather-container {
         display: none;

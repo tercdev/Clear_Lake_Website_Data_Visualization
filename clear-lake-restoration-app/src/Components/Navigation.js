@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {Navbar, Nav, Container, NavDropdown, Button, Modal} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Navigation.css';
-import WeatherWidget from './WeatherWidget.js';
 
 const Navigation = () => {
   const [showStream, setShowStream] = useState(false);
@@ -63,20 +62,10 @@ const Navigation = () => {
               <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/la03">LA-03</NavDropdown.Item>
             </NavDropdown>
             <Nav.Link href='/Clear_Lake_Website_Data_Visualization/upload-csv'>Upload CSV</Nav.Link>
-            {/* <Nav.Link onClick={handleShow}> 
-              Weather
-            </Nav.Link> */}
-            {/* <Modal show={show} onHide={handleClose}>
-              <Modal.Header closeButton>
-                <Modal.Title>Weather</Modal.Title>
-              </Modal.Header>
-              <Modal.Body><WeatherWidget/></Modal.Body>
-            </Modal> */}
           </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
-    {/* {show ? <WeatherWidget /> : null} */}
     </>
     
   )

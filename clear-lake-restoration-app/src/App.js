@@ -3,7 +3,6 @@ import './App.css';
 import FullHeader from './Components/FullHeader'
 import Navigation from './Components/Navigation';
 import Footer from './Components/Footer';
-import Title from './Components/Title';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Link } from "react-router-dom";
 
@@ -13,8 +12,6 @@ import StreamHome from './Components/pages/streams/StreamHome.js';
 import DropCSVFile from './Components/pages/DropCSVFile';
 import MetHome from './Components/pages/met/MetHome.js';
 import Met from './Components/pages/met/Met.js';
-import WeatherWidget from './Components/WeatherWidget.js';
-import Weather from './Components/Weather.js'
 import LakeHome from './Components/pages/lake/LakeHome.js';
 
 function getCurrentTime() {

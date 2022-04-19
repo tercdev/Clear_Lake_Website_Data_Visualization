@@ -1,19 +1,8 @@
 import React from 'react';
-import ReactWeather, { useOpenWeather } from 'react-open-weather';
+import ReactWeather from 'react-open-weather';
 import './WeatherWidget.css';
 
 const WeatherWidget = (props) => {
-    // const { data, isLoading, errorMessage } = useOpenWeather({
-    //     key: '39a0efe4b13f3c2c01d5ee665e14217e',
-    //     lat: '38.9582',
-    //     lon: '-122.6264',
-    //     lang: 'en',
-    //     unit: 'imperial', // values are (metric, standard, imperial)
-    //   });
-    // console.log(data)
-    // console.log(data.current.temperature.current);
-    // console.log(data.current.description);
-    // console.log(data.current.icon);
     const customStyles = {
         fontFamily:  'Helvetica, sans-serif',
         gradientStart:  '#022851',

@@ -1,15 +1,7 @@
 import React from 'react';
 import './Weather.css';
-import ReactWeather, { useOpenWeather } from 'react-open-weather';
 
 const Weather = (props) => {
-    // const { data, isLoading, errorMessage } = useOpenWeather({
-    //     key: '39a0efe4b13f3c2c01d5ee665e14217e',
-    //     lat: '38.9582',
-    //     lon: '-122.6264',
-    //     lang: 'en',
-    //     unit: 'imperial', // values are (metric, standard, imperial)
-    //   });
     if (props.data) {
         const { forecast, current } = props.data;
         if (props.isLoading) {
@@ -18,7 +10,6 @@ const Weather = (props) => {
         if (props.errorMessage) {
             return <div>{props.errorMessage}</div>;
         }
-        // console.log(props.show);
         let icon_name = "";
         {props.show ? icon_name = "fa-solid fa-angle-up" : icon_name = "fa-solid fa-angle-down"}
         return (

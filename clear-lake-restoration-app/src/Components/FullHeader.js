@@ -3,7 +3,7 @@ import './FullHeader.css';
 import Title from './Title.js';
 import Weather from './Weather.js';
 import WeatherWidget from './WeatherWidget.js';
-import ReactWeather, { useOpenWeather } from 'react-open-weather';
+import { useOpenWeather } from 'react-open-weather';
 
 function FullHeader() {
     const [show, setShow] = useState(false);

@@ -8,28 +8,14 @@ h2 {
     display: flex;
     gap: 10px;
     border-radius: 0.25rem;
-    /* background: #022851; */
-    /* color: #fff; */
     color: #022851;
-    /* border-color: #022851; */
-    /* border-style: solid; */
     padding: 20px;
 }
 
 .clicked {
-    /* background: #B3C1D1; */
     height: auto;
-    /* color: #022851; */
-    /* margin-top: 30px; */
-    /* padding-bottom: 40px; */
     border-bottom: 0;
     border: 0;
-}
-
-@media (max-width: 750px) {
-    .weather-container {
-        display: none;
-    }
 }
 
 svg,i {

@@ -1,14 +1,24 @@
 {
   "files": {
-    "main.css": "/Clear_Lake_Website_Data_Visualization/static/css/main.3624f92e.css",
-    "main.js": "/Clear_Lake_Website_Data_Visualization/static/js/main.53a4a0a0.js",
+    "main.css": "/Clear_Lake_Website_Data_Visualization/static/css/main.a67b07c3.css",
+    "main.js": "/Clear_Lake_Website_Data_Visualization/static/js/main.44133ef2.js",
     "static/media/Home1.jpg": "/Clear_Lake_Website_Data_Visualization/static/media/Home1.a9fa5a0ab37ed3fe6187.jpg",
+    "static/media/CLSC.png": "/Clear_Lake_Website_Data_Visualization/static/media/CLSC.24ada85d22a83a6fbce4.png",
+    "static/media/rivieraWest.png": "/Clear_Lake_Website_Data_Visualization/static/media/rivieraWest.30dee119f134fe2ae284.png",
+    "static/media/Elem.webp": "/Clear_Lake_Website_Data_Visualization/static/media/Elem.ccaa4a91b418db8f865e.webp",
+    "static/media/bvr_logo.webp": "/Clear_Lake_Website_Data_Visualization/static/media/bvr_logo.1b91d82746b8a5d1ba72.webp",
+    "static/media/Vector Control.webp": "/Clear_Lake_Website_Data_Visualization/static/media/Vector Control.88e87a724f5e0f92a9d5.webp",
+    "static/media/CLO.webp": "/Clear_Lake_Website_Data_Visualization/static/media/CLO.2f3a2d64332f29a65bba.webp",
+    "static/media/USGS-01.webp": "/Clear_Lake_Website_Data_Visualization/static/media/USGS-01.2d6f191336119eb3f52d.webp",
+    "static/media/CAFWlogo.webp": "/Clear_Lake_Website_Data_Visualization/static/media/CAFWlogo.aaaeef658bba37d7bb73.webp",
+    "static/media/WorldMark_by_Wyndham_logo.webp": "/Clear_Lake_Website_Data_Visualization/static/media/WorldMark_by_Wyndham_logo.5e13b605ea9c5fc2aa59.webp",
+    "static/media/CAFW.webp": "/Clear_Lake_Website_Data_Visualization/static/media/CAFW.053944fedecc80c95c29.webp",
     "index.html": "/Clear_Lake_Website_Data_Visualization/index.html",
-    "main.3624f92e.css.map": "/Clear_Lake_Website_Data_Visualization/static/css/main.3624f92e.css.map",
-    "main.53a4a0a0.js.map": "/Clear_Lake_Website_Data_Visualization/static/js/main.53a4a0a0.js.map"
+    "main.a67b07c3.css.map": "/Clear_Lake_Website_Data_Visualization/static/css/main.a67b07c3.css.map",
+    "main.44133ef2.js.map": "/Clear_Lake_Website_Data_Visualization/static/js/main.44133ef2.js.map"
   },
   "entrypoints": [
-    "static/css/main.3624f92e.css",
-    "static/js/main.53a4a0a0.js"
+    "static/css/main.a67b07c3.css",
+    "static/js/main.44133ef2.js"
   ]
 }

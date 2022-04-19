@@ -56,17 +56,17 @@ function App() {
       <Routes>
         <Route path='/' exact element={<Home/>} />
         <Route path='/stream' exact element={<StreamHome />} />
-        <Route path='/kelsey' exact element={<Stream fromDate={fromDate} endDate={toDate} id={"1"} name={"Kelsey Creek"}/>} />
-        <Route path='/middle' exact element={<Stream fromDate={fromDate} endDate={toDate} id={"2"} name={"Middle Creek"}/>} />
-        <Route path='/scotts' exact element={<Stream fromDate={fromDate} endDate={toDate} id={"3"} name={"Scotts Creek"}/>} />
+        <Route path='/kelsey' exact element={<Stream id={"1"} name={"Kelsey Creek"}/>} />
+        <Route path='/middle' exact element={<Stream id={"2"} name={"Middle Creek"}/>} />
+        <Route path='/scotts' exact element={<Stream id={"3"} name={"Scotts Creek"}/>} />
         
-        <Route path='/bkp' exact element={<Met fromDate={fromDate} endDate={toDate} id={"1"} name={"Buckingham Point"}/>} />
-        <Route path='/clo' exact element={<Met fromDate={fromDate} endDate={toDate} id={"2"} name={"Clearlake Oaks"}/>} />
-        <Route path='/jgb' exact element={<Met fromDate={fromDate} endDate={toDate} id={"3"} name={"Jago Bay"}/>} />
-        <Route path='/knb' exact element={<Met fromDate={fromDate} endDate={toDate} id={"4"} name ={"Konocti Bay"}/>} />
-        <Route path='/nlp' exact element={<Met fromDate={fromDate} endDate={toDate} id={"6"} name={"North Lakeport"}/>} />
-        <Route path='/nic' exact element={<Met fromDate={fromDate} endDate={toDate} id={"5"} name={"Nice"}/>} />
-        <Route path='/bvr' exact element={<Met fromDate={fromDate} endDate={toDate} id={"7"} name={"Big Valley Rancheria"}/>} />
+        <Route path='/bkp' exact element={<Met id={"1"} name={"Buckingham Point"}/>} />
+        <Route path='/clo' exact element={<Met id={"2"} name={"Clearlake Oaks"}/>} />
+        <Route path='/jgb' exact element={<Met id={"3"} name={"Jago Bay"}/>} />
+        <Route path='/knb' exact element={<Met id={"4"} name ={"Konocti Bay"}/>} />
+        <Route path='/nlp' exact element={<Met id={"6"} name={"North Lakeport"}/>} />
+        <Route path='/nic' exact element={<Met id={"5"} name={"Nice"}/>} />
+        <Route path='/bvr' exact element={<Met id={"7"} name={"Big Valley Rancheria"}/>} />
 
         <Route path='/upload-csv' exact element={<DropCSVFile/>} />
         <Route path='/met' exact element={<MetHome/>} />

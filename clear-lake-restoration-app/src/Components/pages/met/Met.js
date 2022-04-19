@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Map from '../../Map.js'
 import Highcharts from 'highcharts';
 import MetChart from '../../MetChart.js';
+
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function Met(props) {
     var MyAirTemp_RelHumChartProps = {
@@ -268,27 +272,57 @@ export default function Met(props) {
                 },
 
     }
+    var today = new Date();
+    console.log(today);
+    var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
+    console.log(lastWeek);
+    const [startDate, setStartDate] = useState(lastWeek);
+    const [endDate, setEndDate] = useState(today);
+
     return (
         <div>
             <h1 className='stream'>{props.name}</h1>
+            <div className='date-container'>
+                <div className='one-date-container'>
+                <p>Start Date</p>
+                <DatePicker
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                    selectsStart
+                    startDate={startDate}
+                    endDate={endDate}
+                />
+                </div>
+                <div className='one-date-container'>
+                <p>End Date</p>
+                <DatePicker
+                    selected={endDate}
+                    onChange={(date) => setEndDate(date)}
+                    selectsEnd
+                    startDate={startDate}
+                    endDate={endDate}
+                    minDate={startDate}
+                />
+                </div>
+            </div>
             <MetChart 
-                fromDate={props.fromDate} 
-                endDate={props.endDate} 
+                fromDate={startDate} 
+                endDate={endDate} 
                 id={props.id}
                 dataType={"Rel_Humidity"}
                 dataType2={"Air_Temp"}
                 chartProps={MyAirTemp_RelHumChartProps}
              />
             <MetChart 
-                fromDate={props.fromDate} 
-                endDate={props.endDate} 
+                fromDate={startDate} 
+                endDate={endDate} 
                 id={props.id}
                 dataType={"Atm_Pres"}
                 chartProps={MyAtmPressureChartProps}
              />
             <MetChart 
-                fromDate={props.fromDate} 
-                endDate={props.endDate} 
+                fromDate={startDate} 
+                endDate={endDate} 
                 id={props.id}
                 dataType={"Wind_Speed"}
                 dataType2={"Wind_Dir"}

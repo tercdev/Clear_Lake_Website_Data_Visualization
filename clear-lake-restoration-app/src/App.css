@@ -23,24 +23,6 @@
   background-color: #9fb1d1; 
 }
 
-.data-disclaimer{
-  margin-top: 70px;
-  margin-bottom: 70px;
-  margin-left: 200px;
-  margin-right: 200px;
-  text-align: center;
-}
-
-.disclaimer2{
-  font-size: 18px;
-}
-
-.disclaimer1{
-  color: rgb(221, 73, 73);
-  font-weight: 600;
-  font-size: 20px;
-}
-
 .home {
   background-image: url('./images/Home1.jpg');
   background-position: center;

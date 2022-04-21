@@ -1,18 +1,18 @@
 import React, { useRef, useEffect, useState } from 'react';
 import './App.css';
-import Navbar from './Components/Navbar';
+import FullHeader from './Components/FullHeader'
+import Navigation from './Components/Navigation';
 import Footer from './Components/Footer';
-import Title from './Components/Title';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 import Home from './Components/pages/Home.js';
 import Stream from './Components/pages/streams/Stream.js';
-import Kelsey from './Components/pages/streams/Kelsey.js';
-import Middle from './Components/pages/streams/Middle.js';
 import StreamHome from './Components/pages/streams/StreamHome.js';
-import ContactUs from './Components/pages/ContactUs.js';
+import DropCSVFile from './Components/pages/DropCSVFile';
+import MetHome from './Components/pages/met/MetHome.js';
 import Met from './Components/pages/met/Met.js';
-import Lake from './Components/pages/lake/Lake.js';
+import LakeHome from './Components/pages/lake/LakeHome.js';
 
 function getCurrentTime() {
   var time = new Date().toLocaleDateString();
@@ -50,18 +50,27 @@ function App() {
   var fromDate = getPreviousWeekDate();
   var toDate = getCurrentTime();
   return (
-    <Router>
-      <Title/>
-      <Navbar/>
+    <Router basename='/Clear_Lake_Website_Data_Visualization/'>
+      <FullHeader />
+      <Navigation/>
       <Routes>
         <Route path='/' exact element={<Home/>} />
         <Route path='/stream' exact element={<StreamHome />} />
-        <Route path='/kelsey' exact element={<Stream fromDate={fromDate} endDate={toDate} id={"1"} name={"Kelsey"}/>} />
-        <Route path='/middle' exact element={<Stream fromDate={fromDate} endDate={toDate} id={"2"} name={"Middle"}/>} />
-        <Route path='/scotts' exact element={<Stream fromDate={fromDate} endDate={toDate} id={"3"} name={"Scotts"}/>} />
-        <Route path='/contact-us' exact element={<ContactUs/>} />
-        <Route path='/met' exact element={<Met/>} />
-        <Route path='/lake' exact element={<Lake/>} />
+        <Route path='/kelsey' exact element={<Stream id={"1"} name={"Kelsey Creek"}/>} />
+        <Route path='/middle' exact element={<Stream id={"2"} name={"Middle Creek"}/>} />
+        <Route path='/scotts' exact element={<Stream id={"3"} name={"Scotts Creek"}/>} />
+        
+        <Route path='/bkp' exact element={<Met id={"1"} name={"Buckingham Point"}/>} />
+        <Route path='/clo' exact element={<Met id={"2"} name={"Clearlake Oaks"}/>} />
+        <Route path='/jgb' exact element={<Met id={"3"} name={"Jago Bay"}/>} />
+        <Route path='/knb' exact element={<Met id={"4"} name ={"Konocti Bay"}/>} />
+        <Route path='/nlp' exact element={<Met id={"6"} name={"North Lakeport"}/>} />
+        <Route path='/nic' exact element={<Met id={"5"} name={"Nice"}/>} />
+        <Route path='/bvr' exact element={<Met id={"7"} name={"Big Valley Rancheria"}/>} />
+
+        <Route path='/upload-csv' exact element={<DropCSVFile/>} />
+        <Route path='/met' exact element={<MetHome/>} />
+        <Route path='/lake' exact element={<LakeHome/>} />
       </Routes>
       <Footer />
     </Router>

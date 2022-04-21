@@ -63,7 +63,7 @@ export default function Map(props) {
                         coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
                     }
                     const description = e.features[0].properties.name.charAt(0).toUpperCase() + e.features[0].properties.name.slice(1) + " Creek"
-                    const link = "<a href='/" + e.features[0].properties.name + "'>" + description + "</a>"                    
+                    const link = "<a href='/Clear_Lake_Website_Data_Visualization/" + e.features[0].properties.name + "'>" + description + "</a>"                    
                     new mapboxgl.Popup().setLngLat(coordinates).setHTML(link).addTo(map.current)
                 }
             });
@@ -156,7 +156,7 @@ export default function Map(props) {
                     } else {
                         description = "Beakbane Island"
                     }
-                    const link = "<a href='/" + e.features[0].properties.name + "'>" + description + "</a>"
+                    const link = "<a href='/Clear_Lake_Website_Data_Visualization/" + e.features[0].properties.name + "'>" + description + "</a>"
                     new mapboxgl.Popup().setLngLat(coordinates).setHTML(link).addTo(map.current)
                 }
             });
@@ -214,7 +214,7 @@ export default function Map(props) {
                         coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
                     }
                     const description = e.features[0].properties.name.slice(0,2).toUpperCase() + e.features[0].properties.name.slice(2).toUpperCase()
-                    const link = "<a href='/" + e.features[0].properties.name + "'>" + description + "</a>"
+                    const link = "<a href='/Clear_Lake_Website_Data_Visualization/" + e.features[0].properties.name + "'>" + description + "</a>"
                     new mapboxgl.Popup().setLngLat(coordinates).setHTML(link).addTo(map.current)
                 }
             });

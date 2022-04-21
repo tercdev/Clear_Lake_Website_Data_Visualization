@@ -2,10 +2,10 @@ import React from 'react';
 
 import Map from '../../Map.js'
 
-export default function Lake() {
+export default function LakeHome() {
     return (
         <div>
-            <h1 className='stream'>Lake Moorings</h1>
+            <h1 className='stream'>Lake</h1>
             <Map name="lake"/>
         </div>
     )

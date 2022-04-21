@@ -3,6 +3,8 @@
     display: flex;
     margin-inline: 20px;
     margin-top: 20px;
+    color: #022851;
+    align-items: center;
 }
 
 .logoImage {

@@ -1,11 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import StreamChart from '../../StreamChart';
 import Highcharts from 'highcharts';
+
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+
+import "./Stream.css";
+
 export default function Stream(props) {
     
     var tempProps = {
         chart: {
             zoomType: 'x'
+        },
+        time: {
+            useUTC: false
         },
         title: {
             text: 'stream temperature',
@@ -40,6 +50,9 @@ export default function Stream(props) {
         chart: {
             zoomType: 'x',
             //height: 700,
+        },
+        time: {
+            useUTC: false
         },
         title: {
             text: ''
@@ -128,19 +141,58 @@ export default function Stream(props) {
             endTime: 0,
         }
     }
+
+    var today = new Date();
+    console.log(today);
+    var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
+    console.log(lastWeek);
+    const [startDate, setStartDate] = useState(lastWeek);
+    const [endDate, setEndDate] = useState(today);
     return (
-        <div>
+        <div className="stream-container">
             <h1 className='stream'>{props.name}</h1>
+            <div className='data-disclaimer'>
+                <p className='disclaimer1'>Note: These data are provisional and not error checked!</p>
+                <p className='disclaimer2'>These data were collected and are currently being processed and analyzed by 
+                    the UC Davis Tahoe Environmental Research Center (TERC). They are 
+                    considered preliminary. Do not use or distribute without written permission 
+                    from TERC.</p>
+                <p className='disclaimer2'>For all questions please contact Dr. Shohei Watanabe (swatanabe@ucdavis.edu) or Dr. Alicia Cortes (alicortes@ucdavis.edu)</p>
+            </div>
+            <div className='date-container'>
+                <div className='one-date-container'>
+                <p>Start Date</p>
+                <DatePicker
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                    selectsStart
+                    startDate={startDate}
+                    endDate={endDate}
+                />
+                </div>
+                <div className='one-date-container'>
+                <p>End Date</p>
+                <DatePicker
+                    selected={endDate}
+                    onChange={(date) => setEndDate(date)}
+                    selectsEnd
+                    startDate={startDate}
+                    endDate={endDate}
+                    minDate={startDate}
+                />
+                </div>
+            </div>
             <StreamChart 
-                fromDate={props.fromDate} 
-                endDate={props.endDate} 
+                fromDate={startDate} 
+                endDate={endDate} 
                 id={props.id}
                 dataType={"Turb_BES"}
+                dataType2={"Flow"}
                 chartProps={turbProps}
              />
             <StreamChart 
-                fromDate={props.fromDate} 
-                endDate={props.endDate} 
+                fromDate={startDate} 
+                endDate={endDate} 
                 id={props.id}
                 dataType={"Turb_Temp"}
                 chartProps={tempProps}

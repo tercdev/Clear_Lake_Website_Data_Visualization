@@ -220,13 +220,46 @@ export default function Map(props) {
             });
         });
     }
+
+    function addBoundary() {
+        map.current.on("load", () => {
+            map.current.addSource('boundary', {
+                type: 'geojson',
+                data: '/data/boundarypoints.geojson'
+            })
+            map.current.addLayer({
+                id: 'bounds-line',
+                source: 'boundary',
+                type: 'line',
+                // layout, paint
+                metadata: {
+                    "name": "Clear Lake Watershed Boundary Line"
+                }
+            },'waterway-label')
+            map.current.addLayer({
+                id: 'bounds-fill',
+                source: 'boundary',
+                type: 'fill',
+                // layout, paint
+                paint: {
+                    'fill-color': '#FFC0CB', // blue color fill
+                    'fill-opacity': 0.4
+                },
+                metadata: {
+                    "name": "Clear Lake Watershed Boundary Area"
+                }
+            }, 'waterway-label')
+        })
+    }
+
     useEffect(() => {
         if (map.current) return; // initialize map only once
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
             style: 'mapbox://styles/mapbox/streets-v11',
             center: [lng, lat],
-            zoom: zoom
+            zoom: zoom,
+            minZoom: 9
         });
         if (props.name == "stream") {
             addStreamMarkers();
@@ -241,6 +274,7 @@ export default function Map(props) {
             addStreamMarkers();
             addMetMarkers();
             addLakeMarkers();
+            addBoundary();
         }
         const legend = new LegendControl({toggler: true, collapsed: false});
         map.current.addControl(legend, 'bottom-left');

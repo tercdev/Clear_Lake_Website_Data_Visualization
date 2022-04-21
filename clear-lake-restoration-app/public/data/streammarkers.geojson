@@ -1,0 +1,7 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {"type":"Feature","properties":{"name":"kelsey"},"geometry":{"type":"Point","coordinates":[-122.83993721008301,39.010113964456906]}},
+        {"type":"Feature","properties":{"name":"scotts"},"geometry":{"type":"Point","coordinates":[-122.96035766601562,39.09503035637981]}},
+        {"type":"Feature","properties":{"name":"middle"},"geometry":{"type":"Point","coordinates":[-122.91277527809143,39.18288011927886]}}]
+}

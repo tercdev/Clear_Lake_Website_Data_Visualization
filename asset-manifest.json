@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Clear_Lake_Website_Data_Visualization/static/css/main.0144c618.css",
-    "main.js": "/Clear_Lake_Website_Data_Visualization/static/js/main.f5e0bc4a.js",
+    "main.css": "/Clear_Lake_Website_Data_Visualization/static/css/main.150bed8e.css",
+    "main.js": "/Clear_Lake_Website_Data_Visualization/static/js/main.0ff7a721.js",
     "static/media/Home1.jpg": "/Clear_Lake_Website_Data_Visualization/static/media/Home1.a9fa5a0ab37ed3fe6187.jpg",
     "static/media/CLSC.png": "/Clear_Lake_Website_Data_Visualization/static/media/CLSC.24ada85d22a83a6fbce4.png",
     "static/media/rivieraWest.png": "/Clear_Lake_Website_Data_Visualization/static/media/rivieraWest.30dee119f134fe2ae284.png",
@@ -14,11 +14,11 @@
     "static/media/WorldMark_by_Wyndham_logo.webp": "/Clear_Lake_Website_Data_Visualization/static/media/WorldMark_by_Wyndham_logo.5e13b605ea9c5fc2aa59.webp",
     "static/media/CAFW.webp": "/Clear_Lake_Website_Data_Visualization/static/media/CAFW.053944fedecc80c95c29.webp",
     "index.html": "/Clear_Lake_Website_Data_Visualization/index.html",
-    "main.0144c618.css.map": "/Clear_Lake_Website_Data_Visualization/static/css/main.0144c618.css.map",
-    "main.f5e0bc4a.js.map": "/Clear_Lake_Website_Data_Visualization/static/js/main.f5e0bc4a.js.map"
+    "main.150bed8e.css.map": "/Clear_Lake_Website_Data_Visualization/static/css/main.150bed8e.css.map",
+    "main.0ff7a721.js.map": "/Clear_Lake_Website_Data_Visualization/static/js/main.0ff7a721.js.map"
   },
   "entrypoints": [
-    "static/css/main.0144c618.css",
-    "static/js/main.f5e0bc4a.js"
+    "static/css/main.150bed8e.css",
+    "static/js/main.0ff7a721.js"
   ]
 }

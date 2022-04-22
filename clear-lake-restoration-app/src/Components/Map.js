@@ -42,9 +42,11 @@ export default function Map(props) {
                     // const description = e.features[0].properties.name.charAt(0).toUpperCase() + e.features[0].properties.name.slice(1) + " Creek"
                     // new mapboxgl.Popup().setLngLat(coordinates).setHTML(description).addTo(map.current)
                 }
+                // streamPopUp(map,e);
             });
             map.current.on("mouseleave", "streams", () => {
                 map.current.getCanvas().style.cursor = "";
+                // closePopUp();
                 // const popup = document.getElementsByClassName('mapboxgl-popup');
                 // if (popup.length) {
                 //     popup[0].remove();
@@ -53,18 +55,37 @@ export default function Map(props) {
             map.current.on("click", "streams", e => {
                 console.log(e.features[0].properties.name);
                 // window.location.href='/'+e.features[0].properties.name;
-                if (e.features.length) {
-                    map.current.getCanvas().style.cursor = "pointer";
-                    const coordinates = e.features[0].geometry.coordinates.slice();
-                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-                    }
-                    const description = e.features[0].properties.name.charAt(0).toUpperCase() + e.features[0].properties.name.slice(1) + " Creek"
-                    const link = "<a href='/Clear_Lake_Website_Data_Visualization/" + e.features[0].properties.name + "'>" + description + "</a>"                    
-                    new mapboxgl.Popup().setLngLat(coordinates).setHTML(link).addTo(map.current)
-                }
+                // if (e.features.length) {
+                //     map.current.getCanvas().style.cursor = "pointer";
+                //     const coordinates = e.features[0].geometry.coordinates.slice();
+                //     while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                //         coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                //     }
+                //     const description = e.features[0].properties.name.charAt(0).toUpperCase() + e.features[0].properties.name.slice(1) + " Creek"
+                //     const link = "<a href='/Clear_Lake_Website_Data_Visualization/" + e.features[0].properties.name + "'>" + description + "</a>"                    
+                //     new mapboxgl.Popup().setLngLat(coordinates).setHTML(link).addTo(map.current)
+                // }
+                streamPopUp(map, e);
             });
         });
+    }
+    function closePopUp() {
+        const popup = document.getElementsByClassName('mapboxgl-popup');
+        if (popup.length) {
+            popup[0].remove();
+        }
+    }
+    function streamPopUp(map, e) {
+        if (e.features.length) {
+            map.current.getCanvas().style.cursor = "pointer";
+            const coordinates = e.features[0].geometry.coordinates.slice();
+            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+            }
+            const description = e.features[0].properties.name.charAt(0).toUpperCase() + e.features[0].properties.name.slice(1) + " Creek"
+            const link = "<a href='/Clear_Lake_Website_Data_Visualization/" + e.features[0].properties.name + "'>" + description + "</a>"                    
+            new mapboxgl.Popup().setLngLat(coordinates).setHTML(link).addTo(map.current)
+        }
     }
     function addMetMarkers() {
         map.current.on('load', () => {

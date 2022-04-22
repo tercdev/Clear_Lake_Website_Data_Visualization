@@ -86,12 +86,22 @@ function getFilteredData(data, dataType) {
     if (dataType == "Turb_BES") {
         var data = cleanTurbMeanData(data,dataType)
     }
-    data.forEach((element => {
-        let pstTime = convertGMTtoPSTTime(new Date(element.TmStamp));
-
-        m.push([pstTime.getTime(), parseFloat(element[dataType])]);
-    }));
-    return m;
+    if (dataType == "Flow") {
+        data.forEach((element => {
+            //let pstTime = convertGMTtoPSTTime(new Date(element.TmStamp));
+    
+            m.push([new Date(element.DateTime_UTC).getTime(), parseFloat(element[dataType])]);
+        }));
+    }
+    else {
+        data.forEach((element => {
+            let pstTime = convertGMTtoPSTTime(new Date(element.TmStamp));
+    
+            m.push([pstTime.getTime(), parseFloat(element[dataType])]);
+        }));
+    }
+    
+    return m.reverse();
 }
 
 function convertGMTtoPSTTime (date) {
@@ -109,14 +119,26 @@ function convertGMTtoPSTTime (date) {
 // async bc of the await
 // waits for data to be fetched
 async function asyncGetData(id,rptdate,rptend,dataType) {
-    var url = new URL('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/cl-creeks');
-    var search_params = url.searchParams;
-    search_params.set('id',id);
-    search_params.set('rptdate',rptdate);
-    search_params.set('rptend',rptend);
-    url.search = search_params.toString();
+    if (dataType != "Flow") {
+        var url = new URL('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/cl-creeks');
+        var search_params = url.searchParams;
+        search_params.set('id',id);
+        search_params.set('rptdate',rptdate);
+        search_params.set('rptend',rptend);
+        url.search = search_params.toString();
+        var new_url = url.toString();
+    }
+    else {
+        var flowurl = new URL('https://b8xms0pkrf.execute-api.us-west-2.amazonaws.com/default/clearlake-streams')
 
-    var new_url = url.toString();
+        var search_params_flow = flowurl.searchParams;
+        search_params_flow.set('id',id);
+        search_params_flow.set('start',rptdate);
+        search_params_flow.set('end',rptend);
+        flowurl.search = search_params_flow.toString();
+        var new_url = flowurl.toString();
+    }
+   
     let rawDataJson = await fetch(new_url)
         .then(res => res.json());
 
@@ -333,10 +355,10 @@ var MyTurbMean_FlowChart = {
     async updateData(id,rptdate,rptend) {
         this.chart.showLoading();
         let turbData = await asyncGetData(id,rptdate,rptend,"Turb_BES");
-        //let flowData = await asyncGetData(id,rptdate,rptend,"");           
+        let flowData = await asyncGetData(id,rptdate,rptend,"Flow");           
         this.chart.hideLoading();
         this.chart.series[0].setData(turbData);
-        //this.chart.series[1].setData(flowData);
+        this.chart.series[1].setData(flowData);
                 
     }
 }

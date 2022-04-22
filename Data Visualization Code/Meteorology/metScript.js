@@ -11,7 +11,7 @@ function getFilteredData(data, dataType) {
         }
         
     }));
-    return m;
+    return m.reverse();
 }
 
 function convertGMTtoPSTTime (date) {
@@ -485,12 +485,12 @@ var MySolarChart = {
             // will fix when API up
             cleanDataURL,
             function (data) {
-                console.log(data);
+                //console.log(data);
                 let result = [];
                 data.forEach(m => {
                     result.push([new Date(m.doy).getTime(), m.SWin]);
                 })
-                console.log(result);
+                //console.log(result);
                 Highcharts.chart('solar-container', {
                     chart: {
                     zoomType: 'x'

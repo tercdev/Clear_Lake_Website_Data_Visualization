@@ -1,7 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import LegendControl from 'mapboxgl-legend';
-import { Link } from "react-router-dom"
+import './Map.css'
+
+import { MapboxLegendControl } from "@watergis/mapbox-gl-legend";
+import '@watergis/mapbox-gl-legend/css/styles.css';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiY2hlbmFsaSIsImEiOiJjbDBqY2V2bGowYjlrM2NtaXhjYzlyM2pxIn0.BxtrB0AyBeGd8lug5c6mUg';
 
@@ -35,36 +38,37 @@ export default function Map(props) {
             map.current.on("mouseenter", "streams", e => {
                 if (e.features.length) {
                     map.current.getCanvas().style.cursor = "pointer";
-                    // const coordinates = e.features[0].geometry.coordinates.slice();
-                    // while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                    //     coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-                    // }
-                    // const description = e.features[0].properties.name.charAt(0).toUpperCase() + e.features[0].properties.name.slice(1) + " Creek"
-                    // new mapboxgl.Popup().setLngLat(coordinates).setHTML(description).addTo(map.current)
                 }
+                streamPopUp(map,e);
             });
             map.current.on("mouseleave", "streams", () => {
                 map.current.getCanvas().style.cursor = "";
-                // const popup = document.getElementsByClassName('mapboxgl-popup');
-                // if (popup.length) {
-                //     popup[0].remove();
-                // }
+                closePopUp();
             });
             map.current.on("click", "streams", e => {
                 console.log(e.features[0].properties.name);
-                // window.location.href='/'+e.features[0].properties.name;
-                if (e.features.length) {
-                    map.current.getCanvas().style.cursor = "pointer";
-                    const coordinates = e.features[0].geometry.coordinates.slice();
-                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-                    }
-                    const description = e.features[0].properties.name.charAt(0).toUpperCase() + e.features[0].properties.name.slice(1) + " Creek"
-                    const link = "<a href='/Clear_Lake_Website_Data_Visualization/" + e.features[0].properties.name + "'>" + description + "</a>"                    
-                    new mapboxgl.Popup().setLngLat(coordinates).setHTML(link).addTo(map.current)
-                }
+                window.location.href='/Clear_Lake_Website_Data_Visualization/'+e.features[0].properties.name;
+                // streamPopUp(map, e);
             });
         });
+    }
+    function closePopUp() {
+        const popup = document.getElementsByClassName('mapboxgl-popup');
+        if (popup.length) {
+            popup[0].remove();
+        }
+    }
+    function streamPopUp(map, e) {
+        if (e.features.length) {
+            map.current.getCanvas().style.cursor = "pointer";
+            const coordinates = e.features[0].geometry.coordinates.slice();
+            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+            }
+            const description = e.features[0].properties.name.charAt(0).toUpperCase() + e.features[0].properties.name.slice(1) + " Creek"
+            const contents = "<a href='/Clear_Lake_Website_Data_Visualization/" + e.features[0].properties.name + "'>" + description + "</a>"                    
+            new mapboxgl.Popup({focusAfterOpen: false, closeButton: false}).setLngLat(coordinates).setHTML(description).addTo(map.current)
+        }
     }
     function addMetMarkers() {
         map.current.on('load', () => {
@@ -89,72 +93,51 @@ export default function Map(props) {
             map.current.on("mouseenter", "met", e => {
                 if (e.features.length) {
                     map.current.getCanvas().style.cursor = "pointer";
-                    // const coordinates = e.features[0].geometry.coordinates.slice();
-                    // while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                    //     coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-                    // }
-                    // let description = ""
-                    // if (e.features[0].properties.name == "bkp") {
-                    //     description = "Buckingham Point";
-                    // } else if (e.features[0].properties.name == "nic") {
-                    //     description = "Nice"
-                    // } else if (e.features[0].properties.name == "nlp") {
-                    //     description = "North Lakeport"
-                    // } else if (e.features[0].properties.name == "bvr") {
-                    //     description = "Big Valley Rancheria"
-                    // } else if (e.features[0].properties.name == "knb") {
-                    //     description = "Konocti Bay"
-                    // } else if (e.features[0].properties.name == "clo") {
-                    //     description = "Clearlake Oaks"
-                    // } else if (e.features[0].properties.name == "jgb") {
-                    //     description = "Jago Bay"
-                    // } else {
-                    //     description = "Beakbane Island"
-                    // }
-                    // new mapboxgl.Popup().setLngLat(coordinates).setHTML(description).addTo(map.current)
                 }
+                metPopUp(map,e);
             });
             map.current.on("mouseleave", "met", () => {
                 map.current.getCanvas().style.cursor = "";
-                // const popup = document.getElementsByClassName('mapboxgl-popup');
-                // if (popup.length) {
-                //     popup[0].remove();
-                // }
+                closePopUp();
             });
             map.current.on("click", "met", e => {
                 console.log(e.features[0].properties.name);
-                // window.location.href='/'+e.features[0].properties.name;
+                window.location.href='/Clear_Lake_Website_Data_Visualization/'+e.features[0].properties.name;
                 // const link = "/" + e.features[0].properties.name
                 // return <Link to={link}></Link>
-                if (e.features.length) {
-                    map.current.getCanvas().style.cursor = "pointer";
-                    const coordinates = e.features[0].geometry.coordinates.slice();
-                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-                    }
-                    let description = ""
-                    if (e.features[0].properties.name == "bkp") {
-                        description = "Buckingham Point";
-                    } else if (e.features[0].properties.name == "nic") {
-                        description = "Nice"
-                    } else if (e.features[0].properties.name == "nlp") {
-                        description = "North Lakeport"
-                    } else if (e.features[0].properties.name == "bvr") {
-                        description = "Big Valley Rancheria"
-                    } else if (e.features[0].properties.name == "knb") {
-                        description = "Konocti Bay"
-                    } else if (e.features[0].properties.name == "clo") {
-                        description = "Clearlake Oaks"
-                    } else if (e.features[0].properties.name == "jgb") {
-                        description = "Jago Bay"
-                    } else {
-                        description = "Beakbane Island"
-                    }
-                    const link = "<a href='/Clear_Lake_Website_Data_Visualization/" + e.features[0].properties.name + "'>" + description + "</a>"
-                    new mapboxgl.Popup().setLngLat(coordinates).setHTML(link).addTo(map.current)
-                }
+                metPopUp(map,e);
             });
         });
+    }
+    function metPopUp(map,e) {
+        if (e.features.length) {
+            map.current.getCanvas().style.cursor = "pointer";
+            const coordinates = e.features[0].geometry.coordinates.slice();
+            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+            }
+            let description = ""
+            if (e.features[0].properties.name == "bkp") {
+                description = "Buckingham Point";
+            } else if (e.features[0].properties.name == "nic") {
+                description = "Nice"
+            } else if (e.features[0].properties.name == "nlp") {
+                description = "North Lakeport"
+            } else if (e.features[0].properties.name == "bvr") {
+                description = "Big Valley Rancheria"
+            } else if (e.features[0].properties.name == "knb") {
+                description = "Konocti Bay"
+            } else if (e.features[0].properties.name == "clo") {
+                description = "Clearlake Oaks"
+            } else if (e.features[0].properties.name == "jgb") {
+                description = "Jago Bay"
+            } else {
+                description = "Beakbane Island"
+            }
+            // description = "<h1>" + description + "<h1/>"
+            const link = "<a href='/Clear_Lake_Website_Data_Visualization/" + e.features[0].properties.name + "'>" + description + "</a>"
+            new mapboxgl.Popup({focusAfterOpen: false, closeButton: false}).setLngLat(coordinates).setHTML(description).addTo(map.current)
+        }
     }
     function addLakeMarkers() {
         map.current.on('load', () => {
@@ -173,45 +156,41 @@ export default function Map(props) {
                     'circle-stroke-color': '#ffffff',
                 },
                 metadata: {
-                    "name": "Lake Monitoring Sites"
+                    "name": "Lake Monitoring Sites",
                 }
             });
             map.current.on("mouseenter", "lake", e => {
                 if (e.features.length) {
                     map.current.getCanvas().style.cursor = "pointer";
-                    // const coordinates = e.features[0].geometry.coordinates.slice();
-                    // while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                    //     coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-                    // }
-                    // const description = e.features[0].properties.name.slice(0,2).toUpperCase() + e.features[0].properties.name.slice(2).toUpperCase()
-                    // const link = "<a href='/" + e.features[0].properties.name + "'>" + description + "</a>"
-                    // new mapboxgl.Popup().setLngLat(coordinates).setHTML(link).addTo(map.current)
                 }
+                lakePopUp(map,e);
             });
             map.current.on("mouseleave", "lake", () => {
                 map.current.getCanvas().style.cursor = "";
-                // const popup = document.getElementsByClassName('mapboxgl-popup');
-                // if (popup.length) {
-                //     popup[0].remove();
-                // }
+                closePopUp();
             });
             map.current.on("click", "lake", e => {
                 console.log(e.features[0].properties.name);
-                // window.location.href='/'+e.features[0].properties.name;
-                if (e.features.length) {
-                    map.current.getCanvas().style.cursor = "pointer";
-                    const coordinates = e.features[0].geometry.coordinates.slice();
-                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-                    }
-                    const description = e.features[0].properties.name.slice(0,2).toUpperCase() + e.features[0].properties.name.slice(2).toUpperCase()
-                    const link = "<a href='/Clear_Lake_Website_Data_Visualization/" + e.features[0].properties.name + "'>" + description + "</a>"
-                    new mapboxgl.Popup().setLngLat(coordinates).setHTML(link).addTo(map.current)
-                }
+                window.location.href='/Clear_Lake_Website_Data_Visualization/'+e.features[0].properties.name;
+                lakePopUp(map,e);
+                // map.flyTo({
+                //     center: e.features[0].geometry.coordinates
+                // });
             });
         });
     }
-
+    function lakePopUp(map,e) {
+        if (e.features.length) {
+            map.current.getCanvas().style.cursor = "pointer";
+            const coordinates = e.features[0].geometry.coordinates.slice();
+            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+            }
+            const description = e.features[0].properties.name.slice(0,2).toUpperCase() + e.features[0].properties.name.slice(2).toUpperCase()
+            const link = "<a href='/Clear_Lake_Website_Data_Visualization/" + e.features[0].properties.name + "'>" + description + "</a>"
+            new mapboxgl.Popup({focusAfterOpen: false, closeButton: false}).setLngLat(coordinates).setHTML(description).addTo(map.current)
+        }
+    }
     function addBoundary() {
         map.current.on("load", () => {
             map.current.addSource('boundary', {
@@ -219,7 +198,7 @@ export default function Map(props) {
                 data: '/Clear_Lake_Website_Data_Visualization/data/watershedboundary.geojson'
             })
             map.current.addLayer({
-                id: 'bounds-line',
+                id: 'bounds_line',
                 source: 'boundary',
                 type: 'line',
                 // layout, paint
@@ -228,7 +207,7 @@ export default function Map(props) {
                 }
             },'waterway-label')
             map.current.addLayer({
-                id: 'bounds-fill',
+                id: 'bounds_fill',
                 source: 'boundary',
                 type: 'fill',
                 // layout, paint
@@ -252,22 +231,32 @@ export default function Map(props) {
             zoom: zoom,
             minZoom: 9
         });
+        let targets = {}
         if (props.name == "stream") {
             addStreamMarkers();
+            targets.streams = "Stream Monitoring Sites"
         }
         if (props.name == "met") {
             addMetMarkers();
+            targets.met = "Meterological Stations"
         }
         if (props.name == "lake") {
             addLakeMarkers();
+            targets.lake = "Lake Monitoring Sites"
         }
         if (props.name == "all") {
             addStreamMarkers();
             addMetMarkers();
             addLakeMarkers();
             addBoundary();
+            targets.streams = "Stream Monitoring Sites"
+            targets.met = "Meterological Stations"
+            targets.lake = "Lake Monitoring Sites"
+            targets.bounds_line = "Watershed Boundary"
+            targets.bounds_fill = "Watershed Area"
         }
-        const legend = new LegendControl({toggler: true, collapsed: false});
+        // const legend = new LegendControl({toggler: true, collapsed: true});
+        const legend = new MapboxLegendControl(targets, {accesstoken: mapboxgl.accessToken})
         map.current.addControl(legend, 'bottom-left');
     });
 
@@ -282,10 +271,11 @@ export default function Map(props) {
 
     return (
     <div className="map">
-        <div className="sidebar">
-        Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-        </div>
+        <p className='map-caption'>Hover over markers to see the name of the location. Click on the marker to be redirected to a page with the corresponding visualizations.</p>
         <div ref={mapContainer} className="map-container" />
+        <div className="sidebar">
+            Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
+        </div>
     </div>
     );
 }

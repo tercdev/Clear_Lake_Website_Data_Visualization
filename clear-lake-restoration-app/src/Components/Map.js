@@ -3,6 +3,9 @@ import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-load
 import LegendControl from 'mapboxgl-legend';
 import './Map.css'
 
+import { MapboxLegendControl } from "@watergis/mapbox-gl-legend";
+import '@watergis/mapbox-gl-legend/css/styles.css';
+
 mapboxgl.accessToken = 'pk.eyJ1IjoiY2hlbmFsaSIsImEiOiJjbDBqY2V2bGowYjlrM2NtaXhjYzlyM2pxIn0.BxtrB0AyBeGd8lug5c6mUg';
 
 export default function Map(props) {
@@ -153,7 +156,7 @@ export default function Map(props) {
                     'circle-stroke-color': '#ffffff',
                 },
                 metadata: {
-                    "name": "Lake Monitoring Sites"
+                    "name": "Lake Monitoring Sites",
                 }
             });
             map.current.on("mouseenter", "lake", e => {
@@ -170,6 +173,9 @@ export default function Map(props) {
                 console.log(e.features[0].properties.name);
                 window.location.href='/Clear_Lake_Website_Data_Visualization/'+e.features[0].properties.name;
                 lakePopUp(map,e);
+                // map.flyTo({
+                //     center: e.features[0].geometry.coordinates
+                // });
             });
         });
     }
@@ -192,7 +198,7 @@ export default function Map(props) {
                 data: '/Clear_Lake_Website_Data_Visualization/data/watershedboundary.geojson'
             })
             map.current.addLayer({
-                id: 'bounds-line',
+                id: 'bounds_line',
                 source: 'boundary',
                 type: 'line',
                 // layout, paint
@@ -201,7 +207,7 @@ export default function Map(props) {
                 }
             },'waterway-label')
             map.current.addLayer({
-                id: 'bounds-fill',
+                id: 'bounds_fill',
                 source: 'boundary',
                 type: 'fill',
                 // layout, paint
@@ -225,22 +231,32 @@ export default function Map(props) {
             zoom: zoom,
             minZoom: 9
         });
+        let targets = {}
         if (props.name == "stream") {
             addStreamMarkers();
+            targets.streams = "Stream Monitoring Sites"
         }
         if (props.name == "met") {
             addMetMarkers();
+            targets.met = "Meterological Stations"
         }
         if (props.name == "lake") {
             addLakeMarkers();
+            targets.lake = "Lake Monitoring Sites"
         }
         if (props.name == "all") {
             addStreamMarkers();
             addMetMarkers();
             addLakeMarkers();
             addBoundary();
+            targets.streams = "Stream Monitoring Sites"
+            targets.met = "Meterological Stations"
+            targets.lake = "Lake Monitoring Sites"
+            targets.bounds_line = "Watershed Boundary"
+            targets.bounds_fill = "Watershed Area"
         }
-        const legend = new LegendControl({toggler: true, collapsed: false});
+        // const legend = new LegendControl({toggler: true, collapsed: true});
+        const legend = new MapboxLegendControl(targets, {accesstoken: mapboxgl.accessToken})
         map.current.addControl(legend, 'bottom-left');
     });
 

@@ -18,6 +18,9 @@
 - Stream
 - LakeTemperatureVis
 
+**clear-lake-restoration-app**
 
+- React app
+- `npm run deploy` on main branch to update the website: https://tercdev.github.io/Clear_Lake_Website_Data_Visualization/
 
 

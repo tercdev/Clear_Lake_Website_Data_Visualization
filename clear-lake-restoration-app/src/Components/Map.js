@@ -16,10 +16,7 @@ export default function Map(props) {
         map.current.on('load', () => {
             map.current.addSource('streams', {
                 type: 'geojson',
-                data: {
-                    type: 'FeatureCollection',
-                    features: [{"type":"Feature","properties":{"name":"kelsey"},"geometry":{"type":"Point","coordinates":[-122.83993721008301,39.010113964456906]}},{"type":"Feature","properties":{"name":"scotts"},"geometry":{"type":"Point","coordinates":[-122.96035766601562,39.09503035637981]}},{"type":"Feature","properties":{"name":"middle"},"geometry":{"type":"Point","coordinates":[-122.91277527809143,39.18288011927886]}}],
-                },
+                data: '/Clear_Lake_Website_Data_Visualization/data/streammarkers.geojson',
             });
             map.current.addLayer({
                 id: 'streams',
@@ -73,10 +70,7 @@ export default function Map(props) {
         map.current.on('load', () => {
             map.current.addSource('met', {
                 type: 'geojson',
-                data: {
-                    type: 'FeatureCollection',
-                    features: [{"type":"Feature","properties":{"name":"nic"},"geometry":{"type":"Point","coordinates":[-122.84362792968749,39.12153746241925]}},{"type":"Feature","properties":{"name":"nlp"},"geometry":{"type":"Point","coordinates":[-122.90044784545898,39.09676228071075]}},{"type":"Feature","properties":{"name":"bvr"},"geometry":{"type":"Point","coordinates":[-122.8875732421875,39.02518507512901]}},{"type":"Feature","properties":{"name":"bkp"},"geometry":{"type":"Point","coordinates":[-122.75281906127928,39.01771660762443]}},{"type":"Feature","properties":{"name":"knb"},"geometry":{"type":"Point","coordinates":[-122.74286270141602,38.991971023322954]}},{"type":"Feature","properties":{"name":"clo"},"geometry":{"type":"Point","coordinates":[-122.6762580871582,39.01958379846303]}},{"type":"Feature","properties":{"name":"jgb"},"geometry":{"type":"Point","coordinates":[-122.66647338867188,38.946326305260754]}},{"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[-122.64673233032227,38.95446976982263]}}],
-                },
+                data: '/Clear_Lake_Website_Data_Visualization/data/metmarkers.geojson',
             });
             map.current.addLayer({
                 id: 'met',
@@ -166,10 +160,7 @@ export default function Map(props) {
         map.current.on('load', () => {
             map.current.addSource('lake', {
                 type: 'geojson',
-                data: {
-                    type: 'FeatureCollection',
-                    features: [{"type":"Feature","properties":{"name": "ua08"},"geometry":{"type":"Point","coordinates":[-122.85839080810547,39.086103610256714]}},{"type":"Feature","properties":{"name": "ua07"},"geometry":{"type":"Point","coordinates":[-122.8652572631836,39.05758374935667]}},{"type":"Feature","properties":{"name": "ua06"},"geometry":{"type":"Point","coordinates":[-122.82714843749999,39.07357761413151]}},{"type":"Feature","properties":{"name": "ua01"},"geometry":{"type":"Point","coordinates":[-122.7945327758789,39.02131757437681]}},{"type":"Feature","properties":{"name": "nr02"},"geometry":{"type":"Point","coordinates":[-122.75299072265624,39.027185423531215]}},{"type":"Feature","properties":{"name": "la03"},"geometry":{"type":"Point","coordinates":[-122.71350860595702,38.96848501741372]}},{"type":"Feature","properties":{"name": "oa04"},"geometry":{"type":"Point","coordinates":[-122.71556854248048,39.01198135604184]}}],
-                },
+                data: '/Clear_Lake_Website_Data_Visualization/data/lakemarkers.geojson',
             });
             map.current.addLayer({
                 id: 'lake',
@@ -220,13 +211,46 @@ export default function Map(props) {
             });
         });
     }
+
+    function addBoundary() {
+        map.current.on("load", () => {
+            map.current.addSource('boundary', {
+                type: 'geojson',
+                data: '/Clear_Lake_Website_Data_Visualization/data/watershedboundary.geojson'
+            })
+            map.current.addLayer({
+                id: 'bounds-line',
+                source: 'boundary',
+                type: 'line',
+                // layout, paint
+                metadata: {
+                    "name": "Clear Lake Watershed Boundary Line"
+                }
+            },'waterway-label')
+            map.current.addLayer({
+                id: 'bounds-fill',
+                source: 'boundary',
+                type: 'fill',
+                // layout, paint
+                paint: {
+                    'fill-color': '#FFC0CB', // blue color fill
+                    'fill-opacity': 0.4
+                },
+                metadata: {
+                    "name": "Clear Lake Watershed Boundary Area"
+                }
+            }, 'waterway-label')
+        })
+    }
+
     useEffect(() => {
         if (map.current) return; // initialize map only once
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
             style: 'mapbox://styles/mapbox/streets-v11',
             center: [lng, lat],
-            zoom: zoom
+            zoom: zoom,
+            minZoom: 9
         });
         if (props.name == "stream") {
             addStreamMarkers();
@@ -241,6 +265,7 @@ export default function Map(props) {
             addStreamMarkers();
             addMetMarkers();
             addLakeMarkers();
+            addBoundary();
         }
         const legend = new LegendControl({toggler: true, collapsed: false});
         map.current.addControl(legend, 'bottom-left');

@@ -2,7 +2,7 @@ import React, {useState,useEffect,useRef } from 'react'
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import useFetch from 'react-fetch-hook'
-import HighchartsExportMenu from './HighchartsExportMenu.js'
+import './StreamChart.css'
 require('highcharts/modules/exporting')(Highcharts)
 require('highcharts/modules/export-data')(Highcharts)
 // require('highcharts/indicators/indicators')(Highcharts)
@@ -218,6 +218,8 @@ export default function StreamChart({
 
   return (
     <div>
+        <p className='loading-info'>{creekData.isLoading ? "Fetching Creek Data..." : ""}</p>
+        <p className='loading-info'>{flowData.isLoading ? "Fetching Flow Data..." : ""}</p>
         <HighchartsReact 
             highcharts={Highcharts}
             ref={chartComponent}

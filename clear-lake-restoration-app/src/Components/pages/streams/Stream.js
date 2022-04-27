@@ -148,6 +148,19 @@ export default function Stream(props) {
     console.log(lastWeek);
     const [startDate, setStartDate] = useState(lastWeek);
     const [endDate, setEndDate] = useState(today);
+    const [startGraphDate, setGraphStartDate] = useState(lastWeek);
+    const [endGraphDate, setGraphEndDate] = useState(today);
+    function subDays(date, num) {
+        return new Date(new Date().setDate(date.getDate() - num));
+    }
+    function addDays(date, num) {
+        let x = new Date(new Date().setDate(date.getDate() + num));
+        if (today < x) {
+            return today
+        } else {
+            return x
+        }
+    }
     return (
         <div className="stream-container">
             <h1 className='stream'>{props.name}</h1>
@@ -168,6 +181,8 @@ export default function Stream(props) {
                     selectsStart
                     startDate={startDate}
                     endDate={endDate}
+                    minDate={subDays(endDate, 180)}
+                    maxDate={endDate}
                 />
                 </div>
                 <div className='one-date-container'>
@@ -179,20 +194,22 @@ export default function Stream(props) {
                     startDate={startDate}
                     endDate={endDate}
                     minDate={startDate}
+                    maxDate={addDays(startDate, 180, today)}
                 />
                 </div>
+                <button className="submitButton" onClick={() => {setGraphStartDate(startDate); setGraphEndDate(endDate);}}>Submit</button>
             </div>
             <StreamChart 
-                fromDate={startDate} 
-                endDate={endDate} 
+                fromDate={startGraphDate} 
+                endDate={endGraphDate} 
                 id={props.id}
                 dataType={"Turb_BES"}
                 dataType2={"Flow"}
                 chartProps={turbProps}
              />
             <StreamChart 
-                fromDate={startDate} 
-                endDate={endDate} 
+                fromDate={startGraphDate} 
+                endDate={endGraphDate} 
                 id={props.id}
                 dataType={"Turb_Temp"}
                 chartProps={tempProps}

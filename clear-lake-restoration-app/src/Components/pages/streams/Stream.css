@@ -29,3 +29,16 @@
     font-weight: 600;
     font-size: 20px;
 }
+
+.submitButton {
+    padding: 10px;
+    margin: 10px;
+    border-radius: 0.25rem;
+    color: #fff;
+    background-color: #022851;
+}
+
+.submitButton:hover {
+    background: #FFBF00;
+    color: #022851;
+}

@@ -14,6 +14,9 @@ export default function Stream(props) {
         chart: {
             zoomType: 'x'
         },
+        time: {
+            useUTC: false
+        },
         title: {
             text: 'stream temperature',
             text: null
@@ -47,6 +50,9 @@ export default function Stream(props) {
         chart: {
             zoomType: 'x',
             //height: 700,
+        },
+        time: {
+            useUTC: false
         },
         title: {
             text: ''
@@ -145,20 +151,14 @@ export default function Stream(props) {
     return (
         <div className="stream-container">
             <h1 className='stream'>{props.name}</h1>
-            <StreamChart 
-                fromDate={startDate} 
-                endDate={endDate} 
-                id={props.id}
-                dataType={"Turb_BES"}
-                chartProps={turbProps}
-             />
-            <StreamChart 
-                fromDate={startDate} 
-                endDate={endDate} 
-                id={props.id}
-                dataType={"Turb_Temp"}
-                chartProps={tempProps}
-             />
+            <div className='data-disclaimer'>
+                <p className='disclaimer1'>Note: These data are provisional and not error checked!</p>
+                <p className='disclaimer2'>These data were collected and are currently being processed and analyzed by 
+                    the UC Davis Tahoe Environmental Research Center (TERC). They are 
+                    considered preliminary. Do not use or distribute without written permission 
+                    from TERC.</p>
+                <p className='disclaimer2'>For all questions please contact Dr. Shohei Watanabe (swatanabe@ucdavis.edu) or Dr. Alicia Cortes (alicortes@ucdavis.edu)</p>
+            </div>
             <div className='date-container'>
                 <div className='one-date-container'>
                 <p>Start Date</p>
@@ -182,13 +182,21 @@ export default function Stream(props) {
                 />
                 </div>
             </div>
-            <div className='data-disclaimer'>
-                <p className='disclaimer1'>Note: These data are provisional and not error checked!</p>
-                <p className='disclaimer2'>These data were collected and are currently being processed and analyzed by 
-                    the UC Davis Tahoe Environmental Research Center (TERC). They are 
-                    considered preliminary. Do not use or distribute without written permission 
-                    from TERC.</p>
-            </div>
+            <StreamChart 
+                fromDate={startDate} 
+                endDate={endDate} 
+                id={props.id}
+                dataType={"Turb_BES"}
+                dataType2={"Flow"}
+                chartProps={turbProps}
+             />
+            <StreamChart 
+                fromDate={startDate} 
+                endDate={endDate} 
+                id={props.id}
+                dataType={"Turb_Temp"}
+                chartProps={tempProps}
+             />
         </div>
     )
 }

@@ -23,24 +23,6 @@
   background-color: #9fb1d1; 
 }
 
-.data-disclaimer{
-  margin-top: 70px;
-  margin-bottom: 70px;
-  margin-left: 200px;
-  margin-right: 200px;
-  text-align: center;
-}
-
-.disclaimer2{
-  font-size: 18px;
-}
-
-.disclaimer1{
-  color: rgb(221, 73, 73);
-  font-weight: 600;
-  font-size: 20px;
-}
-
 .home {
   background-image: url('./images/Home1.jpg');
   background-position: center;
@@ -65,33 +47,6 @@
   font-size: 30px;
   margin-top: 30px;
   margin-bottom: 30px;
-}
-
-.map {
-  width: 80vw;
-  margin: auto;
-}
-
-.map-container {
-  height: 93vh;
-}
-
-.sidebar {
-  background-color: rgba(35, 55, 75, 0.9);
-  color: #fff;
-  padding: 6px 12px;
-  font-family: monospace;
-  z-index: 1;
-  /* position: absolute; */
-  /* top: 0; */
-  /* left: 0; */
-  margin: 12px;
-  border-radius: 4px;
-}
-
-.mapboxgl-popup {
-  max-width: 400px;
-  font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
 }
 
 @media only screen and (max-width: 600px) {

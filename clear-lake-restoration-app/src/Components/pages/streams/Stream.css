@@ -4,10 +4,28 @@
 
 .date-container {
     display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
     justify-content: center;
+    margin-bottom: 1rem;
 }
 
 .one-date-container {
     margin: 5px;
+}
+
+.data-disclaimer{
+    text-align: center;
+    width: 80vw;
+    margin: auto;
+}
+
+.disclaimer2{
+    font-size: 18px;
+}
+
+.disclaimer1{
+    color: rgb(221, 73, 73);
+    font-weight: 600;
+    font-size: 20px;
 }

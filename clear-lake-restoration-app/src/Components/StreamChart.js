@@ -2,6 +2,13 @@ import React, {useState,useEffect,useRef } from 'react'
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import useFetch from 'react-fetch-hook'
+import HighchartsExportMenu from './HighchartsExportMenu.js'
+require('highcharts/modules/exporting')(Highcharts)
+require('highcharts/modules/export-data')(Highcharts)
+// require('highcharts/indicators/indicators')(Highcharts)
+// require('highcharts/indicators/pivot-points')(Highcharts)
+// require('highcharts/indicators/macd')(Highcharts)
+
 const options = {
     chart: {
         zoomType: 'x',
@@ -104,8 +111,9 @@ const options = {
   // get data based on graph type
 function getFilteredData(data, dataType) {
     let m = [];
-    console.log(data)
-    console.log("datatype:",dataType)
+    // console.log(data)
+    // console.log(typeof(data))
+    // console.log("datatype:",dataType)
     if (dataType == "Flow") {
         //var data = cleanTurbMeanData(data,dataType)
         console.log("flow data")
@@ -116,6 +124,9 @@ function getFilteredData(data, dataType) {
         }));
     }
     else {
+        // console.log(data)
+        // console.log(typeof(data))
+        // data = JSON.parse(JSON.stringify(data));
         data.forEach((element => {
         //let pstTime = convertGMTtoPSTTime(new Date(element.TmStamp));
 
@@ -158,9 +169,9 @@ export default function StreamChart({
   search_params_flow.set('start',convertDate(fromDate));
   search_params_flow.set('end',convertDate(endDate));
   flowurl.search = search_params_flow.toString();
-  console.log(flowurl)
+//   console.log(flowurl)
   var flow_new_url = flowurl.toString();
-  console.log(flow_new_url)
+//   console.log(flow_new_url)
   
   const flowData = useFetch(flow_new_url);
 

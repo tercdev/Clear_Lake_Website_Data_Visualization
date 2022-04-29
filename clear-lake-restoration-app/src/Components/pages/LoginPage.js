@@ -51,7 +51,7 @@ export default function LoginPage() {
             {(user.email != "") 
                 ? ( // when user successfully logs in
                     <div className='welcome-container'>
-                        <h2 className="welcome-header">Welcome, <span>{user.name}</span></h2> 
+                        <h2 className="welcome-header">Welcome, <span>{user.name}</span>!</h2> 
                         <Uploader />
                         <div className="logout-btn-container">
                             <button className="logout-btn" onClick={Logout}>Logout</button>

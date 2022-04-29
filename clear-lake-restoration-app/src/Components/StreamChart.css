@@ -1,3 +1,10 @@
 .loading-info {
     text-align: center;
 }
+
+.csv-link {
+    display: block;
+    text-align: center;
+    width: fit-content;
+    margin: auto;
+}

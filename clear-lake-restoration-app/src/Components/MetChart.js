@@ -128,7 +128,7 @@ export default function MetChart({
   var clean_data_url = new URL('https://4ery4fbt1i.execute-api.us-west-2.amazonaws.com/default/clearlake-met');
   let real_search_params = real_time_url.searchParams;
   real_search_params.set('id',id);
-  
+
   real_search_params.set('rptdate', convertDate(fromDate)); // at most 180 days away from endDate
   real_search_params.set('rptend', convertDate(endDate));
   real_time_url.search = real_search_params.toString();
@@ -172,7 +172,7 @@ export default function MetChart({
                             data: windbarbData
                         },
                         {
-                            data: windbarbRealTimeData
+                            // data: windbarbRealTimeData
                         },
                     ]
                 }))
@@ -219,6 +219,8 @@ export default function MetChart({
 
   return (
     <div>
+        {isLoading && <p className='loading-info'>Fetching Data...</p>}
+        {realTimeData.isLoading && <p className='loading-info'>Fetching Data...</p>}
         <HighchartsReact 
             highcharts={Highcharts}
             ref={chartComponent}

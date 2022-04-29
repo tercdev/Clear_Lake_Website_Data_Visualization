@@ -10,6 +10,13 @@ input {
     align-items: flex-end;
     margin-bottom: 1rem;
     gap: 20px;
+    border-radius: 0.25rem;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #022851;
+    width: fit-content;
+    margin: auto;
+    padding: 10px;
 }
 
 .submitButton {

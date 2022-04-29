@@ -198,7 +198,14 @@ export default function MetChart({
                         {
                             // data: windbarbRealTimeData
                         },
-                    ]
+                    ],
+                    xAxis: {
+                        plotLines: [{
+                            color: '#FF0000',
+                            width: 5,
+                            value: lastdate
+                        }]
+                    }
                 }))
                 console.log(data)
                 console.log(windbarbData)
@@ -217,7 +224,14 @@ export default function MetChart({
                         {
                             data: filteredRealTimeData
                         }
-                    ]
+                    ],
+                    xAxis: {
+                        plotLines: [{
+                            color: '#FF0000',
+                            width: 5,
+                            value: lastdate
+                        }]
+                    }
                 }))
             }
         }
@@ -231,7 +245,14 @@ export default function MetChart({
                     {
                         data: filteredRealTimeData
                     }
-                ]
+                ],
+                xAxis: {
+                    plotLines: [{
+                        color: '#FF0000',
+                        width: 5,
+                        value: lastdate
+                    }]
+                }
             }))
         }
 

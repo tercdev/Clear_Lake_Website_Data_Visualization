@@ -3,6 +3,7 @@ import StreamChart from '../../StreamChart';
 import Highcharts from 'highcharts';
 
 import DateRangePicker from '../../DateRangePicker';
+import DataDisclaimer from '../../DataDisclaimer';
 
 import "./Stream.css";
 // import ExportCSV from '../../ExportCSV';
@@ -185,15 +186,7 @@ export default function Stream(props) {
     return (
         <div className="stream-container">
             <h1 className='stream'>{props.name}</h1>
-            <div className='data-disclaimer'>
-                <p className='disclaimer1'>Note: These data are provisional and not error checked!</p>
-                <p className='disclaimer2'>These data were collected and are currently being processed and analyzed by 
-                    the UC Davis Tahoe Environmental Research Center (TERC). They are 
-                    considered preliminary. Do not use or distribute without written permission 
-                    from TERC.</p>
-                <p className='disclaimer2'>For all questions please contact Dr. Shohei Watanabe (swatanabe@ucdavis.edu) 
-                    or Dr. Alicia Cortes (alicortes@ucdavis.edu)</p>
-            </div>
+            <DataDisclaimer/>
             <DateRangePicker 
                 startDate={startDate} 
                 endDate={endDate} 

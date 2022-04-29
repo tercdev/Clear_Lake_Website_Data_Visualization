@@ -7,6 +7,7 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import DataDisclaimer from '../../DataDisclaimer.js';
+import DateRangePicker from '../../DateRangePicker.js';
 
 export default function Met(props) {
     var MyAirTemp_RelHumChartProps = {
@@ -341,52 +342,46 @@ export default function Met(props) {
     console.log(lastWeek);
     const [startDate, setStartDate] = useState(lastWeek);
     const [endDate, setEndDate] = useState(today);
-
+    const [startGraphDate, setGraphStartDate] = useState(lastWeek);
+    const [endGraphDate, setGraphEndDate] = useState(today);
+    function handleStartDateChange(e) {
+        setStartDate(e);
+    }
+    function handleEndDateChange(e) {
+        setEndDate(e);
+    }
+    function setGraphDates() {
+        setGraphStartDate(startDate);
+        setGraphEndDate(endDate);
+    }
     return (
         <div>
             <h1 className='stream'>{props.name}</h1>
             <DataDisclaimer/>
-            <div className='date-container'>
-                <div className='one-date-container'>
-                <p>Start Date</p>
-                <DatePicker
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
-                    selectsStart
-                    startDate={startDate}
-                    endDate={endDate}
-                />
-                </div>
-                <div className='one-date-container'>
-                <p>End Date</p>
-                <DatePicker
-                    selected={endDate}
-                    onChange={(date) => setEndDate(date)}
-                    selectsEnd
-                    startDate={startDate}
-                    endDate={endDate}
-                    minDate={startDate}
-                />
-                </div>
-            </div>
-            <MetChart 
-                fromDate={startDate} 
+            <DateRangePicker 
+                startDate={startDate} 
                 endDate={endDate} 
+                handleStartDateChange={handleStartDateChange}
+                handleEndDateChange={handleEndDateChange}
+                setGraphDates={setGraphDates} />
+            <MetChart 
+                fromDate={startGraphDate} 
+                endDate={endGraphDate} 
                 id={props.id}
                 dataType={"Rel_Humidity"}
                 dataType2={"Air_Temp"}
                 chartProps={MyAirTemp_RelHumChartProps}
              />
             <MetChart 
-                fromDate={startDate} 
-                endDate={endDate} 
+                fromDate={startGraphDate} 
+                endDate={endGraphDate} 
                 id={props.id}
                 dataType={"Atm_Pres"}
                 chartProps={MyAtmPressureChartProps}
              />
             <MetChart 
-                fromDate={startDate} 
-                endDate={endDate} 
+                fromDate={startGraphDate} 
+                endDate={endGraphDate} 
                 id={props.id}
                 dataType={"Wind_Speed"}
                 dataType2={"Wind_Dir"}

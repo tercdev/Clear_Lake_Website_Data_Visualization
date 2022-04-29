@@ -1,0 +1,24 @@
+.drop-csv-header{
+    display: flex;
+    height: 400px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 100px;
+    background-color: #9fb1d1; 
+}
+
+.drop-title {
+    font-size: 3rem;
+}
+
+.drop-disclaimer {
+    margin: 30px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.drop-disclaimer1 {
+    color: rgb(221, 73, 73);
+    font-weight: 600;
+}

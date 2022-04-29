@@ -9,7 +9,8 @@ import { Link } from "react-router-dom";
 import Home from './Components/pages/Home.js';
 import Stream from './Components/pages/streams/Stream.js';
 import StreamHome from './Components/pages/streams/StreamHome.js';
-import DropCSVFile from './Components/pages/DropCSVFile';
+// import DropCSVFile from './Components/pages/DropCSVFile';
+import LoginPage from './Components/pages/LoginPage';
 import MetHome from './Components/pages/met/MetHome.js';
 import Met from './Components/pages/met/Met.js';
 import LakeHome from './Components/pages/lake/LakeHome.js';
@@ -68,7 +69,7 @@ function App() {
         <Route path='/nic' exact element={<Met id={"5"} name={"Nice"}/>} />
         <Route path='/bvr' exact element={<Met id={"7"} name={"Big Valley Rancheria"}/>} />
 
-        <Route path='/upload-csv' exact element={<DropCSVFile/>} />
+        <Route path='/upload-csv' exact element={<LoginPage/>} />
         <Route path='/met' exact element={<MetHome/>} />
         <Route path='/lake' exact element={<LakeHome/>} />
       </Routes>

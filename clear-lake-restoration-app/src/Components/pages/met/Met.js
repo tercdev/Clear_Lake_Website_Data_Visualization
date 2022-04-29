@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import Map from '../../Map.js'
 import Highcharts from 'highcharts';
 import MetChart from '../../MetChart.js';
 
@@ -74,7 +73,7 @@ export default function Met(props) {
                 return [dateString].concat(
                     this.points ?
                         this.points.map(function (point) {
-                            if (point.series.name  == 'Relative Humidity') {
+                            if (point.series.name  == 'Relative Humidity Clean' || point.series.name == 'Relative Humidity Live') {
                                 return point.series.name + ': ' + point.y +'%'
                             }
                             else {
@@ -89,7 +88,7 @@ export default function Met(props) {
 
         series: [
             {
-                name: 'Air Temperature',
+                name: 'Air Temperature Clean',
                 data: [],
                 selected: true,
                 yAxis: 0,
@@ -97,11 +96,28 @@ export default function Met(props) {
                 
             }, 
             {
-                name: 'Relative Humidity',
+                name: 'Air Temperature Live',
+                data: [],
+                selected: true,
+                yAxis: 0,
+                color: Highcharts.getOptions().colors[3],
+                dashStyle: 'dash',
+                
+            },
+            {
+                name: 'Relative Humidity Clean',
                 data: [],
                 selected: true,
                 yAxis: 1,
                 color: Highcharts.getOptions().colors[0],
+            },
+            {
+                name: 'Relative Humidity Live',
+                data: [],
+                selected: true,
+                yAxis: 1,
+                color: Highcharts.getOptions().colors[0],
+                dashStyle: 'dash',
             },
                 
         ],
@@ -142,11 +158,17 @@ export default function Met(props) {
     
         series: [
             {
-                name: 'Atmospheric Pressure',
+                name: 'Atmospheric Pressure Cleaned',
                 data: [],
                 selected: true,
                 color: Highcharts.getOptions().colors[4]
             },
+            {
+                name: 'Atmospheric Pressure Live',
+                data: [],
+                selected: true,
+                dashStyle: 'dash',
+            }
         ],
         tooltip: {
             headerFormat: '<b>{series.name} {point.y} kPA</b><br>',
@@ -172,8 +194,8 @@ export default function Met(props) {
                     type: 'datetime',
                     offset: 40
                 },
-                // yAxis: 
-                // [{ 
+                yAxis: 
+                [{ 
                 //     title: {
                 //         text: 'Wind Direction [degrees]',
                 //         style: {
@@ -208,24 +230,24 @@ export default function Met(props) {
                 //     tickInterval: 90
                 // },
                 // { 
-            //         labels: {
-            //             format: '{value} m/s',
-            //             style: {
-            //                 color: Highcharts.getOptions().colors[0]
-            //             }
-            //         },
-            //         title: {
-            //             text: 'Wind Speed [m/s]',
-            //             style: {
-            //                 color: Highcharts.getOptions().colors[0]
-            //             }
-            //         },
-            //         // opposite: true,
-            //         lineColor: Highcharts.getOptions().colors[0],
-            //         lineWidth: 5,
-            //         gridLineWidth: 0,
-            //     }, 
-            // ],
+                    labels: {
+                        format: '{value} m/s',
+                        style: {
+                            color: Highcharts.getOptions().colors[0]
+                        }
+                    },
+                    title: {
+                        text: 'Wind Speed [m/s]',
+                        style: {
+                            color: Highcharts.getOptions().colors[0]
+                        }
+                    },
+                    // opposite: true,
+                    lineColor: Highcharts.getOptions().colors[0],
+                    lineWidth: 5,
+                    gridLineWidth: 0,
+                }, 
+            ],
                 plotOptions: {
                     // scatter: {
                     //     marker: {
@@ -262,18 +284,40 @@ export default function Met(props) {
                 },
                 series: [
                     {
-                        name: 'Wind Speed',
+                        name: 'Wind Speed Clean',
                         data: [],
                         selected: true,
                         // yAxis: 1,
-                        // color: Highcharts.getOptions().colors[0],
+                        color: Highcharts.getOptions().colors[0],
                         type: 'line',
                     },
                     {
-                        name: 'Wind Direction',
+                        name: 'Wind Speed Live',
+                        data: [],
+                        selected: true,
+                        // yAxis: 1,
+                        color: Highcharts.getOptions().colors[0],
+                        dashStyle: 'dash',
+                    },
+                    {
+                        name: 'Wind Direction Clean',
                         selected: true,
                         // yAxis: 0,
-                        // color: Highcharts.getOptions().colors[3],
+                        color: Highcharts.getOptions().colors[1],
+                        type: 'windbarb',
+                        keys: ['x', 'value', 'direction'],
+                        data: [],
+                        tooltip: {
+                            pointFormatter: function() {
+                                return "<b>Wind Direction " + this.direction + "°</b><br>"
+                            }
+                        }
+                    },
+                    {
+                        name: 'Wind Direction Live',
+                        selected: true,
+                        // yAxis: 0,
+                        color: Highcharts.getOptions().colors[3],
                         type: 'windbarb',
                         keys: ['x', 'value', 'direction'],
                         data: [],

@@ -72,6 +72,9 @@ function cardinalToDeg(direction) {
     if (direction == 'NNW') {
         return 157.5
     };
+
+    return 0
+    // direction == ---
 }  
   // get data based on graph type
 function getFilteredData(data, dataType) {
@@ -121,37 +124,56 @@ export default function MetChart({
 
   const chartComponent = useRef(null); 
   const [chartOptions, setChartOptions] = useState(chartProps)
-//   var real_time_url = new URL('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/metweatherlink');
-//   var clean_data_url = new URL('https://4ery4fbt1i.execute-api.us-west-2.amazonaws.com/default/clearlake-met');
+  var real_time_url = new URL('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/metweatherlink');
+  var clean_data_url = new URL('https://4ery4fbt1i.execute-api.us-west-2.amazonaws.com/default/clearlake-met');
+  let real_search_params = real_time_url.searchParams;
+  real_search_params.set('id',id);
+  
+  real_search_params.set('rptdate', convertDate(fromDate)); // at most 180 days away from endDate
+  real_search_params.set('rptend', convertDate(endDate));
+  real_time_url.search = real_search_params.toString();
+
   var url = new URL('https://4ery4fbt1i.execute-api.us-west-2.amazonaws.com/default/clearlake-met');
   var search_params = url.searchParams;
   search_params.set('id',id);
-  search_params.set('start',convertDate(fromDate)); // rptdate
-  search_params.set('end',convertDate(endDate)); // rptend
+  search_params.set('start',convertDate(fromDate));
+  search_params.set('end',convertDate(endDate));
   url.search = search_params.toString();
 
   var new_url = url.toString();
   const {isLoading,data} = useFetch(new_url);
 
+  const realTimeData = useFetch(real_time_url.toString());
+
   useEffect(()=> {
     console.log(isLoading)
-    if (!isLoading) {
-        var filteredData = getFilteredData(data,dataType)
+    if (!isLoading && !realTimeData.isLoading) {
+        var filteredData = getFilteredData(data,dataType);
+        let filteredRealTimeData = getFilteredData(realTimeData.data, dataType);
 
         if (dataType2) {
-            var filteredData2 = getFilteredData(data,dataType2)
+            var filteredData2 = getFilteredData(data,dataType2);
             console.log(filteredData2)
+            let filteredRealTimeData2 = getFilteredData(realTimeData.data,dataType2);
             
             if (dataType2 == "Wind_Dir") {
-                var windbarbData = getWindbarbData(data)
+                var windbarbData = getWindbarbData(data);
+                let windbarbRealTimeData = getWindbarbData(realTimeData.data);
+                console.log(windbarbRealTimeData)
                 setChartOptions(()=>({
                     series: [
                         {
                             data: filteredData
                         },
                         {
+                            data: filteredRealTimeData
+                        },
+                        {
                             data: windbarbData
-                        }
+                        },
+                        {
+                            data: windbarbRealTimeData
+                        },
                     ]
                 }))
                 console.log(data)
@@ -163,26 +185,37 @@ export default function MetChart({
                             data: filteredData2
                         },
                         {
+                            data: filteredRealTimeData2
+                        },
+                        {
                             data: filteredData
+                        },
+                        {
+                            data: filteredRealTimeData
                         }
                     ]
                 }))
             }
         }
         else {
+            console.log("here")
             setChartOptions(()=> ({
                 series: [
                     {
                         data: filteredData
+                    },
+                    {
+                        data: filteredRealTimeData
                     }
                 ]
             }))
         }
 
         console.log(filteredData)
+        console.log(filteredRealTimeData)
 
     }
-  },[isLoading])
+  },[isLoading, realTimeData.isLoading])
 
   return (
     <div>

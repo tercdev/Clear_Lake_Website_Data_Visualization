@@ -2,17 +2,23 @@ import React, { useEffect, useState } from 'react';
 import StreamChart from '../../StreamChart';
 import Highcharts from 'highcharts';
 
-import DatePicker from "react-datepicker";
-
-import "react-datepicker/dist/react-datepicker.css";
+import DateRangePicker from '../../DateRangePicker';
 
 import "./Stream.css";
+// import ExportCSV from '../../ExportCSV';
 
 export default function Stream(props) {
     
     var tempProps = {
         chart: {
-            zoomType: 'x'
+            zoomType: 'x',
+            // events: {
+            //     load() {
+            //       console.log(this)
+            //       this.showLoading();
+            //       setTimeout(this.hideLoading.bind(this), 2000);
+            //     }
+            // }
         },
         time: {
             useUTC: false
@@ -49,6 +55,22 @@ export default function Stream(props) {
     var turbProps = {
         chart: {
             zoomType: 'x',
+            // events: {
+            //     load() {
+            //         console.log(this);
+            //         this.showLoading();
+            //         // setTimeout(this.hideLoading.bind(this), 2000);
+            //     },
+            //     redraw() {
+            //         console.log(this);
+            //         this.hideLoading();
+            //     }, render() {
+            //         console.log(this);
+            //         this.hideLoading();
+            //     }, addSeries() {
+            //         this.showLoading();
+            //     }
+            // }
             //height: 700,
         },
         time: {
@@ -150,16 +172,15 @@ export default function Stream(props) {
     const [endDate, setEndDate] = useState(today);
     const [startGraphDate, setGraphStartDate] = useState(lastWeek);
     const [endGraphDate, setGraphEndDate] = useState(today);
-    function subDays(date, num) {
-        return new Date(new Date().setDate(date.getDate() - num));
+    function handleStartDateChange(e) {
+        setStartDate(e);
     }
-    function addDays(date, num) {
-        let x = new Date(new Date().setDate(date.getDate() + num));
-        if (today < x) {
-            return today
-        } else {
-            return x
-        }
+    function handleEndDateChange(e) {
+        setEndDate(e);
+    }
+    function setGraphDates() {
+        setGraphStartDate(startDate);
+        setGraphEndDate(endDate);
     }
     return (
         <div className="stream-container">
@@ -170,35 +191,16 @@ export default function Stream(props) {
                     the UC Davis Tahoe Environmental Research Center (TERC). They are 
                     considered preliminary. Do not use or distribute without written permission 
                     from TERC.</p>
-                <p className='disclaimer2'>For all questions please contact Dr. Shohei Watanabe (swatanabe@ucdavis.edu) or Dr. Alicia Cortes (alicortes@ucdavis.edu)</p>
+                <p className='disclaimer2'>For all questions please contact Dr. Shohei Watanabe (swatanabe@ucdavis.edu) 
+                    or Dr. Alicia Cortes (alicortes@ucdavis.edu)</p>
             </div>
-            <div className='date-container'>
-                <div className='one-date-container'>
-                <p>Start Date</p>
-                <DatePicker
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
-                    selectsStart
-                    startDate={startDate}
-                    endDate={endDate}
-                    minDate={subDays(endDate, 180)}
-                    maxDate={endDate}
-                />
-                </div>
-                <div className='one-date-container'>
-                <p>End Date</p>
-                <DatePicker
-                    selected={endDate}
-                    onChange={(date) => setEndDate(date)}
-                    selectsEnd
-                    startDate={startDate}
-                    endDate={endDate}
-                    minDate={startDate}
-                    maxDate={addDays(startDate, 180, today)}
-                />
-                </div>
-                <button className="submitButton" onClick={() => {setGraphStartDate(startDate); setGraphEndDate(endDate);}}>Submit</button>
-            </div>
+            <DateRangePicker 
+                startDate={startDate} 
+                endDate={endDate} 
+                handleStartDateChange={handleStartDateChange}
+                handleEndDateChange={handleEndDateChange}
+                setGraphDates={setGraphDates} />
+            
             <StreamChart 
                 fromDate={startGraphDate} 
                 endDate={endGraphDate} 
@@ -214,6 +216,7 @@ export default function Stream(props) {
                 dataType={"Turb_Temp"}
                 chartProps={tempProps}
              />
+
         </div>
     )
 }

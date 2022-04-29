@@ -7,6 +7,7 @@ import MetChart from '../../MetChart.js';
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
+import DataDisclaimer from '../../DataDisclaimer.js';
 
 export default function Met(props) {
     var MyAirTemp_RelHumChartProps = {
@@ -168,111 +169,121 @@ export default function Met(props) {
                     text: ''
                 },
                 xAxis: {
-                    type: 'datetime'
+                    type: 'datetime',
+                    offset: 40
                 },
-                yAxis: 
-                [{ 
-                    title: {
-                        text: 'Wind Direction [degrees]',
-                        style: {
-                            color: Highcharts.getOptions().colors[3]
-                        }
-                    },
-                    // labels: {
-                    //     format: '{value}°',
-                    //     style: {
-                    //         color: Highcharts.getOptions().colors[3]
+                // yAxis: 
+                // [{ 
+                //     title: {
+                //         text: 'Wind Direction [degrees]',
+                //         style: {
+                //             color: Highcharts.getOptions().colors[3]
+                //         }
+                //     },
+                //     // labels: {
+                //     //     format: '{value}°',
+                //     //     style: {
+                //     //         color: Highcharts.getOptions().colors[3]
+                //     //     }
+                //     // },
+                //     // labels: {
+                //     tickPositions: [0, 90, 180, 270, 360],
+                //     labels: {
+                //         formatter: function() {
+                //             var obj = {
+                //                 0: 'South',
+                //                 90: 'West',
+                //                 180: 'North',
+                //                 270: 'East',
+                //                 360: 'South'
+                //             }
+                //         return (obj[this.value])
+                //         }
+                //     },
+                //     // height: '50%',
+                //     // top: '50%',
+                //     lineColor: Highcharts.getOptions().colors[3],
+                //     lineWidth: 5,
+                //     max: 360,
+                //     tickInterval: 90
+                // },
+                // { 
+            //         labels: {
+            //             format: '{value} m/s',
+            //             style: {
+            //                 color: Highcharts.getOptions().colors[0]
+            //             }
+            //         },
+            //         title: {
+            //             text: 'Wind Speed [m/s]',
+            //             style: {
+            //                 color: Highcharts.getOptions().colors[0]
+            //             }
+            //         },
+            //         // opposite: true,
+            //         lineColor: Highcharts.getOptions().colors[0],
+            //         lineWidth: 5,
+            //         gridLineWidth: 0,
+            //     }, 
+            // ],
+                plotOptions: {
+                    // scatter: {
+                    //     marker: {
+                    //         radius: 5,
+                    //         states: {
+                    //             hover: {
+                    //                 enabled: true,
+                    //                 lineColor: 'rgb(100,100,100)'
+                    //             }
+                    //         }
+                    //     },
+                    //     states: {
+                    //         hover: {
+                    //             marker: {
+                    //                 enabled: false
+                    //             }
+                    //         }
+                    //     },
+                    //     tooltip: {
+                    //         headerFormat: '<b>{series.name} {point.y}°</b><br>',
+                    //         pointFormat: '{point.x:%m/%d/%y %H:%M:%S}'
                     //     }
                     // },
-                    // labels: {
-                    tickPositions: [0, 90, 180, 270, 360],
-                    labels: {
-                        formatter: function() {
-                            var obj = {
-                                0: 'South',
-                                90: 'West',
-                                180: 'North',
-                                270: 'East',
-                                360: 'South'
-                            }
-                        return (obj[this.value])
-                        }
-                    },
-                    // height: '50%',
-                    // top: '50%',
-                    lineColor: Highcharts.getOptions().colors[3],
-                    lineWidth: 5,
-                    max: 360,
-                    tickInterval: 90
-                },
-                { 
-                    labels: {
-                        format: '{value} m/s',
-                        style: {
-                            color: Highcharts.getOptions().colors[0]
-                        }
-                    },
-                    title: {
-                        text: 'Wind Speed [m/s]',
-                        style: {
-                            color: Highcharts.getOptions().colors[0]
-                        }
-                    },
-                    opposite: true,
-                    lineColor: Highcharts.getOptions().colors[0],
-                    lineWidth: 5,
-                    gridLineWidth: 0,
-                }, 
-            ],
-                plotOptions: {
-                    scatter: {
-                        marker: {
-                            radius: 5,
-                            states: {
-                                hover: {
-                                    enabled: true,
-                                    lineColor: 'rgb(100,100,100)'
-                                }
-                            }
-                        },
-                        states: {
-                            hover: {
-                                marker: {
-                                    enabled: false
-                                }
-                            }
-                        },
-                        tooltip: {
-                            headerFormat: '<b>{series.name} {point.y}°</b><br>',
-                            pointFormat: '{point.x:%m/%d/%y %H:%M:%S}'
-                        }
-                    },
                     line: {
                         tooltip: {
                             headerFormat: '<b>{series.name} {point.y} m/s</b><br>',
-                            pointFormat: '{point.x:%m/%d/%y %H:%M:%S}'
+                            pointFormat: '',
+                            footerFormat: '{point.x:%m/%d/%y %H:%M:%S}<br>'
                         }
-                    }
-                },
-    
-                series: [
-                    {
-                        name: 'Wind Direction',
-                        data: [],
-                        selected: true,
-                        yAxis: 0,
-                        color: Highcharts.getOptions().colors[3],
-                        type: 'scatter',
                     },
+                },
+                tooltip: {
+                    shared: true,
+                },
+                series: [
                     {
                         name: 'Wind Speed',
                         data: [],
                         selected: true,
-                        yAxis: 1,
-                        color: Highcharts.getOptions().colors[0],
+                        // yAxis: 1,
+                        // color: Highcharts.getOptions().colors[0],
                         type: 'line',
-                    }, 
-                     
+                    },
+                    {
+                        name: 'Wind Direction',
+                        selected: true,
+                        // yAxis: 0,
+                        // color: Highcharts.getOptions().colors[3],
+                        type: 'windbarb',
+                        keys: ['x', 'value', 'direction'],
+                        data: [],
+                        tooltip: {
+                            pointFormatter: function() {
+                                return "<b>Wind Direction " + this.direction + "°</b><br>"
+                            }
+                        }
+                    },
+                    
                 ],
                 updateTime: {
                     setTime: 0,
@@ -290,6 +301,7 @@ export default function Met(props) {
     return (
         <div>
             <h1 className='stream'>{props.name}</h1>
+            <DataDisclaimer/>
             <div className='date-container'>
                 <div className='one-date-container'>
                 <p>Start Date</p>
@@ -336,14 +348,6 @@ export default function Met(props) {
                 dataType2={"Wind_Dir"}
                 chartProps={MyWindSpeedDirChart}
              />
-
-            <div className='data-disclaimer'>
-                <p className='disclaimer1'>Note: These data are provisional and not error checked!</p>
-                <p className='disclaimer2'>These data were collected and are currently being processed and analyzed by 
-                    the UC Davis Tahoe Environmental Research Center (TERC). They are 
-                    considered preliminary. Do not use or distribute without written permission 
-                    from TERC.</p>
-            </div>
         </div>
         
     )

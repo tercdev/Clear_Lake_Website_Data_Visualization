@@ -4,6 +4,10 @@ import HighchartsReact from 'highcharts-react-official';
 
 import useFetch from 'react-fetch-hook'
 
+import highchartsWindbarb from 'highcharts/modules/windbarb';
+
+highchartsWindbarb(Highcharts);
+
 function convertGMTtoPSTTime (date) {
     // reference: https://stackoverflow.com/questions/22493924/get-user-time-and-convert-them-to-pst
     var offset = 420; 
@@ -17,6 +21,9 @@ function convertGMTtoPSTTime (date) {
 }
 //conversion from API cardinal to prgm degree
 function cardinalToDeg(direction) {
+    if (parseFloat(direction) == direction) {
+        return parseFloat(direction)
+    }
     if (direction == 'N') {
         return 180
     };
@@ -82,7 +89,14 @@ function getFilteredData(data, dataType) {
     }));
     return m.reverse();
 }
-
+function getWindbarbData(data) {
+    let m = [];
+    data.forEach((element => {
+        let pstTime = convertGMTtoPSTTime(new Date(element.DateTime_UTC));
+        m.push([pstTime.getTime(), parseFloat(element["Wind_Speed"]), cardinalToDeg(element["Wind_Dir"])])
+    }))
+    return m.reverse();
+}
 function convertDate(date) {
     let year = date.getFullYear().toString();
     let month = (date.getMonth()+1).toString();
@@ -107,11 +121,13 @@ export default function MetChart({
 
   const chartComponent = useRef(null); 
   const [chartOptions, setChartOptions] = useState(chartProps)
-  var url = new URL('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/metweatherlink');
+//   var real_time_url = new URL('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/metweatherlink');
+//   var clean_data_url = new URL('https://4ery4fbt1i.execute-api.us-west-2.amazonaws.com/default/clearlake-met');
+  var url = new URL('https://4ery4fbt1i.execute-api.us-west-2.amazonaws.com/default/clearlake-met');
   var search_params = url.searchParams;
   search_params.set('id',id);
-  search_params.set('rptdate',convertDate(fromDate));
-  search_params.set('rptend',convertDate(endDate));
+  search_params.set('start',convertDate(fromDate)); // rptdate
+  search_params.set('end',convertDate(endDate)); // rptend
   url.search = search_params.toString();
 
   var new_url = url.toString();
@@ -124,16 +140,34 @@ export default function MetChart({
 
         if (dataType2) {
             var filteredData2 = getFilteredData(data,dataType2)
-            setChartOptions(()=> ({
-                series: [
-                    {
-                        data: filteredData2
-                    },
-                    {
-                        data: filteredData
-                    }
-                ]
-            }))
+            console.log(filteredData2)
+            
+            if (dataType2 == "Wind_Dir") {
+                var windbarbData = getWindbarbData(data)
+                setChartOptions(()=>({
+                    series: [
+                        {
+                            data: filteredData
+                        },
+                        {
+                            data: windbarbData
+                        }
+                    ]
+                }))
+                console.log(data)
+                console.log(windbarbData)
+            } else {
+                setChartOptions(()=> ({
+                    series: [
+                        {
+                            data: filteredData2
+                        },
+                        {
+                            data: filteredData
+                        }
+                    ]
+                }))
+            }
         }
         else {
             setChartOptions(()=> ({

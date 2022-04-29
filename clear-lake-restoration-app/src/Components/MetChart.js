@@ -112,7 +112,13 @@ function convertDate(date) {
     }
     return year+month+day;
 }
-
+function removePast(data, date) {
+    let i = 0;
+    while (data[i][0] < date) {
+        data.shift();
+    }
+    return data;
+}
 export default function MetChart({
     fromDate,
     endDate,
@@ -149,16 +155,34 @@ export default function MetChart({
     console.log(isLoading)
     if (!isLoading && !realTimeData.isLoading) {
         var filteredData = getFilteredData(data,dataType);
-        let filteredRealTimeData = getFilteredData(realTimeData.data, dataType);
+        let filteredRealTimeData = getFilteredData(realTimeData.data, dataType); // start from lastdate
 
+        if (filteredData.length != 0) {
+        var lastdate = filteredData[0][0]
+        console.log("get last date:");
+        console.log(lastdate);
+        console.log(filteredRealTimeData);
+        filteredRealTimeData = removePast(filteredRealTimeData, lastdate);
+        // let i = 0;
+        // console.log(filteredRealTimeData[i][0]);
+        // while (filteredRealTimeData[i][0] < lastdate) {
+        //     filteredRealTimeData.shift();
+        // }
+        // console.log(filteredRealTimeData)
+        }
         if (dataType2) {
             var filteredData2 = getFilteredData(data,dataType2);
             console.log(filteredData2)
             let filteredRealTimeData2 = getFilteredData(realTimeData.data,dataType2);
-            
+            if (filteredData2.length != 0) {
+                filteredRealTimeData2 = removePast(filteredRealTimeData2, lastdate);
+            }
             if (dataType2 == "Wind_Dir") {
                 var windbarbData = getWindbarbData(data);
                 let windbarbRealTimeData = getWindbarbData(realTimeData.data);
+                if (windbarbData.length != 0) {
+                    windbarbRealTimeData = removePast(windbarbRealTimeData, lastdate);
+                }
                 console.log(windbarbRealTimeData)
                 setChartOptions(()=>({
                     series: [
@@ -215,6 +239,7 @@ export default function MetChart({
         console.log(filteredRealTimeData)
 
     }
+    
   },[isLoading, realTimeData.isLoading])
 
   return (

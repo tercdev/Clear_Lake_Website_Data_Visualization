@@ -1,11 +1,13 @@
 .drop-csv-header{
+    background-image: url('../../images/sigmund-TlFw-WoI8_w-unsplash.jpg');
     display: flex;
     height: 400px;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     margin-bottom: 100px;
-    background-color: #9fb1d1; 
+    background-size: cover;
+    color: #fff;
 }
 
 .drop-title {
@@ -21,4 +23,31 @@
 .drop-disclaimer1 {
     color: rgb(221, 73, 73);
     font-weight: 600;
+}
+
+.welcome {
+    display: flex;
+    flex-direction: column;
+}
+
+.welcome-header {
+    text-align: center;
+}
+
+.logout-btn-container {
+    display: flex;
+    justify-content: center;
+}
+
+.logout-btn {
+    height: 50px;
+    width: 150px;
+    border: 2px solid #FFDF80; 
+    border-radius: 20px;
+    transition-duration: 0.4s;
+    background-color: white;
+}
+
+.logout-btn:hover {
+    background-color: #FFDF80;
 }

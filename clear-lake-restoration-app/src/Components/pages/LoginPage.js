@@ -42,7 +42,7 @@ export default function LoginPage() {
             <div className='drop-csv-header'>
                 <h1 className='drop-title'>Upload CSV</h1>
                 <div className='drop-disclaimer'>
-                    <p>Please sign in to upload.</p>
+                    <p>*Admin Use Only</p>
                     <p className='drop-disclaimer1'>For all questions, please contact Dr. Alicia Cortes (alicortes@ucdavis.edu)</p>
                 </div>
                 
@@ -50,10 +50,13 @@ export default function LoginPage() {
          
             {(user.email != "") 
                 ? ( // when user successfully logs in
-                    <div className='welcome'>
-                        <h2>Welcome, <span>{user.name}</span></h2>
+                    <div className='welcome-container'>
+                        <h2 className="welcome-header">Welcome, <span>{user.name}</span></h2> 
                         <Uploader />
-                        <button onClick={Logout}>Logout</button>
+                        <div className="logout-btn-container">
+                            <button className="logout-btn" onClick={Logout}>Logout</button>
+                        </div>
+                        
                     </div>
                 )
                 :(<LoginForm Login={Login} error={error}/>)

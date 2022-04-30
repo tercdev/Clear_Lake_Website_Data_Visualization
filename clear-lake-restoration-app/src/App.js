@@ -4,12 +4,10 @@ import FullHeader from './Components/FullHeader'
 import Navigation from './Components/Navigation';
 import Footer from './Components/Footer';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Link } from "react-router-dom";
 
 import Home from './Components/pages/Home.js';
 import Stream from './Components/pages/streams/Stream.js';
 import StreamHome from './Components/pages/streams/StreamHome.js';
-// import DropCSVFile from './Components/pages/DropCSVFile';
 import LoginPage from './Components/pages/LoginPage';
 import MetHome from './Components/pages/met/MetHome.js';
 import Met from './Components/pages/met/Met.js';

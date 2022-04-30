@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import StreamChart from '../../StreamChart';
+import StreamChart from './StreamChart';
 import Highcharts from 'highcharts';
 
 import DatePicker from "react-datepicker";

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import Map from '../../Map.js'
 import Highcharts from 'highcharts';
-import MetChart from '../../MetChart.js';
+import MetChart from './MetChart.js';
 
 import DatePicker from "react-datepicker";
 

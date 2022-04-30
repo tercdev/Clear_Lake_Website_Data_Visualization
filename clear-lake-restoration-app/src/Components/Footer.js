@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-// import logo from '../images/TERC_wave.png';
 
 import CLO from '../images/sponsors/CLO.webp';
 import BVR from '../images/sponsors/bvr_logo.webp';
@@ -44,12 +42,9 @@ export default class Footer extends Component {
                     <img src={WMWlogo} alt="Worldmark" />
                     <img src={USGS} alt="USGS" />
                     <img src={RivieraWest} alt="Riviera West" />
-                  </div>
-                  
-                  
+                  </div> 
                 </div>
             </div>
-            
       </div>
     )
   }

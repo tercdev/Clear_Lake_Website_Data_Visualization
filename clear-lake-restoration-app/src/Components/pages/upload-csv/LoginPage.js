@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Uploader from '../Uploader.js';
-import LoginForm from '../LoginForm';
+import Uploader from './Uploader.js';
+import LoginForm from './LoginForm';
 import './LoginPage.css';
 
 

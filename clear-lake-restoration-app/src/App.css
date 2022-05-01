@@ -5,23 +5,7 @@
   font-family: 'Open Sans', sans-serif;
 }
 
-.home {
-  display: flex;
-  height: 50vh;
-  align-items: center;
-  justify-content: center;
-  font-size: 3rem;
-}
-
-.stream, .stream-home{
-  display: flex;
-  height: 400px;
-  align-items: center;
-  justify-content: center;
-  font-size: 3rem;
-  margin-bottom: 100px;
-  background-color: #9fb1d1; 
-}
+/* HOME PAGE */
 
 .home {
   background-image: url('./images/Home1.jpg');
@@ -31,6 +15,10 @@
   color: #fff;
   font-size: 90px;
   text-align: center;
+  display: flex;
+  height: 50vh;
+  align-items: center;
+  justify-content: center;
 }
 
 .mission-container{
@@ -48,6 +36,50 @@
   margin-top: 30px;
   margin-bottom: 30px;
 }
+
+
+/* STREAM HOME PAGE */
+
+.stream-home{
+  background-image: url('./images/stream-monitoring/Middle\ creek\ monitoring\ site.jpeg');
+}
+
+.met-home {
+  background-image: url('./images/Konocti\ Bay\ Met\ Station.png');
+}
+
+.lake-tchain-home {
+  background-image: url('./images/Clear\ Lake\ before\ sunset.webp');
+}
+
+.lake-CTD-home {
+  background-image: url('./images/Clear\ Lake\ at\ sunset.webp');
+}
+
+.data-home {
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  display: flex;
+  height: 400px;
+  align-items: center;
+  justify-content: center;
+}
+
+.data-title {
+  background-color: #1D4776;
+  padding: 30px;
+}
+
+.data-desc-container{
+  margin: 100px 100px 50px 100px;
+}
+
+.data-desc {
+  font-size: 23px;
+  text-align: center;
+}
+
 
 @media only screen and (max-width: 600px) {
   .mission-container{

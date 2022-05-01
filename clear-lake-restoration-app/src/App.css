@@ -42,22 +42,23 @@
 
 .stream-home{
   background-image: url('./images/stream-monitoring/Middle\ creek\ monitoring\ site.jpeg');
-  background-size: cover;
 }
 
 .met-home {
   background-image: url('./images/Konocti\ Bay\ Met\ Station.png');
-  background-size: cover;
-  background-position: center;
 }
 
 .lake-tchain-home {
   background-image: url('./images/Clear\ Lake\ before\ sunset.webp');
-  background-size: cover;
-  background-position: center;
+}
+
+.lake-CTD-home {
+  background-image: url('./images/Clear\ Lake\ at\ sunset.webp');
 }
 
 .data-home {
+  background-size: cover;
+  background-position: center;
   color: #fff;
   display: flex;
   height: 400px;

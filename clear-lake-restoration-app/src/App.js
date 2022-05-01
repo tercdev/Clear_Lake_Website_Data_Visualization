@@ -11,8 +11,10 @@ import StreamHome from './Components/pages/streams/StreamHome.js';
 import LoginPage from './Components/pages/upload-csv/LoginPage';
 import MetHome from './Components/pages/met/MetHome.js';
 import Met from './Components/pages/met/Met.js';
-import LakeTchainHome from './Components/pages/lake/LakeTchainHome.js';
-import LakeTchain from './Components/pages/lake/LakeTchain';
+import LakeTchainHome from './Components/pages/lakeTChain/LakeTchainHome.js';
+import LakeTchain from './Components/pages/lakeTChain/LakeTchain';
+import LakeCTDHome from './Components/pages/lakeCTD/LakeCTDHome.js';
+import LakeCTD from './Components/pages/lakeCTD/LakeCTD.js';
 
 function getCurrentTime() {
   var time = new Date().toLocaleDateString();
@@ -77,6 +79,9 @@ function App() {
         <Route path='/ua06' exact element={<LakeTchain name={"UA-06 Station"}/>} />
         <Route path='/ua07' exact element={<LakeTchain name={"UA-07 Station"}/>} />
         <Route path='/ua08' exact element={<LakeTchain name={"UA-08 Station"}/>} />
+
+        <Route path='/lakeCTD' exact element={<LakeCTDHome/>} />
+        <Route path='/lakeprofile' exact element={<LakeCTD name={"Lake Profile Monitoring"}/>} />
 
         <Route path='/upload-csv' exact element={<LoginPage/>} />
       </Routes>

@@ -296,6 +296,7 @@ export default function Met(props) {
                     the UC Davis Tahoe Environmental Research Center (TERC). They are 
                     considered preliminary. Do not use or distribute without written permission 
                     from TERC.</p>
+                <p className='disclaimer2'>For all questions please contact Dr. Shohei Watanabe (swatanabe@ucdavis.edu) or Dr. Alicia Cortes (alicortes@ucdavis.edu)</p>
             </div>
             <div className='date-container'>
                 <div className='one-date-container'>

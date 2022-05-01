@@ -32,13 +32,13 @@
     font-size: 20px;
 }
 
-.stream-page-header {
+.station-page-header {
     display: flex;
     justify-content: center;
     margin: 80px;
   }
   
-.stream-page-title {
-font-weight: 700;
-font-size: 50px;
+.station-page-title {
+    font-weight: 700;
+    font-size: 50px;
 }

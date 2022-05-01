@@ -40,9 +40,18 @@
 
 /* STREAM HOME PAGE */
 
-.stream-name, .stream-home{
+.stream-home{
   background-image: url('./images/stream-monitoring/Middle\ creek\ monitoring\ site.jpeg');
   background-size: cover;
+}
+
+.met-home {
+  background-image: url('./images/Konocti\ Bay\ Met\ Station.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.data-home {
   color: #fff;
   display: flex;
   height: 400px;
@@ -50,16 +59,16 @@
   justify-content: center;
 }
 
-.stream-title {
+.data-title {
   background-color: #1D4776;
   padding: 30px;
 }
 
-.stream-desc-container{
+.data-desc-container{
   margin: 100px 100px 50px 100px;
 }
 
-.stream-desc {
+.data-desc {
   font-size: 23px;
   text-align: center;
 }

@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-
-import Map from '../../Map.js'
 import Highcharts from 'highcharts';
 import MetChart from './MetChart.js';
 
@@ -289,7 +287,16 @@ export default function Met(props) {
 
     return (
         <div>
-            <h1 className='stream'>{props.name}</h1>
+            <div className='station-page-header'>
+                <h1 className='station-page-title'>{props.name}</h1>
+            </div>
+            <div className='data-disclaimer'>
+                <p className='disclaimer1'>Note: These data are provisional and not error checked!</p>
+                <p className='disclaimer2'>These data were collected and are currently being processed and analyzed by 
+                    the UC Davis Tahoe Environmental Research Center (TERC). They are 
+                    considered preliminary. Do not use or distribute without written permission 
+                    from TERC.</p>
+            </div>
             <div className='date-container'>
                 <div className='one-date-container'>
                 <p>Start Date</p>
@@ -336,14 +343,6 @@ export default function Met(props) {
                 dataType2={"Wind_Dir"}
                 chartProps={MyWindSpeedDirChart}
              />
-
-            <div className='data-disclaimer'>
-                <p className='disclaimer1'>Note: These data are provisional and not error checked!</p>
-                <p className='disclaimer2'>These data were collected and are currently being processed and analyzed by 
-                    the UC Davis Tahoe Environmental Research Center (TERC). They are 
-                    considered preliminary. Do not use or distribute without written permission 
-                    from TERC.</p>
-            </div>
         </div>
         
     )

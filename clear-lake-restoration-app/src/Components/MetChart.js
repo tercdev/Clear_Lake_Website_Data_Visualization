@@ -25,52 +25,52 @@ function cardinalToDeg(direction) {
         return parseFloat(direction)
     }
     if (direction == 'N') {
-        return 180
-    };
-    if (direction == 'NNE') {
-        return 202.5
-    };
-    if (direction == 'NE') {
-        return 225
-    };
-    if (direction == 'ENE') {
-        return 247.5
-    };
-    if (direction == 'E') {
-        return 270
-    };
-    if (direction == 'ESE') {
-        return 292.5
-    };
-    if (direction == 'SE') {
-        return 315
-    };
-    if (direction == 'SSE') {
-        return 337.5
-    };
-    if (direction == 'S') {
         return 0
     };
-    if (direction == 'SSW') {
+    if (direction == 'NNE') {
         return 22.5
     };
-    if (direction == 'SW') {
+    if (direction == 'NE') {
         return 45
     };
-    if (direction == 'WSW') {
+    if (direction == 'ENE') {
         return 67.5
     };
-    if (direction == 'W') {
+    if (direction == 'E') {
         return 90
     };
-    if (direction == 'WNW') {
+    if (direction == 'ESE') {
         return 112.5
     };
-    if (direction == 'NW') {
+    if (direction == 'SE') {
         return 135
     };
-    if (direction == 'NNW') {
+    if (direction == 'SSE') {
         return 157.5
+    };
+    if (direction == 'S') {
+        return 180
+    };
+    if (direction == 'SSW') {
+        return 202.5
+    };
+    if (direction == 'SW') {
+        return 225
+    };
+    if (direction == 'WSW') {
+        return 247.5
+    };
+    if (direction == 'W') {
+        return 270
+    };
+    if (direction == 'WNW') {
+        return 292.5
+    };
+    if (direction == 'NW') {
+        return 315
+    };
+    if (direction == 'NNW') {
+        return 337.5
     };
 
     return 0

@@ -51,6 +51,12 @@
   background-position: center;
 }
 
+.lake-tchain-home {
+  background-image: url('./images/Clear\ Lake\ before\ sunset.webp');
+  background-size: cover;
+  background-position: center;
+}
+
 .data-home {
   color: #fff;
   display: flex;

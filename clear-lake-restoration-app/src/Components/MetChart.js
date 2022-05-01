@@ -113,8 +113,11 @@ function convertDate(date) {
     return year+month+day;
 }
 function removePast(data, date) {
+    if (date == undefined) {
+        return data;
+    }
     let i = 0;
-    while (data[i][0] < date) {
+    while (data[i][0] <= date) {
         data.shift();
     }
     return data;
@@ -156,59 +159,80 @@ export default function MetChart({
     if (!isLoading && !realTimeData.isLoading) {
         var filteredData = getFilteredData(data,dataType);
         let filteredRealTimeData = getFilteredData(realTimeData.data, dataType); // start from lastdate
-
         if (filteredData.length != 0) {
-        var lastdate = filteredData[0][0]
-        console.log("get last date:");
-        console.log(lastdate);
-        console.log(filteredRealTimeData);
-        filteredRealTimeData = removePast(filteredRealTimeData, lastdate);
-        // let i = 0;
-        // console.log(filteredRealTimeData[i][0]);
-        // while (filteredRealTimeData[i][0] < lastdate) {
-        //     filteredRealTimeData.shift();
-        // }
-        // console.log(filteredRealTimeData)
+            var lastdate = filteredData[0][0]
+            filteredRealTimeData = removePast(filteredRealTimeData, lastdate);
         }
+        if (filteredData.length != 0) {
+            if (Date(filteredData[0][0]) == Date(filteredRealTimeData[0][0])) {
+                filteredRealTimeData = []
+                lastdate = undefined
+            }
+        }
+
         if (dataType2) {
             var filteredData2 = getFilteredData(data,dataType2);
             console.log(filteredData2)
             let filteredRealTimeData2 = getFilteredData(realTimeData.data,dataType2);
             if (filteredData2.length != 0) {
                 filteredRealTimeData2 = removePast(filteredRealTimeData2, lastdate);
+                if (Date(filteredData2[0][0]) == Date(filteredRealTimeData2[0][0])) {
+                    filteredRealTimeData2 = []
+                    lastdate = undefined
+                }
             }
             if (dataType2 == "Wind_Dir") {
                 var windbarbData = getWindbarbData(data);
                 let windbarbRealTimeData = getWindbarbData(realTimeData.data);
                 if (windbarbData.length != 0) {
                     windbarbRealTimeData = removePast(windbarbRealTimeData, lastdate);
-                }
-                console.log(windbarbRealTimeData)
-                setChartOptions(()=>({
-                    series: [
-                        {
-                            data: filteredData
-                        },
-                        {
-                            data: filteredRealTimeData
-                        },
-                        {
-                            data: windbarbData
-                        },
-                        {
-                            // data: windbarbRealTimeData
-                        },
-                    ],
-                    xAxis: {
-                        plotLines: [{
-                            color: '#FF0000',
-                            width: 5,
-                            value: lastdate
-                        }]
+                    if (Date(windbarbData[0][0]) == Date(windbarbRealTimeData[0][0])) {
+                        windbarbRealTimeData = []
+                        lastdate = undefined
                     }
-                }))
-                console.log(data)
-                console.log(windbarbData)
+                }
+                if (windbarbRealTimeData == []) {
+                    setChartOptions(()=>({
+                        series: [
+                            {
+                                data: filteredData
+                            },
+                            {
+                                data: filteredRealTimeData
+                            },
+                            {
+                                data: windbarbData
+                            },
+                            {
+                                // data: windbarbRealTimeData
+                            },
+                        ],
+                    }))
+                } else {
+                    setChartOptions(()=>({
+                        series: [
+                            {
+                                data: filteredData
+                            },
+                            {
+                                data: filteredRealTimeData
+                            },
+                            {
+                                data: windbarbData
+                            },
+                            {
+                                data: windbarbRealTimeData
+                            },
+                        ],
+                        xAxis: {
+                            plotLines: [{
+                                color: '#FF0000',
+                                width: 5,
+                                value: lastdate
+                            }]
+                        }
+                    }))
+                }
             } else {
                 setChartOptions(()=> ({
                     series: [
@@ -255,10 +279,6 @@ export default function MetChart({
                 }
             }))
         }
-
-        console.log(filteredData)
-        console.log(filteredRealTimeData)
-
     }
     
   },[isLoading, realTimeData.isLoading])

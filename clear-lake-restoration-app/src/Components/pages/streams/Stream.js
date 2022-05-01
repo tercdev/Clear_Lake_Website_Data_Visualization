@@ -150,7 +150,9 @@ export default function Stream(props) {
     const [endDate, setEndDate] = useState(today);
     return (
         <div className="stream-container">
-            <h1 className='stream'>{props.name}</h1>
+            <div className='stream-page-header'>
+                <h1 className='stream-page-title'>{props.name}</h1>
+            </div>
             <div className='data-disclaimer'>
                 <p className='disclaimer1'>Note: These data are provisional and not error checked!</p>
                 <p className='disclaimer2'>These data were collected and are currently being processed and analyzed by 

@@ -74,7 +74,7 @@ const Navigation = () => {
               <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/lakeprofile">Lake Profile Data</NavDropdown.Item>
             </NavDropdown>
             <Nav.Link href='https://tahoe.ucdavis.edu/clear-lake-wind-maps'>Wind Animations</Nav.Link>
-            <Nav.Link href='https://clearlakerestoration.sf.ucdavis.edu/'>To SiteFarm</Nav.Link>
+            <Nav.Link href='https://clearlakerestoration.sf.ucdavis.edu/'>Main Clear Lake Site</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

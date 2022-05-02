@@ -1,9 +1,14 @@
 {
   "files": {
-    "main.css": "/Clear_Lake_Website_Data_Visualization/static/css/main.150bed8e.css",
-    "main.js": "/Clear_Lake_Website_Data_Visualization/static/js/main.26bfdd01.js",
+    "main.css": "/Clear_Lake_Website_Data_Visualization/static/css/main.529eb539.css",
+    "main.js": "/Clear_Lake_Website_Data_Visualization/static/js/main.243deeae.js",
     "static/media/Home1.jpg": "/Clear_Lake_Website_Data_Visualization/static/media/Home1.a9fa5a0ab37ed3fe6187.jpg",
+    "static/media/sigmund-TlFw-WoI8_w-unsplash.jpg": "/Clear_Lake_Website_Data_Visualization/static/media/sigmund-TlFw-WoI8_w-unsplash.5013dfab49f09458f2d9.jpg",
+    "static/media/Middle creek monitoring site.jpeg": "/Clear_Lake_Website_Data_Visualization/static/media/Middle creek monitoring site.a49fa61080e46f6d8f78.jpeg",
+    "static/media/Konocti Bay Met Station.png": "/Clear_Lake_Website_Data_Visualization/static/media/Konocti Bay Met Station.0fa695906025595835ef.png",
+    "static/media/Clear Lake before sunset.webp": "/Clear_Lake_Website_Data_Visualization/static/media/Clear Lake before sunset.68b03425f20af88826a1.webp",
     "static/media/CLSC.png": "/Clear_Lake_Website_Data_Visualization/static/media/CLSC.24ada85d22a83a6fbce4.png",
+    "static/media/Clear Lake at sunset.webp": "/Clear_Lake_Website_Data_Visualization/static/media/Clear Lake at sunset.d795e0e1da3677db9b94.webp",
     "static/media/rivieraWest.png": "/Clear_Lake_Website_Data_Visualization/static/media/rivieraWest.30dee119f134fe2ae284.png",
     "static/media/Elem.webp": "/Clear_Lake_Website_Data_Visualization/static/media/Elem.ccaa4a91b418db8f865e.webp",
     "static/media/bvr_logo.webp": "/Clear_Lake_Website_Data_Visualization/static/media/bvr_logo.1b91d82746b8a5d1ba72.webp",
@@ -14,11 +19,11 @@
     "static/media/WorldMark_by_Wyndham_logo.webp": "/Clear_Lake_Website_Data_Visualization/static/media/WorldMark_by_Wyndham_logo.5e13b605ea9c5fc2aa59.webp",
     "static/media/CAFW.webp": "/Clear_Lake_Website_Data_Visualization/static/media/CAFW.053944fedecc80c95c29.webp",
     "index.html": "/Clear_Lake_Website_Data_Visualization/index.html",
-    "main.150bed8e.css.map": "/Clear_Lake_Website_Data_Visualization/static/css/main.150bed8e.css.map",
-    "main.26bfdd01.js.map": "/Clear_Lake_Website_Data_Visualization/static/js/main.26bfdd01.js.map"
+    "main.529eb539.css.map": "/Clear_Lake_Website_Data_Visualization/static/css/main.529eb539.css.map",
+    "main.243deeae.js.map": "/Clear_Lake_Website_Data_Visualization/static/js/main.243deeae.js.map"
   },
   "entrypoints": [
-    "static/css/main.150bed8e.css",
-    "static/js/main.26bfdd01.js"
+    "static/css/main.529eb539.css",
+    "static/js/main.243deeae.js"
   ]
 }

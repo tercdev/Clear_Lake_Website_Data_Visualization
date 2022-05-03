@@ -17,7 +17,7 @@ const Uploader = () => {
     const handleSubmit = async (files) => {
         console.log(files);
         
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < files.length; i++) {
           const f = files[i];
           let parsedFileName = f['file'].name.toLowerCase().split("_");
           let fileName;

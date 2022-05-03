@@ -56,10 +56,19 @@ export default function LoginPage() {
                             <p className="file-type">Meterology Files:</p>
                             <ul>
                                 <li>met_bkp_FROMdate_TOdate.csv</li>
+                                <li>met_bvr_FROMdate_TOdate.csv</li>
+                                <li>met_clo_FROMdate_TOdate.csv</li>
+                                <li>met_jgb_FROMdate_TOdate.csv</li>
+                                <li>met_knb_FROMdate_TOdate.csv</li>
+                                <li>met_nic_FROMdate_TOdate.csv</li>
+                                <li>met_nlp_FROMdate_TOdate.csv</li>
                             </ul>
                             <p className="file-type">Stream Files:</p>
                             <ul>
-                                <li>stream_kelsey_FROMdate_TOdate.csv</li>
+                                <li>stream_kck_turb_FROMdate_TOdate.csv</li>
+                                <li>stream_mcu_turb_FROMdate_TOdate.csv</li>
+                                <li>stream_scs_turb_FROMdate_TOdate.csv</li>
+                                <li>Flow and Rain data will automatically be scraped and added into its corresponding table (no file upload needed)</li>
                             </ul>
                             <p className="file-type">Lake Files:</p>
                             <ul>
@@ -70,10 +79,20 @@ export default function LoginPage() {
                                 <li>Lake Mooring (TChain) Oxygen</li>
                                 <ul>
                                     <li>ClearLake_LA03oxygen_FROMdate_TOdate.csv</li>
+                                    <li>ClearLake_NR02oxygen_FROMdate_TOdate.csv</li>
+                                    <li>ClearLake_OA04oxygen_FROMdate_TOdate.csv</li>
+                                    <li>ClearLake_UA01oxygen_FROMdate_TOdate.csv</li>
+                                    <li>ClearLake_UA06oxygen_FROMdate_TOdate.csv</li>
+                                    <li>ClearLake_UA08oxygen_FROMdate_TOdate.csv</li>
                                 </ul>
                                 <li>Lake Mooring (TChain) Temperature</li>
                                 <ul>
                                     <li>ClearLake_LA03temperature_FROMdate_TOdate.csv</li>
+                                    <li>ClearLake_NR02temperature_FROMdate_TOdate.csv</li>
+                                    <li>ClearLake_OA04temperature_FROMdate_TOdate.csv</li>
+                                    <li>ClearLake_UA01temperature_FROMdate_TOdate.csv</li>
+                                    <li>ClearLake_UA06temperature_FROMdate_TOdate.csv</li>
+                                    <li>ClearLake_UA08temperature_FROMdate_TOdate.csv</li>
                                 </ul>
                             </ul>
                         </div>
@@ -81,12 +100,13 @@ export default function LoginPage() {
                         <div className="remainder-container">
                             <h2 className="remainder-header">Other remainders</h2>
                             <ul>
-                                <li>Dropzone only accepts up to 5 CSV files</li>
+                                <li>Dropzone only accepts up to 5 CSV files at a time</li>
                                 <li>Files must be in .csv format</li>
-                                <li>If you are uploading files with same name with same FROMdate and same TOdate (but the data contents changed), 
+                                {/* <li>If you are uploading files with same name with same FROMdate and same TOdate (but the data contents changed), 
                                     please add extra unique characters at the end of file name. (Example: add _0, _1, _2 ... at end of filename)</li>
-                                <li>Why do this? The uploaded filenames must be unique to be inserted into database</li>
+                                <li>Why do this? The uploaded filenames must be unique to be inserted into database</li> */}
                                 <li>Once uploaded file, please verify database table on changes</li>
+                                <li>FROMdate and TOdate format: YearMonthDate (eg. 20220314)</li>
                             </ul>
                         </div>.
                         

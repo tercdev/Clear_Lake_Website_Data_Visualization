@@ -33,6 +33,8 @@
 .welcome-header {
     text-align: center;
     font-size: 35px;
+    color: #022851;
+    font-weight: 900;
 }
 
 .logout-btn-container {

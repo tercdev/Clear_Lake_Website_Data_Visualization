@@ -51,8 +51,8 @@ export default function LoginPage() {
                 ? ( // when user successfully logs in
                     <div className='welcome-container'>
                         <h2 className="welcome-header">Welcome, <span>{user.name}</span>!</h2> 
-                        <div className="remainder-container">
-                            <h2 className="remainder-header">Naming Convention for file uploads</h2>
+                        <div className="reminder-container">
+                            <h2 className="reminder-header">Naming Convention for file uploads</h2>
                             <p className="file-type">Meterology Files:</p>
                             <ul>
                                 <li>met_bkp_FROMdate_TOdate.csv</li>
@@ -97,8 +97,8 @@ export default function LoginPage() {
                             </ul>
                         </div>
 
-                        <div className="remainder-container">
-                            <h2 className="remainder-header">Other remainders</h2>
+                        <div className="reminder-container">
+                            <h2 className="reminder-header">Other reminders</h2>
                             <ul>
                                 <li>Dropzone only accepts up to 5 CSV files at a time</li>
                                 <li>Files must be in .csv format</li>

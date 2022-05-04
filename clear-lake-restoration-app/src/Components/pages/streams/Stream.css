@@ -16,8 +16,10 @@
 
 .data-disclaimer{
     text-align: center;
-    width: 80vw;
-    margin: auto;
+    margin: 60px 60px 20px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .disclaimer2{
@@ -28,4 +30,15 @@
     color: rgb(221, 73, 73);
     font-weight: 600;
     font-size: 20px;
+}
+
+.station-page-header {
+    display: flex;
+    justify-content: center;
+    margin: 80px;
+  }
+  
+.station-page-title {
+    font-weight: 700;
+    font-size: 50px;
 }

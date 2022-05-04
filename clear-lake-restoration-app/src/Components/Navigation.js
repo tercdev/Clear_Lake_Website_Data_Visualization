@@ -7,6 +7,7 @@ const Navigation = () => {
   const [showStream, setShowStream] = useState(false);
   const [showMet, setShowMet] = useState(false);
   const [showLake, setShowLake] = useState(false);
+  const [showLakeCTD, setShowLakeCTD] = useState(false);
   const showStreamDropdown = (e)=>{
       setShowStream(!showStream);
   }
@@ -26,6 +27,13 @@ const Navigation = () => {
   }
   const hideLakeDropdown = e => {
     setShowLake(false);
+  }
+
+  const showLakeCTDDropdown = (e)=>{
+    setShowLakeCTD(!showLakeCTD);
+  }
+  const hideLakeCTDDropdown = e => {
+    setShowLakeCTD(false);
   }
   return (
     <>
@@ -51,25 +59,27 @@ const Navigation = () => {
               <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/clo">Clearlake Oaks</NavDropdown.Item>
               <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/jbg">Jago Bay</NavDropdown.Item>
             </NavDropdown>
-            <NavDropdown title="Lake" id="collasible-nav-dropdown" show={showLake} onMouseEnter={showLakeDropdown} onMouseLeave={hideLakeDropdown}>
-              <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/lake">Overview</NavDropdown.Item>
-              <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/ua06">UA-06</NavDropdown.Item>
-              <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/ua08">UA-08</NavDropdown.Item>
-              <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/ua07">UA-07</NavDropdown.Item>
-              <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/ua01">UA-01</NavDropdown.Item>
+            <NavDropdown title="Lake Mooring" id="collasible-nav-dropdown" show={showLake} onMouseEnter={showLakeDropdown} onMouseLeave={hideLakeDropdown}>
+              <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/lakemooring">Overview</NavDropdown.Item>
+              <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/la03">LA-03</NavDropdown.Item>
               <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/nr02">NR-02</NavDropdown.Item>
               <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/oa04">OA-04</NavDropdown.Item>
-              <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/la03">LA-03</NavDropdown.Item>
+              <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/ua01">UA-01</NavDropdown.Item>
+              <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/ua06">UA-06</NavDropdown.Item>
+              <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/ua07">UA-07</NavDropdown.Item>
+              <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/ua08">UA-08</NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link href='/Clear_Lake_Website_Data_Visualization/upload-csv'>Upload CSV</Nav.Link>
+            <NavDropdown title="Lake Profile" id="collasible-nav-dropdown" show={showLakeCTD} onMouseEnter={showLakeCTDDropdown} onMouseLeave={hideLakeCTDDropdown}>
+              <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/lakeCTD">Overview</NavDropdown.Item>
+              <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/lakeprofile">Lake Profile Data</NavDropdown.Item>
+            </NavDropdown>
             <Nav.Link href='https://tahoe.ucdavis.edu/clear-lake-wind-maps'>Wind Animations</Nav.Link>
-            <Nav.Link href='https://clearlakerestoration.sf.ucdavis.edu/'>To SiteFarm</Nav.Link>
+            <Nav.Link href='https://clearlakerestoration.sf.ucdavis.edu/'>Main Clear Lake Site</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
     </>
-    
   )
 }
 

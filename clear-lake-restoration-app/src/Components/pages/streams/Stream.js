@@ -1,15 +1,63 @@
-import React, { useEffect, useState } from 'react';
+import React, { createElement, useEffect, useState } from 'react';
 import StreamChart from './StreamChart';
 import Highcharts from 'highcharts';
+import useFetch from 'react-fetch-hook'
 
 import DateRangePicker from '../../DateRangePicker';
 import DataDisclaimer from '../../DataDisclaimer';
 
 import "./Stream.css";
 
+  // get data based on graph type
+  function getFilteredData(data, dataType) {
+    let m = [];
+    //console.log(data)
+    //console.log("datatype:",dataType)
+    if (dataType == "Flow") {
+        //var data = cleanTurbMeanData(data,dataType)
+        //console.log("flow data")
+        data.forEach((element => {
+            //let pstTime = convertGMTtoPSTTime(new Date(element.TmStamp));
+    
+            m.push([new Date(element.DateTime_UTC).getTime(), parseFloat(element[dataType])]);
+        }));
+    }
+    else if (dataType == "Rain") {
+        data.forEach((element => {
+            //let pstTime = convertGMTtoPSTTime(new Date(element.TmStamp));
+    
+            m.push([new Date(element.DateTime_PST).getTime(), parseFloat(element[dataType])]);
+        }));
+    }
+    else {
+        data.forEach((element => {
+        //let pstTime = convertGMTtoPSTTime(new Date(element.TmStamp));
+        //let temp = parseFloat(element[dataType]);
+        const fToCel= temp => Math.round( (temp *1.8 )+32 );
+
+        m.push([new Date(element.TmStamp).getTime(), fToCel(parseFloat(element[dataType]))]);
+
+        //m.push([new Date(element.TmStamp).getTime(), parseFloat(element[dataType])]);
+    }));
+}
+   // console.log(m)
+    return m.reverse();
+}
+function convertDate(date) {
+    let year = date.getFullYear().toString();
+    let month = (date.getMonth()+1).toString();
+    let day = date.getDate().toString();
+    if (month.length < 2) {
+        month = '0' + month;
+    }
+    if (day.length < 2) {
+        day = '0' + day;
+    }
+    return year+month+day;
+}
 export default function Stream(props) {
     
-    var tempProps = {
+    const[tempProps,setTempProps] = useState({
         chart: {
             zoomType: 'x',
             // events: {
@@ -32,9 +80,12 @@ export default function Stream(props) {
         },
         yAxis: {
             title: {
-                text: 'Temperature in Celsius'
+                text: 'Temperature in Farenheit'
             }
         },
+        credits: {
+            enabled: false
+          },
     
         series: [
             {
@@ -44,15 +95,16 @@ export default function Stream(props) {
             },
         ],
         tooltip: {
-            headerFormat: '<b>{series.name} {point.y} °C</b><br>',
+            headerFormat: '<b>{series.name} {point.y} °F</b><br>',
             pointFormat: '{point.x:%m/%d/%y %H:%M:%S} PST'
         },
         updateTime: {
             setTime: 0,
             endTime: 0,
         }
-    }
-    var turbProps = {
+    })
+    const [turbProps,setTurbProps] = useState({
+
         chart: {
             zoomType: 'x',
             // events: {
@@ -73,6 +125,9 @@ export default function Stream(props) {
             // }
             //height: 700,
         },
+        credits: {
+            enabled: false
+          },
         time: {
             useUTC: false
         },
@@ -162,12 +217,44 @@ export default function Stream(props) {
             setTime: 0,
             endTime: 0,
         }
-    }
-
+    })
+    const [rainProps,setRainProps] = useState({
+        chart: {
+            zoomType: 'x'
+            },
+            credits: {
+                enabled: false
+              },
+            title: {
+            text: ''
+            },
+            
+            xAxis: {
+            type: 'datetime'
+            },
+            yAxis: {
+            title: {
+                text: 'Precipitation [in]'
+            }
+            },
+            legend: {
+            enabled: false
+            },
+            series: [
+                {
+                    type: 'column',
+                    name: 'Precipitation',
+                    data: [],
+                }, 
+                
+            ],
+            tooltip: {
+                headerFormat: '<b>{series.name} {point.y} in</b><br>',
+                pointFormat: '{point.x:%m/%d/%y %H:%M:%S} PST'
+            },
+    })
     var today = new Date();
-    console.log(today);
     var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
-    console.log(lastWeek);
     const [startDate, setStartDate] = useState(lastWeek);
     const [endDate, setEndDate] = useState(today);
     const [startGraphDate, setGraphStartDate] = useState(lastWeek);
@@ -182,6 +269,82 @@ export default function Stream(props) {
         setGraphStartDate(startDate);
         setGraphEndDate(endDate);
     }
+    var url = new URL('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/cl-creeks');
+    var search_params = url.searchParams;
+    search_params.set('id',props.id);
+    search_params.set('rptdate',convertDate(startDate));
+    search_params.set('rptend',convertDate(endDate));
+    url.search = search_params.toString();
+    var new_url = url.toString();
+    const creekData = useFetch(new_url);
+
+    var flowurl = new URL('https://b8xms0pkrf.execute-api.us-west-2.amazonaws.com/default/clearlake-streams')
+    var search_params_flow = flowurl.searchParams;
+    search_params_flow.set('id',props.id);
+    search_params_flow.set('start',convertDate(startDate));
+    search_params_flow.set('end',convertDate(endDate));
+    flowurl.search = search_params_flow.toString();
+   // console.log(flowurl)
+    var flow_new_url = flowurl.toString();
+    //console.log(flow_new_url)
+    const flowData = useFetch(flow_new_url);
+
+    var rainURL = new URL('https://ts09zwptz4.execute-api.us-west-2.amazonaws.com/default/clearlake-precipitation-api')
+    var search_params_rain = rainURL.searchParams;
+    search_params_rain.set('id',props.id);
+    search_params_rain.set('start',convertDate(startDate));
+    search_params_rain.set('end',convertDate(endDate));
+    rainURL.search = search_params_rain.toString();
+
+    var rain_new_url = rainURL.toString();
+   // console.log(rain_new_url)
+    
+    const rainData = useFetch(rain_new_url);
+
+    useEffect(()=> {
+        console.log("use effect for turb temp")
+        console.log("creek data loading: ",creekData.isLoading)
+
+        if (!creekData.isLoading) {
+            var filteredData = getFilteredData(creekData.data,"Turb_Temp")
+            var turbFilteredData = getFilteredData(creekData.data,"Turb_BES")
+
+            setTempProps({...tempProps,
+                series: [
+                {
+                    data: filteredData
+                }
+            ]})
+            if (!flowData.isLoading) {
+                console.log("loaded flow data")
+                var flowFilteredData = getFilteredData(flowData.data,"Flow")
+                setTurbProps({...turbProps,
+                    series: [
+                    {
+                        data: turbFilteredData
+                    },
+                    {
+                        data: flowFilteredData
+                    }
+                ]})
+            }
+            
+            console.log(tempProps)
+        }
+
+        console.log("rainData loading: ",rainData.isLoading)
+
+        if (!rainData.isLoading) {
+            var filteredData = getFilteredData(rainData.data,"Rain")
+            setRainProps({...rainProps,
+                series: [
+                {
+                    data: filteredData
+                }
+            ]})
+        }
+    },[startDate,endDate,creekData.isLoading,flowData.isLoading,rainData.isLoading])
+
     return (
         <div className="stream-container">
             <div className='station-page-header'>
@@ -207,19 +370,22 @@ export default function Stream(props) {
                 maxDays={180}/>
             
             <StreamChart 
-                fromDate={startGraphDate} 
-                endDate={endGraphDate} 
-                id={props.id}
-                dataType={"Turb_BES"}
-                dataType2={"Flow"}
+            //     fromDate={startGraphDate} 
+            //     endDate={endGraphDate} 
+            //     id={props.id}
+            //     dataType={"Turb_BES"}
+            //     dataType2={"Flow"}
+            // <StreamChart 
                 chartProps={turbProps}
+                isLoading={creekData.isLoading}
              />
             <StreamChart 
-                fromDate={startGraphDate} 
-                endDate={endGraphDate} 
-                id={props.id}
-                dataType={"Turb_Temp"}
                 chartProps={tempProps}
+                isLoading={creekData.isLoading}
+             />
+            <StreamChart 
+                chartProps={rainProps}
+                isLoading={creekData.isLoading}
              />
 
         </div>

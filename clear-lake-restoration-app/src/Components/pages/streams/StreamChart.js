@@ -5,23 +5,15 @@ import useFetch from 'react-fetch-hook'
 
 
 export default function StreamChart({
-    // fromDate,
-    // endDate,
-    // id,
-    // dataType,
-    // dataType2 = null,
     chartProps,
     isLoading
 }) {
 
     const chartComponent = useRef(null); 
-   // this.chart = React.createRef();
-    // let chartObj = char.current.chart;
-    //const [chartOptions, setChartOptions] = useState(chartProps)
+
     useEffect(()=> {
         console.log(isLoading)
         if (!isLoading) {
-            //chartObj.showLoading();
         }
     },[isLoading])
 

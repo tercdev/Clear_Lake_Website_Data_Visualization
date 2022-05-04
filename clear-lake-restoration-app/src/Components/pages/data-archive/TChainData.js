@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { CSVLink } from 'react-csv';
 import useFetch from 'react-fetch-hook';
 import DatePicker from 'react-datepicker';
+import { convertDate } from '../../utils';
 
 function TChainData() {
     var today = new Date();
@@ -43,18 +44,6 @@ function TChainData() {
         }
     },[profileData.isLoading])
     
-    function convertDate(date) {
-        let year = date.getFullYear().toString();
-        let month = (date.getMonth()+1).toString();
-        let day = date.getDate().toString();
-        if (month.length < 2) {
-            month = '0' + month;
-        }
-        if (day.length < 2) {
-            day = '0' + day;
-        }
-        return year+month+day;
-    }
     return (
         <>
         <center>

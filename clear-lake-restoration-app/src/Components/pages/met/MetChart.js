@@ -1,8 +1,8 @@
 import React, {useState,useEffect,useRef } from 'react'
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-
-import useFetch from 'react-fetch-hook'
+import { convertDate } from '../../utils.js';
+import useFetch from 'react-fetch-hook';
 
 import highchartsWindbarb from 'highcharts/modules/windbarb';
 
@@ -101,18 +101,7 @@ function getWindbarbData(data) {
     }))
     return m.reverse();
 }
-function convertDate(date) {
-    let year = date.getFullYear().toString();
-    let month = (date.getMonth()+1).toString();
-    let day = date.getDate().toString();
-    if (month.length < 2) {
-        month = '0' + month;
-    }
-    if (day.length < 2) {
-        day = '0' + day;
-    }
-    return year+month+day;
-}
+
 function removePast(data, date) {
     if (date == undefined) {
         return data;

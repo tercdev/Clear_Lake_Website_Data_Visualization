@@ -3,8 +3,10 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import useFetch from 'react-fetch-hook'
 import './StreamChart.css'
+import { convertDate } from '../../utils';
 require('highcharts/modules/exporting')(Highcharts)
 require('highcharts/modules/export-data')(Highcharts)
+
 
   // get data based on graph type
 function getFilteredData(data, dataType) {
@@ -33,19 +35,6 @@ function getFilteredData(data, dataType) {
 }
     console.log(m)
     return m.reverse();
-}
-
-function convertDate(date) {
-    let year = date.getFullYear().toString();
-    let month = (date.getMonth()+1).toString();
-    let day = date.getDate().toString();
-    if (month.length < 2) {
-        month = '0' + month;
-    }
-    if (day.length < 2) {
-        day = '0' + day;
-    }
-    return year+month+day;
 }
 
 export default function StreamChart({

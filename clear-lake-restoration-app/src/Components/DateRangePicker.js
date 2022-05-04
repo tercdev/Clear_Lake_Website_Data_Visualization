@@ -4,19 +4,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./DateRangePicker.css"
 
+import { addDays, subDays } from './utils';
+
 function DateRangePicker(props) {
     const today = new Date();
-    function subDays(date, num) {
-        return new Date(new Date().setDate(date.getDate() - num));
-    }
-    function addDays(date, num) {
-        let x = new Date(new Date().setDate(date.getDate() + num));
-        if (today < x) {
-            return today
-        } else {
-            return x
-        }
-    }
     return (
         <div className='date-container'>
             <div className='one-date-container'>
@@ -27,7 +18,7 @@ function DateRangePicker(props) {
                 selectsStart
                 startDate={props.startDate}
                 endDate={props.endDate}
-                minDate={subDays(props.endDate, 180)}
+                minDate={subDays(props.endDate, props.maxDays)}
                 maxDate={props.endDate}
             />
             </div>
@@ -40,7 +31,7 @@ function DateRangePicker(props) {
                 startDate={props.startDate}
                 endDate={props.endDate}
                 minDate={props.startDate}
-                maxDate={addDays(props.startDate, 180, today)}
+                maxDate={addDays(props.startDate, props.maxDays, today)}
             />
             </div>
             <div className='one-date-container'>

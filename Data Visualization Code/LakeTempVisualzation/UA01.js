@@ -1,9 +1,10 @@
 
-// oxygen csvURL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQRbfUeS5q-LCusoWiEzLsjkEcnvcd888WMUPozWkAILxt9Ry7-yg2yIe2h2gqoaZ5HeaGEDrdP3cN1/pub?output=csv"
-// temp csvURL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQOne9AAlFq_crbSDM29dCfzk9Igi_la26hxPSUDn4_vtaQu4TsAVW6_TV9YeR3LQSX7IDwcU_aV5Gw/pub?output=csv'
+//oxygen csvURL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTsEFDOgtFH_oszlylzDlxediVjshP244mnn0lvOOjqbspX2-eWsASwH79bK2Pze2XzXB-QzT6pAgCh/pub?output=csv"
+//temp csvURL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTyPI8oy-jLFCXWkL8WBU5ETBpXQAPl402lz1q7rsskOmYR98oOTOheNxaBtF2kY1DMSr29_YpmYi5Q/pub?output=csv'
+
 var form = document.querySelector("#turb-mean-form-info");
 var fromTime = "20190323";
-var toTime = "20220204";
+var toTime = "20210409";
 
 makeChart(fromTime, toTime);
 
@@ -18,7 +19,7 @@ if (form) {
 
 var form2 = document.querySelector("#turb-mean-form-info2");
 var fromTime2 = "20190323";
-var toTime2 = "20220204";
+var toTime2 = "20210409";
 
 makeChart2(fromTime2, toTime2);
 
@@ -42,7 +43,7 @@ function makeChart2(fromDate, toDate) {
 
       data: {
         //csvURL: 'Users/kennethlieu/Desktop/ECS/temperatures.csv'
-        csvURL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQOne9AAlFq_crbSDM29dCfzk9Igi_la26hxPSUDn4_vtaQu4TsAVW6_TV9YeR3LQSX7IDwcU_aV5Gw/pub?output=csv'
+        csvURL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTyPI8oy-jLFCXWkL8WBU5ETBpXQAPl402lz1q7rsskOmYR98oOTOheNxaBtF2kY1DMSr29_YpmYi5Q/pub?output=csv'
       },
     
       chart: {
@@ -54,7 +55,7 @@ function makeChart2(fromDate, toDate) {
       },
     
       title: {
-        text: 'Lake Temperature - UA-06',
+        text: 'Lake Temperature - UA-01',
         align: 'left',
         x: 40
       },
@@ -140,7 +141,7 @@ function makeChart(fromDate,toDate) {
 var ch = Highcharts.chart('container2', {
 
     data: {
-      csvURL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQRbfUeS5q-LCusoWiEzLsjkEcnvcd888WMUPozWkAILxt9Ry7-yg2yIe2h2gqoaZ5HeaGEDrdP3cN1/pub?output=csv"
+        csvURL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTsEFDOgtFH_oszlylzDlxediVjshP244mnn0lvOOjqbspX2-eWsASwH79bK2Pze2XzXB-QzT6pAgCh/pub?output=csv"
     },
   
     chart: {
@@ -152,7 +153,7 @@ var ch = Highcharts.chart('container2', {
     },
   
     title: {
-      text: 'Dissolved Oxygen - UA-06',
+      text: 'Dissolved Oxygen - UA-01',
       align: 'left',
       x: 40
     },

@@ -1,6 +1,5 @@
 
-// oxygen csvURL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQRbfUeS5q-LCusoWiEzLsjkEcnvcd888WMUPozWkAILxt9Ry7-yg2yIe2h2gqoaZ5HeaGEDrdP3cN1/pub?output=csv"
-// temp csvURL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQOne9AAlFq_crbSDM29dCfzk9Igi_la26hxPSUDn4_vtaQu4TsAVW6_TV9YeR3LQSX7IDwcU_aV5Gw/pub?output=csv'
+
 var form = document.querySelector("#turb-mean-form-info");
 var fromTime = "20190323";
 var toTime = "20220204";
@@ -42,7 +41,7 @@ function makeChart2(fromDate, toDate) {
 
       data: {
         //csvURL: 'Users/kennethlieu/Desktop/ECS/temperatures.csv'
-        csvURL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQOne9AAlFq_crbSDM29dCfzk9Igi_la26hxPSUDn4_vtaQu4TsAVW6_TV9YeR3LQSX7IDwcU_aV5Gw/pub?output=csv'
+        csvURL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQNuL-0bVcZl1-mZDlJQtgjq5bWfKJRX-BRi8amnnSLWc4sVxZJXUkaxdnrF5idn2L8-reAmLTD60ia/pub?output=csv'
       },
     
       chart: {
@@ -54,7 +53,7 @@ function makeChart2(fromDate, toDate) {
       },
     
       title: {
-        text: 'Lake Temperature - UA-06',
+        text: 'Lake Temperature - OA-04',
         align: 'left',
         x: 40
       },
@@ -140,7 +139,7 @@ function makeChart(fromDate,toDate) {
 var ch = Highcharts.chart('container2', {
 
     data: {
-      csvURL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQRbfUeS5q-LCusoWiEzLsjkEcnvcd888WMUPozWkAILxt9Ry7-yg2yIe2h2gqoaZ5HeaGEDrdP3cN1/pub?output=csv"
+      csvURL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSq1jC2Qt16JkaI51_dyWH4O6s1wh_ufsYeKvDxUnvKvwQGMSWoR5-gE6CLGZuN_JjcG5OQus9CyYCj/pub?output=csv"
     },
   
     chart: {
@@ -152,7 +151,7 @@ var ch = Highcharts.chart('container2', {
     },
   
     title: {
-      text: 'Dissolved Oxygen - UA-06',
+      text: 'Dissolved Oxygen - OA-04',
       align: 'left',
       x: 40
     },

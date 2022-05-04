@@ -11,16 +11,14 @@ export function convertDate(date) {
     return year+month+day;
 }
 
-const today = new Date();
-
 export function subDays(date, num) {
     return new Date(new Date().setDate(date.getDate() - num));
 }
 
-export function addDays(date, num) {
+export function addDays(date, num, compareDate) {
     let x = new Date(new Date().setDate(date.getDate() + num));
-    if (today < x) {
-        return today
+    if (compareDate < x) {
+        return compareDate
     } else {
         return x
     }

@@ -169,6 +169,7 @@ export default function Met(props) {
                 data: [],
                 selected: true,
                 dashStyle: 'dash',
+                color: Highcharts.getOptions().colors[4]
             }
         ],
         tooltip: {
@@ -197,40 +198,40 @@ export default function Met(props) {
                 },
                 yAxis: 
                 [{ 
-                //     title: {
-                //         text: 'Wind Direction [degrees]',
-                //         style: {
-                //             color: Highcharts.getOptions().colors[3]
-                //         }
-                //     },
-                //     // labels: {
-                //     //     format: '{value}°',
-                //     //     style: {
-                //     //         color: Highcharts.getOptions().colors[3]
-                //     //     }
-                //     // },
-                //     // labels: {
-                //     tickPositions: [0, 90, 180, 270, 360],
-                //     labels: {
-                //         formatter: function() {
-                //             var obj = {
-                //                 0: 'South',
-                //                 90: 'West',
-                //                 180: 'North',
-                //                 270: 'East',
-                //                 360: 'South'
-                //             }
-                //         return (obj[this.value])
-                //         }
-                //     },
-                //     // height: '50%',
-                //     // top: '50%',
-                //     lineColor: Highcharts.getOptions().colors[3],
-                //     lineWidth: 5,
-                //     max: 360,
-                //     tickInterval: 90
-                // },
-                // { 
+                    title: {
+                        text: 'Wind Direction [degrees]',
+                        style: {
+                            color: Highcharts.getOptions().colors[3]
+                        }
+                    },
+                    // labels: {
+                    //     format: '{value}°',
+                    //     style: {
+                    //         color: Highcharts.getOptions().colors[3]
+                    //     }
+                    // },
+                    // labels: {
+                    tickPositions: [0, 90, 180, 270, 360],
+                    labels: {
+                        formatter: function() {
+                            var obj = {
+                                0: 'North',
+                                90: 'East',
+                                180: 'South',
+                                270: 'West',
+                                360: 'North'
+                            }
+                        return (obj[this.value])
+                        }
+                    },
+                    // height: '50%',
+                    // top: '50%',
+                    lineColor: Highcharts.getOptions().colors[3],
+                    lineWidth: 5,
+                    max: 360,
+                    tickInterval: 90
+                },
+                { 
                     labels: {
                         format: '{value} m/s',
                         style: {
@@ -243,91 +244,99 @@ export default function Met(props) {
                             color: Highcharts.getOptions().colors[0]
                         }
                     },
-                    // opposite: true,
+                    opposite: true,
                     lineColor: Highcharts.getOptions().colors[0],
                     lineWidth: 5,
                     gridLineWidth: 0,
                 }, 
             ],
                 plotOptions: {
-                    // scatter: {
-                    //     marker: {
-                    //         radius: 5,
-                    //         states: {
-                    //             hover: {
-                    //                 enabled: true,
-                    //                 lineColor: 'rgb(100,100,100)'
-                    //             }
-                    //         }
-                    //     },
-                    //     states: {
-                    //         hover: {
-                    //             marker: {
-                    //                 enabled: false
-                    //             }
-                    //         }
-                    //     },
-                    //     tooltip: {
-                    //         headerFormat: '<b>{series.name} {point.y}°</b><br>',
-                    //         pointFormat: '{point.x:%m/%d/%y %H:%M:%S}'
-                    //     }
-                    // },
+                    scatter: {
+                        marker: {
+                            radius: 5,
+                            states: {
+                                hover: {
+                                    enabled: true,
+                                    lineColor: 'rgb(100,100,100)'
+                                }
+                            }
+                        },
+                        states: {
+                            hover: {
+                                marker: {
+                                    enabled: false
+                                }
+                            }
+                        },
+                        tooltip: {
+                            headerFormat: '<b>{series.name} {point.y}°</b><br>',
+                            pointFormat: '{point.x:%m/%d/%y %H:%M:%S}'
+                        }
+                    },
                     line: {
                         tooltip: {
                             headerFormat: '<b>{series.name} {point.y} m/s</b><br>',
-                            pointFormat: '',
-                            footerFormat: '{point.x:%m/%d/%y %H:%M:%S}<br>'
+                            pointFormat: '{point.x:%m/%d/%y %H:%M:%S}'
+                            // pointFormat: '',
+                            // footerFormat: '{point.x:%m/%d/%y %H:%M:%S}<br>'
                         }
                     },
                 },
-                tooltip: {
-                    shared: true,
-                },
+                // tooltip: {
+                //     shared: true,
+                // },
                 series: [
+                    {
+                        name: 'Wind Direction Clean',
+                        selected: true,
+                        yAxis: 0,
+                        color: Highcharts.getOptions().colors[1],
+                        type: 'scatter',
+                        // type: 'windbarb',
+                        // keys: ['x', 'value', 'direction'],
+                        // data: [],
+                        // tooltip: {
+                        //     pointFormatter: function() {
+                        //         return "<b>Wind Direction " + this.direction + "°</b><br>"
+                        //     }
+                        // },
+                        // zoneAxis: 'x',
+                    },
+                    {
+                        name: 'Wind Direction Live',
+                        selected: true,
+                        yAxis: 0,
+                        color: Highcharts.getOptions().colors[3],
+                        type: 'scatter',
+                        // dashStyle: 'dash',
+                        // type: 'windbarb',
+                        // keys: ['x', 'value', 'direction'],
+                        // data: [],
+                        // tooltip: {
+                        //     pointFormatter: function() {
+                        //         return "<b>Wind Direction " + this.direction + "°</b><br>"
+                        //     }
+                        // }
+                    },
                     {
                         name: 'Wind Speed Clean',
                         data: [],
                         selected: true,
-                        // yAxis: 1,
+                        yAxis: 1,
                         color: Highcharts.getOptions().colors[0],
                         type: 'line',
+                        // zoneAxis: 'x',
+                        
                     },
                     {
                         name: 'Wind Speed Live',
                         data: [],
                         selected: true,
-                        // yAxis: 1,
+                        yAxis: 1,
                         color: Highcharts.getOptions().colors[0],
                         dashStyle: 'dash',
                     },
-                    {
-                        name: 'Wind Direction Clean',
-                        selected: true,
-                        // yAxis: 0,
-                        color: Highcharts.getOptions().colors[1],
-                        type: 'windbarb',
-                        keys: ['x', 'value', 'direction'],
-                        data: [],
-                        tooltip: {
-                            pointFormatter: function() {
-                                return "<b>Wind Direction " + this.direction + "°</b><br>"
-                            }
-                        }
-                    },
-                    {
-                        name: 'Wind Direction Live',
-                        selected: true,
-                        // yAxis: 0,
-                        color: Highcharts.getOptions().colors[3],
-                        type: 'windbarb',
-                        keys: ['x', 'value', 'direction'],
-                        data: [],
-                        tooltip: {
-                            pointFormatter: function() {
-                                return "<b>Wind Direction " + this.direction + "°</b><br>"
-                            }
-                        }
-                    },
+                    
                     
                 ],
                 updateTime: {

@@ -206,19 +206,6 @@ export default function Map(props) {
                     "name": "Clear Lake Watershed Boundary Line"
                 }
             },'waterway-label')
-            map.current.addLayer({
-                id: 'bounds_fill',
-                source: 'boundary',
-                type: 'fill',
-                // layout, paint
-                paint: {
-                    'fill-color': '#FFC0CB', // blue color fill
-                    'fill-opacity': 0.4
-                },
-                metadata: {
-                    "name": "Clear Lake Watershed Boundary Area"
-                }
-            }, 'waterway-label')
         })
     }
 
@@ -229,7 +216,8 @@ export default function Map(props) {
             style: 'mapbox://styles/mapbox/streets-v11',
             center: [lng, lat],
             zoom: zoom,
-            minZoom: 9
+            minZoom: 9,
+            maxBounds: [[-124.53, 36.94], [-120, 42.0]]
         });
         let targets = {}
         if (props.name == "stream") {
@@ -253,7 +241,6 @@ export default function Map(props) {
             targets.met = "Meterological Stations"
             targets.lake = "Lake Monitoring Sites"
             targets.bounds_line = "Watershed Boundary"
-            targets.bounds_fill = "Watershed Area"
         }
         // const legend = new LegendControl({toggler: true, collapsed: true});
         const legend = new MapboxLegendControl(targets, {accesstoken: mapboxgl.accessToken})
@@ -272,6 +259,7 @@ export default function Map(props) {
     return (
     <div className="map">
         <p className='map-caption'>Hover over markers to see the name of the location. Click on the marker to be redirected to a page with the corresponding visualizations.</p>
+        
         <div ref={mapContainer} className="map-container" />
         <div className="sidebar">
             Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}

@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import StreamChart from '../../StreamChart';
+import StreamChart from './StreamChart';
 import Highcharts from 'highcharts';
 
 import DateRangePicker from '../../DateRangePicker';
 import DataDisclaimer from '../../DataDisclaimer';
 
 import "./Stream.css";
-// import ExportCSV from '../../ExportCSV';
 
 export default function Stream(props) {
     
@@ -185,7 +184,9 @@ export default function Stream(props) {
     }
     return (
         <div className="stream-container">
-            <h1 className='stream'>{props.name}</h1>
+            <div className='station-page-header'>
+                <h1 className='station-page-title'>{props.name}</h1>
+            </div>
             <DataDisclaimer/>
             <DateRangePicker 
                 startDate={startDate} 

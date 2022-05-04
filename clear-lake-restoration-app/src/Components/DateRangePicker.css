@@ -43,3 +43,11 @@ input {
     margin: 0;
     text-align: center;
 }
+
+.one-date-container {
+    margin: 5px;
+}
+
+.react-datepicker-wrapper {
+    width: auto;
+}

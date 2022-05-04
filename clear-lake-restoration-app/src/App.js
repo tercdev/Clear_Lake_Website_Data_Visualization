@@ -4,15 +4,17 @@ import FullHeader from './Components/FullHeader'
 import Navigation from './Components/Navigation';
 import Footer from './Components/Footer';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Link } from "react-router-dom";
 
 import Home from './Components/pages/Home.js';
 import Stream from './Components/pages/streams/Stream.js';
 import StreamHome from './Components/pages/streams/StreamHome.js';
-import DropCSVFile from './Components/pages/DropCSVFile';
+import LoginPage from './Components/pages/upload-csv/LoginPage';
 import MetHome from './Components/pages/met/MetHome.js';
 import Met from './Components/pages/met/Met.js';
-import LakeHome from './Components/pages/lake/LakeHome.js';
+import LakeTchainHome from './Components/pages/lakeTChain/LakeTchainHome.js';
+import LakeTchain from './Components/pages/lakeTChain/LakeTchain';
+import LakeCTDHome from './Components/pages/lakeCTD/LakeCTDHome.js';
+import LakeCTD from './Components/pages/lakeCTD/LakeCTD.js';
 import DataArchive from './Components/DataArchive';
 
 function getCurrentTime() {
@@ -61,17 +63,29 @@ function App() {
         <Route path='/middle' exact element={<Stream id={"2"} name={"Middle Creek"}/>} />
         <Route path='/scotts' exact element={<Stream id={"3"} name={"Scotts Creek"}/>} />
         
+        <Route path='/met' exact element={<MetHome/>} />
         <Route path='/bkp' exact element={<Met id={"1"} name={"Buckingham Point"}/>} />
         <Route path='/clo' exact element={<Met id={"2"} name={"Clearlake Oaks"}/>} />
         <Route path='/jgb' exact element={<Met id={"3"} name={"Jago Bay"}/>} />
-        <Route path='/knb' exact element={<Met id={"4"} name ={"Konocti Bay"}/>} />
+        <Route path='/knb' exact element={<Met id={"4"} name={"Konocti Bay"}/>} />
         <Route path='/nlp' exact element={<Met id={"6"} name={"North Lakeport"}/>} />
         <Route path='/nic' exact element={<Met id={"5"} name={"Nice"}/>} />
         <Route path='/bvr' exact element={<Met id={"7"} name={"Big Valley Rancheria"}/>} />
 
-        <Route path='/upload-csv' exact element={<DropCSVFile/>} />
-        <Route path='/met' exact element={<MetHome/>} />
-        <Route path='/lake' exact element={<LakeHome/>} />
+        <Route path='/lakemooring' exact element={<LakeTchainHome/>} />
+        <Route path='/la03' exact element={<LakeTchain name={"LA-03 Station"}/>} />
+        <Route path='/nr02' exact element={<LakeTchain name={"NR-02 Station"}/>} />
+        <Route path='/oa04' exact element={<LakeTchain name={"OA-04 Station"}/>} />
+        <Route path='/ua01' exact element={<LakeTchain name={"UA-01 Station"}/>} />
+        <Route path='/ua06' exact element={<LakeTchain name={"UA-06 Station"}/>} />
+        <Route path='/ua07' exact element={<LakeTchain name={"UA-07 Station"}/>} />
+        <Route path='/ua08' exact element={<LakeTchain name={"UA-08 Station"}/>} />
+
+        <Route path='/lakeCTD' exact element={<LakeCTDHome/>} />
+        <Route path='/lakeprofile' exact element={<LakeCTD name={"Lake Profile Monitoring"}/>} />
+
+        <Route path='/upload-csv' exact element={<LoginPage/>} />
+
         <Route path='/data-archive' exact element={<DataArchive/>} />
       </Routes>
       <Footer />

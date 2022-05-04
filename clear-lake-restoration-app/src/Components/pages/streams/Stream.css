@@ -1,0 +1,10 @@
+.station-page-header {
+    display: flex;
+    justify-content: center;
+    margin: 80px;
+  }
+  
+.station-page-title {
+    font-weight: 700;
+    font-size: 50px;
+}

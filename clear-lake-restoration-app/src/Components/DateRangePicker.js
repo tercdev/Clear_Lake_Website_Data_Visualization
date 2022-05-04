@@ -43,7 +43,10 @@ function DateRangePicker(props) {
                 maxDate={addDays(props.startDate, 180, today)}
             />
             </div>
-            <button className="submitButton" onClick={props.setGraphDates}>Submit</button>
+            <div className='one-date-container'>
+                <button className="submitButton" onClick={props.setGraphDates}>Submit</button>
+            </div>
+            
         </div>
     );
 };

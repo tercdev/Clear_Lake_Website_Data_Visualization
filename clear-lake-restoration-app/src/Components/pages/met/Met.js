@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-
 import Highcharts from 'highcharts';
-import MetChart from '../../MetChart.js';
+import MetChart from './MetChart.js';
 
 import DatePicker from "react-datepicker";
 
@@ -365,7 +364,9 @@ export default function Met(props) {
     }
     return (
         <div>
-            <h1 className='stream'>{props.name}</h1>
+            <div className='station-page-header'>
+                <h1 className='station-page-title'>{props.name}</h1>
+            </div>
             <DataDisclaimer/>
             <DateRangePicker 
                 startDate={startDate} 

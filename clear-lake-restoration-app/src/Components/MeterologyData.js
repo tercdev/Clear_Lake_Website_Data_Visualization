@@ -30,7 +30,13 @@ function MeterologyData() {
     let real_search_params = real_time_url.searchParams;
     real_search_params.set('id',id);
 
-    real_search_params.set('rptdate', convertDate(startGraphDate)); // at most 180 days away from endDate
+    // console.log(startGraphDate);
+    let oldestDate = new Date(new Date().setDate(endGraphDate.getDate() - 150));
+    if (startGraphDate < oldestDate) {
+        real_search_params.set('rptdate', convertDate(oldestDate));
+    } else {
+        real_search_params.set('rptdate', convertDate(startGraphDate)); // at most 180 days away from endDate
+    }
     real_search_params.set('rptend', convertDate(endGraphDate));
     real_time_url.search = real_search_params.toString();
 
@@ -98,6 +104,8 @@ function MeterologyData() {
                 selectedCleanData.push(oneRow);
             }));
             setCleanData(selectedCleanData);
+            // console.log(data)
+            // console.log(realTime.data)
             realTime.data.forEach((element => {
                 let oneRow = [];
                 selectedVariables.map((x,index) => {
@@ -172,7 +180,7 @@ function MeterologyData() {
         {realTime.isLoading && <center>Fetching Data...</center>}
         {!isLoading && cleanData.length != 0 && <CSVLink data={cleanData} className="csv-link" target="_blank" headers={headers}>Download Cleaned Met Data</CSVLink>}
         {!isLoading && cleanData.length == 0 && <p>There is no cleaned meterology data.</p>}
-        {!realTime.isLoading && realTimeData.length != 0 && <CSVLink data={realTimeData} className="csv-link" target="_blank" headers={headers}>Download Real Time Met Data</CSVLink>}
+        {!realTime.isLoading && realTimeData.length != 0 && <><CSVLink data={realTimeData} className="csv-link" target="_blank" headers={headers}>Download Real Time Met Data</CSVLink><p>Real time data is limited to 150 days.</p></>}
         {!realTime.isLoading && realTimeData.length == 0 && <p>There is no real time meterology data.</p>}
         </center>
     </>

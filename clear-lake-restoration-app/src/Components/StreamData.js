@@ -169,6 +169,7 @@ function StreamData() {
         {!creekData.isLoading && creekData.data.length == 0 && <p>There is no real time stream data.</p>}
         {!flowData.isLoading && flowData.data.length != 0 && <CSVLink data={flowcsv} className="csv-link" target="_blank">Download Real Time Flow Data</CSVLink>}
         {!flowData.isLoading && flowData.data.length == 0 && <p>There is no real time flow data.</p>}
+        <p>Real time data is limited to 180 days.</p>
         </center>
     </>
     )

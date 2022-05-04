@@ -72,8 +72,9 @@ const Navigation = () => {
             <NavDropdown title="Lake Profile" id="collasible-nav-dropdown" show={showLakeCTD} onMouseEnter={showLakeCTDDropdown} onMouseLeave={hideLakeCTDDropdown}>
               <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/lakeCTD">Overview</NavDropdown.Item>
               <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/lakeprofile">Lake Profile Data</NavDropdown.Item>
-            </NavDropdown>
+            </NavDropdown>            
             <Nav.Link href='https://tahoe.ucdavis.edu/clear-lake-wind-maps'>Wind Animations</Nav.Link>
+            <Nav.Link href='/Clear_Lake_Website_Data_Visualization/data-archive'>Data Archive</Nav.Link>
             <Nav.Link href='https://clearlakerestoration.sf.ucdavis.edu/'>Main Clear Lake Site</Nav.Link>
           </Nav>
         </Navbar.Collapse>

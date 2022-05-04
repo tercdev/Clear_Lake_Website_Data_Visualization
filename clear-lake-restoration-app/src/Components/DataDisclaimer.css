@@ -1,0 +1,18 @@
+.data-disclaimer{
+    text-align: center;
+    width: 80vw;
+    margin: auto;
+    /* display: flex;
+    flex-direction: column;
+    justify-content: center; */
+}
+
+.disclaimer2{
+    font-size: 18px;
+}
+
+.disclaimer1{
+    color: rgb(221, 73, 73);
+    font-weight: 600;
+    font-size: 20px;
+}

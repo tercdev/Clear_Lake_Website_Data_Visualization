@@ -344,6 +344,53 @@ export default function Met(props) {
                 },
 
     }
+    var solarRadiationChartProps = {
+        chart: {
+            zoomType: 'x'
+        },
+        time: {
+            useUTC: false
+        },
+        title: {
+            text: ''
+        },
+        xAxis: {
+            type: 'datetime'
+        },
+        yAxis: {
+            labels: {
+                format: '{value}',
+                style: {
+                    color: Highcharts.getOptions().colors[4]
+                }
+            },
+            title: {
+                text: 'Solar [W/m2]',
+                style: {
+                    color: Highcharts.getOptions().colors[4]
+                }
+            },
+            lineColor: Highcharts.getOptions().colors[4],
+            lineWidth: 5,
+        },
+    
+        series: [
+            {
+                name: 'Solar Radiation',
+                data: [],
+                selected: true,
+                color: Highcharts.getOptions().colors[4]
+            },
+        ],
+        tooltip: {
+            headerFormat: '<b>{series.name} {point.y} W/m2</b><br>',
+            pointFormat: '{point.x:%m/%d/%y %H:%M:%S} PST'
+        },
+        updateTime: {
+            setTime: 0,
+            endTime: 0,
+        }
+    }
     var today = new Date();
     console.log(today);
     var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
@@ -397,6 +444,22 @@ export default function Met(props) {
                 dataType2={"Wind_Dir"}
                 chartProps={MyWindSpeedDirChart}
              />
+            <MetChart 
+                fromDate={startDate} 
+                endDate={endDate} 
+                id={props.id}
+                dataType={"Solar_Rad"}
+                chartProps={solarRadiationChartProps}
+             />
+             
+
+            <div className='data-disclaimer'>
+                <p className='disclaimer1'>Note: These data are provisional and not error checked!</p>
+                <p className='disclaimer2'>These data were collected and are currently being processed and analyzed by 
+                    the UC Davis Tahoe Environmental Research Center (TERC). They are 
+                    considered preliminary. Do not use or distribute without written permission 
+                    from TERC.</p>
+            </div>
         </div>
         
     )

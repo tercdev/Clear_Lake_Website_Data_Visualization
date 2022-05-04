@@ -188,6 +188,16 @@ export default function Stream(props) {
                 <h1 className='station-page-title'>{props.name}</h1>
             </div>
             <DataDisclaimer/>
+            <div className='data-desc-container'>
+                <p className='data-desc'>Select start and end dates (maximum 180 day period). <br/>
+                    Click submit to update the graphs below.<br/>
+                    Allow some time for the data to be fetched. The longer the selected time period, the longer it will take to load.<br/>
+                    Use the hamburger icon on the top right of each graph to download the data displayed in the graph.<br/>
+                    Click and drag in the plot area to zoom in.<br/>
+                    If there is no data, the sensors might not be submerged in the water. Check https://clearlakerestoration.sf.ucdavis.edu/metadata for more information. <br />
+                    Flow data is from the California Nevada River Forecast Center.
+                </p>
+            </div>
             <DateRangePicker 
                 startDate={startDate} 
                 endDate={endDate} 

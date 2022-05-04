@@ -19,6 +19,12 @@ input {
     padding: 10px;
 }
 
+@media (max-width: 576px) {
+    .date-container {
+        margin: 20px;
+    }
+}
+
 .submitButton {
     padding-left: 25px;
     padding-right: 25px;

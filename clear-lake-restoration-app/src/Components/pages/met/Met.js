@@ -293,13 +293,13 @@ export default function Met(props) {
         },
         yAxis: {
             labels: {
-                format: '{value} kPa',
+                format: '{value}',
                 style: {
                     color: Highcharts.getOptions().colors[4]
                 }
             },
             title: {
-                text: 'Atmospheric Pressure [kPa]',
+                text: 'Solar [W/m2]',
                 style: {
                     color: Highcharts.getOptions().colors[4]
                 }

@@ -13,6 +13,7 @@ import DropCSVFile from './Components/pages/DropCSVFile';
 import MetHome from './Components/pages/met/MetHome.js';
 import Met from './Components/pages/met/Met.js';
 import LakeHome from './Components/pages/lake/LakeHome.js';
+import DataArchive from './Components/DataArchive';
 
 function getCurrentTime() {
   var time = new Date().toLocaleDateString();
@@ -71,6 +72,7 @@ function App() {
         <Route path='/upload-csv' exact element={<DropCSVFile/>} />
         <Route path='/met' exact element={<MetHome/>} />
         <Route path='/lake' exact element={<LakeHome/>} />
+        <Route path='/data-archive' exact element={<DataArchive/>} />
       </Routes>
       <Footer />
     </Router>

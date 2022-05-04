@@ -50,12 +50,13 @@ function TChainData() {
             <div className='location-container'>
                 <p className='date-label'>Location</p>
                 <select onChange={(e) => setIdTemp(e.target.value)}>
-                    <option value="1">LA-03</option>
-                    <option value="2">NR-02</option>
-                    <option value="3">OA-04</option>
-                    <option value="4">OA-01</option>
-                    <option value="5">UA-06</option>
-                    <option value="6">UA-08</option>
+                    <option value="1">UA-01</option>
+                    <option value="2">UA-06</option>
+                    <option value="3">UA-07</option>
+                    <option value="4">UA-08</option>
+                    <option value="5">LA-03</option>
+                    <option value="6">NR-02</option>
+                    <option value="7">OA-04</option>
                 </select>
             </div>
             <div className='one-date-container'>

@@ -19,7 +19,7 @@ function DataArchive() {
                     TERC.For all questions please contact Dr. Shohei Watanabe 
                     (swatanabe@ucdavis.edu) or Dr. Alicia Cortes (alicortes@ucdavis.edu)</p>
                 
-                    <p className='data-desc'>Visit https://clearlakerestoration.sf.ucdavis.edu/metadata for more information about the data.</p>
+                    <p className='data-desc'>Learn about the Metadata <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">here</a>.</p>
                     
                     <p className='data-desc'>Select location, start and end dates, and desired variables. Click submit. 
                 Wait for data to be fetched. Click on Download button to download the CSV.

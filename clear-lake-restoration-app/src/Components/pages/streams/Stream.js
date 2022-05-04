@@ -203,7 +203,8 @@ export default function Stream(props) {
                 endDate={endDate} 
                 handleStartDateChange={handleStartDateChange}
                 handleEndDateChange={handleEndDateChange}
-                setGraphDates={setGraphDates} />
+                setGraphDates={setGraphDates} 
+                maxDays={180}/>
             
             <StreamChart 
                 fromDate={startGraphDate} 

@@ -62,6 +62,7 @@ const Navigation = () => {
               <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/la03">LA-03</NavDropdown.Item>
             </NavDropdown>
             <Nav.Link href='/Clear_Lake_Website_Data_Visualization/upload-csv'>Upload CSV</Nav.Link>
+            <Nav.Link href='/Clear_Lake_Website_Data_Visualization/data-archive'>Data Archive</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

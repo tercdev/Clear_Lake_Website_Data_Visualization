@@ -15,7 +15,7 @@ import LakeTchainHome from './Components/pages/lakeTChain/LakeTchainHome.js';
 import LakeTchain from './Components/pages/lakeTChain/LakeTchain';
 import LakeCTDHome from './Components/pages/lakeCTD/LakeCTDHome.js';
 import LakeCTD from './Components/pages/lakeCTD/LakeCTD.js';
-import DataArchive from './Components/DataArchive';
+import DataArchive from './Components/pages/data-archive/DataArchive';
 
 function getCurrentTime() {
   var time = new Date().toLocaleDateString();

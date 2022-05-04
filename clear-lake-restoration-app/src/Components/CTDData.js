@@ -6,9 +6,7 @@ import DatePicker from 'react-datepicker';
 
 function CTDData() {
     var today = new Date();
-    console.log(today);
     var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
-    console.log(lastWeek);
     const [startDate, setStartDate] = useState(lastWeek);
     const [endDate, setEndDate] = useState(today);
     const [startGraphDate, setGraphStartDate] = useState(lastWeek);

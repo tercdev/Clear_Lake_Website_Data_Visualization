@@ -1,28 +1,61 @@
-import React, { Suspense, lazy } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import './App.css';
 import FullHeader from './Components/FullHeader'
 import Navigation from './Components/Navigation';
 import Footer from './Components/Footer';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-const Home = lazy(() => import('./Components/pages/Home'));
-const StreamHome = lazy(() => import('./Components/pages/streams/StreamHome'));
-const Stream = lazy(() => import('./Components/pages/streams/Stream'));
-const LoginPage = lazy(() => import('./Components/pages/upload-csv/LoginPage'));
-const MetHome = lazy(() => import('./Components/pages/met/MetHome'));
-const Met = lazy(() => import('./Components/pages/met/Met'));
-const LakeTchainHome = lazy(() => import('./Components/pages/lakeTChain/LakeTchainHome'));
-const LakeTchain = lazy(() => import('./Components/pages/lakeTChain/LakeTchain'));
-const LakeCTDHome = lazy(() => import('./Components/pages/lakeCTD/LakeCTDHome'));
-const LakeCTD = lazy(() => import('./Components/pages/lakeCTD/LakeCTD'));
-const DataArchive = lazy(() => import('./Components/pages/data-archive/DataArchive'))
+import Home from './Components/pages/Home.js';
+import Stream from './Components/pages/streams/Stream.js';
+import StreamHome from './Components/pages/streams/StreamHome.js';
+import LoginPage from './Components/pages/upload-csv/LoginPage';
+import MetHome from './Components/pages/met/MetHome.js';
+import Met from './Components/pages/met/Met.js';
+import LakeTchainHome from './Components/pages/lakeTChain/LakeTchainHome.js';
+import LakeTchain from './Components/pages/lakeTChain/LakeTchain';
+import LakeCTDHome from './Components/pages/lakeCTD/LakeCTDHome.js';
+import LakeCTD from './Components/pages/lakeCTD/LakeCTD.js';
+import DataArchive from './Components/pages/data-archive/DataArchive';
+
+function getCurrentTime() {
+  var time = new Date().toLocaleDateString();
+  time = time.split('/');
+  var currentTimeArr = time.slice(0).reverse().map(
+      val => { return val;
+  })
+  if (currentTimeArr[1].length < 2) {
+      currentTimeArr[1] = '0' + currentTimeArr[1];
+  }
+  if (currentTimeArr[2].length < 2) {
+      currentTimeArr[2] = '0' + currentTimeArr[2];
+  }
+  var curTime = currentTimeArr[0] + currentTimeArr[2] + currentTimeArr[1];
+  return curTime;
+}
+
+function getPreviousWeekDate() {
+  var today = new Date();
+  var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
+  var month = (lastWeek.getUTCMonth() + 1).toString(); //months from 1-12
+  var day = lastWeek.getUTCDate().toString();
+  var year = lastWeek.getUTCFullYear().toString();
+
+  if (month.length < 2) {
+      month = '0' + month;
+  }
+  if (day.length < 2) {
+      day = '0' + day;
+  }
+  return year+month+day;
+}
 
 function App() {
+  var fromDate = getPreviousWeekDate();
+  var toDate = getCurrentTime();
   return (
     <Router basename='/Clear_Lake_Website_Data_Visualization/'>
       <FullHeader />
       <Navigation/>
-      <Suspense fallback={<div>Loading...</div>}>
       <Routes>
         <Route path='/' exact element={<Home/>} />
         <Route path='/stream' exact element={<StreamHome />} />
@@ -55,7 +88,6 @@ function App() {
 
         <Route path='/data-archive' exact element={<DataArchive/>} />
       </Routes>
-      </Suspense>
       <Footer />
     </Router>
 

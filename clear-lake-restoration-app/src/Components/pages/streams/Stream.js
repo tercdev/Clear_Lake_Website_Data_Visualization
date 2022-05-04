@@ -272,8 +272,8 @@ export default function Stream(props) {
     var url = new URL('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/cl-creeks');
     var search_params = url.searchParams;
     search_params.set('id',props.id);
-    search_params.set('rptdate',convertDate(startDate));
-    search_params.set('rptend',convertDate(endDate));
+    search_params.set('rptdate',convertDate(startGraphDate));
+    search_params.set('rptend',convertDate(endGraphDate));
     url.search = search_params.toString();
     var new_url = url.toString();
     const creekData = useFetch(new_url);
@@ -281,8 +281,8 @@ export default function Stream(props) {
     var flowurl = new URL('https://b8xms0pkrf.execute-api.us-west-2.amazonaws.com/default/clearlake-streams')
     var search_params_flow = flowurl.searchParams;
     search_params_flow.set('id',props.id);
-    search_params_flow.set('start',convertDate(startDate));
-    search_params_flow.set('end',convertDate(endDate));
+    search_params_flow.set('start',convertDate(startGraphDate));
+    search_params_flow.set('end',convertDate(endGraphDate));
     flowurl.search = search_params_flow.toString();
    // console.log(flowurl)
     var flow_new_url = flowurl.toString();
@@ -292,8 +292,8 @@ export default function Stream(props) {
     var rainURL = new URL('https://ts09zwptz4.execute-api.us-west-2.amazonaws.com/default/clearlake-precipitation-api')
     var search_params_rain = rainURL.searchParams;
     search_params_rain.set('id',props.id);
-    search_params_rain.set('start',convertDate(startDate));
-    search_params_rain.set('end',convertDate(endDate));
+    search_params_rain.set('start',convertDate(startGraphDate));
+    search_params_rain.set('end',convertDate(endGraphDate));
     rainURL.search = search_params_rain.toString();
 
     var rain_new_url = rainURL.toString();
@@ -343,7 +343,7 @@ export default function Stream(props) {
                 }
             ]})
         }
-    },[startDate,endDate,creekData.isLoading,flowData.isLoading,rainData.isLoading])
+    },[startGraphDate,endGraphDate,creekData.isLoading,flowData.isLoading,rainData.isLoading])
 
     return (
         <div className="stream-container">

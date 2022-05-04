@@ -1,0 +1,35 @@
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+<script language="javascript" type="text/javascript">
+    
+</script>
+
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<form id = "vis">
+    <h3 class="form-labels">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sites: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DV Variables:</h3>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select id = "sites" onChange = "update();dynamicdropdown(this.options[this.selectedIndex].value);">
+        <option value = "UA01", id = "UA01", class = "drop-down">UA01</option>
+        <option value = "UA06", id = "UA06", class = "drop-down">UA06</option>
+        <option value = "UA07", id = "UA07", class = "drop-down">UA07</option>
+        <option value = "UA08", id = "UA08", class = "drop-down">UA08</option>
+        <option value = "LA03", id = "LA03", class = "drop-down">LA03</option>
+        <option value = "NR02", id = "NR02", class = "drop-down">NR02</option>
+        <option value = "OA04", id = "OA04", class = "drop-down">OA04</option>
+    </select>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select id = "visuals" onChange = "update1()">
+        <option value = "Temp", id = "Temp", class = "drop-down">Temp</option>
+        <option value = "Special Conductivity", id = "SpecCond", class = "drop-down">Special Conductivity</option>
+        <option value = "Chlorophyll", id = "Chla", class = "drop-down">Chlorophyll</option>
+        <option value = "Turbidity", id = "Turb", class = "drop-down">Turbidity</option>
+        <option value = "Dissolved Oxygen", id = "Oxy", class = "drop-down">Dissolved Oxygen</option>
+    </select>
+    <script type="text/javascript" language="JavaScript">
+        document.write('<h3 class="form-labels">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Date:</h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select name="status" id="status" onChange = "updateDate()"><option value="">Select date</option></select>')
+    </script>
+</form>
+<script src = "./profile.js"></script>
+
+
+<link rel = "stylesheet" type = "text/css" href = "./profile.css">

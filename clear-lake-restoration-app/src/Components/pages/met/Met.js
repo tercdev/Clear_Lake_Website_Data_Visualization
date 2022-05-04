@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import Highcharts from 'highcharts';
 import MetChart from './MetChart.js';
 
-import DatePicker from "react-datepicker";
-
 import "react-datepicker/dist/react-datepicker.css";
 import DataDisclaimer from '../../DataDisclaimer.js';
 import DateRangePicker from '../../DateRangePicker.js';
@@ -158,7 +156,7 @@ export default function Met(props) {
     
         series: [
             {
-                name: 'Atmospheric Pressure Cleaned',
+                name: 'Atmospheric Pressure Clean',
                 data: [],
                 selected: true,
                 color: Highcharts.getOptions().colors[4]
@@ -376,11 +374,18 @@ export default function Met(props) {
     
         series: [
             {
-                name: 'Solar Radiation',
+                name: 'Solar Radiation Clean',
                 data: [],
                 selected: true,
                 color: Highcharts.getOptions().colors[4]
             },
+            {
+                name: 'Solar Radiation Live',
+                data: [],
+                selected: true,
+                dashStyle: 'dash',
+                color: Highcharts.getOptions().colors[4]
+            }
         ],
         tooltip: {
             headerFormat: '<b>{series.name} {point.y} W/m2</b><br>',
@@ -451,15 +456,6 @@ export default function Met(props) {
                 dataType={"Solar_Rad"}
                 chartProps={solarRadiationChartProps}
              />
-             
-
-            <div className='data-disclaimer'>
-                <p className='disclaimer1'>Note: These data are provisional and not error checked!</p>
-                <p className='disclaimer2'>These data were collected and are currently being processed and analyzed by 
-                    the UC Davis Tahoe Environmental Research Center (TERC). They are 
-                    considered preliminary. Do not use or distribute without written permission 
-                    from TERC.</p>
-            </div>
         </div>
         
     )

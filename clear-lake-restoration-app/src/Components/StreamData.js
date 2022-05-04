@@ -6,9 +6,7 @@ import DatePicker from 'react-datepicker';
 
 function StreamData() { 
     var today = new Date();
-    console.log(today);
     var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
-    console.log(lastWeek);
     const [startDate, setStartDate] = useState(lastWeek);
     const [endDate, setEndDate] = useState(today);
     const [startGraphDate, setGraphStartDate] = useState(lastWeek);
@@ -23,6 +21,7 @@ function StreamData() {
         setGraphStartDate(startDate);
         setGraphEndDate(endDate);
         setId(idTemp);
+        setSelectedVariables(checkedState);
     }
     const [idTemp, setIdTemp] = useState(1);
     const [id, setId] = useState(1);
@@ -49,12 +48,6 @@ function StreamData() {
 
     const [creekcsv, setcreekcsv] = useState([])
     const [flowcsv, setflowcsv] = useState([])
-    useEffect(()=> {
-        if ( !creekData.isLoading && !flowData.isLoading) {
-            setcreekcsv(creekData.data); 
-            setflowcsv(flowData.data);                  
-        }
-    },[creekData.isLoading,flowData.isLoading])
     
     function convertDate(date) {
         let year = date.getFullYear().toString();
@@ -79,6 +72,43 @@ function StreamData() {
             return x
         }
     }
+    const variables = ["Creek","TmStamp","RecNum","Turb_BES","Turb_Mean","Turb_Median","Turb_Var","Turb_Min","Turb_Max","Turb_Temp"];
+    const [headers, setHeaders] = useState([])
+    const [checkedState, setCheckedState] = useState(
+        new Array(variables.length).fill(false)
+    );
+    const [selectedVariables, setSelectedVariables] = useState(
+        new Array(variables.length).fill(false)
+    );
+    const handleCheckBoxOnChange = (position) => {
+        const updatedCheckedState = checkedState.map((item, index) =>
+            index === position ? !item : item
+        );
+        setCheckedState(updatedCheckedState);
+    }
+    useEffect(()=> {
+        if ( !creekData.isLoading && !flowData.isLoading) {
+            let h = [];
+            selectedVariables.map((x,index) => {
+                if (x) {
+                    h.push(variables[index]);
+                }
+            });
+            setHeaders(h);
+            let selectedCreekData = [];
+            creekData.data.forEach((element => {
+                let oneRow = [];
+                selectedVariables.map((x,index) => {
+                    if (x) {
+                        oneRow.push(element[variables[index]]);
+                    }
+                })
+                selectedCreekData.push(oneRow);
+            }));
+            setcreekcsv(selectedCreekData); 
+            setflowcsv(flowData.data);                  
+        }
+    },[creekData.isLoading,flowData.isLoading,selectedVariables])
     return (
     <>
         <center>
@@ -89,6 +119,23 @@ function StreamData() {
                     <option value="2">Middle Creek</option>
                     <option value="3">Scotts Creek</option>
                 </select>
+            </div>
+            <div className='variables-container'>
+                {variables.map((name,index)=> {
+                    return (
+                        <div key={index}>
+                            <input
+                                type="checkbox"
+                                id={`custom-checkbox-${index}`}
+                                name={name}
+                                value={name}
+                                checked={checkedState[index]}
+                                onChange={() => handleCheckBoxOnChange(index)}
+                            />
+                            <label htmlFor={`custom-checkbox-${index}`}>{name}</label>
+                        </div>
+                    )
+                })}
             </div>
             <div className='one-date-container'>
             <p className='date-label'>Start Date</p>
@@ -118,7 +165,7 @@ function StreamData() {
         
         {creekData.isLoading && <center>Fetching Data...</center>}
         {flowData.isLoading && <center>Fetching Data...</center>}
-        {!creekData.isLoading && creekData.data.length != 0 && <CSVLink data={creekcsv} className="csv-link" target="_blank">Download Real Time Stream Data</CSVLink>}
+        {!creekData.isLoading && creekData.data.length != 0 && <CSVLink data={creekcsv} className="csv-link" target="_blank" headers={headers}>Download Real Time Stream Data</CSVLink>}
         {!creekData.isLoading && creekData.data.length == 0 && <p>There is no real time stream data.</p>}
         {!flowData.isLoading && flowData.data.length != 0 && <CSVLink data={flowcsv} className="csv-link" target="_blank">Download Real Time Flow Data</CSVLink>}
         {!flowData.isLoading && flowData.data.length == 0 && <p>There is no real time flow data.</p>}

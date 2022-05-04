@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import Highcharts from 'highcharts';
 import MetChart from './MetChart.js';
 
-import DatePicker from "react-datepicker";
-
 import "react-datepicker/dist/react-datepicker.css";
+import DataDisclaimer from '../../DataDisclaimer.js';
+import DateRangePicker from '../../DateRangePicker.js';
 
 export default function Met(props) {
     var MyAirTemp_RelHumChartProps = {
@@ -71,7 +71,7 @@ export default function Met(props) {
                 return [dateString].concat(
                     this.points ?
                         this.points.map(function (point) {
-                            if (point.series.name  == 'Relative Humidity') {
+                            if (point.series.name  == 'Relative Humidity Clean' || point.series.name == 'Relative Humidity Live') {
                                 return point.series.name + ': ' + point.y +'%'
                             }
                             else {
@@ -86,7 +86,7 @@ export default function Met(props) {
 
         series: [
             {
-                name: 'Air Temperature',
+                name: 'Air Temperature Clean',
                 data: [],
                 selected: true,
                 yAxis: 0,
@@ -94,11 +94,28 @@ export default function Met(props) {
                 
             }, 
             {
-                name: 'Relative Humidity',
+                name: 'Air Temperature Live',
+                data: [],
+                selected: true,
+                yAxis: 0,
+                color: Highcharts.getOptions().colors[3],
+                dashStyle: 'dash',
+                
+            },
+            {
+                name: 'Relative Humidity Clean',
                 data: [],
                 selected: true,
                 yAxis: 1,
                 color: Highcharts.getOptions().colors[0],
+            },
+            {
+                name: 'Relative Humidity Live',
+                data: [],
+                selected: true,
+                yAxis: 1,
+                color: Highcharts.getOptions().colors[0],
+                dashStyle: 'dash',
             },
                 
         ],
@@ -139,11 +156,18 @@ export default function Met(props) {
     
         series: [
             {
-                name: 'Atmospheric Pressure',
+                name: 'Atmospheric Pressure Clean',
                 data: [],
                 selected: true,
                 color: Highcharts.getOptions().colors[4]
             },
+            {
+                name: 'Atmospheric Pressure Live',
+                data: [],
+                selected: true,
+                dashStyle: 'dash',
+                color: Highcharts.getOptions().colors[4]
+            }
         ],
         tooltip: {
             headerFormat: '<b>{series.name} {point.y} kPA</b><br>',
@@ -166,7 +190,8 @@ export default function Met(props) {
                     text: ''
                 },
                 xAxis: {
-                    type: 'datetime'
+                    type: 'datetime',
+                    offset: 40
                 },
                 yAxis: 
                 [{ 
@@ -187,11 +212,11 @@ export default function Met(props) {
                     labels: {
                         formatter: function() {
                             var obj = {
-                                0: 'South',
-                                90: 'West',
-                                180: 'North',
-                                270: 'East',
-                                360: 'South'
+                                0: 'North',
+                                90: 'East',
+                                180: 'South',
+                                270: 'West',
+                                360: 'North'
                             }
                         return (obj[this.value])
                         }
@@ -249,28 +274,67 @@ export default function Met(props) {
                         tooltip: {
                             headerFormat: '<b>{series.name} {point.y} m/s</b><br>',
                             pointFormat: '{point.x:%m/%d/%y %H:%M:%S}'
+                            // pointFormat: '',
+                            // footerFormat: '{point.x:%m/%d/%y %H:%M:%S}<br>'
                         }
-                    }
+                    },
                 },
-    
+                // tooltip: {
+                //     shared: true,
+                // },
                 series: [
                     {
-                        name: 'Wind Direction',
-                        data: [],
+                        name: 'Wind Direction Clean',
+                        selected: true,
+                        yAxis: 0,
+                        color: Highcharts.getOptions().colors[1],
+                        type: 'scatter',
+                        // type: 'windbarb',
+                        // keys: ['x', 'value', 'direction'],
+                        // data: [],
+                        // tooltip: {
+                        //     pointFormatter: function() {
+                        //         return "<b>Wind Direction " + this.direction + "°</b><br>"
+                        //     }
+                        // },
+                        // zoneAxis: 'x',
+                    },
+                    {
+                        name: 'Wind Direction Live',
                         selected: true,
                         yAxis: 0,
                         color: Highcharts.getOptions().colors[3],
                         type: 'scatter',
+                        // dashStyle: 'dash',
+                        // type: 'windbarb',
+                        // keys: ['x', 'value', 'direction'],
+                        // data: [],
+                        // tooltip: {
+                        //     pointFormatter: function() {
+                        //         return "<b>Wind Direction " + this.direction + "°</b><br>"
+                        //     }
+                        // }
                     },
                     {
-                        name: 'Wind Speed',
+                        name: 'Wind Speed Clean',
                         data: [],
                         selected: true,
                         yAxis: 1,
                         color: Highcharts.getOptions().colors[0],
                         type: 'line',
-                    }, 
-                     
+                        // zoneAxis: 'x',
+                        
+                    },
+                    {
+                        name: 'Wind Speed Live',
+                        data: [],
+                        selected: true,
+                        yAxis: 1,
+                        color: Highcharts.getOptions().colors[0],
+                        dashStyle: 'dash',
+                    },
+                    
+                    
                 ],
                 updateTime: {
                     setTime: 0,
@@ -278,71 +342,129 @@ export default function Met(props) {
                 },
 
     }
+    var solarRadiationChartProps = {
+        chart: {
+            zoomType: 'x'
+        },
+        time: {
+            useUTC: false
+        },
+        title: {
+            text: ''
+        },
+        xAxis: {
+            type: 'datetime'
+        },
+        yAxis: {
+            labels: {
+                format: '{value}',
+                style: {
+                    color: Highcharts.getOptions().colors[4]
+                }
+            },
+            title: {
+                text: 'Solar [W/m2]',
+                style: {
+                    color: Highcharts.getOptions().colors[4]
+                }
+            },
+            lineColor: Highcharts.getOptions().colors[4],
+            lineWidth: 5,
+        },
+    
+        series: [
+            {
+                name: 'Solar Radiation Clean',
+                data: [],
+                selected: true,
+                color: Highcharts.getOptions().colors[4]
+            },
+            {
+                name: 'Solar Radiation Live',
+                data: [],
+                selected: true,
+                dashStyle: 'dash',
+                color: Highcharts.getOptions().colors[4]
+            }
+        ],
+        tooltip: {
+            headerFormat: '<b>{series.name} {point.y} W/m2</b><br>',
+            pointFormat: '{point.x:%m/%d/%y %H:%M:%S} PST'
+        },
+        updateTime: {
+            setTime: 0,
+            endTime: 0,
+        }
+    }
     var today = new Date();
     console.log(today);
     var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
     console.log(lastWeek);
     const [startDate, setStartDate] = useState(lastWeek);
     const [endDate, setEndDate] = useState(today);
-
+    const [startGraphDate, setGraphStartDate] = useState(lastWeek);
+    const [endGraphDate, setGraphEndDate] = useState(today);
+    function handleStartDateChange(e) {
+        setStartDate(e);
+    }
+    function handleEndDateChange(e) {
+        setEndDate(e);
+    }
+    function setGraphDates() {
+        setGraphStartDate(startDate);
+        setGraphEndDate(endDate);
+    }
     return (
         <div>
             <div className='station-page-header'>
                 <h1 className='station-page-title'>{props.name}</h1>
             </div>
-            <div className='data-disclaimer'>
-                <p className='disclaimer1'>Note: These data are provisional and not error checked!</p>
-                <p className='disclaimer2'>These data were collected and are currently being processed and analyzed by 
-                    the UC Davis Tahoe Environmental Research Center (TERC). They are 
-                    considered preliminary. Do not use or distribute without written permission 
-                    from TERC.</p>
-                <p className='disclaimer2'>For all questions please contact Dr. Shohei Watanabe (swatanabe@ucdavis.edu) or Dr. Alicia Cortes (alicortes@ucdavis.edu)</p>
+            <DataDisclaimer/>
+            <div className='data-desc-container'>
+                <p className='data-desc'>Select start and end dates (maximum 150 day period). <br/>
+                    Click submit to update the graphs below.<br/>
+                    Allow some time for the data to be fetched. The longer the selected time period, the longer it will take to load.<br/>
+                    Use the hamburger icon on the top right of each graph to download the data displayed in the graph.<br/>
+                    Click and drag in the plot area to zoom in.<br/>
+                    Solid line means data comes from database with cleaned data, while dashed line means data is real time.
+                </p>
             </div>
-            <div className='date-container'>
-                <div className='one-date-container'>
-                <p>Start Date</p>
-                <DatePicker
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
-                    selectsStart
-                    startDate={startDate}
-                    endDate={endDate}
-                />
-                </div>
-                <div className='one-date-container'>
-                <p>End Date</p>
-                <DatePicker
-                    selected={endDate}
-                    onChange={(date) => setEndDate(date)}
-                    selectsEnd
-                    startDate={startDate}
-                    endDate={endDate}
-                    minDate={startDate}
-                />
-                </div>
-            </div>
-            <MetChart 
-                fromDate={startDate} 
+            <DateRangePicker 
+                startDate={startDate} 
                 endDate={endDate} 
+                handleStartDateChange={handleStartDateChange}
+                handleEndDateChange={handleEndDateChange}
+                setGraphDates={setGraphDates} 
+                maxDays={150}/>
+            <MetChart 
+                fromDate={startGraphDate} 
+                endDate={endGraphDate} 
                 id={props.id}
                 dataType={"Rel_Humidity"}
                 dataType2={"Air_Temp"}
                 chartProps={MyAirTemp_RelHumChartProps}
              />
             <MetChart 
-                fromDate={startDate} 
-                endDate={endDate} 
+                fromDate={startGraphDate} 
+                endDate={endGraphDate} 
                 id={props.id}
                 dataType={"Atm_Pres"}
                 chartProps={MyAtmPressureChartProps}
              />
             <MetChart 
-                fromDate={startDate} 
-                endDate={endDate} 
+                fromDate={startGraphDate} 
+                endDate={endGraphDate} 
                 id={props.id}
                 dataType={"Wind_Speed"}
                 dataType2={"Wind_Dir"}
                 chartProps={MyWindSpeedDirChart}
+             />
+            <MetChart 
+                fromDate={startDate} 
+                endDate={endDate} 
+                id={props.id}
+                dataType={"Solar_Rad"}
+                chartProps={solarRadiationChartProps}
              />
         </div>
         

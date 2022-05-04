@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { CSVLink } from 'react-csv';
 import useFetch from 'react-fetch-hook';
 import DatePicker from 'react-datepicker';
+import { convertDate, addDays, subDays } from '../../utils';
 
 function StreamData() { 
     var today = new Date();
@@ -48,29 +49,6 @@ function StreamData() {
     const [creekcsv, setcreekcsv] = useState([])
     const [flowcsv, setflowcsv] = useState([])
     
-    function convertDate(date) {
-        let year = date.getFullYear().toString();
-        let month = (date.getMonth()+1).toString();
-        let day = date.getDate().toString();
-        if (month.length < 2) {
-            month = '0' + month;
-        }
-        if (day.length < 2) {
-            day = '0' + day;
-        }
-        return year+month+day;
-    }
-    function subDays(date, num) {
-        return new Date(new Date().setDate(date.getDate() - num));
-    }
-    function addDays(date, num) {
-        let x = new Date(new Date().setDate(date.getDate() + num));
-        if (today < x) {
-            return today
-        } else {
-            return x
-        }
-    }
     const variables = ["Creek","TmStamp","RecNum","Turb_BES","Turb_Mean","Turb_Median","Turb_Var","Turb_Min","Turb_Max","Turb_Temp"];
     const [headers, setHeaders] = useState([])
     const [checkedState, setCheckedState] = useState(

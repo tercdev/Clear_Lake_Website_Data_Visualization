@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { CSVLink } from 'react-csv';
 import useFetch from 'react-fetch-hook';
 import DatePicker from 'react-datepicker';
+import { convertDate } from '../../utils';
 
 function MeterologyData() {
     var today = new Date();
@@ -54,18 +55,6 @@ function MeterologyData() {
     const [cleanData, setCleanData] = useState([])
     const [realTimeData, setRealTimeData] = useState([])
     
-    function convertDate(date) {
-        let year = date.getFullYear().toString();
-        let month = (date.getMonth()+1).toString();
-        let day = date.getDate().toString();
-        if (month.length < 2) {
-            month = '0' + month;
-        }
-        if (day.length < 2) {
-            day = '0' + day;
-        }
-        return year+month+day;
-    }
     const variables = ["Station_ID","DateTime_UTC","Air_Temp","Hi_Air_Temp","Low_Air_Temp","Rel_Humidity","Dew_Point","Wind_Speed","Wind_Dir","Hi_Wind_Speed","Hi_Wind_Speed_Dir","Atm_Pres","Rain","Rain_Rate","Solar_Rad","Solar_Energy"];
     const [headers, setHeaders] = useState([])
     const [checkedState, setCheckedState] = useState(

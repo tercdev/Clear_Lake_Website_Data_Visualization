@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { CSVLink } from 'react-csv';
-import DateRangePicker from './DateRangePicker';
 import useFetch from 'react-fetch-hook';
 import DatePicker from 'react-datepicker';
 

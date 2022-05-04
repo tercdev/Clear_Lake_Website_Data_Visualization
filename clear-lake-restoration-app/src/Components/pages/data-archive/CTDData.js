@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { CSVLink } from 'react-csv';
-import DateRangePicker from './DateRangePicker';
 import useFetch from 'react-fetch-hook';
 import DatePicker from 'react-datepicker';
 
-function TChainData() {
+function CTDData() {
     var today = new Date();
     var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
     const [startDate, setStartDate] = useState(lastWeek);
@@ -27,22 +26,32 @@ function TChainData() {
 
     
 
-    var url = new URL('https://3kgpak926a.execute-api.us-west-2.amazonaws.com/default/clearlake-profiledata')
-    var search_params = url.searchParams;
-    search_params.set('id',id);
-    search_params.set('start',convertDate(startGraphDate));
-    search_params.set('end',convertDate(endGraphDate));
-    url.search = search_params.toString();
+    var temp_url = new URL('https://18eduqff9f.execute-api.us-west-2.amazonaws.com/default/clearlake-laketemperature')
+    var search_params_temp = temp_url.searchParams;
+    search_params_temp.set('id',id);
+    search_params_temp.set('start',convertDate(startGraphDate));
+    search_params_temp.set('end',convertDate(endGraphDate));
+    temp_url.search = search_params_temp.toString();
     
-    const profileData = useFetch(url.toString());
+    const tempData = useFetch(temp_url.toString());
 
-    const [profilecsv, setprofilecsv] = useState([])
+    var oxy_url = new URL('https://f6axabo7w6.execute-api.us-west-2.amazonaws.com/default/clearlake-lakeoxygen');
+    var search_params_oxy = oxy_url.searchParams;
+    search_params_oxy.set('id',id);
+    search_params_oxy.set('start',convertDate(startGraphDate));
+    search_params_oxy.set('end',convertDate(endGraphDate));
+    oxy_url.search = search_params_oxy.toString();
 
+    const oxyData = useFetch(oxy_url.toString());
+
+    const [oxycsv, setoxycsv] = useState([])
+    const [tempcsv, settempcsv] = useState([])
     useEffect(()=> {
-        if (!profileData.isLoading){
-            setprofilecsv(profileData.data);                  
+        if (!oxyData.isLoading && !tempData.isLoading) { 
+            settempcsv(tempData.data);                  
+            setoxycsv(oxyData.data); 
         }
-    },[profileData.isLoading])
+    },[oxyData.isLoading,tempData.isLoading])
     
     function convertDate(date) {
         let year = date.getFullYear().toString();
@@ -95,12 +104,15 @@ function TChainData() {
             </div>
             <button className="submitButton" onClick={setGraphDates}>Submit</button>
         
-        {profileData.isLoading && <center>Fetching Data...</center>}
-        {!profileData.isLoading && profileData.data.length != 0 && <CSVLink data={profilecsv} className="csv-link" target="_blank">Download Profile Data</CSVLink>}
-        {!profileData.isLoading && profileData.data.length == 0 && <p>There is no profile data.</p>}
+        {oxyData.isLoading && <center>Fetching Data...</center>}
+        {tempData.isLoading && <center>Fetching Data...</center>}
+        {!oxyData.isLoading && oxyData.data.length != 0 && <CSVLink data={oxycsv} className="csv-link" target="_blank">Download Lake Oxygen Data</CSVLink>}
+        {!oxyData.isLoading && oxyData.data.length == 0 && <p>There is no lake oxygen data.</p>}
+        {!tempData.isLoading && tempData.data.length != 0 && <CSVLink data={tempcsv} className="csv-link" target="_blank">Download Lake Temperature Data</CSVLink>}
+        {!tempData.isLoading && tempData.data.length == 0 && <p>There is no lake temperature data.</p>}
         </center>
     </>
     )
 }
 
-export default TChainData;
+export default CTDData;

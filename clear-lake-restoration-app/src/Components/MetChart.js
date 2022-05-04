@@ -83,7 +83,8 @@ function getFilteredData(data, dataType) {
     //     var data = cleanTurbMeanData(data,dataType)
     // }
     data.forEach((element => {
-        let pstTime = convertGMTtoPSTTime(new Date(element.DateTime_UTC));
+        // let pstTime = convertGMTtoPSTTime(new Date(element.DateTime_UTC));
+        let pstTime = new Date(element.DateTime_UTC);
         if (dataType == "Wind_Dir") {
             m.push([pstTime.getTime(), cardinalToDeg(element[dataType])]);
         } else {
@@ -161,13 +162,21 @@ export default function MetChart({
         let filteredRealTimeData = getFilteredData(realTimeData.data, dataType); // start from lastdate
         if (filteredData.length != 0) {
             var lastdate = filteredData[0][0]
-            filteredRealTimeData = removePast(filteredRealTimeData, lastdate);
-        }
-        if (filteredData.length != 0) {
-            if (Date(filteredData[0][0]) == Date(filteredRealTimeData[0][0])) {
+            console.log(filteredRealTimeData)
+            console.log(filteredData)
+            console.log(new Date(filteredData[0][0])) //1643155200000
+            console.log(new Date(filteredRealTimeData[filteredRealTimeData.length-1][0])) //1644004801000
+            
+            let dataLastDate = new Date(filteredData[0][0]);
+            let realDataLastDate = new Date(filteredRealTimeData[0][0]);
+            let realDataFirstDate = new Date(filteredRealTimeData[filteredRealTimeData.length-1][0])
+            if (dataLastDate.getDay() == realDataLastDate.getDay() || dataLastDate.getDay() == realDataFirstDate.getDay()) {
                 filteredRealTimeData = []
                 lastdate = undefined
             }
+            filteredRealTimeData = removePast(filteredRealTimeData, lastdate);
+            
+            console.log(filteredRealTimeData)
         }
 
         if (dataType2) {
@@ -175,65 +184,72 @@ export default function MetChart({
             console.log(filteredData2)
             let filteredRealTimeData2 = getFilteredData(realTimeData.data,dataType2);
             if (filteredData2.length != 0) {
-                filteredRealTimeData2 = removePast(filteredRealTimeData2, lastdate);
-                if (Date(filteredData2[0][0]) == Date(filteredRealTimeData2[0][0])) {
+                lastdate = filteredData[0][0];
+                let dataLastDate = new Date(filteredData2[0][0]);
+                let realDataLastDate = new Date(filteredRealTimeData2[0][0]);
+                let realDataFirstDate = new Date(filteredRealTimeData2[filteredRealTimeData2.length-1][0])            
+                if (dataLastDate.getDay() == realDataLastDate.getDay() || dataLastDate.getDay() == realDataFirstDate.getDay()) {
                     filteredRealTimeData2 = []
                     lastdate = undefined
                 }
+                filteredRealTimeData2 = removePast(filteredRealTimeData2, lastdate);
+                
+                console.log(filteredRealTimeData2)
+                
             }
-            if (dataType2 == "Wind_Dir") {
-                var windbarbData = getWindbarbData(data);
-                let windbarbRealTimeData = getWindbarbData(realTimeData.data);
-                if (windbarbData.length != 0) {
-                    windbarbRealTimeData = removePast(windbarbRealTimeData, lastdate);
-                    if (Date(windbarbData[0][0]) == Date(windbarbRealTimeData[0][0])) {
-                        windbarbRealTimeData = []
-                        lastdate = undefined
-                    }
-                }
-                if (windbarbRealTimeData == []) {
-                    setChartOptions(()=>({
-                        series: [
-                            {
-                                data: filteredData
-                            },
-                            {
-                                data: filteredRealTimeData
-                            },
-                            {
-                                data: windbarbData
-                            },
-                            {
-                                // data: windbarbRealTimeData
-                            },
-                        ],
-                    }))
-                } else {
-                    setChartOptions(()=>({
-                        series: [
-                            {
-                                data: filteredData
-                            },
-                            {
-                                data: filteredRealTimeData
-                            },
-                            {
-                                data: windbarbData
-                            },
-                            {
-                                data: windbarbRealTimeData
-                            },
-                        ],
-                        xAxis: {
-                            plotLines: [{
-                                color: '#FF0000',
-                                width: 5,
-                                value: lastdate
-                            }]
-                        }
-                    }))
-                }
-            } else {
+            // if (dataType2 == "Wind_Dir") {
+            //     var windbarbData = getWindbarbData(data);
+            //     let windbarbRealTimeData = getWindbarbData(realTimeData.data);
+            //     if (windbarbData.length != 0) {
+            //         windbarbRealTimeData = removePast(windbarbRealTimeData, lastdate);
+            //         if (Date(windbarbData[0][0]) == Date(windbarbRealTimeData[0][0])) {
+            //             windbarbRealTimeData = []
+            //             lastdate = undefined
+            //         }
+            //     }
+            //     if (windbarbRealTimeData == []) {
+            //         setChartOptions(()=>({
+            //             series: [
+            //                 {
+            //                     data: filteredData
+            //                 },
+            //                 {
+            //                     data: filteredRealTimeData
+            //                 },
+            //                 {
+            //                     data: windbarbData
+            //                 },
+            //                 {
+            //                     // data: windbarbRealTimeData
+            //                 },
+            //             ],
+            //         }))
+            //     } else {
+            //         setChartOptions(()=>({
+            //             series: [
+            //                 {
+            //                     data: filteredData
+            //                 },
+            //                 {
+            //                     data: filteredRealTimeData
+            //                 },
+            //                 {
+            //                     data: windbarbData
+            //                 },
+            //                 {
+            //                     data: windbarbRealTimeData
+            //                 },
+            //             ],
+            //             xAxis: {
+            //                 plotLines: [{
+            //                     color: '#FF0000',
+            //                     width: 5,
+            //                     value: lastdate
+            //                 }]
+            //             }
+            //         }))
+            //     }
+            // } else {
                 setChartOptions(()=> ({
                     series: [
                         {
@@ -257,7 +273,7 @@ export default function MetChart({
                         }]
                     }
                 }))
-            }
+            // }
         }
         else {
             console.log("here")

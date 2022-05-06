@@ -27,7 +27,6 @@ function StreamRealData() {
     const [id, setId] = useState(1);
     var url = new URL('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/cl-creeks');
     
-
     var search_params = url.searchParams;
     search_params.set('id',id);
     search_params.set('rptdate',convertDate(startGraphDate)); // at most 180 days

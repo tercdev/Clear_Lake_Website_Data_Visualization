@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker';
 import { convertDate } from '../../utils';
 
 function CTDData() {
+    const [showButton, setShowButton] = useState(false);
     var today = new Date();
     var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
     const [startDate, setStartDate] = useState(lastWeek);
@@ -13,9 +14,11 @@ function CTDData() {
     const [endGraphDate, setGraphEndDate] = useState(today);
     function handleStartDateChange(e) {
         setStartDate(e);
+        setShowButton(false)
     }
     function handleEndDateChange(e) {
         setEndDate(e);
+        setShowButton(false)
     }
     function setGraphDates() {
         setGraphStartDate(startDate);
@@ -51,6 +54,7 @@ function CTDData() {
         if (!oxyData.isLoading && !tempData.isLoading) { 
             settempcsv(tempData.data);                  
             setoxycsv(oxyData.data); 
+            setShowButton(true)
         }
     },[oxyData.isLoading,tempData.isLoading])
     
@@ -59,7 +63,7 @@ function CTDData() {
         <center>
             <div className='location-container'>
                 <p className='date-label'>Location</p>
-                <select onChange={(e) => setIdTemp(e.target.value)}>
+                <select onChange={(e) => {setIdTemp(e.target.value); setShowButton(false)}}>
                     <option value="1">LA-03</option>
                     <option value="2">NR-02</option>
                     <option value="3">OA-04</option>
@@ -95,10 +99,10 @@ function CTDData() {
         
         {oxyData.isLoading && <center>Fetching Data...</center>}
         {tempData.isLoading && <center>Fetching Data...</center>}
-        {!oxyData.isLoading && oxyData.data.length != 0 && <CSVLink data={oxycsv} className="csv-link" target="_blank">Download Lake Oxygen Data</CSVLink>}
-        {!oxyData.isLoading && oxyData.data.length == 0 && <p>There is no lake oxygen data.</p>}
-        {!tempData.isLoading && tempData.data.length != 0 && <CSVLink data={tempcsv} className="csv-link" target="_blank">Download Lake Temperature Data</CSVLink>}
-        {!tempData.isLoading && tempData.data.length == 0 && <p>There is no lake temperature data.</p>}
+        {!oxyData.isLoading && oxyData.data.length != 0 && showButton && <CSVLink data={oxycsv} className="csv-link" target="_blank">Download Lake Oxygen Data</CSVLink>}
+        {!oxyData.isLoading && oxyData.data.length == 0 && <p>There is no lake oxygen data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}
+        {!tempData.isLoading && tempData.data.length != 0 && showButton && <CSVLink data={tempcsv} className="csv-link" target="_blank">Download Lake Temperature Data</CSVLink>}
+        {!tempData.isLoading && tempData.data.length == 0 && <p>There is no lake temperature data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}
         </center>
     </>
     )

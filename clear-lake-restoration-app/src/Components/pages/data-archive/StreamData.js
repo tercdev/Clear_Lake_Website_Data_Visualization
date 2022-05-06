@@ -3,8 +3,10 @@ import { CSVLink } from 'react-csv';
 import useFetch from 'react-fetch-hook';
 import DatePicker from 'react-datepicker';
 import { convertDate, addDays, subDays } from '../../utils';
+import Multiselect from 'multiselect-react-dropdown';
 
-function StreamData() { 
+function StreamData(props) {
+    const [showButton, setShowButton] = useState(false);
     var today = new Date();
     var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
     const [startDate, setStartDate] = useState(lastWeek);
@@ -13,9 +15,11 @@ function StreamData() {
     const [endGraphDate, setGraphEndDate] = useState(today);
     function handleStartDateChange(e) {
         setStartDate(e);
+        setShowButton(false)
     }
     function handleEndDateChange(e) {
         setEndDate(e);
+        setShowButton(false)
     }
     function setGraphDates() {
         setGraphStartDate(startDate);
@@ -25,50 +29,50 @@ function StreamData() {
     }
     const [idTemp, setIdTemp] = useState(1);
     const [id, setId] = useState(1);
-    var url = new URL('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/cl-creeks');
-    var flowurl = new URL('https://b8xms0pkrf.execute-api.us-west-2.amazonaws.com/default/clearlake-streams')
-
-    var search_params_flow = flowurl.searchParams;
-    search_params_flow.set('id',id);
-    search_params_flow.set('start',convertDate(startGraphDate));
-    search_params_flow.set('end',convertDate(endGraphDate));
-    flowurl.search = search_params_flow.toString();
-    var flow_new_url = flowurl.toString();
+    var url = new URL(props.url);
     
-    const flowData = useFetch(flow_new_url);
-
     var search_params = url.searchParams;
     search_params.set('id',id);
-    search_params.set('rptdate',convertDate(startGraphDate)); // at most 180 days
-    search_params.set('rptend',convertDate(endGraphDate));
+    if (props.id == "Clean") {
+        search_params.set('start', convertDate(startGraphDate));
+        search_params.set('end', convertDate(endGraphDate));
+    } else {
+        let oldestDate = new Date(new Date().setDate(endGraphDate.getDate() - 180));
+        if (startGraphDate < oldestDate) {
+            search_params.set('rptdate', convertDate(oldestDate));
+        } else {
+            search_params.set('rptdate', convertDate(startGraphDate)); // at most 180 days away from endDate
+        }
+        search_params.set('rptend',convertDate(endGraphDate));
+    }
     url.search = search_params.toString();
 
     var new_url = url.toString();
     const creekData = useFetch(new_url);
 
     const [creekcsv, setcreekcsv] = useState([])
-    const [flowcsv, setflowcsv] = useState([])
     
-    const variables = ["Creek","TmStamp","RecNum","Turb_BES","Turb_Mean","Turb_Median","Turb_Var","Turb_Min","Turb_Max","Turb_Temp"];
+    // const variables = ["Creek","TmStamp","RecNum","Turb_BES","Turb_Mean","Turb_Median","Turb_Var","Turb_Min","Turb_Max","Turb_Temp"];
     const [headers, setHeaders] = useState([])
     const [checkedState, setCheckedState] = useState(
-        new Array(variables.length).fill(false)
+        new Array(props.variables.length).fill(false)
     );
     const [selectedVariables, setSelectedVariables] = useState(
-        new Array(variables.length).fill(false)
+        new Array(props.variables.length).fill(false)
     );
     const handleCheckBoxOnChange = (position) => {
         const updatedCheckedState = checkedState.map((item, index) =>
             index === position ? !item : item
         );
         setCheckedState(updatedCheckedState);
+        setShowButton(false)
     }
     useEffect(()=> {
-        if ( !creekData.isLoading && !flowData.isLoading) {
+        if (!creekData.isLoading) {
             let h = [];
             selectedVariables.map((x,index) => {
                 if (x) {
-                    h.push(variables[index]);
+                    h.push(props.variables[index]);
                 }
             });
             setHeaders(h);
@@ -77,28 +81,48 @@ function StreamData() {
                 let oneRow = [];
                 selectedVariables.map((x,index) => {
                     if (x) {
-                        oneRow.push(element[variables[index]]);
+                        oneRow.push(element[props.variables[index]]);
                     }
                 })
                 selectedCreekData.push(oneRow);
             }));
             setcreekcsv(selectedCreekData); 
-            setflowcsv(flowData.data);                  
+            setShowButton(true);
         }
-    },[creekData.isLoading,flowData.isLoading,selectedVariables])
+    },[creekData.isLoading,selectedVariables])
+    const options = props.variables.map((x,index) => {return {name: x, id: index}})
+    function onSelect(selectedList, selectedItem) {
+        let temp = checkedState;
+        temp[selectedItem.id] = true
+        setCheckedState(temp)
+        setShowButton(false)
+    }
+    function onRemove(selectedList, selectedItem) {
+        let temp = checkedState
+        temp[selectedItem.id] = false
+        setCheckedState(temp)
+        setShowButton(false)
+    }
     return (
-    <>
         <center>
             <div className='location-container'>
                 <p className='date-label'>Location</p>
-                <select onChange={(e) => setIdTemp(e.target.value)}>
+                <select onChange={(e) => {setIdTemp(e.target.value); setShowButton(false);}}>
                     <option value="1">Kelsey Creek</option>
                     <option value="2">Middle Creek</option>
                     <option value="3">Scotts Creek</option>
                 </select>
             </div>
-            <div className='variables-container'>
-                {variables.map((name,index)=> {
+            <Multiselect
+                options={options}
+                displayValue="name"
+                onKeyPressFn={function noRefCheck(){}}
+                onRemove={onRemove}
+                onSearch={function noRefCheck(){}}
+                onSelect={onSelect}
+            />
+            {/* <div className='variables-container'>
+                {props.variables.map((name,index)=> {
                     return (
                         <div key={index}>
                             <input
@@ -113,7 +137,7 @@ function StreamData() {
                         </div>
                     )
                 })}
-            </div>
+            </div> */}
             <div className='one-date-container'>
             <p className='date-label'>Start Date</p>
             <DatePicker
@@ -123,7 +147,7 @@ function StreamData() {
                 startDate={startDate}
                 endDate={endDate}
                 maxDate={endDate}
-                minDate={subDays(endDate, 180)}
+                // minDate={subDays(endDate, 180)}
             />
             </div>
             <div className='one-date-container'>
@@ -135,20 +159,17 @@ function StreamData() {
                 startDate={startDate}
                 endDate={endDate}
                 minDate={startDate}
-                maxDate={addDays(startDate, 180, today)}
+                // maxDate={addDays(startDate, 180, today)}
+                maxDate={today}
             />
             </div>
             <button className="submitButton" onClick={setGraphDates}>Submit</button>
         
         {creekData.isLoading && <center>Fetching Data...</center>}
-        {flowData.isLoading && <center>Fetching Data...</center>}
-        {!creekData.isLoading && creekData.data.length != 0 && <CSVLink data={creekcsv} className="csv-link" target="_blank" headers={headers}>Download Real Time Stream Data</CSVLink>}
-        {!creekData.isLoading && creekData.data.length == 0 && <p>There is no real time stream data.</p>}
-        {!flowData.isLoading && flowData.data.length != 0 && <CSVLink data={flowcsv} className="csv-link" target="_blank">Download Real Time Flow Data</CSVLink>}
-        {!flowData.isLoading && flowData.data.length == 0 && <p>There is no real time flow data.</p>}
-        <p>Real time data is limited to 180 days.</p>
+        {!creekData.isLoading && creekData.data.length != 0 && showButton && <CSVLink data={creekcsv} className="csv-link" target="_blank" headers={headers}>Download {props.id} Stream Data</CSVLink>}
+        {!creekData.isLoading && creekData.data.length == 0 && <p>There is no {props.id.toLowerCase()} stream data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}
+        
         </center>
-    </>
     )
 }
 

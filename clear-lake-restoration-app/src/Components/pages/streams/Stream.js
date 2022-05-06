@@ -74,9 +74,9 @@ export default function Stream(props) {
         }, {
             type: 'datetime',
             opposite: true,
-            // linkedTo: 0
-            // min: 0,
-            // max: 0,
+        }, {
+            type: 'datetime',
+            top: '-40%'
         }],
         yAxis: 
         [{ // Primary yAxis
@@ -338,7 +338,7 @@ export default function Stream(props) {
                         value: lastdate
                     }]
                 },
-                xAxis: [{min: minX, max: maxX},{min: minX, max: maxX}]
+                xAxis: [{min: minX, max: maxX},{min: minX, max: maxX},{min: minX, max: maxX}]
             })
         }
     },[startGraphDate,endGraphDate,creekData.isLoading,flowData.isLoading,rainData.isLoading,cleanData.isLoading])

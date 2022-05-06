@@ -1,9 +1,9 @@
 import React from 'react';
-import MeterologyData from './MeterologyData';
-import StreamData from './StreamData';
+import MeterologyDataSection from './MeterologyDataSection';
 import CTDData from './CTDData';
 import TChainData from './TChainData';
 import './DataArchive.css';
+import StreamDataSection from './StreamDataSection';
 
 function DataArchive() {
     return(
@@ -29,11 +29,11 @@ function DataArchive() {
             <div className='archive-container'>
                 <div>
                     <h1 className='title'>Stream Data</h1>
-                    <StreamData/>
+                    <StreamDataSection/>
                 </div>
                 <div>
                     <h1 className='title'>Meterology Data</h1>
-                    <MeterologyData/>
+                    <MeterologyDataSection/>
                 </div>
                 <div>
                     <h1 className='title'>CTD Data</h1>

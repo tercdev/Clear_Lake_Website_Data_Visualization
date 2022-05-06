@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker';
 import { convertDate } from '../../utils';
 
 function MeterologyData(props) {
+    const [showButton, setShowButton] = useState(false);
     var today = new Date();
     var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
     const [startDate, setStartDate] = useState(lastWeek);
@@ -13,9 +14,11 @@ function MeterologyData(props) {
     const [endGraphDate, setGraphEndDate] = useState(today);
     function handleStartDateChange(e) {
         setStartDate(e);
+        setShowButton(false)
     }
     function handleEndDateChange(e) {
         setEndDate(e);
+        setShowButton(false)
     }
     function setGraphDates() {
         setGraphStartDate(startDate);
@@ -63,6 +66,7 @@ function MeterologyData(props) {
             index === position ? !item : item
         );
         setCheckedState(updatedCheckedState);
+        setShowButton(false);
     }
     useEffect(()=> {
         if (!realTime.isLoading) {
@@ -90,6 +94,7 @@ function MeterologyData(props) {
             }));
             console.log(selectedRealTimeData)
             setRealTimeData(selectedRealTimeData);
+            setShowButton(true);
         }
       },[realTime.isLoading,selectedVariables])
     return (
@@ -97,7 +102,7 @@ function MeterologyData(props) {
         <center>
             <div className='location-container'>
                 <p className='date-label'>Location</p>
-                <select onChange={(e) => setIdTemp(e.target.value)}>
+                <select onChange={(e) => {setIdTemp(e.target.value); setShowButton(false);}}>
                     <option value="1">Buckingham Point</option>
                     <option value="2">Clearlake Oaks</option>
                     <option value="3">Jago Bay</option>
@@ -150,7 +155,7 @@ function MeterologyData(props) {
             <button className="submitButton" onClick={setGraphDates}>Submit</button>
         
         {realTime.isLoading && <center>Fetching Data...</center>}
-        {!realTime.isLoading && realTimeData.length != 0 && <><CSVLink data={realTimeData} className="csv-link" target="_blank" headers={headers}>Download {props.id} Met Data</CSVLink></>}
+        {!realTime.isLoading && realTimeData.length != 0 && showButton && <><CSVLink data={realTimeData} className="csv-link" target="_blank" headers={headers}>Download {props.id} Met Data</CSVLink></>}
         {!realTime.isLoading && realTimeData.length == 0 && <p>There is no {props.id.toLowerCase()} meterology data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}
         </center>
     </>

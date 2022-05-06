@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker';
 import { convertDate, addDays, subDays } from '../../utils';
 
 function StreamData(props) {
+    const [showButton, setShowButton] = useState(false);
     var today = new Date();
     var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
     const [startDate, setStartDate] = useState(lastWeek);
@@ -13,9 +14,11 @@ function StreamData(props) {
     const [endGraphDate, setGraphEndDate] = useState(today);
     function handleStartDateChange(e) {
         setStartDate(e);
+        setShowButton(false)
     }
     function handleEndDateChange(e) {
         setEndDate(e);
+        setShowButton(false)
     }
     function setGraphDates() {
         setGraphStartDate(startDate);
@@ -61,6 +64,7 @@ function StreamData(props) {
             index === position ? !item : item
         );
         setCheckedState(updatedCheckedState);
+        setShowButton(false)
     }
     useEffect(()=> {
         if (!creekData.isLoading) {
@@ -82,13 +86,14 @@ function StreamData(props) {
                 selectedCreekData.push(oneRow);
             }));
             setcreekcsv(selectedCreekData); 
+            setShowButton(true);
         }
     },[creekData.isLoading,selectedVariables])
     return (
         <center>
             <div className='location-container'>
                 <p className='date-label'>Location</p>
-                <select onChange={(e) => setIdTemp(e.target.value)}>
+                <select onChange={(e) => {setIdTemp(e.target.value); setShowButton(false);}}>
                     <option value="1">Kelsey Creek</option>
                     <option value="2">Middle Creek</option>
                     <option value="3">Scotts Creek</option>
@@ -139,7 +144,7 @@ function StreamData(props) {
             <button className="submitButton" onClick={setGraphDates}>Submit</button>
         
         {creekData.isLoading && <center>Fetching Data...</center>}
-        {!creekData.isLoading && creekData.data.length != 0 && <CSVLink data={creekcsv} className="csv-link" target="_blank" headers={headers}>Download {props.id} Stream Data</CSVLink>}
+        {!creekData.isLoading && creekData.data.length != 0 && showButton && <CSVLink data={creekcsv} className="csv-link" target="_blank" headers={headers}>Download {props.id} Stream Data</CSVLink>}
         {!creekData.isLoading && creekData.data.length == 0 && <p>There is no {props.id.toLowerCase()} stream data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}
         
         </center>

@@ -83,8 +83,8 @@ function getFilteredData(data, dataType) {
     //     var data = cleanTurbMeanData(data,dataType)
     // }
     data.forEach((element => {
-        // let pstTime = convertGMTtoPSTTime(new Date(element.DateTime_UTC));
-        let pstTime = new Date(element.DateTime_UTC);
+         let pstTime = convertGMTtoPSTTime(new Date(element.DateTime_UTC));
+
         if (dataType == "Wind_Dir") {
             m.push([pstTime.getTime(), cardinalToDeg(element[dataType])]);
         } else {

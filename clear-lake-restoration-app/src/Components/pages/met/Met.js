@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Highcharts from 'highcharts';
 import MetChart from './MetChart.js';
-
+import "./Met.css"
 import "react-datepicker/dist/react-datepicker.css";
 import DataDisclaimer from '../../DataDisclaimer.js';
 import DateRangePicker from '../../DateRangePicker.js';
@@ -10,7 +10,11 @@ export default function Met(props) {
     var MyAirTemp_RelHumChartProps = {
         chart: {
             zoomType: 'x',
+            ignoreHiddenSeries: false
         },
+        credits: {
+            enabled: false
+          },
         time: {
             useUTC: false
         },
@@ -134,6 +138,9 @@ export default function Met(props) {
         title: {
             text: ''
         },
+        credits: {
+            enabled: false
+          },
         xAxis: {
             type: 'datetime'
         },
@@ -184,14 +191,14 @@ export default function Met(props) {
                     // height: 700,
                 },
                 time : {
-                    useUTC:false
+                    useUTC: false
                 },
                 title: {
                     text: ''
                 },
                 xAxis: {
                     type: 'datetime',
-                    offset: 40
+                   // offset: 40
                 },
                 yAxis: 
                 [{ 
@@ -347,8 +354,10 @@ export default function Met(props) {
             zoomType: 'x'
         },
         time: {
-            useUTC: false
+            useUTC: false,
+            //timezone: 'America/Los_Angeles'
         },
+        //timezoneOffset: 420,
         title: {
             text: ''
         },
@@ -444,6 +453,7 @@ export default function Met(props) {
                 dataType2={"Air_Temp"}
                 chartProps={MyAirTemp_RelHumChartProps}
              />
+             <div className='chart-container'> 
             <MetChart 
                 fromDate={startGraphDate} 
                 endDate={endGraphDate} 
@@ -451,6 +461,7 @@ export default function Met(props) {
                 dataType={"Atm_Pres"}
                 chartProps={MyAtmPressureChartProps}
              />
+             </div>
             <MetChart 
                 fromDate={startGraphDate} 
                 endDate={endGraphDate} 
@@ -459,6 +470,7 @@ export default function Met(props) {
                 dataType2={"Wind_Dir"}
                 chartProps={MyWindSpeedDirChart}
              />
+              <div className='chart-container'> 
             <MetChart 
                 fromDate={startDate} 
                 endDate={endDate} 
@@ -466,6 +478,7 @@ export default function Met(props) {
                 dataType={"Solar_Rad"}
                 chartProps={solarRadiationChartProps}
              />
+             </div>
         </div>
         
     )

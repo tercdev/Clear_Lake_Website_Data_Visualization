@@ -8,12 +8,24 @@ import DataDisclaimer from '../../DataDisclaimer';
 
 import "./Stream.css";
 
+function convertGMTtoPSTTime (date) {
+    // reference: https://stackoverflow.com/questions/22493924/get-user-time-and-convert-them-to-pst
+    var offset = 420; 
+    var offsetMillis = offset * 60 * 1000;
+    var today = date;
+    var millis = today.getTime();
+    var timeZoneOffset = (today.getTimezoneOffset() * 60 * 1000);
+
+    var pst = millis - offsetMillis; 
+    return new Date(today.getTime() - timeZoneOffset);
+}
+
   // get data based on graph type
   function getFilteredData(data, dataType) {
     let m = [];
     //console.log(data)
     //console.log("datatype:",dataType)
-    if (dataType == "Flow") {
+    if (dataType == "Flow" ) {
         //var data = cleanTurbMeanData(data,dataType)
         //console.log("flow data")
         data.forEach((element => {
@@ -29,13 +41,25 @@ import "./Stream.css";
             m.push([new Date(element.DateTime_PST).getTime(), parseFloat(element[dataType])]);
         }));
     }
+    else if (dataType =="Turb_BES") {
+        data.forEach((element => {
+            let pstTime = convertGMTtoPSTTime(new Date(element.TmStamp));
+            //let temp = parseFloat(element[dataType]);
+            m.push([pstTime.getTime(), parseFloat(element[dataType])]);
+
+            // m.push([new Date(element.TmStamp).getTime(), parseFloat(element[dataType])]);
+    
+            //m.push([new Date(element.TmStamp).getTime(), parseFloat(element[dataType])]);
+        }));
+    }
     else {
         data.forEach((element => {
         //let pstTime = convertGMTtoPSTTime(new Date(element.TmStamp));
         //let temp = parseFloat(element[dataType]);
         const fToCel= temp => Math.round( (temp *1.8 )+32 );
 
-        m.push([new Date(element.TmStamp).getTime(), fToCel(parseFloat(element[dataType]))]);
+         m.push([new Date(element.TmStamp).getTime(), fToCel(parseFloat(element[dataType]))]);
+        //m.push([pstTime.getTime(), fToCel(parseFloat(element[dataType]))]);
 
         //m.push([new Date(element.TmStamp).getTime(), parseFloat(element[dataType])]);
     }));
@@ -60,16 +84,9 @@ export default function Stream(props) {
     const[tempProps,setTempProps] = useState({
         chart: {
             zoomType: 'x',
-            // events: {
-            //     load() {
-            //       console.log(this)
-            //       this.showLoading();
-            //       setTimeout(this.hideLoading.bind(this), 2000);
-            //     }
-            // }
         },
         time: {
-            useUTC: false
+            timezone: 'America/Los_Angeles'
         },
         title: {
             text: 'stream temperature',
@@ -86,7 +103,6 @@ export default function Stream(props) {
         credits: {
             enabled: false
           },
-    
         series: [
             {
                 name: 'Temperature',
@@ -107,6 +123,7 @@ export default function Stream(props) {
 
         chart: {
             zoomType: 'x',
+            ignoreHiddenSeries: false
             // events: {
             //     load() {
             //         console.log(this);
@@ -221,6 +238,9 @@ export default function Stream(props) {
     const [rainProps,setRainProps] = useState({
         chart: {
             zoomType: 'x'
+            },
+            time: {
+                useUTC: false
             },
             credits: {
                 enabled: false
@@ -379,6 +399,7 @@ export default function Stream(props) {
                 chartProps={turbProps}
                 isLoading={creekData.isLoading}
              />
+            <div className='chart-container'> 
             <StreamChart 
                 chartProps={tempProps}
                 isLoading={creekData.isLoading}
@@ -387,6 +408,8 @@ export default function Stream(props) {
                 chartProps={rainProps}
                 isLoading={creekData.isLoading}
              />
+            </div>
+
 
         </div>
     )

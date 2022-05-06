@@ -73,7 +73,10 @@ export default function Stream(props) {
             type: 'datetime',
         }, {
             type: 'datetime',
-            opposite: true
+            opposite: true,
+            // linkedTo: 0
+            // min: 0,
+            // max: 0,
         }],
         yAxis: 
         [{ // Primary yAxis
@@ -307,6 +310,8 @@ export default function Stream(props) {
             } else {
                 zoneProps = [{value: lastdate},{dashStyle: 'dash'}]
             }
+            let minX = flowfiltereddata[flowfiltereddata.length-1][0];
+            let maxX = flowfiltereddata[0][0];
             setChartProps({...chartProps,
                 series: [
                     {
@@ -332,7 +337,8 @@ export default function Stream(props) {
                         width: 5,
                         value: lastdate
                     }]
-                }
+                },
+                xAxis: [{min: minX, max: maxX},{min: minX, max: maxX}]
             })
         }
     },[startGraphDate,endGraphDate,creekData.isLoading,flowData.isLoading,rainData.isLoading,cleanData.isLoading])

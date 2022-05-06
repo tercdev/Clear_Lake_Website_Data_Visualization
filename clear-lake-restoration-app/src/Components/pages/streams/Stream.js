@@ -6,6 +6,8 @@ import useFetch from 'react-fetch-hook'
 import DateRangePicker from '../../DateRangePicker';
 import DataDisclaimer from '../../DataDisclaimer';
 
+import { convertDate } from '../../utils';
+
 import "./Stream.css";
 
   // get data based on graph type
@@ -43,91 +45,17 @@ import "./Stream.css";
    // console.log(m)
     return m.reverse();
 }
-function convertDate(date) {
-    let year = date.getFullYear().toString();
-    let month = (date.getMonth()+1).toString();
-    let day = date.getDate().toString();
-    if (month.length < 2) {
-        month = '0' + month;
-    }
-    if (day.length < 2) {
-        day = '0' + day;
-    }
-    return year+month+day;
-}
+
 export default function Stream(props) {
-    
-    const[tempProps,setTempProps] = useState({
-        chart: {
-            zoomType: 'x',
-            // events: {
-            //     load() {
-            //       console.log(this)
-            //       this.showLoading();
-            //       setTimeout(this.hideLoading.bind(this), 2000);
-            //     }
-            // }
-        },
-        time: {
-            useUTC: false
-        },
-        title: {
-            text: 'stream temperature',
-            text: null
-        },
-        xAxis: {
-            type: 'datetime'
-        },
-        yAxis: {
-            title: {
-                text: 'Temperature in Farenheit'
-            }
-        },
-        credits: {
-            enabled: false
-          },
-    
-        series: [
-            {
-                name: 'Temperature',
-                data: [],
-                selected: true
-            },
-        ],
-        tooltip: {
-            headerFormat: '<b>{series.name} {point.y} °F</b><br>',
-            pointFormat: '{point.x:%m/%d/%y %H:%M:%S} PST'
-        },
-        updateTime: {
-            setTime: 0,
-            endTime: 0,
-        }
-    })
-    const [turbProps,setTurbProps] = useState({
+    const [chartProps,setChartProps] = useState({
 
         chart: {
             zoomType: 'x',
-            // events: {
-            //     load() {
-            //         console.log(this);
-            //         this.showLoading();
-            //         // setTimeout(this.hideLoading.bind(this), 2000);
-            //     },
-            //     redraw() {
-            //         console.log(this);
-            //         this.hideLoading();
-            //     }, render() {
-            //         console.log(this);
-            //         this.hideLoading();
-            //     }, addSeries() {
-            //         this.showLoading();
-            //     }
-            // }
-            //height: 700,
+            height: (9 / 16 * 100) + '%' // 16:9 ratio
         },
         credits: {
             enabled: false
-          },
+        },
         time: {
             useUTC: false
         },
@@ -152,9 +80,10 @@ export default function Stream(props) {
                 }
             },
             opposite: true,
-            // height: '50%',
             lineColor: Highcharts.getOptions().colors[3],
             lineWidth: 5,
+            height: '33.3%',
+            offset: 0
            
         }, { // Secondary yAxis
             title: {
@@ -169,11 +98,45 @@ export default function Stream(props) {
                     color: Highcharts.getOptions().colors[0]
                 }
             },
-            // height: '50%',
-            // top: '50%',
             lineColor: Highcharts.getOptions().colors[0],
             lineWidth: 5,
+            height: '33.3%',
+            offset: 0
             
+        }, {
+            title: {
+                text: 'Temperature [°F]',
+                style: {
+                    color: Highcharts.getOptions().colors[7]
+                }
+            },
+            labels: {
+                format: '{value} °F',
+                style: {
+                    color: Highcharts.getOptions().colors[7]
+                }
+            },
+            lineColor: Highcharts.getOptions().colors[7],
+            lineWidth: 5,
+            height: '33.3%',
+            top: '33.3%',
+            offset: 0
+        }, {
+            title: {
+                text: 'Precipitation [in]',
+                style: {
+                    color: Highcharts.getOptions().colors[5]
+                }
+            },
+            labels: {
+                format: '{value} in',
+                style: {
+                    color: Highcharts.getOptions().colors[5]
+                }
+            },
+            height: '33.3%',
+            top: '66.6%',
+            offset: 0
         }],
         tooltip: {
             formatter: function () {
@@ -211,47 +174,28 @@ export default function Stream(props) {
                 yAxis: 1,
                 color: Highcharts.getOptions().colors[0],
             },
+            {
+                name: 'Temperature',
+                data: [],
+                selected: true,
+                yAxis: 2,
+                color: Highcharts.getOptions().colors[7]
+            },
+            {
+                name: 'Precipitation',
+                data: [],
+                selected: true,
+                yAxis: 3,
+                color: Highcharts.getOptions().colors[5],
+                type: 'column',
+                // pointWidth: 5
+            },
              
         ],
         updateTime: {
             setTime: 0,
             endTime: 0,
         }
-    })
-    const [rainProps,setRainProps] = useState({
-        chart: {
-            zoomType: 'x'
-            },
-            credits: {
-                enabled: false
-              },
-            title: {
-            text: ''
-            },
-            
-            xAxis: {
-            type: 'datetime'
-            },
-            yAxis: {
-            title: {
-                text: 'Precipitation [in]'
-            }
-            },
-            legend: {
-            enabled: false
-            },
-            series: [
-                {
-                    type: 'column',
-                    name: 'Precipitation',
-                    data: [],
-                }, 
-                
-            ],
-            tooltip: {
-                headerFormat: '<b>{series.name} {point.y} in</b><br>',
-                pointFormat: '{point.x:%m/%d/%y %H:%M:%S} PST'
-            },
     })
     var today = new Date();
     var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
@@ -304,44 +248,27 @@ export default function Stream(props) {
     useEffect(()=> {
         console.log("use effect for turb temp")
         console.log("creek data loading: ",creekData.isLoading)
-
-        if (!creekData.isLoading) {
-            var filteredData = getFilteredData(creekData.data,"Turb_Temp")
-            var turbFilteredData = getFilteredData(creekData.data,"Turb_BES")
-
-            setTempProps({...tempProps,
+        if (!creekData.isLoading && !flowData.isLoading && !rainData.isLoading) {
+            let turbtempfiltereddata = getFilteredData(creekData.data, "Turb_Temp")
+            let turbfiltereddata = getFilteredData(creekData.data, "Turb_BES")
+            let flowfiltereddata = getFilteredData(flowData.data, "Flow")
+            let rainfiltereddata = getFilteredData(rainData.data, "Rain")
+            setChartProps({...chartProps,
                 series: [
-                {
-                    data: filteredData
-                }
-            ]})
-            if (!flowData.isLoading) {
-                console.log("loaded flow data")
-                var flowFilteredData = getFilteredData(flowData.data,"Flow")
-                setTurbProps({...turbProps,
-                    series: [
                     {
-                        data: turbFilteredData
+                        data: turbfiltereddata
                     },
                     {
-                        data: flowFilteredData
+                        data: flowfiltereddata
+                    },
+                    {
+                        data: turbtempfiltereddata
+                    },
+                    {
+                        data: rainfiltereddata
                     }
-                ]})
-            }
-            
-            console.log(tempProps)
-        }
-
-        console.log("rainData loading: ",rainData.isLoading)
-
-        if (!rainData.isLoading) {
-            var filteredData = getFilteredData(rainData.data,"Rain")
-            setRainProps({...rainProps,
-                series: [
-                {
-                    data: filteredData
-                }
-            ]})
+                ]
+            })
         }
     },[startGraphDate,endGraphDate,creekData.isLoading,flowData.isLoading,rainData.isLoading])
 
@@ -370,21 +297,7 @@ export default function Stream(props) {
                 maxDays={180}/>
             
             <StreamChart 
-            //     fromDate={startGraphDate} 
-            //     endDate={endGraphDate} 
-            //     id={props.id}
-            //     dataType={"Turb_BES"}
-            //     dataType2={"Flow"}
-            // <StreamChart 
-                chartProps={turbProps}
-                isLoading={creekData.isLoading}
-             />
-            <StreamChart 
-                chartProps={tempProps}
-                isLoading={creekData.isLoading}
-             />
-            <StreamChart 
-                chartProps={rainProps}
+                chartProps={chartProps}
                 isLoading={creekData.isLoading}
              />
 

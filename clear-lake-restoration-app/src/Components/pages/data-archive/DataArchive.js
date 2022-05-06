@@ -1,9 +1,7 @@
 import React from 'react';
-import MeterologyDataSection from './MeterologyDataSection';
 import CTDData from './CTDData';
 import TChainData from './TChainData';
 import './DataArchive.css';
-import StreamDataSection from './StreamDataSection';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import StreamData from './StreamData';

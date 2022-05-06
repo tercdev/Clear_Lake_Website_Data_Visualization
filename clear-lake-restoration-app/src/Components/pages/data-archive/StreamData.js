@@ -29,8 +29,18 @@ function StreamData(props) {
     
     var search_params = url.searchParams;
     search_params.set('id',id);
-    search_params.set('rptdate',convertDate(startGraphDate)); // at most 180 days
-    search_params.set('rptend',convertDate(endGraphDate));
+    if (props.id == "Clean") {
+        search_params.set('start', convertDate(startGraphDate));
+        search_params.set('end', convertDate(endGraphDate));
+    } else {
+        let oldestDate = new Date(new Date().setDate(endGraphDate.getDate() - 180));
+        if (startGraphDate < oldestDate) {
+            search_params.set('rptdate', convertDate(oldestDate));
+        } else {
+            search_params.set('rptdate', convertDate(startGraphDate)); // at most 180 days away from endDate
+        }
+        search_params.set('rptend',convertDate(endGraphDate));
+    }
     url.search = search_params.toString();
 
     var new_url = url.toString();

@@ -30,13 +30,19 @@ function MeterologyData(props) {
     real_search_params.set('id',id);
 
     // console.log(startGraphDate);
-    let oldestDate = new Date(new Date().setDate(endGraphDate.getDate() - 150));
-    if (startGraphDate < oldestDate) {
-        real_search_params.set('rptdate', convertDate(oldestDate));
+    if (props.id == "Clean") {
+        real_search_params.set('start', convertDate(startGraphDate));
+        real_search_params.set('end', convertDate(endGraphDate));
     } else {
-        real_search_params.set('rptdate', convertDate(startGraphDate)); // at most 180 days away from endDate
+        let oldestDate = new Date(new Date().setDate(endGraphDate.getDate() - 150));
+        if (startGraphDate < oldestDate) {
+            real_search_params.set('rptdate', convertDate(oldestDate));
+        } else {
+            real_search_params.set('rptdate', convertDate(startGraphDate)); // at most 180 days away from endDate
+        }
+        real_search_params.set('rptend', convertDate(endGraphDate));
     }
-    real_search_params.set('rptend', convertDate(endGraphDate));
+
     real_time_url.search = real_search_params.toString();
 
 

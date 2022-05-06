@@ -69,9 +69,9 @@ export default function Stream(props) {
         subtitle: {
             text: 'Click and drag in the plot area to zoom in.<br/>Use the hamburger icon in the top right to download the data displayed in the graph.<br/>Solid line indicates data is cleaned. Dashed line indicates real time data.'
         },
-        xAxis: {
+        xAxis: [{
             type: 'datetime',
-        },
+        }],
         yAxis: 
         [{ // Primary yAxis
             labels: {
@@ -143,7 +143,8 @@ export default function Stream(props) {
             },
             height: '30%',
             top: '66.6%',
-            offset: 0
+            offset: 0,
+            reversed: true
         }],
         tooltip: {
             formatter: function () {

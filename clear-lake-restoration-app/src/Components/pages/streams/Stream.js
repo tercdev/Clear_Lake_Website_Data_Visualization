@@ -284,8 +284,8 @@ export default function Stream(props) {
             }
             let flowfiltereddata = getFilteredData(flowData.data, "Flow");
             let rainfiltereddata = getFilteredData(rainData.data, "Rain");
-            let zoneProps = []
-            if (lastdate == undefined) {
+            let zoneProps = [];
+            if (lastdate == undefined && turbfiltereddata.length != 0) {
                 zoneProps = [{value: turbfiltereddata[0][0]},{dashStyle: 'dash'}]
             } else {
                 zoneProps = [{value: lastdate},{dashStyle: 'dash'}]

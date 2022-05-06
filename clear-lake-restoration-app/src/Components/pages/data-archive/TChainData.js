@@ -86,7 +86,7 @@ function TChainData() {
         
         {profileData.isLoading && <center>Fetching Data...</center>}
         {!profileData.isLoading && profileData.data.length != 0 && <CSVLink data={profilecsv} className="csv-link" target="_blank">Download Profile Data</CSVLink>}
-        {!profileData.isLoading && profileData.data.length == 0 && <p>There is no profile data.</p>}
+        {!profileData.isLoading && profileData.data.length == 0 && <p>There is no profile data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}
         </center>
     </>
     )

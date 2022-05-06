@@ -96,9 +96,9 @@ function CTDData() {
         {oxyData.isLoading && <center>Fetching Data...</center>}
         {tempData.isLoading && <center>Fetching Data...</center>}
         {!oxyData.isLoading && oxyData.data.length != 0 && <CSVLink data={oxycsv} className="csv-link" target="_blank">Download Lake Oxygen Data</CSVLink>}
-        {!oxyData.isLoading && oxyData.data.length == 0 && <p>There is no lake oxygen data.</p>}
+        {!oxyData.isLoading && oxyData.data.length == 0 && <p>There is no lake oxygen data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}
         {!tempData.isLoading && tempData.data.length != 0 && <CSVLink data={tempcsv} className="csv-link" target="_blank">Download Lake Temperature Data</CSVLink>}
-        {!tempData.isLoading && tempData.data.length == 0 && <p>There is no lake temperature data.</p>}
+        {!tempData.isLoading && tempData.data.length == 0 && <p>There is no lake temperature data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}
         </center>
     </>
     )

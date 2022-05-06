@@ -120,7 +120,7 @@ function StreamData(props) {
                 startDate={startDate}
                 endDate={endDate}
                 maxDate={endDate}
-                minDate={subDays(endDate, 180)}
+                // minDate={subDays(endDate, 180)}
             />
             </div>
             <div className='one-date-container'>
@@ -132,7 +132,8 @@ function StreamData(props) {
                 startDate={startDate}
                 endDate={endDate}
                 minDate={startDate}
-                maxDate={addDays(startDate, 180, today)}
+                // maxDate={addDays(startDate, 180, today)}
+                maxDate={today}
             />
             </div>
             <button className="submitButton" onClick={setGraphDates}>Submit</button>

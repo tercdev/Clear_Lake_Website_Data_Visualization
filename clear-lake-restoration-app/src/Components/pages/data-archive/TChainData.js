@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker';
 import { convertDate } from '../../utils';
 
 function TChainData() {
+    const [showButton, setShowButton] = useState(false);
     var today = new Date();
     var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
     const [startDate, setStartDate] = useState(lastWeek);
@@ -13,9 +14,11 @@ function TChainData() {
     const [endGraphDate, setGraphEndDate] = useState(today);
     function handleStartDateChange(e) {
         setStartDate(e);
+        setShowButton(false)
     }
     function handleEndDateChange(e) {
         setEndDate(e);
+        setShowButton(false)
     }
     function setGraphDates() {
         setGraphStartDate(startDate);
@@ -40,7 +43,8 @@ function TChainData() {
 
     useEffect(()=> {
         if (!profileData.isLoading){
-            setprofilecsv(profileData.data);                  
+            setprofilecsv(profileData.data);   
+            setShowButton(true)               
         }
     },[profileData.isLoading])
     
@@ -49,7 +53,7 @@ function TChainData() {
         <center>
             <div className='location-container'>
                 <p className='date-label'>Location</p>
-                <select onChange={(e) => setIdTemp(e.target.value)}>
+                <select onChange={(e) => {setIdTemp(e.target.value); setShowButton(false)}}>
                     <option value="1">UA-01</option>
                     <option value="2">UA-06</option>
                     <option value="3">UA-07</option>
@@ -85,7 +89,7 @@ function TChainData() {
             <button className="submitButton" onClick={setGraphDates}>Submit</button>
         
         {profileData.isLoading && <center>Fetching Data...</center>}
-        {!profileData.isLoading && profileData.data.length != 0 && <CSVLink data={profilecsv} className="csv-link" target="_blank">Download Profile Data</CSVLink>}
+        {!profileData.isLoading && profileData.data.length != 0 && showButton && <CSVLink data={profilecsv} className="csv-link" target="_blank">Download Profile Data</CSVLink>}
         {!profileData.isLoading && profileData.data.length == 0 && <p>There is no profile data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}
         </center>
     </>

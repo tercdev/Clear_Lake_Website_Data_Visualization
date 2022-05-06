@@ -73,10 +73,11 @@ export default function Stream(props) {
             type: 'datetime',
         }, {
             type: 'datetime',
-            opposite: true,
+            // opposite: true,
+            top: '-74%'
         }, {
             type: 'datetime',
-            top: '-40%'
+            top: '-42.9%'
         }],
         yAxis: 
         [{ // Primary yAxis
@@ -132,7 +133,7 @@ export default function Stream(props) {
             lineColor: Highcharts.getOptions().colors[7],
             lineWidth: 5,
             height: '30%',
-            top: '33.3%',
+            top: '35%',
             offset: 0
         }, {
             title: {
@@ -148,7 +149,7 @@ export default function Stream(props) {
                 }
             },
             height: '30%',
-            top: '66.6%',
+            top: '70%',
             offset: 0,
             reversed: true
         }],

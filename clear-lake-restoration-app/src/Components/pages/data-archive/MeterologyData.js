@@ -3,6 +3,7 @@ import { CSVLink } from 'react-csv';
 import useFetch from 'react-fetch-hook';
 import DatePicker from 'react-datepicker';
 import { convertDate } from '../../utils';
+import Multiselect from 'multiselect-react-dropdown';
 
 function MeterologyData(props) {
     const [showButton, setShowButton] = useState(false);
@@ -96,7 +97,20 @@ function MeterologyData(props) {
             setRealTimeData(selectedRealTimeData);
             setShowButton(true);
         }
-      },[realTime.isLoading,selectedVariables])
+    },[realTime.isLoading,selectedVariables])
+    const options = variables.map((x,index) => {return {name: x, id: index}})
+    function onSelect(selectedList, selectedItem) {
+        let temp = checkedState;
+        temp[selectedItem.id] = true
+        setCheckedState(temp)
+        setShowButton(false)
+    }
+    function onRemove(selectedList, selectedItem) {
+        let temp = checkedState
+        temp[selectedItem.id] = false
+        setCheckedState(temp)
+        setShowButton(false)
+    }
     return (
     <>
         <center>
@@ -112,7 +126,15 @@ function MeterologyData(props) {
                     <option value="7">Big Valley Rancheria</option>
                 </select>
             </div>
-            <div className='variables-container'>
+            <Multiselect
+                options={options}
+                displayValue="name"
+                onKeyPressFn={function noRefCheck(){}}
+                onRemove={onRemove}
+                onSearch={function noRefCheck(){}}
+                onSelect={onSelect}
+            />
+            {/* <div className='variables-container'>
                 {variables.map((name,index)=> {
                     return (
                         <div key={index}>
@@ -128,7 +150,7 @@ function MeterologyData(props) {
                         </div>
                     )
                 })}
-            </div>
+            </div> */}
             <div className='one-date-container'>
             <p className='date-label'>Start Date</p>
             <DatePicker

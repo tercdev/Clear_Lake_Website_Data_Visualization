@@ -3,6 +3,7 @@ import { CSVLink } from 'react-csv';
 import useFetch from 'react-fetch-hook';
 import DatePicker from 'react-datepicker';
 import { convertDate, addDays, subDays } from '../../utils';
+import Multiselect from 'multiselect-react-dropdown';
 
 function StreamData(props) {
     const [showButton, setShowButton] = useState(false);
@@ -89,6 +90,19 @@ function StreamData(props) {
             setShowButton(true);
         }
     },[creekData.isLoading,selectedVariables])
+    const options = props.variables.map((x,index) => {return {name: x, id: index}})
+    function onSelect(selectedList, selectedItem) {
+        let temp = checkedState;
+        temp[selectedItem.id] = true
+        setCheckedState(temp)
+        setShowButton(false)
+    }
+    function onRemove(selectedList, selectedItem) {
+        let temp = checkedState
+        temp[selectedItem.id] = false
+        setCheckedState(temp)
+        setShowButton(false)
+    }
     return (
         <center>
             <div className='location-container'>
@@ -99,7 +113,15 @@ function StreamData(props) {
                     <option value="3">Scotts Creek</option>
                 </select>
             </div>
-            <div className='variables-container'>
+            <Multiselect
+                options={options}
+                displayValue="name"
+                onKeyPressFn={function noRefCheck(){}}
+                onRemove={onRemove}
+                onSearch={function noRefCheck(){}}
+                onSelect={onSelect}
+            />
+            {/* <div className='variables-container'>
                 {props.variables.map((name,index)=> {
                     return (
                         <div key={index}>
@@ -115,7 +137,7 @@ function StreamData(props) {
                         </div>
                     )
                 })}
-            </div>
+            </div> */}
             <div className='one-date-container'>
             <p className='date-label'>Start Date</p>
             <DatePicker

@@ -42,8 +42,21 @@ export default function Stream(props) {
 
         chart: {
             zoomType: 'x',
-            height: (9 / 16 * 100) + '%' // 16:9 ratio
+            // height: (9 / 16 * 120) + '%' // 16:9 ratio
+            height: 1000
         },
+        // responsive: {
+        //     rules: [{
+        //         condition: {
+        //             maxWidth: 500
+        //         },
+        //         chartOptions: {
+        //             chart: {
+        //                 height: 1000
+        //             }
+        //         }
+        //     }]
+        // },
         credits: {
             enabled: false
         },
@@ -57,7 +70,7 @@ export default function Stream(props) {
             text: 'Click and drag in the plot area to zoom in.<br/>Use the hamburger icon in the top right to download the data displayed in the graph.<br/>Solid line indicates data is cleaned. Dashed line indicates real time data.'
         },
         xAxis: {
-            type: 'datetime'
+            type: 'datetime',
         },
         yAxis: 
         [{ // Primary yAxis
@@ -76,7 +89,7 @@ export default function Stream(props) {
             opposite: true,
             lineColor: Highcharts.getOptions().colors[3],
             lineWidth: 5,
-            height: '33.3%',
+            height: '30%',
             offset: 0
            
         }, { // Secondary yAxis
@@ -94,7 +107,7 @@ export default function Stream(props) {
             },
             lineColor: Highcharts.getOptions().colors[0],
             lineWidth: 5,
-            height: '33.3%',
+            height: '30%',
             offset: 0
             
         }, {
@@ -112,7 +125,7 @@ export default function Stream(props) {
             },
             lineColor: Highcharts.getOptions().colors[7],
             lineWidth: 5,
-            height: '33.3%',
+            height: '30%',
             top: '33.3%',
             offset: 0
         }, {
@@ -128,7 +141,7 @@ export default function Stream(props) {
                     color: Highcharts.getOptions().colors[5]
                 }
             },
-            height: '33.3%',
+            height: '30%',
             top: '66.6%',
             offset: 0
         }],

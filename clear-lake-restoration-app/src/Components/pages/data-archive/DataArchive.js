@@ -4,6 +4,8 @@ import CTDData from './CTDData';
 import TChainData from './TChainData';
 import './DataArchive.css';
 import StreamDataSection from './StreamDataSection';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
 
 function DataArchive() {
     return(
@@ -26,24 +28,30 @@ function DataArchive() {
                 </p>
                 
             </div>
-            <div className='archive-container'>
-                <div>
+            <Tabs>
+                <TabList>
+                    <Tab>Stream Data</Tab>
+                    <Tab>Meterology Data</Tab>
+                    <Tab>CTD Data</Tab>
+                    <Tab>TChain Data</Tab>
+                </TabList>
+                <TabPanel>
                     <h1 className='title'>Stream Data</h1>
                     <StreamDataSection/>
-                </div>
-                <div>
+                </TabPanel>
+                <TabPanel>
                     <h1 className='title'>Meterology Data</h1>
                     <MeterologyDataSection/>
-                </div>
-                <div>
+                </TabPanel>
+                <TabPanel>
                     <h1 className='title'>CTD Data</h1>
                     <CTDData/>
-                </div>
-                <div>
+                </TabPanel>
+                <TabPanel>
                     <h1 className='title'>TChain Data</h1>
                     <TChainData/>
-                </div>
-            </div>
+                </TabPanel>
+            </Tabs>
         </>
     )
 }

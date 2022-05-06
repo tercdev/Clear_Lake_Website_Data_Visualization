@@ -36,19 +36,19 @@ function DataArchive() {
                     <Tab>TChain Data</Tab>
                 </TabList>
                 <TabPanel>
-                    <h1 className='title'>Stream Data</h1>
+                    {/* <h1 className='title'>Stream Data</h1> */}
                     <StreamDataSection/>
                 </TabPanel>
                 <TabPanel>
-                    <h1 className='title'>Meterology Data</h1>
+                    {/* <h1 className='title'>Meterology Data</h1> */}
                     <MeterologyDataSection/>
                 </TabPanel>
                 <TabPanel>
-                    <h1 className='title'>CTD Data</h1>
+                    {/* <h1 className='title'>CTD Data</h1> */}
                     <CTDData/>
                 </TabPanel>
                 <TabPanel>
-                    <h1 className='title'>TChain Data</h1>
+                    {/* <h1 className='title'>TChain Data</h1> */}
                     <TChainData/>
                 </TabPanel>
             </Tabs>

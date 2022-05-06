@@ -1,4 +1,4 @@
-import React, { createElement, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import StreamChart from './StreamChart';
 import Highcharts from 'highcharts';
 import useFetch from 'react-fetch-hook'
@@ -13,35 +13,26 @@ import "./Stream.css";
   // get data based on graph type
   function getFilteredData(data, dataType) {
     let m = [];
-    //console.log(data)
-    //console.log("datatype:",dataType)
-    if (dataType == "Flow") {
-        //var data = cleanTurbMeanData(data,dataType)
-        //console.log("flow data")
+    if (dataType == "Temp" || dataType == "Turb_Temp") {
         data.forEach((element => {
-            //let pstTime = convertGMTtoPSTTime(new Date(element.TmStamp));
-    
-            m.push([new Date(element.DateTime_UTC).getTime(), parseFloat(element[dataType])]);
+            const fToCel= temp => Math.round( (temp *1.8 )+32 );
+            if (element.hasOwnProperty('TmStamp')) {
+                m.push([new Date(element.TmStamp).getTime(), fToCel(parseFloat(element[dataType]))]);
+            } else {
+                m.push([new Date(element.DateTime_UTC).getTime(), fToCel(parseFloat(element[dataType]))]);
+            }
         }));
-    }
-    else if (dataType == "Rain") {
+    } else {
         data.forEach((element => {
-            //let pstTime = convertGMTtoPSTTime(new Date(element.TmStamp));
-    
-            m.push([new Date(element.DateTime_PST).getTime(), parseFloat(element[dataType])]);
-        }));
+            if (element.hasOwnProperty('TmStamp')) {
+                m.push([new Date(element.TmStamp).getTime(), parseFloat(element[dataType])]);
+            } else if (element.hasOwnProperty('DateTime_UTC')) {
+                m.push([new Date(element.DateTime_UTC).getTime(), parseFloat(element[dataType])]);
+            } else if (element.hasOwnProperty('DateTime_PST')) {
+                m.push([new Date(element.DateTime_PST).getTime(), parseFloat(element[dataType])]);
+            }
+        }))
     }
-    else {
-        data.forEach((element => {
-        //let pstTime = convertGMTtoPSTTime(new Date(element.TmStamp));
-        //let temp = parseFloat(element[dataType]);
-        const fToCel= temp => Math.round( (temp *1.8 )+32 );
-
-        m.push([new Date(element.TmStamp).getTime(), fToCel(parseFloat(element[dataType]))]);
-
-        //m.push([new Date(element.TmStamp).getTime(), parseFloat(element[dataType])]);
-    }));
-}
    // console.log(m)
     return m.reverse();
 }
@@ -222,6 +213,14 @@ export default function Stream(props) {
     var new_url = url.toString();
     const creekData = useFetch(new_url);
 
+    var cleanurl = new URL('https://1j27qzg916.execute-api.us-west-2.amazonaws.com/default/clearlake-streamturb-api');
+    var search_params_clean = cleanurl.searchParams;
+    search_params_clean.set('id',props.id);
+    search_params_clean.set('start',convertDate(startGraphDate));
+    search_params_clean.set('end',convertDate(endGraphDate));
+    cleanurl.search = search_params_clean.toString();
+    const cleanData = useFetch(cleanurl.toString());
+
     var flowurl = new URL('https://b8xms0pkrf.execute-api.us-west-2.amazonaws.com/default/clearlake-streams')
     var search_params_flow = flowurl.searchParams;
     search_params_flow.set('id',props.id);
@@ -245,32 +244,78 @@ export default function Stream(props) {
     
     const rainData = useFetch(rain_new_url);
 
+    function removePast(data, date) {
+        if (date == undefined) {
+            return data;
+        }
+        let i = 0;
+        while (data[i][0] <= date) {
+            data.shift();
+        }
+        return data;
+    }
+
     useEffect(()=> {
         console.log("use effect for turb temp")
         console.log("creek data loading: ",creekData.isLoading)
-        if (!creekData.isLoading && !flowData.isLoading && !rainData.isLoading) {
-            let turbtempfiltereddata = getFilteredData(creekData.data, "Turb_Temp")
-            let turbfiltereddata = getFilteredData(creekData.data, "Turb_BES")
-            let flowfiltereddata = getFilteredData(flowData.data, "Flow")
-            let rainfiltereddata = getFilteredData(rainData.data, "Rain")
+        if (!creekData.isLoading && !flowData.isLoading && !rainData.isLoading && !cleanData.isLoading) {
+            let turbtempfiltereddata = getFilteredData(creekData.data, "Turb_Temp");
+            let turbfiltereddata = getFilteredData(creekData.data, "Turb_BES");
+            let cleanturbtempfiltereddata = getFilteredData(cleanData.data, "Temp");
+            let cleanturbfiltereddata = getFilteredData(cleanData.data, "Turb");
+            if (cleanturbfiltereddata.length != 0) {
+                console.log(cleanturbfiltereddata)
+                var lastdate = cleanturbfiltereddata[0][0];
+                console.log(lastdate);
+                let dataLastDate = new Date(cleanturbfiltereddata[0][0]);
+                let realDataLastDate = new Date(turbfiltereddata[0][0]);
+                let realDataFirstDate = new Date(turbfiltereddata[turbfiltereddata.length-1][0]);
+                if (dataLastDate.getDay() == realDataLastDate.getDay() || dataLastDate.getDay() == realDataFirstDate.getDay()) {
+                    turbfiltereddata = [];
+                    turbtempfiltereddata = [];
+                    lastdate = undefined;
+                }
+                turbfiltereddata = removePast(turbfiltereddata, lastdate);
+                turbtempfiltereddata = removePast(turbtempfiltereddata, lastdate);
+
+            }
+            let flowfiltereddata = getFilteredData(flowData.data, "Flow");
+            let rainfiltereddata = getFilteredData(rainData.data, "Rain");
+            let zoneProps = []
+            if (lastdate == undefined) {
+                zoneProps = [{value: turbfiltereddata[0][0]},{dashStyle: 'dash'}]
+            } else {
+                zoneProps = [{value: lastdate},{dashStyle: 'dash'}]
+            }
             setChartProps({...chartProps,
                 series: [
                     {
-                        data: turbfiltereddata
+                        data: cleanturbfiltereddata.concat(turbfiltereddata),
+                        zoneAxis: 'x',
+                        zones: zoneProps
                     },
                     {
                         data: flowfiltereddata
                     },
                     {
-                        data: turbtempfiltereddata
+                        data: cleanturbtempfiltereddata.concat(turbtempfiltereddata),
+                        zoneAxis: 'x',
+                        zones: zoneProps
                     },
                     {
                         data: rainfiltereddata
                     }
-                ]
+                ],
+                xAxis: {
+                    plotLines: [{
+                        color: '#FF0000',
+                        width: 5,
+                        value: lastdate
+                    }]
+                }
             })
         }
-    },[startGraphDate,endGraphDate,creekData.isLoading,flowData.isLoading,rainData.isLoading])
+    },[startGraphDate,endGraphDate,creekData.isLoading,flowData.isLoading,rainData.isLoading,cleanData.isLoading])
 
     return (
         <div className="stream-container">

@@ -53,6 +53,9 @@ export default function Stream(props) {
         title: {
             text: ''
         },
+        subtitle: {
+            text: 'Click and drag in the plot area to zoom in.<br/>Use the hamburger icon in the top right to download the data displayed in the graph.<br/>Solid line indicates data is cleaned. Dashed line indicates real time data.'
+        },
         xAxis: {
             type: 'datetime'
         },
@@ -327,9 +330,6 @@ export default function Stream(props) {
                 <p className='data-desc'>Select start and end dates (maximum 180 day period). <br/>
                     Click submit to update the graphs below.<br/>
                     Allow some time for the data to be fetched. The longer the selected time period, the longer it will take to load.<br/>
-                    Use the hamburger icon on the top right of each graph to download the data displayed in the graph.<br/>
-                    Click and drag in the plot area to zoom in.<br/>
-                    Solid line indicates that data came from clean database, while dashed line indicates real time.<br/>
                     If there is no data, the sensors might not be submerged in the water. Check <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">here</a> for more information. <br />
                     Flow data is from the California Nevada River Forecast Center.
                 </p>

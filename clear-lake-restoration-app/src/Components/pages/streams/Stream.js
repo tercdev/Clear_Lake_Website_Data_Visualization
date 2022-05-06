@@ -71,6 +71,9 @@ export default function Stream(props) {
         },
         xAxis: [{
             type: 'datetime',
+        }, {
+            type: 'datetime',
+            opposite: true
         }],
         yAxis: 
         [{ // Primary yAxis

@@ -352,11 +352,11 @@ export default function Stream(props) {
                 ],
                 xAxis: [{
                     min: minX, max: maxX,
-                    plotLines: [{
-                    color: '#FF0000',
-                    width: 5,
-                    value: lastdate
-                    }]
+                    // plotLines: [{
+                    //     color: '#FF0000',
+                    //     width: 5,
+                    //     value: lastdate
+                    // }]
                 },{min: minX, max: maxX},{min: minX, max: maxX}]
             })
         }

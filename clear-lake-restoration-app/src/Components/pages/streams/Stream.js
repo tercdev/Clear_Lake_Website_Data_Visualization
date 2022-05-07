@@ -177,25 +177,20 @@ export default function Stream(props) {
         // },
         tooltip: {
             formatter: function() {
+                const DayOfMonth = new Date(this.x).getDate();
+                const Month = new Date(this.x).getMonth(); // Be careful! January is 0, not 1
+                const Year = new Date(this.x).getFullYear();
+                const TimeHrs = new Date(this.x).getHours();
+                const TimeMins = new Date(this.x).getMinutes();
+                const dateString = (Month + 1) + "-" + DayOfMonth + "-" + Year + "  " + TimeHrs + ":" + (TimeMins<10?'0':'')+TimeMins;
                 return this.points.reduce(function (s, point) {
                     return s + '<br/>' + point.series.name + ': ' +
                         point.y;
-                }, '<b>' + new Date(this.x).toString() + '</b>');
+                }, '<b>' + dateString + '</b>');
             },
             shared: true,
             followPointer: true
         },
-        // tooltip: {
-        //     formatter: function() {
-        //         return ['<b>' + new Date(this.x).toString() + '</b>'].concat(
-        //             this.points ?
-        //                 this.points.map(function (point) {
-        //                     return point.series.name + ': ' + point.y;
-        //                 }) : []
-        //         );
-        //     },
-        //     split: true
-        // },
         series: [
             {
                 name: 'Turbidity',

@@ -4,7 +4,7 @@ import useFetch from 'react-fetch-hook';
 import DatePicker from 'react-datepicker';
 import { convertDate } from '../../utils';
 
-function TChainData() {
+function CTDData() {
     const [showButton, setShowButton] = useState(false);
     var today = new Date();
     var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
@@ -96,4 +96,4 @@ function TChainData() {
     )
 }
 
-export default TChainData;
+export default CTDData;

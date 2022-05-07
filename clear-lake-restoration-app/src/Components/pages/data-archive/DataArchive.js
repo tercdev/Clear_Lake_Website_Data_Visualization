@@ -55,8 +55,6 @@ function DataArchive() {
                             />
                         </TabPanel>
                     </Tabs>
-                    {/* <h1 className='title'>Stream Data</h1> */}
-                    {/* <StreamDataSection/> */}
                 </TabPanel>
                 <TabPanel>
                     <Tabs>
@@ -72,15 +70,11 @@ function DataArchive() {
                             <MeterologyData id="Real Time" url="https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/metweatherlink"/>
                         </TabPanel>
                     </Tabs>
-                    {/* <h1 className='title'>Meterology Data</h1> */}
-                    {/* <MeterologyDataSection/> */}
                 </TabPanel>
                 <TabPanel>
-                    {/* <h1 className='title'>CTD Data</h1> */}
                     <CTDData/>
                 </TabPanel>
                 <TabPanel>
-                    {/* <h1 className='title'>TChain Data</h1> */}
                     <TChainData/>
                 </TabPanel>
             </Tabs>

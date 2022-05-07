@@ -33,8 +33,12 @@ import "./Stream.css";
             }
         }))
     }
+    m.sort(function(a,b) {
+        return (a[0]-b[0])
+    })
    // console.log(m)
-    return m.reverse();
+    // return m.reverse();
+    return m.reverse()
 }
 
 export default function Stream(props) {
@@ -331,10 +335,18 @@ export default function Stream(props) {
             }
             let minX = flowfiltereddata[flowfiltereddata.length-1][0];
             let maxX = flowfiltereddata[0][0];
+            let combinedturb = cleanturbfiltereddata.concat(turbfiltereddata);
+            combinedturb.sort(function(a,b) {
+                return (a[0]-b[0])
+            })
+            let combinedturbtemp = cleanturbtempfiltereddata.concat(turbtempfiltereddata);
+            combinedturbtemp.sort(function(a,b) {
+                return (a[0]-b[0])
+            })
             setChartProps({...chartProps,
                 series: [
                     {
-                        data: cleanturbfiltereddata.concat(turbfiltereddata),
+                        data: combinedturb,
                         zoneAxis: 'x',
                         zones: zoneProps
                     },
@@ -342,7 +354,7 @@ export default function Stream(props) {
                         data: flowfiltereddata
                     },
                     {
-                        data: cleanturbtempfiltereddata.concat(turbtempfiltereddata),
+                        data: combinedturbtemp,
                         zoneAxis: 'x',
                         zones: zoneProps
                     },

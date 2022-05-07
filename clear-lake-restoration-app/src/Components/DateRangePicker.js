@@ -18,8 +18,15 @@ function DateRangePicker(props) {
                 selectsStart
                 startDate={props.startDate}
                 endDate={props.endDate}
-                minDate={subDays(props.endDate, props.maxDays)}
+                // minDate={subDays(props.endDate, props.maxDays)}
                 maxDate={props.endDate}
+                // includeDateIntervals
+                // date range using input w clear button
+                showMonthDropdown
+                showYearDropdown
+                // yearDropdownItemNumber={today.getFullYear()-2019}
+                dropdownMode="select"
+                minDate={new Date("2019-01-02")}
             />
             </div>
             <div className='one-date-container'>
@@ -32,6 +39,10 @@ function DateRangePicker(props) {
                 endDate={props.endDate}
                 minDate={props.startDate}
                 maxDate={addDays(props.startDate, props.maxDays, today)}
+                showMonthDropdown
+                showYearDropdown
+                // yearDropdownItemNumber={today.getFullYear()-2019}
+                dropdownMode="select"
             />
             </div>
             <div className='one-date-container'>

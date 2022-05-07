@@ -38,7 +38,8 @@ function DateRangePicker(props) {
                 startDate={props.startDate}
                 endDate={props.endDate}
                 minDate={props.startDate}
-                maxDate={addDays(props.startDate, props.maxDays, today)}
+                // maxDate={addDays(props.startDate, props.maxDays, today)}
+                maxDate={today}
                 showMonthDropdown
                 showYearDropdown
                 // yearDropdownItemNumber={today.getFullYear()-2019}

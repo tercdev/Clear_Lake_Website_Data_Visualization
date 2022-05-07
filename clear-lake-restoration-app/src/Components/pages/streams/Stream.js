@@ -74,10 +74,12 @@ export default function Stream(props) {
         }, {
             type: 'datetime',
             // opposite: true,
-            top: '-74%'
+            top: '-70%',
+            offset: 0
         }, {
             type: 'datetime',
-            top: '-42.9%'
+            top: '-35%',
+            offset: 0
         }],
         yAxis: 
         [{ // Primary yAxis

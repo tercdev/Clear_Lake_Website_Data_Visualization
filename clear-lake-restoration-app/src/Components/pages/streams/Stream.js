@@ -350,14 +350,14 @@ export default function Stream(props) {
                         data: rainfiltereddata
                     }
                 ],
-                xAxis: {
+                xAxis: [{
+                    min: minX, max: maxX,
                     plotLines: [{
-                        color: '#FF0000',
-                        width: 5,
-                        value: lastdate
+                    color: '#FF0000',
+                    width: 5,
+                    value: lastdate
                     }]
-                },
-                xAxis: [{min: minX, max: maxX},{min: minX, max: maxX},{min: minX, max: maxX}]
+                },{min: minX, max: maxX},{min: minX, max: maxX}]
             })
         }
     },[startGraphDate,endGraphDate,creekData.isLoading,flowData.isLoading,rainData.isLoading,cleanData.isLoading])

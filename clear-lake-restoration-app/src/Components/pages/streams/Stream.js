@@ -71,15 +71,16 @@ export default function Stream(props) {
         },
         xAxis: [{
             type: 'datetime',
+            // crosshair: true
         }, {
             type: 'datetime',
             // opposite: true,
             top: '-70%',
-            offset: 0
+            offset: 0,
         }, {
             type: 'datetime',
             top: '-35%',
-            offset: 0
+            offset: 0,
         }],
         yAxis: 
         [{ // Primary yAxis
@@ -164,7 +165,7 @@ export default function Stream(props) {
                 const Year = new Date(this.x).getFullYear();
                 const TimeHrs = new Date(this.x).getHours();
                 const TimeMins = new Date(this.x).getMinutes();
-                const dateString = (Month + 1) + "-" + DayOfMonth + "-" + Year + "  " + TimeHrs + ":" + TimeMins;
+                const dateString = (Month + 1) + "-" + DayOfMonth + "-" + Year + "  " + TimeHrs + ":" + (TimeMins<10?'0':'')+TimeMins;
                 return [dateString].concat(
                     this.points ?
                         this.points.map(function (point) {
@@ -174,7 +175,26 @@ export default function Stream(props) {
             },
             split: true
         },
-    
+        // tooltip: {
+        //     formatter: function() {
+        //         return this.points.reduce(function (s, point) {
+        //             return s + '<br/>' + point.series.name + ': ' +
+        //                 point.y;
+        //         }, '<b>' + new Date(this.x).toString() + '</b>');
+        //     },
+        //     shared: true,
+        // },
+        // tooltip: {
+        //     formatter: function() {
+        //         return ['<b>' + new Date(this.x).toString() + '</b>'].concat(
+        //             this.points ?
+        //                 this.points.map(function (point) {
+        //                     return point.series.name + ': ' + point.y;
+        //                 }) : []
+        //         );
+        //     },
+        //     split: true
+        // },
         series: [
             {
                 name: 'Turbidity',

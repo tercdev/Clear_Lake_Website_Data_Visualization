@@ -4,7 +4,7 @@ import useFetch from 'react-fetch-hook';
 import DatePicker from 'react-datepicker';
 import { convertDate } from '../../utils';
 
-function CTDData() {
+function TChainData() {
     const [showButton, setShowButton] = useState(false);
     var today = new Date();
     var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
@@ -30,33 +30,23 @@ function CTDData() {
 
     
 
-    var temp_url = new URL('https://18eduqff9f.execute-api.us-west-2.amazonaws.com/default/clearlake-laketemperature')
-    var search_params_temp = temp_url.searchParams;
-    search_params_temp.set('id',id);
-    search_params_temp.set('start',convertDate(startGraphDate));
-    search_params_temp.set('end',convertDate(endGraphDate));
-    temp_url.search = search_params_temp.toString();
+    var url = new URL('https://3kgpak926a.execute-api.us-west-2.amazonaws.com/default/clearlake-profiledata')
+    var search_params = url.searchParams;
+    search_params.set('id',id);
+    search_params.set('start',convertDate(startGraphDate));
+    search_params.set('end',convertDate(endGraphDate));
+    url.search = search_params.toString();
     
-    const tempData = useFetch(temp_url.toString());
+    const profileData = useFetch(url.toString());
 
-    var oxy_url = new URL('https://f6axabo7w6.execute-api.us-west-2.amazonaws.com/default/clearlake-lakeoxygen');
-    var search_params_oxy = oxy_url.searchParams;
-    search_params_oxy.set('id',id);
-    search_params_oxy.set('start',convertDate(startGraphDate));
-    search_params_oxy.set('end',convertDate(endGraphDate));
-    oxy_url.search = search_params_oxy.toString();
+    const [profilecsv, setprofilecsv] = useState([])
 
-    const oxyData = useFetch(oxy_url.toString());
-
-    const [oxycsv, setoxycsv] = useState([])
-    const [tempcsv, settempcsv] = useState([])
     useEffect(()=> {
-        if (!oxyData.isLoading && !tempData.isLoading) { 
-            settempcsv(tempData.data);                  
-            setoxycsv(oxyData.data); 
-            setShowButton(true)
+        if (!profileData.isLoading){
+            setprofilecsv(profileData.data);   
+            setShowButton(true)               
         }
-    },[oxyData.isLoading,tempData.isLoading])
+    },[profileData.isLoading])
     
     return (
         <>
@@ -64,12 +54,13 @@ function CTDData() {
             <div className='location-container'>
                 <p className='date-label'>Location</p>
                 <select onChange={(e) => {setIdTemp(e.target.value); setShowButton(false)}}>
-                    <option value="1">LA-03</option>
-                    <option value="2">NR-02</option>
-                    <option value="3">OA-04</option>
-                    <option value="4">OA-01</option>
-                    <option value="5">UA-06</option>
-                    <option value="6">UA-08</option>
+                    <option value="1">UA-01</option>
+                    <option value="2">UA-06</option>
+                    <option value="3">UA-07</option>
+                    <option value="4">UA-08</option>
+                    <option value="5">LA-03</option>
+                    <option value="6">NR-02</option>
+                    <option value="7">OA-04</option>
                 </select>
             </div>
             <div className='one-date-container'>
@@ -97,15 +88,12 @@ function CTDData() {
             </div>
             <button className="submitButton" onClick={setGraphDates}>Submit</button>
         
-        {oxyData.isLoading && <center>Fetching Data...</center>}
-        {tempData.isLoading && <center>Fetching Data...</center>}
-        {!oxyData.isLoading && oxyData.data.length != 0 && showButton && <CSVLink data={oxycsv} className="csv-link" target="_blank">Download Lake Oxygen Data</CSVLink>}
-        {!oxyData.isLoading && oxyData.data.length == 0 && <p>There is no lake oxygen data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}
-        {!tempData.isLoading && tempData.data.length != 0 && showButton && <CSVLink data={tempcsv} className="csv-link" target="_blank">Download Lake Temperature Data</CSVLink>}
-        {!tempData.isLoading && tempData.data.length == 0 && <p>There is no lake temperature data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}
+        {profileData.isLoading && <center>Fetching Data...</center>}
+        {!profileData.isLoading && profileData.data.length != 0 && showButton && <CSVLink data={profilecsv} className="csv-link" target="_blank">Download Profile Data</CSVLink>}
+        {!profileData.isLoading && profileData.data.length == 0 && <p>There is no profile data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}
         </center>
     </>
     )
 }
 
-export default CTDData;
+export default TChainData;

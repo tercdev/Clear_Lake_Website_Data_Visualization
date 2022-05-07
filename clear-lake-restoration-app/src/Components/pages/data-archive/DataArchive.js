@@ -1,6 +1,6 @@
 import React from 'react';
-import CTDData from './CTDData';
 import TChainData from './TChainData';
+import CTDData from './CTDData';
 import './DataArchive.css';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -45,6 +45,13 @@ function DateRangePicker(props) {
                 // yearDropdownItemNumber={today.getFullYear()-2019}
                 dropdownMode="select"
             />
+            </div>
+            <div className='one-date-container'>
+                <input type="radio" value="f" id="f" onChange={props.handleF} name="unit" />
+                <label htmlFor="f">°F</label>
+
+                <input type="radio" value="c" id="c" onChange={props.handleC} name="unit"/>
+                <label htmlFor="c">°C</label>
             </div>
             <div className='one-date-container'>
                 <button className="submitButton" onClick={props.setGraphDates}>Submit</button>

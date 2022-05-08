@@ -10,50 +10,71 @@ import { convertDate } from '../../utils';
 
 import "./Stream.css";
 
-function convertGMTtoPSTTime (date) {
-    // reference: https://stackoverflow.com/questions/22493924/get-user-time-and-convert-them-to-pst
-    var offset = 420; 
-    var offsetMillis = offset * 60 * 1000;
-    var today = date;
-    var millis = today.getTime();
-    var timeZoneOffset = (today.getTimezoneOffset() * 60 * 1000);
+// function convertGMTtoPSTTime (date) {
+//     // reference: https://stackoverflow.com/questions/22493924/get-user-time-and-convert-them-to-pst
+//     var offset = 420; 
+//     var offsetMillis = offset * 60 * 1000;
+//     var today = date;
+//     var millis = today.getTime();
+//     var timeZoneOffset = (today.getTimezoneOffset() * 60 * 1000);
 
-    var pst = millis - offsetMillis; 
-    return new Date(today.getTime() - timeZoneOffset);
-}
+//     var pst = millis - offsetMillis; 
+//     return new Date(today.getTime() - timeZoneOffset);
+// }
 
-  // get data based on graph type
-  function getFilteredData(data, dataType) {
-    let m = [];
-    if (dataType == "Temp" || dataType == "Turb_Temp") {
-        data.forEach((element => {
-            const fToCel= temp => Math.round( (temp *1.8 )+32 );
-            if (element.hasOwnProperty('TmStamp')) {
-                m.push([new Date(element.TmStamp).getTime(), fToCel(parseFloat(element[dataType]))]);
-            } else {
-                m.push([new Date(element.DateTime_UTC).getTime(), fToCel(parseFloat(element[dataType]))]);
-            }
-        }));
-    } else {
-        data.forEach((element => {
-            if (element.hasOwnProperty('TmStamp')) {
-                m.push([new Date(element.TmStamp).getTime(), parseFloat(element[dataType])]);
-            } else if (element.hasOwnProperty('DateTime_UTC')) {
-                m.push([new Date(element.DateTime_UTC).getTime(), parseFloat(element[dataType])]);
-            } else if (element.hasOwnProperty('DateTime_PST')) {
-                m.push([new Date(element.DateTime_PST).getTime(), parseFloat(element[dataType])]);
-            }
-        }))
-    }
-    m.sort(function(a,b) {
-        return (a[0]-b[0])
-    })
-   // console.log(m)
-    // return m.reverse();
-    return m.reverse()
-}
+
 
 export default function Stream(props) {
+    const [unit, setUnit] = useState('f'); 
+    const [graphUnit, setGraphUnit] = useState('f');
+    
+    function handleF(e) {
+        console.log(e)
+        setUnit('f')
+    }
+    function handleC(e) {
+        setUnit('c')
+        console.log("radio to C")
+    }
+    // get data based on graph type
+    function getFilteredData(data, dataType) {
+        let m = [];
+        if (dataType == "Temp" || dataType == "Turb_Temp") {
+            data.forEach((element => {
+                const fToCel= temp => Math.round( (temp *1.8 )+32 );
+                if (element.hasOwnProperty('TmStamp')) {
+                    if (graphUnit == 'f') {
+                        m.push([new Date(element.TmStamp).getTime(), fToCel(parseFloat(element[dataType]))]);
+                    } else {
+                        m.push([new Date(element.TmStamp).getTime(), parseFloat(element[dataType])]);
+                    }
+                } else {
+                    if (graphUnit == 'f') {
+                        m.push([new Date(element.DateTime_UTC).getTime(), fToCel(parseFloat(element[dataType]))]);
+                    } else {
+                        m.push([new Date(element.DateTime_UTC).getTime(), parseFloat(element[dataType])]);
+                    }
+                    
+                }
+            }));
+        } else {
+            data.forEach((element => {
+                if (element.hasOwnProperty('TmStamp')) {
+                    m.push([new Date(element.TmStamp).getTime(), parseFloat(element[dataType])]);
+                } else if (element.hasOwnProperty('DateTime_UTC')) {
+                    m.push([new Date(element.DateTime_UTC).getTime(), parseFloat(element[dataType])]);
+                } else if (element.hasOwnProperty('DateTime_PST')) {
+                    m.push([new Date(element.DateTime_PST).getTime(), parseFloat(element[dataType])]);
+                }
+            }))
+        }
+        m.sort(function(a,b) {
+            return (a[0]-b[0])
+        })
+    // console.log(m)
+        // return m.reverse();
+        return m.reverse()
+    }
     const [chartProps,setChartProps] = useState({
 
         chart: {
@@ -260,6 +281,8 @@ export default function Stream(props) {
     }
     const [error, setError] = useState(false);
     function setGraphDates() {
+        setGraphUnit(unit);
+        console.log("set graph unit", unit)
         setError(false);
         let latestDate = new Date(new Date(startDate).setDate(365));
         setGraphStartDate(startDate);
@@ -374,6 +397,15 @@ export default function Stream(props) {
             // for (let i = 0; i < combinedturbtemp.length; i++) {
             //     combinedturbtempC[i] = [combinedturbtemp[i][0],fToCel(combinedturbtemp[i][1])]
             // }
+            let ylabel = ''
+            let yformat = ''
+            if (graphUnit == 'f') {
+                ylabel = 'Temperature [°F]'
+                yformat = '{value} °F'
+            } else {
+                ylabel = 'Temperature [°C]'
+                yformat = '{value} °C'
+            }
             setChartProps({...chartProps,
                 series: [
                     {
@@ -400,10 +432,22 @@ export default function Stream(props) {
                     //     width: 5,
                     //     value: lastdate
                     // }]
-                },{min: minX, max: maxX},{min: minX, max: maxX}]
+                },{min: minX, max: maxX},{min: minX, max: maxX}],
+                yAxis: [{},{},{title: {
+                    text: ylabel,
+                    style: {
+                        color: Highcharts.getOptions().colors[7]
+                    }
+                },
+                labels: {
+                    format: yformat,
+                    style: {
+                        color: Highcharts.getOptions().colors[7]
+                    }
+                },},{}]
             })
         }
-    },[startGraphDate,endGraphDate,creekData.isLoading,flowData.isLoading,rainData.isLoading,cleanData.isLoading])
+    },[startGraphDate,endGraphDate,creekData.isLoading,flowData.isLoading,rainData.isLoading,cleanData.isLoading,graphUnit])
 
     return (
         <div className="stream-container">
@@ -425,6 +469,8 @@ export default function Stream(props) {
                 handleStartDateChange={handleStartDateChange}
                 handleEndDateChange={handleEndDateChange}
                 setGraphDates={setGraphDates} 
+                handleF={handleF}
+                handleC={handleC}
             />
             {error && <p className='error-message'>Selected date range was more than 365 days. End date was automatically changed.</p>}
             <StreamChart 

@@ -420,7 +420,7 @@ export default function Stream(props) {
             
             <StreamChart 
                 chartProps={chartProps}
-                isLoading={creekData.isLoading}
+                isLoading={creekData.isLoading || flowData.isLoading || rainData.isLoading || cleanData.isLoading}
              />
         </div>
     )

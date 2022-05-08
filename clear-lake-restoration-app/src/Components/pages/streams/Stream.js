@@ -471,6 +471,7 @@ export default function Stream(props) {
                 setGraphDates={setGraphDates} 
                 handleF={handleF}
                 handleC={handleC}
+                unit={unit}
             />
             {error && <p className='error-message'>Selected date range was more than 365 days. End date was automatically changed.</p>}
             <StreamChart 

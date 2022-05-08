@@ -422,9 +422,6 @@ export default function Stream(props) {
                 chartProps={chartProps}
                 isLoading={creekData.isLoading}
              />
-            </div>
-
-
         </div>
     )
 }

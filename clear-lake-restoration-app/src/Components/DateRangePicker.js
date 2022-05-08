@@ -49,7 +49,6 @@ function DateRangePicker(props) {
             <div className='one-date-container'>
                 <button className="submitButton" onClick={props.setGraphDates}>Submit</button>
             </div>
-            
         </div>
     );
 };

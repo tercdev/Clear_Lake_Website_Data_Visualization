@@ -258,9 +258,18 @@ export default function Stream(props) {
     function handleEndDateChange(e) {
         setEndDate(e);
     }
+    const [error, setError] = useState(false);
     function setGraphDates() {
+        setError(false);
+        let latestDate = new Date(new Date(startDate).setDate(365));
         setGraphStartDate(startDate);
-        setGraphEndDate(endDate);
+        if (endDate > latestDate) {
+            setError(true);
+            setEndDate(latestDate);
+            setGraphEndDate(latestDate);
+        } else {
+            setGraphEndDate(endDate);
+        }
     }
     var url = new URL('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/cl-creeks');
     var search_params = url.searchParams;
@@ -403,7 +412,7 @@ export default function Stream(props) {
             </div>
             <DataDisclaimer/>
             <div className='data-desc-container'>
-                <p className='data-desc'>Select start and end dates (maximum 180 day period). <br/>
+                <p className='data-desc'>Select start and end dates (maximum 365 day period). <br/>
                     Click submit to update the graphs below.<br/>
                     Allow some time for the data to be fetched. The longer the selected time period, the longer it will take to load.<br/>
                     If there is no data, the sensors might not be submerged in the water. Check <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">here</a> for more information. <br />
@@ -416,8 +425,8 @@ export default function Stream(props) {
                 handleStartDateChange={handleStartDateChange}
                 handleEndDateChange={handleEndDateChange}
                 setGraphDates={setGraphDates} 
-                maxDays={180}/>
-            
+            />
+            {error && <p className='error-message'>Selected date range was more than 365 days. End date was automatically changed.</p>}
             <StreamChart 
                 chartProps={chartProps}
                 isLoading={creekData.isLoading || flowData.isLoading || rainData.isLoading || cleanData.isLoading}

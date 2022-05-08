@@ -13,3 +13,9 @@
   margin-right: 70px;
   margin-left: 25px;
 }
+
+.error-message {
+    color: red;
+    margin: auto;
+    width: fit-content;
+}

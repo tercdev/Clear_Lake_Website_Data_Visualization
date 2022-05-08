@@ -253,7 +253,12 @@ export default function Stream(props) {
     var url = new URL('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/cl-creeks');
     var search_params = url.searchParams;
     search_params.set('id',props.id);
-    search_params.set('rptdate',convertDate(startGraphDate));
+    let oldestDate = new Date(new Date().setDate(endGraphDate.getDate() - 150));
+    if (startGraphDate < oldestDate) {
+        search_params.set('rptdate', convertDate(oldestDate));
+    } else {
+        search_params.set('rptdate', convertDate(startGraphDate)); // at most 180 days away from endDate
+    }
     search_params.set('rptend',convertDate(endGraphDate));
     url.search = search_params.toString();
     var new_url = url.toString();
@@ -309,7 +314,7 @@ export default function Stream(props) {
             let turbfiltereddata = getFilteredData(creekData.data, "Turb_BES");
             let cleanturbtempfiltereddata = getFilteredData(cleanData.data, "Temp");
             let cleanturbfiltereddata = getFilteredData(cleanData.data, "Turb");
-            if (cleanturbfiltereddata.length != 0) {
+            if (cleanturbfiltereddata.length != 0 && turbfiltereddata.length != 0) {
                 console.log(cleanturbfiltereddata)
                 var lastdate = cleanturbfiltereddata[0][0];
                 console.log(lastdate);
@@ -343,6 +348,11 @@ export default function Stream(props) {
             combinedturbtemp.sort(function(a,b) {
                 return (a[0]-b[0])
             })
+            // const fToCel= temp => Math.round( (temp - 32 )*5/9 );
+            // let combinedturbtempC = [];
+            // for (let i = 0; i < combinedturbtemp.length; i++) {
+            //     combinedturbtempC[i] = [combinedturbtemp[i][0],fToCel(combinedturbtemp[i][1])]
+            // }
             setChartProps({...chartProps,
                 series: [
                     {

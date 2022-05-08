@@ -18,7 +18,7 @@ function DateRangePicker(props) {
                 selectsStart
                 startDate={props.startDate}
                 endDate={props.endDate}
-                minDate={subDays(props.endDate, props.maxDays)}
+                // minDate={subDays(props.endDate, props.maxDays)}
                 maxDate={props.endDate}
             />
             </div>
@@ -31,7 +31,8 @@ function DateRangePicker(props) {
                 startDate={props.startDate}
                 endDate={props.endDate}
                 minDate={props.startDate}
-                maxDate={addDays(props.startDate, props.maxDays, today)}
+                // maxDate={addDays(props.startDate, props.maxDays, today)}
+                maxDate={today}
             />
             </div>
             <div className='one-date-container'>

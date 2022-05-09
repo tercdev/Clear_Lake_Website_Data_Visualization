@@ -9,26 +9,20 @@ function CTDData() {
     var today = new Date();
     var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
     const [startDate, setStartDate] = useState(lastWeek);
-    const [endDate, setEndDate] = useState(today);
     const [startGraphDate, setGraphStartDate] = useState(lastWeek);
     const [endGraphDate, setGraphEndDate] = useState(today);
     function handleStartDateChange(e) {
         setStartDate(e);
         setShowButton(false)
     }
-    function handleEndDateChange(e) {
-        setEndDate(e);
-        setShowButton(false)
-    }
     function setGraphDates() {
         setGraphStartDate(startDate);
-        setGraphEndDate(endDate);
+        let x = new Date(startDate.getFullYear(), startDate.getMonth()+1, 28);
+        setGraphEndDate(x);
         setId(idTemp);
     }
     const [idTemp, setIdTemp] = useState(1);
     const [id, setId] = useState(1);
-
-    
 
     var url = new URL('https://3kgpak926a.execute-api.us-west-2.amazonaws.com/default/clearlake-profiledata')
     var search_params = url.searchParams;
@@ -64,33 +58,20 @@ function CTDData() {
                 </select>
             </div>
             <div className='one-date-container'>
-            <p className='date-label'>Start Date</p>
             <DatePicker
                 selected={startDate}
                 onChange={handleStartDateChange}
-                selectsStart
-                startDate={startDate}
-                endDate={endDate}
-                maxDate={endDate}
-            />
-            </div>
-            <div className='one-date-container'>
-            <p className='date-label'>End Date</p>
-            <DatePicker
-                selected={endDate}
-                onChange={handleEndDateChange}
-                selectsEnd
-                startDate={startDate}
-                endDate={endDate}
-                minDate={startDate}
+                minDate={new Date("2019/01/01")}
                 maxDate={today}
+                showMonthYearPicker
+                dateFormat="MM/yyyy"
             />
             </div>
             <button className="submitButton" onClick={setGraphDates}>Submit</button>
         
         {profileData.isLoading && <center>Fetching Data...</center>}
         {!profileData.isLoading && profileData.data.length != 0 && showButton && <CSVLink data={profilecsv} className="csv-link" target="_blank">Download Profile Data</CSVLink>}
-        {!profileData.isLoading && profileData.data.length == 0 && <p>There is no profile data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}
+        {!profileData.isLoading && profileData.data.length == 0 && <p>There is no profile data for {startGraphDate.getMonth()+1} / {startGraphDate.getFullYear()}.</p>}
         </center>
     </>
     )

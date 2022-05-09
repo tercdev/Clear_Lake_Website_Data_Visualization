@@ -38,7 +38,9 @@ function MeterologyData(props) {
             setGraphEndDate(endDate);
         }
         setId(idTemp);
-        setSelectedVariables(checkedState);
+        let newArr = [];
+        checkedState.forEach(x => newArr.push(x));
+        setSelectedVariables(newArr);
     }
     const [idTemp, setIdTemp] = useState(1);
     const [id, setId] = useState(1);

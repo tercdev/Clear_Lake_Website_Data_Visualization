@@ -77,6 +77,7 @@ function DataArchive() {
                     <CTDData/>
                 </TabPanel>
                 <TabPanel>
+                    <center>Maximum 365 days at a time.</center>
                     <TChainData/>
                 </TabPanel>
             </Tabs>

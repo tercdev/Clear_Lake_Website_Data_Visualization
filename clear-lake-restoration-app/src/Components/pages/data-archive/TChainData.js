@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker';
 import { convertDate } from '../../utils';
 
 function TChainData() {
+    const [error, setError] = useState(false);
     const [showButton, setShowButton] = useState(false);
     var today = new Date();
     var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
@@ -21,8 +22,16 @@ function TChainData() {
         setShowButton(false)
     }
     function setGraphDates() {
+        setError(false);
+        let latestDate = new Date(new Date(startDate).setDate(365));
         setGraphStartDate(startDate);
-        setGraphEndDate(endDate);
+        if (endDate > latestDate) {
+            setError(true);
+            setEndDate(latestDate);
+            setGraphEndDate(latestDate);
+        } else {
+            setGraphEndDate(endDate);
+        }
         setId(idTemp);
     }
     const [idTemp, setIdTemp] = useState(1);
@@ -103,7 +112,7 @@ function TChainData() {
             />
             </div>
             <button className="submitButton" onClick={setGraphDates}>Submit</button>
-        
+            {error && <p className='error-message'>Selected date range was more than 365 days. End date was automatically changed.</p>}
         {oxyData.isLoading && <center>Fetching Data...</center>}
         {tempData.isLoading && <center>Fetching Data...</center>}
         {!oxyData.isLoading && oxyData.data.length != 0 && showButton && <CSVLink data={oxycsv} className="csv-link" target="_blank">Download Lake Oxygen Data</CSVLink>}

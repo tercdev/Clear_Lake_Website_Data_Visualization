@@ -46,7 +46,8 @@ export default function LakeCTD(props) {
             labels: {
                 format: '{value} m'
             },
-            max: 0
+            max: 0,
+            gridLineWidth: 1
         }],
         yAxis: [{
             title: {

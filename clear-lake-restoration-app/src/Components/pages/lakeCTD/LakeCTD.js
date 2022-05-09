@@ -41,21 +41,22 @@ export default function LakeCTD(props) {
             reversed: false,
             title: {
                 enabled: true,
-                text: 'Depth'
+                text: 'Depth [m]'
             },
             labels: {
-                format: '{value}'
+                format: '{value} m'
             },
+            max: 0
         }],
         yAxis: [{
             title: {
-                text: 'Chla',
+                text: 'Chlorophyll [ug/l]',
                 style: {
                     color: Highcharts.getOptions().colors[0]
                 }
             },
             labels: {
-                format: '{value}',
+                format: '{value} ug/l',
                 style: {
                     color: Highcharts.getOptions().colors[0]
                 }
@@ -65,13 +66,13 @@ export default function LakeCTD(props) {
             opposite: true
         }, {
             title: {
-                text: 'Dissolved Oxygen',
+                text: 'Dissolved Oxygen [mg/l]',
                 style: {
                     color: Highcharts.getOptions().colors[1]
                 }
             },
             labels: {
-                format: '{value}',
+                format: '{value} mg/l',
                 style: {
                     color: Highcharts.getOptions().colors[1]
                 }
@@ -96,13 +97,13 @@ export default function LakeCTD(props) {
             lineWidth: 5,
         }, {
             title: {
-                text: 'Temp',
+                text: 'Temperature [°C]',
                 style: {
                     color: Highcharts.getOptions().colors[3]
                 }
             },
             labels: {
-                format: '{value}',
+                format: '{value} °C',
                 style: {
                     color: Highcharts.getOptions().colors[3]
                 }
@@ -111,13 +112,13 @@ export default function LakeCTD(props) {
             lineWidth: 5,
         }, {
             title: {
-                text: 'Turb',
+                text: 'Turbidity [FTU]',
                 style: {
                     color: Highcharts.getOptions().colors[4]
                 }
             },
             labels: {
-                format: '{value}',
+                format: '{value} FTU',
                 style: {
                     color: Highcharts.getOptions().colors[4]
                 }
@@ -136,7 +137,7 @@ export default function LakeCTD(props) {
             followPointer: true
         },
         series: [{
-            name: 'Chla',
+            name: 'Chlorophyll',
             data: [],
             selected: true,
             yAxis: 0,
@@ -154,13 +155,13 @@ export default function LakeCTD(props) {
             yAxis: 2,
             color: Highcharts.getOptions().colors[2]
         }, {
-            name: 'Temp',
+            name: 'Temperature',
             data: [],
             selected: true,
             yAxis: 3,
             color: Highcharts.getOptions().colors[3]
         }, {
-            name: 'Turb',
+            name: 'Turbidity',
             data: [],
             selected: true,
             yAxis: 4,

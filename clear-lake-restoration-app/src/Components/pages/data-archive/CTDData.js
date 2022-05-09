@@ -16,8 +16,10 @@ function CTDData() {
         setShowButton(false)
     }
     function setGraphDates() {
+        console.log(startDate);
         setGraphStartDate(startDate);
-        let x = new Date(startDate.getFullYear(), startDate.getMonth()+1, 28);
+        let x = new Date(startDate.getFullYear(), startDate.getMonth(), 28);
+        console.log(x);
         setGraphEndDate(x);
         setId(idTemp);
     }

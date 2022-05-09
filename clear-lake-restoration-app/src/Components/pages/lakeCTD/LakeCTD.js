@@ -50,7 +50,7 @@ export default function LakeCTD(props) {
             labels: {
                 format: '{value}'
             },
-            showLastLabel: true
+            type: 'category'
         }],
         yAxis: [{
             title: {
@@ -215,9 +215,6 @@ export default function LakeCTD(props) {
             let depthData = getFilteredData(profileData.data, "Depth");
             console.log(chlaData)
             setChartProps({...chartProps,
-                xAxis: [{
-                    categories: depthData
-                }],
                 series: [
                     {
                         data: chlaData

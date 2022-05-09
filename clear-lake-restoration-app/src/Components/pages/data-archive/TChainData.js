@@ -81,6 +81,10 @@ function TChainData() {
                 startDate={startDate}
                 endDate={endDate}
                 maxDate={endDate}
+                minDate={new Date("2019/1/1")}
+                showMonthDropdown
+                showYearDropdown
+                dropdownMode='select'
             />
             </div>
             <div className='one-date-container'>
@@ -93,6 +97,9 @@ function TChainData() {
                 endDate={endDate}
                 minDate={startDate}
                 maxDate={today}
+                showMonthDropdown
+                showYearDropdown
+                dropdownMode='select'
             />
             </div>
             <button className="submitButton" onClick={setGraphDates}>Submit</button>

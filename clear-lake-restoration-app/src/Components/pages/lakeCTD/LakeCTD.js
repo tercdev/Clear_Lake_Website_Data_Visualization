@@ -53,11 +53,27 @@ export default function LakeCTD(props) {
             title: {
                 text: 'Chlorophyll [ug/l]',
                 style: {
-                    color: Highcharts.getOptions().colors[0]
+                    color: Highcharts.getOptions().colors[7]
                 }
             },
             labels: {
                 format: '{value} ug/l',
+                style: {
+                    color: Highcharts.getOptions().colors[7]
+                }
+            },
+            lineColor: Highcharts.getOptions().colors[7],
+            lineWidth: 5,
+            opposite: true
+        }, {
+            title: {
+                text: 'Dissolved Oxygen [mg/l]',
+                style: {
+                    color: Highcharts.getOptions().colors[0]
+                }
+            },
+            labels: {
+                format: '{value} mg/l',
                 style: {
                     color: Highcharts.getOptions().colors[0]
                 }
@@ -67,34 +83,18 @@ export default function LakeCTD(props) {
             opposite: true
         }, {
             title: {
-                text: 'Dissolved Oxygen [mg/l]',
-                style: {
-                    color: Highcharts.getOptions().colors[1]
-                }
-            },
-            labels: {
-                format: '{value} mg/l',
-                style: {
-                    color: Highcharts.getOptions().colors[1]
-                }
-            },
-            lineColor: Highcharts.getOptions().colors[1],
-            lineWidth: 5,
-            opposite: true
-        }, {
-            title: {
                 text: 'SpeCond',
                 style: {
-                    color: Highcharts.getOptions().colors[2]
+                    color: Highcharts.getOptions().colors[5]
                 }
             },
             labels: {
                 format: '{value}',
                 style: {
-                    color: Highcharts.getOptions().colors[2]
+                    color: Highcharts.getOptions().colors[5]
                 }
             },
-            lineColor: Highcharts.getOptions().colors[2],
+            lineColor: Highcharts.getOptions().colors[5],
             lineWidth: 5,
         }, {
             title: {
@@ -142,19 +142,19 @@ export default function LakeCTD(props) {
             data: [],
             selected: true,
             yAxis: 0,
-            color: Highcharts.getOptions().colors[0]
+            color: Highcharts.getOptions().colors[7]
         }, {
             name: 'Dissolved Oxygen',
             data: [],
             selected: true,
             yAxis: 1,
-            color: Highcharts.getOptions().colors[1]
+            color: Highcharts.getOptions().colors[0]
         }, {
             name: 'Spe Cond',
             data: [],
             selected: true,
             yAxis: 2,
-            color: Highcharts.getOptions().colors[2]
+            color: Highcharts.getOptions().colors[5]
         }, {
             name: 'Temperature',
             data: [],

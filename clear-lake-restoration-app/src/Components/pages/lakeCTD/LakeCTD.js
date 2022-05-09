@@ -9,9 +9,13 @@ import DatePicker from 'react-datepicker';
 export default function LakeCTD(props) {
     function getFilteredData(data, dataType) {
         let m = []
-        data.forEach((element => {
-            m.push([element.Depth, parseFloat(element[dataType])]);
-        }))
+        if (dataType == "Depth") {
+            data.forEach((element => {m.push([element.Depth])}));
+        } else {
+            data.forEach((element => {
+                m.push([element.Depth, parseFloat(element[dataType])]);
+            }))
+        }
         m.sort(function(a,b) {
             return (a[0]-b[0])
         })
@@ -38,7 +42,7 @@ export default function LakeCTD(props) {
             enabled: false,
         },
         xAxis: [{
-            reversed: true,
+            reversed: false,
             title: {
                 enabled: true,
                 text: 'Depth'
@@ -208,8 +212,12 @@ export default function LakeCTD(props) {
             let speCondData = getFilteredData(profileData.data, "SpeCond");
             let tempData = getFilteredData(profileData.data, "Temp");
             let turbData = getFilteredData(profileData.data, "Turb");
+            let depthData = getFilteredData(profileData.data, "Depth");
             console.log(chlaData)
             setChartProps({...chartProps,
+                xAxis: [{
+                    categories: depthData
+                }],
                 series: [
                     {
                         data: chlaData

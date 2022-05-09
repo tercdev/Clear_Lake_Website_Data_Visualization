@@ -5,7 +5,10 @@ import DatePicker from 'react-datepicker';
 import { convertDate, addDays, subDays } from '../../utils';
 import Multiselect from 'multiselect-react-dropdown';
 
+import './DataArchive.css'
+
 function StreamData(props) {
+    const [error, setError] = useState(false);
     const [showButton, setShowButton] = useState(false);
     var today = new Date();
     var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
@@ -22,8 +25,20 @@ function StreamData(props) {
         setShowButton(false)
     }
     function setGraphDates() {
+        setError(false);
+        if (props.id == "Clean") {
+            var latestDate = new Date(new Date(startDate).setDate(365));
+        } else{
+            var latestDate = new Date(new Date(startDate).setDate(180));
+        } 
         setGraphStartDate(startDate);
-        setGraphEndDate(endDate);
+        if (endDate > latestDate) {
+            setError(true);
+            setEndDate(latestDate);
+            setGraphEndDate(latestDate);
+        } else {
+            setGraphEndDate(endDate);
+        }
         setId(idTemp);
         setSelectedVariables(checkedState);
     }
@@ -37,12 +52,13 @@ function StreamData(props) {
         search_params.set('start', convertDate(startGraphDate));
         search_params.set('end', convertDate(endGraphDate));
     } else {
-        let oldestDate = new Date(new Date().setDate(endGraphDate.getDate() - 180));
-        if (startGraphDate < oldestDate) {
-            search_params.set('rptdate', convertDate(oldestDate));
-        } else {
-            search_params.set('rptdate', convertDate(startGraphDate)); // at most 180 days away from endDate
-        }
+        // let oldestDate = new Date(new Date().setDate(endGraphDate.getDate() - 180));
+        // if (startGraphDate < oldestDate) {
+        //     search_params.set('rptdate', convertDate(oldestDate));
+        // } else {
+        //     search_params.set('rptdate', convertDate(startGraphDate)); // at most 180 days away from endDate
+        // }
+        search_params.set('rptdate', convertDate(startGraphDate));
         search_params.set('rptend',convertDate(endGraphDate));
     }
     url.search = search_params.toString();
@@ -121,23 +137,6 @@ function StreamData(props) {
                 onSearch={function noRefCheck(){}}
                 onSelect={onSelect}
             />
-            {/* <div className='variables-container'>
-                {props.variables.map((name,index)=> {
-                    return (
-                        <div key={index}>
-                            <input
-                                type="checkbox"
-                                id={`custom-checkbox-${index}`}
-                                name={name}
-                                value={name}
-                                checked={checkedState[index]}
-                                onChange={() => handleCheckBoxOnChange(index)}
-                            />
-                            <label htmlFor={`custom-checkbox-${index}`}>{name}</label>
-                        </div>
-                    )
-                })}
-            </div> */}
             <div className='one-date-container'>
             <p className='date-label'>Start Date</p>
             <DatePicker
@@ -147,7 +146,11 @@ function StreamData(props) {
                 startDate={startDate}
                 endDate={endDate}
                 maxDate={endDate}
+                minDate={new Date("2019/01/01")}
                 // minDate={subDays(endDate, 180)}
+                showMonthDropdown
+                showYearDropdown
+                dropdownMode='select'
             />
             </div>
             <div className='one-date-container'>
@@ -161,9 +164,13 @@ function StreamData(props) {
                 minDate={startDate}
                 // maxDate={addDays(startDate, 180, today)}
                 maxDate={today}
+                showMonthDropdown
+                showYearDropdown
+                dropdownMode='select'
             />
             </div>
             <button className="submitButton" onClick={setGraphDates}>Submit</button>
+            {error && <p className='error-message'>Selected date range was more than {props.id == "Clean" ? 365 : 180} days. End date was automatically changed.</p>}
         
         {creekData.isLoading && <center>Fetching Data...</center>}
         {!creekData.isLoading && creekData.data.length != 0 && showButton && <CSVLink data={creekcsv} className="csv-link" target="_blank" headers={headers}>Download {props.id} Stream Data</CSVLink>}

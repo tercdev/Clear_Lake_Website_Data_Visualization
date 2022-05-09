@@ -1,13 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Highcharts from 'highcharts';
 import MetChart from './MetChart.js';
 import "./Met.css"
 import "react-datepicker/dist/react-datepicker.css";
 import DataDisclaimer from '../../DataDisclaimer.js';
 import DateRangePicker from '../../DateRangePicker.js';
+import useFetch from 'react-fetch-hook'
+import { 
+        convertDate, 
+        convertGMTtoPSTTime,
+        cardinalToDeg,
+        removePast
+     } from '../../utils.js';
+
+function getFilteredData(data, dataType) {
+    let m = [];
+
+    data.forEach((element => {
+         let pstTime = convertGMTtoPSTTime(new Date(element.DateTime_UTC));
+
+        if (dataType == "Wind_Dir") {
+            m.push([pstTime.getTime(), cardinalToDeg(element[dataType])]);
+        } else {
+            m.push([pstTime.getTime(), parseFloat(element[dataType])]);
+        }
+    }));
+    return m.reverse();
+}
 
 export default function Met(props) {
-    var MyAirTemp_RelHumChartProps = {
+    const [airTemp_RelHumChartProps, setAirTemp_RelHumChartProps] = useState({
         chart: {
             zoomType: 'x',
             ignoreHiddenSeries: false
@@ -127,8 +149,8 @@ export default function Met(props) {
             setTime: 0,
             endTime: 0,
         },
-    };
-    var MyAtmPressureChartProps = {
+    });
+    const[ atmPressureChartProps,setAtmPressureChartProps] = useState({
         chart: {
             zoomType: 'x'
         },
@@ -184,8 +206,8 @@ export default function Met(props) {
             setTime: 0,
             endTime: 0,
         }
-    }
-    var MyWindSpeedDirChart = {
+    })
+    const [windSpeedDirChart,setWindSpeedDirChart] = useState({
                 chart: {
                     zoomType: 'x',
                     // height: 700,
@@ -348,8 +370,8 @@ export default function Met(props) {
                     endTime: 0,
                 },
 
-    }
-    var solarRadiationChartProps = {
+    })
+    const [solarRadiationChartProps,setSolarRadiationChartProps] = useState({
         chart: {
             zoomType: 'x'
         },
@@ -404,11 +426,10 @@ export default function Met(props) {
             setTime: 0,
             endTime: 0,
         }
-    }
+    })
+
     var today = new Date();
-    console.log(today);
     var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
-    console.log(lastWeek);
     const [startDate, setStartDate] = useState(lastWeek);
     const [endDate, setEndDate] = useState(today);
     const [startGraphDate, setGraphStartDate] = useState(lastWeek);
@@ -423,6 +444,218 @@ export default function Met(props) {
         setGraphStartDate(startDate);
         setGraphEndDate(endDate);
     }
+
+    var real_time_url = new URL('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/metweatherlink');
+    let real_search_params = real_time_url.searchParams;
+    real_search_params.set('id',props.id);
+  
+    real_search_params.set('rptdate', convertDate(startGraphDate)); // at most 180 days away from endDate
+    real_search_params.set('rptend', convertDate(endGraphDate));
+    real_time_url.search = real_search_params.toString();
+  
+    var clean_data_url = new URL('https://4ery4fbt1i.execute-api.us-west-2.amazonaws.com/default/clearlake-met');
+    var search_params = clean_data_url.searchParams;
+    search_params.set('id',props.id);
+    search_params.set('start',convertDate(startGraphDate));
+    search_params.set('end',convertDate(endGraphDate));
+    clean_data_url.search = search_params.toString();
+  
+    var clean_url = clean_data_url.toString();
+    const cleanMetData = useFetch(clean_url);
+  
+    const realTimeData = useFetch(real_time_url.toString());
+    useEffect(()=> {
+        if (!cleanMetData.isLoading && !realTimeData.isLoading) {
+            let relHumidityData = getFilteredData(cleanMetData.data,"Rel_Humidity");
+            let airTempData = getFilteredData(cleanMetData.data,"Air_Temp");
+            let atmPresData = getFilteredData(cleanMetData.data,"Atm_Pres");
+            let windSpeedData = getFilteredData(cleanMetData.data,"Wind_Speed");
+            let windDirData = getFilteredData(cleanMetData.data,"Wind_Dir");
+            let solarRadData = getFilteredData(cleanMetData.data,"Solar_Rad");
+
+            let realTimeRelHumidityData = getFilteredData(realTimeData.data,"Rel_Humidity");
+            let realTimeAirTempData = getFilteredData(realTimeData.data,"Air_Temp");
+
+            let realTimeAtmPresData = getFilteredData(realTimeData.data, "Atm_Pres"); // start from lastdate
+            let realTimeWindSpeedData = getFilteredData(realTimeData.data,"Wind_Speed");
+            let realTimeWindDirData = getFilteredData(realTimeData.data,"Wind_Dir");            let realTimeSolarRadData = getFilteredData(realTimeData.data, "Solar_Rad"); // start from lastdate
+
+            if (atmPresData.length != 0) {
+                var lastdate = atmPresData[0][0]
+                // console.log(filteredRealTimeData)
+                // console.log(filteredData)
+                // console.log(new Date(atmPresData[0][0])) //1643155200000
+                // console.log(new Date(filteredRealTimeData[filteredRealTimeData.length-1][0])) //1644004801000
+                
+                let dataLastDate = new Date(atmPresData[0][0]);
+                let realDataLastDate = new Date(realTimeAtmPresData[0][0]);
+                let realDataFirstDate = new Date(realTimeAtmPresData[realTimeAtmPresData.length-1][0])
+                if (dataLastDate.getDay() == realDataLastDate.getDay() || dataLastDate.getDay() == realDataFirstDate.getDay()) {
+                    realTimeAtmPresData = []
+                    lastdate = undefined
+                }
+                realTimeAtmPresData = removePast(realTimeAtmPresData, lastdate);
+                
+                console.log(realTimeAtmPresData)
+            }
+
+            setAtmPressureChartProps({...atmPressureChartProps,
+                series: [
+                {
+                    data: atmPresData
+                },
+                {
+                    data: realTimeAtmPresData
+                }
+            ],
+            xAxis: {
+                plotLines: [{
+                    color: '#FF0000',
+                    width: 5,
+                    value: lastdate
+                }]
+            }})
+            
+            if (solarRadData.length != 0) {
+                var lastdate = solarRadData[0][0]
+                // console.log(filteredRealTimeData)
+                // console.log(filteredData)
+                // console.log(new Date(solarRadData[0][0])) //1643155200000
+                // console.log(new Date(filteredRealTimeData[filteredRealTimeData.length-1][0])) //1644004801000
+                
+                let dataLastDate = new Date(solarRadData[0][0]);
+                let realDataLastDate = new Date(realTimeSolarRadData[0][0]);
+                let realDataFirstDate = new Date(realTimeSolarRadData[realTimeSolarRadData.length-1][0])
+                if (dataLastDate.getDay() == realDataLastDate.getDay() || dataLastDate.getDay() == realDataFirstDate.getDay()) {
+                    realTimeSolarRadData = []
+                    lastdate = undefined
+                }
+                realTimeSolarRadData = removePast(realTimeSolarRadData, lastdate);
+            }
+            
+            setSolarRadiationChartProps({...solarRadiationChartProps,
+                series: [
+                {
+                    data: solarRadData
+                },
+                {
+                    data: realTimeSolarRadData
+                }
+            ],
+            xAxis: {
+                plotLines: [{
+                    color: '#FF0000',
+                    width: 5,
+                    value: lastdate
+                }]
+            }})
+            if (relHumidityData.length != 0) {
+                var lastdate = relHumidityData[0][0]
+                // console.log(filteredRealTimeData)
+                // console.log(filteredData)
+                // console.log(new Date(relHumidityData[0][0])) //1643155200000
+                // console.log(new Date(filteredRealTimeData[filteredRealTimeData.length-1][0])) //1644004801000
+                
+                let dataLastDate = new Date(relHumidityData[0][0]);
+                let realDataLastDate = new Date(realTimeRelHumidityData[0][0]);
+                let realDataFirstDate = new Date(realTimeRelHumidityData[realTimeRelHumidityData.length-1][0])
+                if (dataLastDate.getDay() == realDataLastDate.getDay() || dataLastDate.getDay() == realDataFirstDate.getDay()) {
+                    realTimeRelHumidityData = []
+                    lastdate = undefined
+                }
+                realTimeRelHumidityData = removePast(realTimeRelHumidityData, lastdate);
+            }
+
+            if (airTempData.length != 0) {
+                lastdate = relHumidityData[0][0];
+                let dataLastDate = new Date(airTempData[0][0]);
+                let realDataLastDate = new Date(realTimeAirTempData[0][0]);
+                let realDataFirstDate = new Date(realTimeAirTempData[realTimeAirTempData.length-1][0])            
+                if (dataLastDate.getDay() == realDataLastDate.getDay() || dataLastDate.getDay() == realDataFirstDate.getDay()) {
+                    realTimeAirTempData = []
+                    lastdate = undefined
+                }
+                realTimeAirTempData = removePast(realTimeAirTempData, lastdate);
+                
+                console.log(realTimeAirTempData)
+                
+            }
+            setAirTemp_RelHumChartProps({...airTemp_RelHumChartProps,
+                series: [
+                    {
+                        data: airTempData
+                    },
+                    {
+                        data: realTimeAirTempData
+                    },
+                    {
+                        data: relHumidityData
+                    },
+                    {
+                        data: realTimeRelHumidityData
+                    }
+                ],
+                xAxis: {
+                    plotLines: [{
+                        color: '#FF0000',
+                        width: 5,
+                        value: lastdate
+                    }]
+                }
+            })
+
+            if (windSpeedData.length != 0) {
+                var lastdate = windSpeedData[0][0]
+                
+                let dataLastDate = new Date(windSpeedData[0][0]);
+                let realDataLastDate = new Date(realTimeWindSpeedData[0][0]);
+                let realDataFirstDate = new Date(realTimeWindSpeedData[realTimeWindSpeedData.length-1][0])
+                if (dataLastDate.getDay() == realDataLastDate.getDay() || dataLastDate.getDay() == realDataFirstDate.getDay()) {
+                    realTimeWindSpeedData = []
+                    lastdate = undefined
+                }
+                realTimeWindSpeedData = removePast(realTimeWindSpeedData, lastdate);
+            }
+
+            if (windDirData.length != 0) {
+                lastdate = windSpeedData[0][0];
+                let dataLastDate = new Date(windDirData[0][0]);
+                let realDataLastDate = new Date(realTimeWindDirData[0][0]);
+                let realDataFirstDate = new Date(realTimeWindDirData[realTimeWindDirData.length-1][0])            
+                if (dataLastDate.getDay() == realDataLastDate.getDay() || dataLastDate.getDay() == realDataFirstDate.getDay()) {
+                    realTimeWindDirData = []
+                    lastdate = undefined
+                }
+                realTimeWindDirData = removePast(realTimeWindDirData, lastdate);
+                
+            }
+            setWindSpeedDirChart({...windSpeedDirChart,
+                series: [
+                    {
+                        data: windDirData
+                    },
+                    {
+                        data: realTimeWindDirData
+                    },
+                    {
+                        data: windSpeedData
+                    },
+                    {
+                        data: realTimeWindSpeedData
+                    }
+                ],
+                xAxis: {
+                    plotLines: [{
+                        color: '#FF0000',
+                        width: 5,
+                        value: lastdate
+                    }]
+                }
+            })
+        }
+        
+      },[cleanMetData.isLoading, realTimeData.isLoading])
+
     return (
         <div>
             <div className='station-page-header'>
@@ -446,37 +679,23 @@ export default function Met(props) {
                 setGraphDates={setGraphDates} 
                 maxDays={150}/>
             <MetChart 
-                fromDate={startGraphDate} 
-                endDate={endGraphDate} 
-                id={props.id}
-                dataType={"Rel_Humidity"}
-                dataType2={"Air_Temp"}
-                chartProps={MyAirTemp_RelHumChartProps}
+                chartProps={airTemp_RelHumChartProps}
+                isLoading={realTimeData.isLoading}
              />
              <div className='chart-container'> 
             <MetChart 
-                fromDate={startGraphDate} 
-                endDate={endGraphDate} 
-                id={props.id}
-                dataType={"Atm_Pres"}
-                chartProps={MyAtmPressureChartProps}
+                chartProps={atmPressureChartProps}
+                isLoading={realTimeData.isLoading}
              />
              </div>
             <MetChart 
-                fromDate={startGraphDate} 
-                endDate={endGraphDate} 
-                id={props.id}
-                dataType={"Wind_Speed"}
-                dataType2={"Wind_Dir"}
-                chartProps={MyWindSpeedDirChart}
+                chartProps={windSpeedDirChart}
+                isLoading={realTimeData.isLoading}
              />
               <div className='chart-container'> 
             <MetChart 
-                fromDate={startDate} 
-                endDate={endDate} 
-                id={props.id}
-                dataType={"Solar_Rad"}
                 chartProps={solarRadiationChartProps}
+                isLoading={realTimeData.isLoading}
              />
              </div>
         </div>

@@ -82,7 +82,13 @@ function App() {
         <Route path='/ua08' exact element={<LakeTchain name={"UA-08 Station"}/>} />
 
         <Route path='/lakeCTD' exact element={<LakeCTDHome/>} />
-        <Route path='/lakeprofile' exact element={<LakeCTD id={"1"} name={"Lake Profile Monitoring"}/>} />
+        <Route path='/ua01-profile' exact element={<LakeCTD id={"1"} name={"UA-01 Profile"}/>} />
+        <Route path='/ua06-profile' exact element={<LakeCTD id={"2"} name={"UA-06 Profile"}/>} />
+        <Route path='/ua07-profile' exact element={<LakeCTD id={"3"} name={"UA-07 Profile"}/>} />
+        <Route path='/ua08-profile' exact element={<LakeCTD id={"4"} name={"UA-08 Profile"}/>} />
+        <Route path='/la03-profile' exact element={<LakeCTD id={"5"} name={"LA-03 Profile"}/>} />
+        <Route path='/nr02-profile' exact element={<LakeCTD id={"6"} name={"NR-02 Profile"}/>} />
+        <Route path='/oa04-profile' exact element={<LakeCTD id={"7"} name={"OA-04 Profile"}/>} />
 
         <Route path='/upload-csv' exact element={<LoginPage/>} />
 

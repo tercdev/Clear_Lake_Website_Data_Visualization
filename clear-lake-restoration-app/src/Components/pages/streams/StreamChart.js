@@ -3,6 +3,7 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import useFetch from 'react-fetch-hook'
 
+import './StreamChart.css'
 
 export default function StreamChart({
     chartProps,

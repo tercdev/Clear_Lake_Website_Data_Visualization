@@ -372,7 +372,6 @@ export default function Stream(props) {
                 }
                 turbfiltereddata = removePast(turbfiltereddata, lastdate);
                 turbtempfiltereddata = removePast(turbtempfiltereddata, lastdate);
-
             }
             let flowfiltereddata = getFilteredData(flowData.data, "Flow");
             let rainfiltereddata = getFilteredData(rainData.data, "Rain");
@@ -384,6 +383,7 @@ export default function Stream(props) {
             }
             let minX = flowfiltereddata[flowfiltereddata.length-1][0];
             let maxX = flowfiltereddata[0][0];
+            // sort
             let combinedturb = cleanturbfiltereddata.concat(turbfiltereddata);
             combinedturb.sort(function(a,b) {
                 return (a[0]-b[0])
@@ -392,11 +392,12 @@ export default function Stream(props) {
             combinedturbtemp.sort(function(a,b) {
                 return (a[0]-b[0])
             })
-            // const fToCel= temp => Math.round( (temp - 32 )*5/9 );
-            // let combinedturbtempC = [];
-            // for (let i = 0; i < combinedturbtemp.length; i++) {
-            //     combinedturbtempC[i] = [combinedturbtemp[i][0],fToCel(combinedturbtemp[i][1])]
-            // }
+            flowfiltereddata.sort(function(a,b) {
+                return (a[0]-b[0])
+            })
+            rainfiltereddata.sort(function(a,b) {
+                return (a[0]-b[0])
+            })
             let ylabel = ''
             let yformat = ''
             if (graphUnit == 'f') {

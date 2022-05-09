@@ -83,13 +83,13 @@ export default function LakeCTD(props) {
             opposite: true
         }, {
             title: {
-                text: 'SpeCond',
+                text: 'Specific Conductivity [uS/cm]',
                 style: {
                     color: Highcharts.getOptions().colors[5]
                 }
             },
             labels: {
-                format: '{value}',
+                format: '{value} uS/cm',
                 style: {
                     color: Highcharts.getOptions().colors[5]
                 }
@@ -150,7 +150,7 @@ export default function LakeCTD(props) {
             yAxis: 1,
             color: Highcharts.getOptions().colors[0]
         }, {
-            name: 'Spe Cond',
+            name: 'Specific Conductivity',
             data: [],
             selected: true,
             yAxis: 2,

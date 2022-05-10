@@ -38,9 +38,7 @@ function SpecificDateSelect(props) {
                 datesByYear[element.getFullYear()] = m;
             })
             console.log(datesByYear);
-            // if (year == []) {
             setYear(Object.keys(datesByYear));
-            // }
         }
     },[props.isLoading])
     // separate dates by year

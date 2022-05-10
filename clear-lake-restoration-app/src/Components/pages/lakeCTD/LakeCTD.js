@@ -3,9 +3,6 @@ import Highcharts from 'highcharts';
 import DataDisclaimer from '../../DataDisclaimer';
 import StreamChart from '../streams/StreamChart';
 import useFetch from 'react-fetch-hook';
-import { convertDate } from '../../utils';
-import DatePicker from 'react-datepicker';
-import Multiselect from 'multiselect-react-dropdown';
 import SpecificDateSelect from './SpecificDateSelect';
 
 export default function LakeCTD(props) {
@@ -280,28 +277,6 @@ export default function LakeCTD(props) {
             </div>
             <DataDisclaimer />
             <div className='date-container'>
-                {/* <div className='one-date-container'> */}
-                    {/* <DatePicker
-                        selected={startDate}
-                        onChange={handleStartDateChange}
-                        minDate={new Date("2019/01/01")}
-                        maxDate={today}
-                        // showMonthYearPicker
-                        // dateFormat="MM/yyyy"
-                        showMonthDropdown
-                        showYearDropdown
-                        dropdownMode='select'
-                        includeDates={dates}
-                    /> */}
-                {/* </div> */}
-                {/* <Multiselect 
-                    options={dates} 
-                    singleSelect 
-                    isObject={false} 
-                    onKeyPressFn={function noRefCheck(){}}
-                    onRemove={function noRefCheck(){}}
-                    onSearch={function noRefCheck(){}}
-                    onSelect={handleStartDateChange} /> */}
                 <SpecificDateSelect 
                     data={includedDates.data} 
                     isLoading={includedDates.isLoading} 

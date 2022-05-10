@@ -202,7 +202,7 @@ export default function Met(props) {
                 }
             },
             title: {
-                text: 'Solar [W/m2]',
+                text: 'Solar Radiation [W/m2]',
                 style: {
                     color: Highcharts.getOptions().colors[6]
                 }
@@ -246,9 +246,18 @@ export default function Met(props) {
                 const TimeHrs = new Date(this.x).getHours();
                 const TimeMins = new Date(this.x).getMinutes();
                 const dateString = (Month + 1) + "-" + DayOfMonth + "-" + Year + "  " + TimeHrs + ":" + (TimeMins<10?'0':'')+TimeMins;
+                let units = {
+                    "Air Temperature in °F": "°F",
+                    "Air Temperature in °C": "°C",
+                    "Relative Humidity": "%",
+                    "Atmospheric Pressure": "kPa",
+                    "Wind Direction": "degrees",
+                    "Wind Speed": "m/s",
+                    "Solar Radiation": "W/m2"
+                }
                 return this.points.reduce(function (s, point) {
                     return s + '<br/>' + point.series.name + ': ' +
-                        point.y;
+                        point.y + ' ' + units[point.series.name];
                 }, '<b>' + dateString + '</b>');
             },
             shared: true,
@@ -466,19 +475,23 @@ export default function Met(props) {
             let minX = combinedAtmPresData[0][0];
             let ylabel = ''
             let yformat = ''
+            let yseries = ''
             if (graphUnit == 'f') {
                 ylabel = 'Air Temperature [°F]'
                 yformat = '{value} °F'
+                yseries = 'Air Temperature in °F'
             } else {
                 ylabel = 'Air Temperature [°C]'
                 yformat = '{value} °C'
+                yseries = 'Air Temperature in °C'
             }
             setChartProps({...chartProps,
                 series: [
                 {
                     data: combinedAirTempData,
                     zoneAxis: 'x',
-                    zones: zoneProps
+                    zones: zoneProps,
+                    name: yseries
                 }, 
                 {
                     data: combinedRelHumidityData,

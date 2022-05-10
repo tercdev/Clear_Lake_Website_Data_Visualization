@@ -225,9 +225,16 @@ export default function Stream(props) {
                 const TimeHrs = new Date(this.x).getHours();
                 const TimeMins = new Date(this.x).getMinutes();
                 const dateString = (Month + 1) + "-" + DayOfMonth + "-" + Year + "  " + TimeHrs + ":" + (TimeMins<10?'0':'')+TimeMins;
+                let units = {
+                    "Turbidity": 'FTU',
+                    "Flow": 'cfs',
+                    "Temperature in °F": '°F',
+                    "Temperature in °C": '°C',
+                    "Precipitation": 'in'
+                }
                 return this.points.reduce(function (s, point) {
                     return s + '<br/>' + point.series.name + ': ' +
-                        point.y;
+                        point.y + ' ' + units[point.series.name];
                 }, '<b>' + dateString + '</b>');
             },
             shared: true,
@@ -405,12 +412,15 @@ export default function Stream(props) {
             })
             let ylabel = ''
             let yformat = ''
+            let yseries = ''
             if (graphUnit == 'f') {
                 ylabel = 'Temperature [°F]'
                 yformat = '{value} °F'
+                yseries = 'Temperature in °F'
             } else {
                 ylabel = 'Temperature [°C]'
                 yformat = '{value} °C'
+                yseries = 'Temperature in °C'
             }
             setChartProps({...chartProps,
                 series: [
@@ -425,7 +435,8 @@ export default function Stream(props) {
                     {
                         data: combinedturbtemp,
                         zoneAxis: 'x',
-                        zones: zoneProps
+                        zones: zoneProps,
+                        name: yseries
                     },
                     {
                         data: rainfiltereddata

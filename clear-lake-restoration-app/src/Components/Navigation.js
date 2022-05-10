@@ -71,7 +71,13 @@ const Navigation = () => {
             </NavDropdown>
             <NavDropdown title="Lake Profile" id="collasible-nav-dropdown" show={showLakeCTD} onMouseEnter={showLakeCTDDropdown} onMouseLeave={hideLakeCTDDropdown}>
               <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/lakeCTD">Overview</NavDropdown.Item>
-              <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/lakeprofile">Lake Profile Data</NavDropdown.Item>
+              <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/ua01-profile">UA-01 Profile</NavDropdown.Item>
+              <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/ua06-profile">UA-06 Profile</NavDropdown.Item>
+              <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/ua07-profile">UA-07 Profile</NavDropdown.Item>
+              <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/ua08-profile">UA-08 Profile</NavDropdown.Item>
+              <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/la03-profile">LA-03 Profile</NavDropdown.Item>
+              <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/nr02-profile">NR-02 Profile</NavDropdown.Item>
+              <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/oa04-profile">OA-04 Profile</NavDropdown.Item>
             </NavDropdown>            
             <Nav.Link href='https://tahoe.ucdavis.edu/clear-lake-wind-maps'>Wind Animations</Nav.Link>
             <Nav.Link href='/Clear_Lake_Website_Data_Visualization/data-archive'>Data Archive</Nav.Link>

@@ -44,29 +44,30 @@ function MeterologyData(props) {
     }
     const [idTemp, setIdTemp] = useState(1);
     const [id, setId] = useState(1);
-    var real_time_url = new URL(props.url);
-    let real_search_params = real_time_url.searchParams;
-    real_search_params.set('id',id);
+    var met_url = new URL(props.url);
+    console.log(met_url);
+    let met_params = met_url.searchParams;
+    met_params.set('id',id);
 
     // console.log(startGraphDate);
     if (props.id == "Clean") {
-        real_search_params.set('start', convertDate(startGraphDate));
-        real_search_params.set('end', convertDate(endGraphDate));
+        met_params.set('start', convertDate(startGraphDate));
+        met_params.set('end', convertDate(endGraphDate));
     } else {
         // let oldestDate = new Date(new Date().setDate(endGraphDate.getDate() - 150));
         // if (startGraphDate < oldestDate) {
-        //     real_search_params.set('rptdate', convertDate(oldestDate));
+        //     met_params.set('rptdate', convertDate(oldestDate));
         // } else {
-        //     real_search_params.set('rptdate', convertDate(startGraphDate)); // at most 180 days away from endDate
+        //     met_params.set('rptdate', convertDate(startGraphDate)); // at most 180 days away from endDate
         // }
-        real_search_params.set('rptdate', convertDate(startGraphDate)); // at most 150 days away from endDate
-        real_search_params.set('rptend', convertDate(endGraphDate));
+        met_params.set('rptdate', convertDate(startGraphDate)); // at most 150 days away from endDate
+        met_params.set('rptend', convertDate(endGraphDate));
     }
 
-    real_time_url.search = real_search_params.toString();
+    met_url.search = met_params.toString();
 
 
-    const realTime = useFetch(real_time_url.toString());
+    const realTime = useFetch(met_url.toString());
 
     const [realTimeData, setRealTimeData] = useState([])
     
@@ -78,13 +79,13 @@ function MeterologyData(props) {
     const [selectedVariables, setSelectedVariables] = useState(
         new Array(variables.length).fill(false)
     );
-    const handleCheckBoxOnChange = (position) => {
-        const updatedCheckedState = checkedState.map((item, index) =>
-            index === position ? !item : item
-        );
-        setCheckedState(updatedCheckedState);
-        setShowButton(false);
-    }
+    // const handleCheckBoxOnChange = (position) => {
+    //     const updatedCheckedState = checkedState.map((item, index) =>
+    //         index === position ? !item : item
+    //     );
+    //     setCheckedState(updatedCheckedState);
+    //     setShowButton(false);
+    // }
     useEffect(()=> {
         if (!realTime.isLoading) {
             // select variables
@@ -98,8 +99,6 @@ function MeterologyData(props) {
             let selectedCleanData = [];
             let selectedRealTimeData = [];
             
-            // console.log(data)
-            // console.log(realTime.data)
             realTime.data.forEach((element => {
                 let oneRow = [];
                 selectedVariables.map((x,index) => {

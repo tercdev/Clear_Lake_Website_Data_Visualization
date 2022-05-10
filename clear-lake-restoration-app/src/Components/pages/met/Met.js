@@ -32,7 +32,12 @@ export default function Met(props) {
     const [airTemp_RelHumChartProps, setAirTemp_RelHumChartProps] = useState({
         chart: {
             zoomType: 'x',
-            ignoreHiddenSeries: false
+            ignoreHiddenSeries: false,
+            events: {
+                load() {
+                    this.showLoading();
+                }
+            }
         },
         credits: {
             enabled: false
@@ -152,7 +157,12 @@ export default function Met(props) {
     });
     const[ atmPressureChartProps,setAtmPressureChartProps] = useState({
         chart: {
-            zoomType: 'x'
+            zoomType: 'x',
+            events: {
+                load() {
+                    this.showLoading();
+                }
+            }
         },
         time: {
             useUTC: false
@@ -210,7 +220,11 @@ export default function Met(props) {
     const [windSpeedDirChart,setWindSpeedDirChart] = useState({
                 chart: {
                     zoomType: 'x',
-                    // height: 700,
+                    events: {
+                        load() {
+                            this.showLoading();
+                        }
+                    }
                 },
                 time : {
                     useUTC: false
@@ -373,7 +387,12 @@ export default function Met(props) {
     })
     const [solarRadiationChartProps,setSolarRadiationChartProps] = useState({
         chart: {
-            zoomType: 'x'
+            zoomType: 'x',
+            events: {
+                load() {
+                    this.showLoading();
+                }
+            }
         },
         time: {
             useUTC: false,
@@ -464,6 +483,7 @@ export default function Met(props) {
     const cleanMetData = useFetch(clean_url);
   
     const realTimeData = useFetch(real_time_url.toString());
+
     useEffect(()=> {
         if (!cleanMetData.isLoading && !realTimeData.isLoading) {
             let relHumidityData = getFilteredData(cleanMetData.data,"Rel_Humidity");
@@ -475,17 +495,13 @@ export default function Met(props) {
 
             let realTimeRelHumidityData = getFilteredData(realTimeData.data,"Rel_Humidity");
             let realTimeAirTempData = getFilteredData(realTimeData.data,"Air_Temp");
-
             let realTimeAtmPresData = getFilteredData(realTimeData.data, "Atm_Pres"); // start from lastdate
             let realTimeWindSpeedData = getFilteredData(realTimeData.data,"Wind_Speed");
-            let realTimeWindDirData = getFilteredData(realTimeData.data,"Wind_Dir");            let realTimeSolarRadData = getFilteredData(realTimeData.data, "Solar_Rad"); // start from lastdate
+            let realTimeWindDirData = getFilteredData(realTimeData.data,"Wind_Dir");            
+            let realTimeSolarRadData = getFilteredData(realTimeData.data, "Solar_Rad"); // start from lastdate
 
             if (atmPresData.length != 0) {
                 var lastdate = atmPresData[0][0]
-                // console.log(filteredRealTimeData)
-                // console.log(filteredData)
-                // console.log(new Date(atmPresData[0][0])) //1643155200000
-                // console.log(new Date(filteredRealTimeData[filteredRealTimeData.length-1][0])) //1644004801000
                 
                 let dataLastDate = new Date(atmPresData[0][0]);
                 let realDataLastDate = new Date(realTimeAtmPresData[0][0]);
@@ -495,8 +511,6 @@ export default function Met(props) {
                     lastdate = undefined
                 }
                 realTimeAtmPresData = removePast(realTimeAtmPresData, lastdate);
-                
-                console.log(realTimeAtmPresData)
             }
 
             setAtmPressureChartProps({...atmPressureChartProps,
@@ -517,12 +531,7 @@ export default function Met(props) {
             }})
             
             if (solarRadData.length != 0) {
-                var lastdate = solarRadData[0][0]
-                // console.log(filteredRealTimeData)
-                // console.log(filteredData)
-                // console.log(new Date(solarRadData[0][0])) //1643155200000
-                // console.log(new Date(filteredRealTimeData[filteredRealTimeData.length-1][0])) //1644004801000
-                
+                var lastdate = solarRadData[0][0]     
                 let dataLastDate = new Date(solarRadData[0][0]);
                 let realDataLastDate = new Date(realTimeSolarRadData[0][0]);
                 let realDataFirstDate = new Date(realTimeSolarRadData[realTimeSolarRadData.length-1][0])
@@ -551,11 +560,7 @@ export default function Met(props) {
             }})
             if (relHumidityData.length != 0) {
                 var lastdate = relHumidityData[0][0]
-                // console.log(filteredRealTimeData)
-                // console.log(filteredData)
-                // console.log(new Date(relHumidityData[0][0])) //1643155200000
-                // console.log(new Date(filteredRealTimeData[filteredRealTimeData.length-1][0])) //1644004801000
-                
+
                 let dataLastDate = new Date(relHumidityData[0][0]);
                 let realDataLastDate = new Date(realTimeRelHumidityData[0][0]);
                 let realDataFirstDate = new Date(realTimeRelHumidityData[realTimeRelHumidityData.length-1][0])
@@ -576,10 +581,8 @@ export default function Met(props) {
                     lastdate = undefined
                 }
                 realTimeAirTempData = removePast(realTimeAirTempData, lastdate);
-                
-                console.log(realTimeAirTempData)
-                
             }
+
             setAirTemp_RelHumChartProps({...airTemp_RelHumChartProps,
                 series: [
                     {
@@ -680,22 +683,22 @@ export default function Met(props) {
                 maxDays={150}/>
             <MetChart 
                 chartProps={airTemp_RelHumChartProps}
-                isLoading={realTimeData.isLoading}
+                isLoading={realTimeData.isLoading||cleanMetData.isLoading}
              />
              <div className='chart-container'> 
             <MetChart 
                 chartProps={atmPressureChartProps}
-                isLoading={realTimeData.isLoading}
+                isLoading={realTimeData.isLoading||cleanMetData.isLoading}
              />
              </div>
             <MetChart 
                 chartProps={windSpeedDirChart}
-                isLoading={realTimeData.isLoading}
+                isLoading={realTimeData.isLoading||cleanMetData.isLoading}
              />
               <div className='chart-container'> 
             <MetChart 
                 chartProps={solarRadiationChartProps}
-                isLoading={realTimeData.isLoading}
+                isLoading={realTimeData.isLoading||cleanMetData.isLoading}
              />
              </div>
         </div>

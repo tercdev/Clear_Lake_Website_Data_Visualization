@@ -9,7 +9,6 @@ export default function MetChart({
 
   const chartComponent = useRef(null); 
   const chart = chartComponent.current?.chart;
-  console.log(chart)
   useEffect(()=> {
     if (chart) {
         chart.showLoading();
@@ -17,8 +16,6 @@ export default function MetChart({
             chart.hideLoading()
         }
     }
-
-
   },[isLoading])
 
   return (

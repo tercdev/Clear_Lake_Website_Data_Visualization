@@ -143,7 +143,7 @@ export default function Met(props) {
             title: {
                 text: 'Wind Direction [degrees]',
                 style: {
-                    color: Highcharts.getOptions().colors[2]
+                    color: Highcharts.getOptions().colors[7]
                 }
             },
             // labels: {
@@ -169,7 +169,7 @@ export default function Met(props) {
             height: '22.5%',
             top: '51%',
             offset: 0,
-            lineColor: Highcharts.getOptions().colors[2],
+            lineColor: Highcharts.getOptions().colors[7],
             lineWidth: 5,
             max: 360,
             tickInterval: 90
@@ -281,7 +281,7 @@ export default function Met(props) {
                 name: 'Wind Direction',
                 selected: true,
                 yAxis: 3,
-                color: Highcharts.getOptions().colors[2],
+                color: Highcharts.getOptions().colors[7],
                 type: 'scatter',
             },
             {

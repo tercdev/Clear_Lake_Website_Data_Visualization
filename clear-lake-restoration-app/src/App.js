@@ -73,13 +73,13 @@ function App() {
         <Route path='/bvr' exact element={<Met id={"7"} name={"Big Valley Rancheria"}/>} />
 
         <Route path='/lakemooring' exact element={<LakeTchainHome/>} />
-        <Route path='/la03' exact element={<LakeTchain name={"LA-03 Station"}/>} />
-        <Route path='/nr02' exact element={<LakeTchain name={"NR-02 Station"}/>} />
-        <Route path='/oa04' exact element={<LakeTchain name={"OA-04 Station"}/>} />
-        <Route path='/ua01' exact element={<LakeTchain name={"UA-01 Station"}/>} />
-        <Route path='/ua06' exact element={<LakeTchain name={"UA-06 Station"}/>} />
+        <Route path='/la03' exact element={<LakeTchain id={"1"} name={"LA-03 Station"}/>} />
+        <Route path='/nr02' exact element={<LakeTchain id={"2"} name={"NR-02 Station"}/>} />
+        <Route path='/oa04' exact element={<LakeTchain id={"3"} name={"OA-04 Station"}/>} />
+        <Route path='/ua01' exact element={<LakeTchain id={"4"} name={"UA-01 Station"}/>} />
+        <Route path='/ua06' exact element={<LakeTchain id={"5"} name={"UA-06 Station"}/>} />
         <Route path='/ua07' exact element={<LakeTchain name={"UA-07 Station"}/>} />
-        <Route path='/ua08' exact element={<LakeTchain name={"UA-08 Station"}/>} />
+        <Route path='/ua08' exact element={<LakeTchain id={"6"} name={"UA-08 Station"}/>} />
 
         <Route path='/lakeCTD' exact element={<LakeCTDHome/>} />
         <Route path='/ua01-profile' exact element={<LakeCTD id={"1"} name={"UA-01 Profile"}/>} />

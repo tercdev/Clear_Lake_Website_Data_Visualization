@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Multiselect from 'multiselect-react-dropdown';
 
 function SpecificDateSelect(props) {
@@ -10,6 +10,13 @@ function SpecificDateSelect(props) {
     const [selectedMonth, setSelectedMonth] = useState();
     const [selectedDay, setSelectedDay] = useState();
     
+    const yearRef = useRef(null)
+    const monthRef = useRef(null)
+    const dayRef = useRef(null)
+    function resetValues(r) {
+        r.current.resetSelectedValues();
+    }
+
     useEffect(() => {
         if (!props.isLoading) {
             let m = [];
@@ -64,7 +71,8 @@ function SpecificDateSelect(props) {
         setMonth(m)
         setSelectedYear(e[0])
         // setDay([])
-        props.showError()
+        resetValues(dayRef)
+        resetValues(monthRef)
     }
     function handleMonthChange(e) {
         console.log(e[0]) // string 'Month'
@@ -90,7 +98,7 @@ function SpecificDateSelect(props) {
             }
         })
         setDay(m)
-        props.showError()
+        resetValues(dayRef)
     }
     function handleDayChange(e) {
         setSelectedDay(e[0])
@@ -128,7 +136,8 @@ function SpecificDateSelect(props) {
                 onSelect={handleYearChange}
                 emptyRecordMsg={"N/A"}
                 avoidHighlightFirstOption={true}
-                style={style} />
+                style={style} 
+                ref={yearRef}/>
             <Multiselect 
                 options={month}
                 singleSelect 
@@ -139,7 +148,8 @@ function SpecificDateSelect(props) {
                 onSelect={handleMonthChange}
                 emptyRecordMsg={"N/A"}
                 avoidHighlightFirstOption={true} 
-                style={style} />
+                style={style} 
+                ref={monthRef}/>
             <Multiselect 
                 options={day}
                 singleSelect 
@@ -150,7 +160,8 @@ function SpecificDateSelect(props) {
                 onSelect={handleDayChange}
                 emptyRecordMsg={"N/A"}
                 avoidHighlightFirstOption={true} 
-                style={style} />
+                style={style}
+                ref={dayRef} />
             
         </>
     )

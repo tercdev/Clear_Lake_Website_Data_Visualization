@@ -64,6 +64,7 @@ function SpecificDateSelect(props) {
         setMonth(m)
         setSelectedYear(e[0])
         // setDay([])
+        props.showError()
     }
     function handleMonthChange(e) {
         console.log(e[0]) // string 'Month'
@@ -89,6 +90,7 @@ function SpecificDateSelect(props) {
             }
         })
         setDay(m)
+        props.showError()
     }
     function handleDayChange(e) {
         setSelectedDay(e[0])

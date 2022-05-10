@@ -193,16 +193,26 @@ export default function LakeCTD(props) {
     const [startDate, setStartDate] = useState(today);
     const [startGraphDate, setGraphStartDate] = useState(today);
     const [endGraphDate, setGraphEndDate] = useState(today);
+    const [error, setError] = useState(true);
+    function showError() {
+        setError(true)
+    }
+    function hideError() {
+        setError(false)
+    }
     function handleStartDateChange(e) {
         console.log(e)
         // setStartDate(new Date(e[0]));
         setStartDate(e)
+        setError(false);
     }
     function setGraphDates() {
+        if (!error) {
         console.log(startDate)
         setGraphStartDate(startDate);
         // let x = new Date(startDate.getFullYear(), startDate.getMonth(), 28);
         setGraphEndDate(startDate);
+        }
     }
     function convertDatetoUTC(date) {
         let year = date.getUTCFullYear().toString();
@@ -279,6 +289,7 @@ export default function LakeCTD(props) {
                 <h1 className='station-page-title'>{props.name}</h1>
             </div>
             <DataDisclaimer />
+            {error && <p className='error-message'>Please select a valid Year Month Date</p>}
             <div className='date-container'>
                 {/* <div className='one-date-container'> */}
                     {/* <DatePicker
@@ -302,7 +313,12 @@ export default function LakeCTD(props) {
                     onRemove={function noRefCheck(){}}
                     onSearch={function noRefCheck(){}}
                     onSelect={handleStartDateChange} /> */}
-                <SpecificDateSelect data={includedDates.data} isLoading={includedDates.isLoading} onSelect={handleStartDateChange}/>
+                <SpecificDateSelect 
+                    data={includedDates.data} 
+                    isLoading={includedDates.isLoading} 
+                    onSelect={handleStartDateChange}
+                    showError={showError}
+                    hideError={hideError}/>
                 <button className="submitButton" onClick={setGraphDates}>Submit</button>
             </div>
             <StreamChart chartProps={chartProps} isLoading={profileData.isLoading}/>

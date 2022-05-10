@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Highcharts from 'highcharts';
 import MetChart from './MetChart.js';
-import "./Met.css"
 import "react-datepicker/dist/react-datepicker.css";
 import DataDisclaimer from '../../DataDisclaimer.js';
 import DateRangePicker from '../../DateRangePicker.js';

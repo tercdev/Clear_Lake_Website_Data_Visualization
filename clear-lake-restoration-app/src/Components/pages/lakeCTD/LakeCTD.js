@@ -133,10 +133,17 @@ export default function LakeCTD(props) {
         }],
         tooltip: {
             formatter: function() {
+                let units = {
+                    "Chlorophyll": "ug/l",
+                    "Dissolved Oxygen": 'mg/l',
+                    "Specific Conductivity": 'uS/cm',
+                    "Temperature": '°C',
+                    "Turbidity": 'FTU'
+                }
                 return this.points.reduce(function (s, point) {
                     return s + '<br/>' + point.series.name + ': ' +
-                        point.y;
-                }, '<b>' + this.x + 'm' + '</b>');
+                        point.y + ' ' + units[point.series.name];
+                }, '<b>' + this.x + ' m' + '</b>');
             },
             shared: true,
             followPointer: true

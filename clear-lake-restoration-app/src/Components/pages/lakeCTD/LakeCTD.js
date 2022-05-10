@@ -185,18 +185,19 @@ export default function LakeCTD(props) {
             endTime: 0,
         }
     })
+    
     var today = new Date();
-    var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
-    const [startDate, setStartDate] = useState(lastWeek);
-    const [startGraphDate, setGraphStartDate] = useState(lastWeek);
+    // var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
+    const [startDate, setStartDate] = useState(today);
+    const [startGraphDate, setGraphStartDate] = useState(today);
     const [endGraphDate, setGraphEndDate] = useState(today);
     function handleStartDateChange(e) {
         setStartDate(e);
     }
     function setGraphDates() {
         setGraphStartDate(startDate);
-        let x = new Date(startDate.getFullYear(), startDate.getMonth(), 28);
-        setGraphEndDate(x);
+        // let x = new Date(startDate.getFullYear(), startDate.getMonth(), 28);
+        setGraphEndDate(startDate);
     }
     var url = new URL('https://3kgpak926a.execute-api.us-west-2.amazonaws.com/default/clearlake-profiledata');
     var search_params = url.searchParams;
@@ -238,6 +239,23 @@ export default function LakeCTD(props) {
             })
         }
     },[profileData.isLoading,startGraphDate])
+    var dates_url = new URL('https://shb928ssb8.execute-api.us-west-2.amazonaws.com/default/clearlake-met-sitedates');
+    var dates_search_params = dates_url.searchParams;
+    dates_search_params.set('id', props.id);
+    dates_url.search = dates_search_params.toString();
+    const includedDates = useFetch(dates_url.toString());
+    const [dates, setDates] = useState([]);
+    useEffect(() => {
+        if (!includedDates.isLoading) {
+            let m = [today];
+            includedDates.data.forEach((element => {
+                m.push(new Date(element["DateTime_UTC"]));
+            }))
+            setDates(m);
+            console.log(m)
+            console.log(includedDates.data)
+        }
+    },[includedDates.isLoading])
     return (
         <div>
             <div className='station-page-header'>
@@ -251,8 +269,12 @@ export default function LakeCTD(props) {
                         onChange={handleStartDateChange}
                         minDate={new Date("2019/01/01")}
                         maxDate={today}
-                        showMonthYearPicker
-                        dateFormat="MM/yyyy"
+                        // showMonthYearPicker
+                        // dateFormat="MM/yyyy"
+                        showMonthDropdown
+                        showYearDropdown
+                        dropdownMode='select'
+                        includeDates={dates}
                     />
                 {/* </div> */}
                 <button className="submitButton" onClick={setGraphDates}>Submit</button>

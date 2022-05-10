@@ -546,12 +546,9 @@ export default function Met(props) {
             </div>
             <DataDisclaimer/>
             <div className='data-desc-container'>
-                <p className='data-desc'>Select start and end dates (maximum 150 day period). <br/>
+                <p className='data-desc'>Select start and end dates (maximum 365 day period). <br/>
                     Click submit to update the graphs below.<br/>
                     Allow some time for the data to be fetched. The longer the selected time period, the longer it will take to load.<br/>
-                    Use the hamburger icon on the top right of each graph to download the data displayed in the graph.<br/>
-                    Click and drag in the plot area to zoom in.<br/>
-                    Solid line means data comes from database with cleaned data, while dashed line means data is real time.
                 </p>
             </div>
             <DateRangePicker 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -18,8 +18,15 @@ function DateRangePicker(props) {
                 selectsStart
                 startDate={props.startDate}
                 endDate={props.endDate}
-                minDate={subDays(props.endDate, props.maxDays)}
+                // minDate={subDays(props.endDate, props.maxDays)}
                 maxDate={props.endDate}
+                // includeDateIntervals
+                // date range using input w clear button
+                showMonthDropdown
+                showYearDropdown
+                // yearDropdownItemNumber={today.getFullYear()-2019}
+                dropdownMode="select"
+                minDate={new Date("2019-01-02")}
             />
             </div>
             <div className='one-date-container'>
@@ -31,13 +38,27 @@ function DateRangePicker(props) {
                 startDate={props.startDate}
                 endDate={props.endDate}
                 minDate={props.startDate}
-                maxDate={addDays(props.startDate, props.maxDays, today)}
+                // maxDate={addDays(props.startDate, props.maxDays, today)}
+                maxDate={today}
+                showMonthDropdown
+                showYearDropdown
+                // yearDropdownItemNumber={today.getFullYear()-2019}
+                dropdownMode="select"
             />
+            </div>
+            <div className='one-date-container'>
+                <div className='radio-button'>
+                    <input type="radio" value="f" id="f" onChange={props.handleF} name="unit" checked={props.unit=='f'}/>
+                    <label htmlFor="f">°F</label>
+                </div>
+                <div className='radio-button'>
+                    <input type="radio" value="c" id="c" onChange={props.handleC} name="unit" checked={props.unit=='c'}/>
+                    <label htmlFor="c">°C</label>
+                </div>
             </div>
             <div className='one-date-container'>
                 <button className="submitButton" onClick={props.setGraphDates}>Submit</button>
             </div>
-            
         </div>
     );
 };

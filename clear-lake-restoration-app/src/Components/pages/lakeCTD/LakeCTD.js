@@ -6,6 +6,7 @@ import useFetch from 'react-fetch-hook';
 import { convertDate } from '../../utils';
 import DatePicker from 'react-datepicker';
 import Multiselect from 'multiselect-react-dropdown';
+import SpecificDateSelect from './SpecificDateSelect';
 
 export default function LakeCTD(props) {
     function getFilteredData(data, dataType) {
@@ -194,7 +195,8 @@ export default function LakeCTD(props) {
     const [endGraphDate, setGraphEndDate] = useState(today);
     function handleStartDateChange(e) {
         console.log(e)
-        setStartDate(new Date(e[0]));
+        // setStartDate(new Date(e[0]));
+        setStartDate(e)
     }
     function setGraphDates() {
         console.log(startDate)
@@ -292,14 +294,15 @@ export default function LakeCTD(props) {
                         includeDates={dates}
                     /> */}
                 {/* </div> */}
-                <Multiselect 
+                {/* <Multiselect 
                     options={dates} 
                     singleSelect 
                     isObject={false} 
                     onKeyPressFn={function noRefCheck(){}}
                     onRemove={function noRefCheck(){}}
                     onSearch={function noRefCheck(){}}
-                    onSelect={handleStartDateChange} />
+                    onSelect={handleStartDateChange} /> */}
+                <SpecificDateSelect data={includedDates.data} isLoading={includedDates.isLoading} onSelect={handleStartDateChange}/>
                 <button className="submitButton" onClick={setGraphDates}>Submit</button>
             </div>
             <StreamChart chartProps={chartProps} isLoading={profileData.isLoading}/>

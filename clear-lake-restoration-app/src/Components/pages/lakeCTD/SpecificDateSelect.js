@@ -107,7 +107,8 @@ function SpecificDateSelect(props) {
                 onRemove={function noRefCheck(){}}
                 onSearch={function noRefCheck(){}}
                 onSelect={handleYearChange}
-                emptyRecordMsg={"N/A"} />
+                emptyRecordMsg={"N/A"}
+                avoidHighlightFirstOption={true} />
             <Multiselect 
                 options={month}
                 singleSelect 
@@ -116,7 +117,8 @@ function SpecificDateSelect(props) {
                 onRemove={function noRefCheck(){}}
                 onSearch={function noRefCheck(){}}
                 onSelect={handleMonthChange}
-                emptyRecordMsg={"N/A"} />
+                emptyRecordMsg={"N/A"}
+                avoidHighlightFirstOption={true} />
             <Multiselect 
                 options={day}
                 singleSelect 
@@ -125,7 +127,8 @@ function SpecificDateSelect(props) {
                 onRemove={function noRefCheck(){}}
                 onSearch={function noRefCheck(){}}
                 onSelect={handleDayChange}
-                emptyRecordMsg={"N/A"} />
+                emptyRecordMsg={"N/A"}
+                avoidHighlightFirstOption={true} />
             
         </>
     )

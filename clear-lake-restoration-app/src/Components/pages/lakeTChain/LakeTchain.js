@@ -78,7 +78,7 @@ export default function LakeTchain(props) {
             max: 30,
             layout: 'horizontal',
             labels: {
-                format: '{value} C'
+                format: '{value}°C'
             },
         }],
         series: [{
@@ -91,7 +91,7 @@ export default function LakeTchain(props) {
             colsize: 36e5, // 1 hour
             tooltip: {
                 headerFormat:'Dissolved Oxygen<br/>',
-                pointFormat: '{point.x}, {point.y}m, {point.value}'
+                pointFormat: '{point.x:%Y-%m-%d %H:%M}, {point.y}m, {point.value}mg/L'
             },
         }, {
             name: 'Temperature',
@@ -103,7 +103,7 @@ export default function LakeTchain(props) {
             colsize: 36e5, // 1 hour
             tooltip: {
                 headerFormat:'Temperature<br/>',
-                pointFormat: '{point.x}, {point.y}m, {point.value}'
+                pointFormat: '{point.x:%Y-%m-%d %H:%M}, {point.y}m, {point.value}°C'
             },
             yAxis: 1,
             colorAxis: 1

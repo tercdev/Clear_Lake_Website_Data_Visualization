@@ -27,7 +27,7 @@ export default function LakeTchain(props) {
             useGPUTranslations: true
         },
         xAxis: [{
-            type: 'datetime'
+            type: 'datetime',
         }, {
             type: 'datetime',
             offset: 0,
@@ -35,23 +35,23 @@ export default function LakeTchain(props) {
         }],
         yAxis: [{
             title: {
-                text: 'Height [m]'
+                text: 'Height above bottom [m]'
             },
-            reversed: true,
+            reversed: false,
             min: 0,
-            max: 10,
+            max: 15,
             height: '45%',
             offset: 0,
         }, {
             title: {
-                text: 'Height [m]'
+                text: 'Height above bottom [m]'
             },
-            reversed: true,
+            reversed: false,
             min: 0,
-            max: 10,
+            max: 15,
             height: '45%',
             offset: 0,
-            top: '50%',
+            top: '57%',
             
         }],
         colorAxis: [{
@@ -82,7 +82,7 @@ export default function LakeTchain(props) {
             },
         }],
         series: [{
-            name: 'Oxygen',
+            name: 'Dissolved Oxygen',
             data: [],
             type: 'heatmap',
             boostThreshold: 100, // ?
@@ -90,7 +90,7 @@ export default function LakeTchain(props) {
             nullColor: '#EFEFEF',
             colsize: 36e5, // 1 hour
             tooltip: {
-                headerFormat:'Oxygen<br/>',
+                headerFormat:'Dissolved Oxygen<br/>',
                 pointFormat: '{point.x}, {point.y}m, {point.value}'
             },
         }, {
@@ -159,10 +159,9 @@ export default function LakeTchain(props) {
         let m = []
         if (dataType == "oxy") {
             data.forEach((element => {
-                m.push([new Date(element.DateTime_UTC).getTime(),0.5, parseFloat(element["Height_0.5m"])]);
+                m.push([new Date(element.DateTime_UTC).getTime(),parseFloat(element["Height_max"]), parseFloat(element["Height_0.5m"])]);
                 m.push([new Date(element.DateTime_UTC).getTime(),2, parseFloat(element["Height_2m"])]);
                 m.push([new Date(element.DateTime_UTC).getTime(),6, parseFloat(element["Height_6m"])]);
-                // m.push([new Date(element.DateTime_UTC).getTime(),10, parseFloat(element["Height_max"])]); // what is max height??
             }))
         } else if (dataType == "temp") {
             data.forEach((element => {
@@ -178,7 +177,7 @@ export default function LakeTchain(props) {
                 m.push([new Date(element.DateTime_UTC).getTime(),9,parseFloat(element["Height_9m"])]);
                 m.push([new Date(element.DateTime_UTC).getTime(),10,parseFloat(element["Height_10m"])]);
                 m.push([new Date(element.DateTime_UTC).getTime(),11,parseFloat(element["Height_11m"])]);
-                m.push([new Date(element.DateTime_UTC).getTime(),0,parseFloat(element["Height_surface"])]);
+                m.push([new Date(element.DateTime_UTC).getTime(),parseFloat(element["Height_max"]),parseFloat(element["Height_surface"])]);
             }))
         }
         // sort?

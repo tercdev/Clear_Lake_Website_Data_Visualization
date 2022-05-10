@@ -176,6 +176,7 @@ export default function LakeTchain(props) {
                     let values =  (((j-6)/(heightM-6)) * (parseFloat(element["Height_surface"]) - parseFloat(element["Height_6m"])) + parseFloat(element["Height_6m"]));
                     m.push([new Date(element.DateTime_UTC).getTime(),j,values]);
                 }
+                m.push([new Date(element.DateTime_UTC).getTime(),parseFloat(element["Height_max"]),parseFloat(element["Height_surface"])]);
             }))
         } else if (dataType == "temp") {
             data.forEach((element => {

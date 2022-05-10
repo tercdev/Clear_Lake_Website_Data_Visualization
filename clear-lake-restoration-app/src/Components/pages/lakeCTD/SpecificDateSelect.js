@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Multiselect from 'multiselect-react-dropdown';
 
-
 function SpecificDateSelect(props) {
     const [year, setYear] = useState([]);
     const [month, setMonth] = useState([]);
@@ -97,6 +96,24 @@ function SpecificDateSelect(props) {
         console.log(selectedYear, selectedMonth, selectedDay, e[0],x)
         props.onSelect(x)
     }
+    const style = {
+        multiselectContainer: {
+            width: '110px',
+        },
+        searchBox: {
+            padding: 0
+        },
+        inputField: {
+            width: '100%',
+            "text-align": 'left',
+            padding: '4px 10px',
+            margin: 0,
+            "font-size": '13px'
+        },
+        chips: {
+            margin: 0
+        }};
+
     return (
         <>
             <Multiselect 
@@ -108,7 +125,8 @@ function SpecificDateSelect(props) {
                 onSearch={function noRefCheck(){}}
                 onSelect={handleYearChange}
                 emptyRecordMsg={"N/A"}
-                avoidHighlightFirstOption={true} />
+                avoidHighlightFirstOption={true}
+                style={style} />
             <Multiselect 
                 options={month}
                 singleSelect 
@@ -118,7 +136,8 @@ function SpecificDateSelect(props) {
                 onSearch={function noRefCheck(){}}
                 onSelect={handleMonthChange}
                 emptyRecordMsg={"N/A"}
-                avoidHighlightFirstOption={true} />
+                avoidHighlightFirstOption={true} 
+                style={style} />
             <Multiselect 
                 options={day}
                 singleSelect 
@@ -128,7 +147,8 @@ function SpecificDateSelect(props) {
                 onSearch={function noRefCheck(){}}
                 onSelect={handleDayChange}
                 emptyRecordMsg={"N/A"}
-                avoidHighlightFirstOption={true} />
+                avoidHighlightFirstOption={true} 
+                style={style} />
             
         </>
     )

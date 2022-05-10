@@ -6,6 +6,7 @@ import { convertDate } from '../../utils';
 import Multiselect from 'multiselect-react-dropdown';
 
 function MeterologyData(props) {
+    const [error, setError] = useState(false);
     const [showButton, setShowButton] = useState(false);
     var today = new Date();
     var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
@@ -22,10 +23,24 @@ function MeterologyData(props) {
         setShowButton(false)
     }
     function setGraphDates() {
+        setError(false);
+        if (props.id == "Clean") {
+            var latestDate = new Date(new Date(startDate).setDate(365));
+        } else{
+            var latestDate = new Date(new Date(startDate).setDate(150));
+        } 
         setGraphStartDate(startDate);
-        setGraphEndDate(endDate);
+        if (endDate > latestDate) {
+            setError(true);
+            setEndDate(latestDate);
+            setGraphEndDate(latestDate);
+        } else {
+            setGraphEndDate(endDate);
+        }
         setId(idTemp);
-        setSelectedVariables(checkedState);
+        let newArr = [];
+        checkedState.forEach(x => newArr.push(x));
+        setSelectedVariables(newArr);
     }
     const [idTemp, setIdTemp] = useState(1);
     const [id, setId] = useState(1);
@@ -38,12 +53,13 @@ function MeterologyData(props) {
         real_search_params.set('start', convertDate(startGraphDate));
         real_search_params.set('end', convertDate(endGraphDate));
     } else {
-        let oldestDate = new Date(new Date().setDate(endGraphDate.getDate() - 150));
-        if (startGraphDate < oldestDate) {
-            real_search_params.set('rptdate', convertDate(oldestDate));
-        } else {
-            real_search_params.set('rptdate', convertDate(startGraphDate)); // at most 180 days away from endDate
-        }
+        // let oldestDate = new Date(new Date().setDate(endGraphDate.getDate() - 150));
+        // if (startGraphDate < oldestDate) {
+        //     real_search_params.set('rptdate', convertDate(oldestDate));
+        // } else {
+        //     real_search_params.set('rptdate', convertDate(startGraphDate)); // at most 180 days away from endDate
+        // }
+        real_search_params.set('rptdate', convertDate(startGraphDate)); // at most 150 days away from endDate
         real_search_params.set('rptend', convertDate(endGraphDate));
     }
 
@@ -134,23 +150,6 @@ function MeterologyData(props) {
                 onSearch={function noRefCheck(){}}
                 onSelect={onSelect}
             />
-            {/* <div className='variables-container'>
-                {variables.map((name,index)=> {
-                    return (
-                        <div key={index}>
-                            <input
-                                type="checkbox"
-                                id={`custom-checkbox-${index}`}
-                                name={name}
-                                value={name}
-                                checked={checkedState[index]}
-                                onChange={() => handleCheckBoxOnChange(index)}
-                            />
-                            <label htmlFor={`custom-checkbox-${index}`}>{name}</label>
-                        </div>
-                    )
-                })}
-            </div> */}
             <div className='one-date-container'>
             <p className='date-label'>Start Date</p>
             <DatePicker
@@ -160,6 +159,10 @@ function MeterologyData(props) {
                 startDate={startDate}
                 endDate={endDate}
                 maxDate={endDate}
+                minDate={new Date("2019/01/01")}
+                showMonthDropdown
+                showYearDropdown
+                dropdownMode='select'
             />
             </div>
             <div className='one-date-container'>
@@ -172,10 +175,13 @@ function MeterologyData(props) {
                 endDate={endDate}
                 minDate={startDate}
                 maxDate={today}
+                showMonthDropdown
+                showYearDropdown
+                dropdownMode='select'
             />
             </div>
             <button className="submitButton" onClick={setGraphDates}>Submit</button>
-        
+            {error && <p className='error-message'>Selected date range was more than {props.id == "Clean" ? 365 : 150} days. End date was automatically changed.</p>}
         {realTime.isLoading && <center>Fetching Data...</center>}
         {!realTime.isLoading && realTimeData.length != 0 && showButton && <><CSVLink data={realTimeData} className="csv-link" target="_blank" headers={headers}>Download {props.id} Met Data</CSVLink></>}
         {!realTime.isLoading && realTimeData.length == 0 && <p>There is no {props.id.toLowerCase()} meterology data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}

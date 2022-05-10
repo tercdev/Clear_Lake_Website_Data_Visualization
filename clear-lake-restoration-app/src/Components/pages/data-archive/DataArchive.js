@@ -1,6 +1,6 @@
 import React from 'react';
-import CTDData from './CTDData';
 import TChainData from './TChainData';
+import CTDData from './CTDData';
 import './DataArchive.css';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
@@ -42,21 +42,20 @@ function DataArchive() {
                             <Tab>Real Time Data</Tab>
                         </TabList>
                         <TabPanel>
+                        <center>Maximum 365 days at a time.</center>
                             <StreamData id="Clean" 
                                 url="https://1j27qzg916.execute-api.us-west-2.amazonaws.com/default/clearlake-streamturb-api" 
                                 variables={["Station_ID","DateTime_UTC","Turb","Temp"]}
                             />
                         </TabPanel>
                         <TabPanel>
-                            <center>Real time data is limited to 180 days.</center>
+                            <center>Maximum 180 days at a time.</center>
                             <StreamData id="Real Time" 
                                 url="https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/cl-creeks"
                                 variables={["Creek","TmStamp","RecNum","Turb_BES","Turb_Mean","Turb_Median","Turb_Var","Turb_Min","Turb_Max","Turb_Temp"]}
                             />
                         </TabPanel>
                     </Tabs>
-                    {/* <h1 className='title'>Stream Data</h1> */}
-                    {/* <StreamDataSection/> */}
                 </TabPanel>
                 <TabPanel>
                     <Tabs>
@@ -65,22 +64,20 @@ function DataArchive() {
                             <Tab>Real Time Data</Tab>
                         </TabList>
                         <TabPanel>
+                            <center>Maximum 365 days at a time.</center>
                             <MeterologyData id="Clean" url="https://4ery4fbt1i.execute-api.us-west-2.amazonaws.com/default/clearlake-met"/>
                         </TabPanel>
                         <TabPanel>
-                            <center>Real time data is limited to 150 days.</center>
+                            <center>Maximum 150 days at a time.</center>
                             <MeterologyData id="Real Time" url="https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/metweatherlink"/>
                         </TabPanel>
                     </Tabs>
-                    {/* <h1 className='title'>Meterology Data</h1> */}
-                    {/* <MeterologyDataSection/> */}
                 </TabPanel>
                 <TabPanel>
-                    {/* <h1 className='title'>CTD Data</h1> */}
                     <CTDData/>
                 </TabPanel>
                 <TabPanel>
-                    {/* <h1 className='title'>TChain Data</h1> */}
+                    <center>Maximum 365 days at a time.</center>
                     <TChainData/>
                 </TabPanel>
             </Tabs>

@@ -2,8 +2,6 @@ import React, { useEffect, useRef } from 'react'
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 
-import './StreamChart.css';
-
 require('highcharts/modules/exporting')(Highcharts);
 require('highcharts/modules/export-data')(Highcharts);
 
@@ -13,16 +11,18 @@ export default function StreamChart({
 }) {
 
     const chartComponent = useRef(null); 
-
+    const chart = chartComponent.current?.chart;
     useEffect(()=> {
-        console.log(isLoading)
-        if (!isLoading) {
-        }
+      if (chart) {
+          chart.showLoading();
+          if (!isLoading) {
+              chart.hideLoading()
+          }
+      }
     },[isLoading])
 
   return (
     <div>
-        {isLoading && <p className='loading-info'>Fetching Creek Data...</p>}
         <HighchartsReact 
             highcharts={Highcharts}
             ref={chartComponent}

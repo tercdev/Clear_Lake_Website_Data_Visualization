@@ -80,7 +80,12 @@ export default function Stream(props) {
         chart: {
             zoomType: 'x',
             // height: (9 / 16 * 120) + '%' // 16:9 ratio
-            height: 1200
+            height: 1200,
+            events: {
+                load() {
+                    this.showLoading();
+                }
+            }
         },
         // responsive: {
         //     rules: [{

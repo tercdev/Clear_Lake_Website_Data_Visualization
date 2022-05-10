@@ -5,6 +5,7 @@ import StreamChart from '../streams/StreamChart';
 import useFetch from 'react-fetch-hook';
 import { convertDate } from '../../utils';
 import DatePicker from 'react-datepicker';
+import Multiselect from 'multiselect-react-dropdown';
 
 export default function LakeCTD(props) {
     function getFilteredData(data, dataType) {
@@ -192,18 +193,32 @@ export default function LakeCTD(props) {
     const [startGraphDate, setGraphStartDate] = useState(today);
     const [endGraphDate, setGraphEndDate] = useState(today);
     function handleStartDateChange(e) {
-        setStartDate(e);
+        console.log(e)
+        setStartDate(new Date(e[0]));
     }
     function setGraphDates() {
+        console.log(startDate)
         setGraphStartDate(startDate);
         // let x = new Date(startDate.getFullYear(), startDate.getMonth(), 28);
         setGraphEndDate(startDate);
     }
+    function convertDatetoUTC(date) {
+        let year = date.getUTCFullYear().toString();
+        let month = (date.getUTCMonth()+1).toString();
+        let day = date.getUTCDate().toString();
+        if (month.length < 2) {
+            month = '0' + month;
+        }
+        if (day.length < 2) {
+            day = '0' + day;
+        }
+        return year+month+day;
+    }
     var url = new URL('https://3kgpak926a.execute-api.us-west-2.amazonaws.com/default/clearlake-profiledata');
     var search_params = url.searchParams;
     search_params.set('id',props.id);
-    search_params.set('start',convertDate(startGraphDate));
-    search_params.set('end',convertDate(endGraphDate));
+    search_params.set('start',convertDatetoUTC(startGraphDate));
+    search_params.set('end',convertDatetoUTC(endGraphDate));
     url.search = search_params.toString();
     var new_url = url.toString();
     const profileData = useFetch(new_url);
@@ -247,7 +262,7 @@ export default function LakeCTD(props) {
     const [dates, setDates] = useState([]);
     useEffect(() => {
         if (!includedDates.isLoading) {
-            let m = [today];
+            let m = [];
             includedDates.data.forEach((element => {
                 m.push(new Date(element["DateTime_UTC"]));
             }))
@@ -264,7 +279,7 @@ export default function LakeCTD(props) {
             <DataDisclaimer />
             <div className='date-container'>
                 {/* <div className='one-date-container'> */}
-                    <DatePicker
+                    {/* <DatePicker
                         selected={startDate}
                         onChange={handleStartDateChange}
                         minDate={new Date("2019/01/01")}
@@ -275,8 +290,16 @@ export default function LakeCTD(props) {
                         showYearDropdown
                         dropdownMode='select'
                         includeDates={dates}
-                    />
+                    /> */}
                 {/* </div> */}
+                <Multiselect 
+                    options={dates} 
+                    singleSelect 
+                    isObject={false} 
+                    onKeyPressFn={function noRefCheck(){}}
+                    onRemove={function noRefCheck(){}}
+                    onSearch={function noRefCheck(){}}
+                    onSelect={handleStartDateChange} />
                 <button className="submitButton" onClick={setGraphDates}>Submit</button>
             </div>
             <StreamChart chartProps={chartProps} isLoading={profileData.isLoading}/>

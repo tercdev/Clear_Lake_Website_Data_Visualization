@@ -176,6 +176,8 @@ function StreamData(props) {
         
         {creekData.isLoading && <center>Fetching Data...</center>}
         {!creekData.isLoading && creekData.data.length != 0 && showButton && <CSVLink data={creekcsv} className="csv-link" target="_blank" headers={headers}>Download {props.id} Stream Data</CSVLink>}
+        {!creekData.isLoading && creekData.data.length != 0 && showButton && <a href={require("../../../Metadata/README_streams.txt")} download="README_streams">Download {props.id} Stream Metadata</a>}
+
         {!creekData.isLoading && creekData.data.length == 0 && <p>There is no {props.id.toLowerCase()} stream data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}
         
         </center>

@@ -64,6 +64,7 @@ function SpecificDateSelect(props) {
         })
         setMonth(m)
         setSelectedYear(e[0])
+        // setDay([])
     }
     function handleMonthChange(e) {
         console.log(e[0]) // string 'Month'
@@ -105,7 +106,8 @@ function SpecificDateSelect(props) {
                 onKeyPressFn={function noRefCheck(){}}
                 onRemove={function noRefCheck(){}}
                 onSearch={function noRefCheck(){}}
-                onSelect={handleYearChange} />
+                onSelect={handleYearChange}
+                emptyRecordMsg={"N/A"} />
             <Multiselect 
                 options={month}
                 singleSelect 
@@ -113,7 +115,8 @@ function SpecificDateSelect(props) {
                 onKeyPressFn={function noRefCheck(){}}
                 onRemove={function noRefCheck(){}}
                 onSearch={function noRefCheck(){}}
-                onSelect={handleMonthChange} />
+                onSelect={handleMonthChange}
+                emptyRecordMsg={"N/A"} />
             <Multiselect 
                 options={day}
                 singleSelect 
@@ -121,7 +124,8 @@ function SpecificDateSelect(props) {
                 onKeyPressFn={function noRefCheck(){}}
                 onRemove={function noRefCheck(){}}
                 onSearch={function noRefCheck(){}}
-                onSelect={handleDayChange} />
+                onSelect={handleDayChange}
+                emptyRecordMsg={"N/A"} />
             
         </>
     )

@@ -3,7 +3,8 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import useFetch from 'react-fetch-hook'
 
-import './StreamChart.css'
+require('highcharts/modules/exporting')(Highcharts);
+require('highcharts/modules/export-data')(Highcharts);
 
 export default function StreamChart({
     chartProps,

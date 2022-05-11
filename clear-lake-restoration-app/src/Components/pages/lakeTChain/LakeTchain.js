@@ -235,7 +235,7 @@ export default function LakeTchain(props) {
                 let heightM = parseFloat(element["Height_max"]);
                 let heightMWhole = Math.floor(parseFloat(element["Height_max"]));
                 for (let j = h; j <= heightMWhole; j++) {
-                    let values =  (((j-h-1)/(heightM-h-1)) * (parseFloat(element["Height_surface"]) - parseFloat(element["Height_11m"])) + parseFloat(element["Height_11m"]));
+                    let values =  (((j-(h-1))/(heightM-(h-1))) * (parseFloat(element["Height_surface"]) - parseFloat(element["Height_11m"])) + parseFloat(element["Height_11m"]));
                     m.push([new Date(element.DateTime_UTC).getTime(),j,values]);
                 }
                 m.push([new Date(element.DateTime_UTC).getTime(),parseFloat(element["Height_max"]),parseFloat(element["Height_surface"])]);

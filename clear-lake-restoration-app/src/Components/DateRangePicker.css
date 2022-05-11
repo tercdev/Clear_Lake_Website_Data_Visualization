@@ -32,10 +32,13 @@ input {
     border-radius: 0.25rem;
     color: #fff;
     background-color: #022851;
+    border: #022851;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .submitButton:hover {
-    background: #FFBF00;
+    background: #FFDF80;
     color: #022851;
 }
 

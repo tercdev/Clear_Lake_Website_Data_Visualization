@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import StreamChart from './StreamChart';
 import Highcharts from 'highcharts';
-import useFetch from 'react-fetch-hook'
+import useFetch from 'react-fetch-hook';
 
 import DateRangePicker from '../../DateRangePicker';
 import DataDisclaimer from '../../DataDisclaimer';
@@ -441,13 +441,25 @@ export default function Stream(props) {
             </div>
             <DataDisclaimer/>
             <div className='data-desc-container'>
-                <p className='data-desc'>Select start and end dates (maximum 365 day period). <br/>
-                    Click submit to update the graphs below.<br/>
-                    Allow some time for the data to be fetched. The longer the selected time period, the longer it will take to load.<br/>
-                    If there is no data, the sensors might not be submerged in the water. Check <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">here</a> for more information. <br />
-                    Flow data is from the California Nevada River Forecast Center.
-                </p>
+                <div className='data-col1'>
+                    <h3 className="data-header">How to start</h3>
+                    <ul>
+                        <li>Select start and end dates with maximum 365-day period</li>
+                        <li>Click submit to update the graphs below</li>
+                        <li>Graph and data loading wiil depend on the length of the selected time period</li>
+                    </ul>
+                </div>
+                <div className='data-col2'>
+                    <h3 className="data-header">About the data</h3>
+                        <ul>
+                            <li>If there is no data, the sensors might not be submerged in the water.</li>
+                            <li>Check <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">here</a> to read more about the metadata. </li>
+                            <li>Flow data is from the California Nevada River Forecast Center.</li>
+                        </ul>
+                </div>
+
             </div>
+
             <DateRangePicker 
                 startDate={startDate} 
                 endDate={endDate} 

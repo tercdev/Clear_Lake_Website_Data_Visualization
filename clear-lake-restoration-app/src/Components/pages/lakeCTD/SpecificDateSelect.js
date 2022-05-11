@@ -155,7 +155,7 @@ function SpecificDateSelect(props) {
                     ref={monthRef}/>
             </div>
             <div className='one-date-container'>
-                <p className='date-label'>Day</p>
+                <p className='date-label'>Date</p>
                 <Multiselect 
                     options={day}
                     singleSelect 

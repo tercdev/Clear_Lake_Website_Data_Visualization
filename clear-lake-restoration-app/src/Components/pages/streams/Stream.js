@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import StreamChart from './StreamChart';
+import Chart from '../../Chart';
 import Highcharts from 'highcharts';
 import useFetch from 'react-fetch-hook';
 
@@ -470,7 +470,7 @@ export default function Stream(props) {
                 unit={unit}
             />
             {error && <p className='error-message'>Selected date range was more than 365 days. End date was automatically changed.</p>}
-            <StreamChart 
+            <Chart 
                 chartProps={chartProps}
                 isLoading={creekData.isLoading || flowData.isLoading || rainData.isLoading || cleanData.isLoading}
              />

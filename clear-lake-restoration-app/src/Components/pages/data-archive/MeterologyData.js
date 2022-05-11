@@ -74,10 +74,10 @@ function MeterologyData(props) {
     const variables = ["Station_ID","DateTime_UTC","Air_Temp","Hi_Air_Temp","Low_Air_Temp","Rel_Humidity","Dew_Point","Wind_Speed","Wind_Dir","Hi_Wind_Speed","Hi_Wind_Speed_Dir","Atm_Pres","Rain","Rain_Rate","Solar_Rad","Solar_Energy"];
     const [headers, setHeaders] = useState([])
     const [checkedState, setCheckedState] = useState(
-        new Array(variables.length).fill(false)
+        new Array(variables.length).fill(true)
     );
     const [selectedVariables, setSelectedVariables] = useState(
-        new Array(variables.length).fill(false)
+        new Array(variables.length).fill(true)
     );
     // const handleCheckBoxOnChange = (position) => {
     //     const updatedCheckedState = checkedState.map((item, index) =>

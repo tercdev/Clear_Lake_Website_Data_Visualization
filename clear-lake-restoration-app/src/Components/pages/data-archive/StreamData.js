@@ -73,10 +73,10 @@ function StreamData(props) {
     // const variables = ["Creek","TmStamp","RecNum","Turb_BES","Turb_Mean","Turb_Median","Turb_Var","Turb_Min","Turb_Max","Turb_Temp"];
     const [headers, setHeaders] = useState([])
     const [checkedState, setCheckedState] = useState(
-        new Array(props.variables.length).fill(false)
+        new Array(props.variables.length).fill(true)
     );
     const [selectedVariables, setSelectedVariables] = useState(
-        new Array(props.variables.length).fill(false)
+        new Array(props.variables.length).fill(true)
     );
     const handleCheckBoxOnChange = (position) => {
         const updatedCheckedState = checkedState.map((item, index) =>

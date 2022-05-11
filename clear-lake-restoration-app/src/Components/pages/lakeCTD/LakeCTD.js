@@ -33,6 +33,9 @@ export default function LakeCTD(props) {
         title: {
             text: ''
         },
+        subtitle: {
+            text: 'Click and drag in the plot area to zoom in.<br/>Use three-line icon on top right to download the data displayed in the graph.<br/>Click on the name of the series in the legend on the bottom to hide / show the series on the graph.'
+        },
         credits: {
             enabled: false,
         },
@@ -283,6 +286,11 @@ export default function LakeCTD(props) {
                 <h1 className='station-page-title'>{props.name}</h1>
             </div>
             <DataDisclaimer />
+            <div className='data-desc-container'>
+                <p className='data-desc'>Select year, month, and date. <br/>
+                    Click submit to update the graphs below.<br/>
+                </p>
+            </div>
             <div className='date-container'>
                 <SpecificDateSelect 
                     data={includedDates.data} 

@@ -184,7 +184,10 @@ function MeterologyData(props) {
             {error && <p className='error-message'>Selected date range was more than {props.id == "Clean" ? 365 : 150} days. End date was automatically changed.</p>}
         {realTime.isLoading && <center>Fetching Data...</center>}
         {!realTime.isLoading && realTimeData.length != 0 && showButton && <><CSVLink data={realTimeData} className="csv-link" target="_blank" headers={headers}>Download {props.id} Met Data</CSVLink></>}
-        {!realTime.isLoading && realTimeData.length != 0 && showButton && <a href={require("../../../Metadata/README_MET.txt")} download="README_met">Download {props.id} Met Metadata README</a>}
+        {props.id == "Real Time" ? 
+            !realTime.isLoading && realTimeData.length != 0 && showButton && <a href={require("../../../Metadata/README_realtime_met.txt")} download="README_realtime_met">Download {props.id} Meteorology Metadata README</a>
+            : !realTime.isLoading && realTimeData.length != 0 && showButton && <a href={require("../../../Metadata/README_clean_met.txt")} download="README_clean_met">Download {props.id} Meteorology Metadata README</a>}
+        
         {!realTime.isLoading && realTimeData.length == 0 && <p>There is no {props.id.toLowerCase()} meterology data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}
         </center>
     </>

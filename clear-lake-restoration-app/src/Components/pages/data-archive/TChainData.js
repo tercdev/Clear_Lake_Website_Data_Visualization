@@ -119,7 +119,7 @@ function TChainData() {
         {!oxyData.isLoading && oxyData.data.length == 0 && <p>There is no lake oxygen data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}
         {!tempData.isLoading && tempData.data.length != 0 && showButton && <CSVLink data={tempcsv} className="csv-link" target="_blank">Download Lake Temperature Data</CSVLink>}
         {!tempData.isLoading && tempData.data.length == 0 && <p>There is no lake temperature data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}
-        {((!oxyData.isLoading && oxyData.data.length) || (!tempData.isLoading && tempData.data.length != 0)) && showButton && <a href={require("../../../Metadata/README_Tchain.txt")} download="README_Tchain">Download Tchain Metadata README</a>}
+        {((!oxyData.isLoading && oxyData.data.length) || (!tempData.isLoading && tempData.data.length != 0)) && showButton && <a href={require("../../../Metadata/README_tchain.txt")} download="README_Tchain">Download Tchain Metadata README</a>}
 
         </center>
     </>

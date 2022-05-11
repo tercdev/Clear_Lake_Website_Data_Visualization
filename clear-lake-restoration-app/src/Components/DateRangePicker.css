@@ -7,7 +7,7 @@ input {
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: center;
-    align-items: flex-end;
+    /* align-items: flex-end; */
     margin-bottom: 1rem;
     gap: 20px;
     border-radius: 0.25rem;

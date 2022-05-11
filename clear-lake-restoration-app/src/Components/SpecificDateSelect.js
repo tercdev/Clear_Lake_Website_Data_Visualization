@@ -125,7 +125,7 @@ function SpecificDateSelect(props) {
     return (
         <> 
             <div className='one-date-container'>
-                <p className='date-label'>Year</p>
+                {/* <p className='date-label'>Year</p> */}
                 <Multiselect 
                     options={year}
                     singleSelect 
@@ -137,10 +137,11 @@ function SpecificDateSelect(props) {
                     emptyRecordMsg={"N/A"}
                     avoidHighlightFirstOption={true}
                     style={style} 
-                    ref={yearRef}/>
+                    ref={yearRef}
+                    placeholder={"Year"}/>
             </div>
             <div className='one-date-container'>
-                <p className='date-label'>Month</p>
+                {/* <p className='date-label'>Month</p> */}
                 <Multiselect 
                     options={month}
                     singleSelect 
@@ -152,10 +153,11 @@ function SpecificDateSelect(props) {
                     emptyRecordMsg={"N/A"}
                     avoidHighlightFirstOption={true} 
                     style={style} 
-                    ref={monthRef}/>
+                    ref={monthRef}
+                    placeholder={"Month"}/>
             </div>
             <div className='one-date-container'>
-                <p className='date-label'>Date</p>
+                {/* <p className='date-label'>Date</p> */}
                 <Multiselect 
                     options={day}
                     singleSelect 
@@ -167,7 +169,8 @@ function SpecificDateSelect(props) {
                     emptyRecordMsg={"N/A"}
                     avoidHighlightFirstOption={true} 
                     style={style}
-                    ref={dayRef} />
+                    ref={dayRef} 
+                    placeholder={"Date"}/>
             </div>
         </>
     )

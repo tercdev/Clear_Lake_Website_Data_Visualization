@@ -71,13 +71,13 @@ function MeterologyData(props) {
 
     const [realTimeData, setRealTimeData] = useState([])
     
-    const variables = ["Station_ID","DateTime_UTC","Air_Temp","Hi_Air_Temp","Low_Air_Temp","Rel_Humidity","Dew_Point","Wind_Speed","Wind_Dir","Hi_Wind_Speed","Hi_Wind_Speed_Dir","Atm_Pres","Rain","Rain_Rate","Solar_Rad","Solar_Energy"];
+    // const variables = ["Station_ID","DateTime_UTC","Air_Temp","Hi_Air_Temp","Low_Air_Temp","Rel_Humidity","Dew_Point","Wind_Speed","Wind_Dir","Hi_Wind_Speed","Hi_Wind_Speed_Dir","Atm_Pres","Rain","Rain_Rate","Solar_Rad","Solar_Energy"];
     const [headers, setHeaders] = useState([])
     const [checkedState, setCheckedState] = useState(
-        new Array(variables.length).fill(true)
+        new Array(props.variables.length).fill(true)
     );
     const [selectedVariables, setSelectedVariables] = useState(
-        new Array(variables.length).fill(true)
+        new Array(props.variables.length).fill(true)
     );
     // const handleCheckBoxOnChange = (position) => {
     //     const updatedCheckedState = checkedState.map((item, index) =>
@@ -92,7 +92,7 @@ function MeterologyData(props) {
             let h = [];
             selectedVariables.map((x,index) => {
                 if (x) {
-                    h.push(variables[index]);
+                    h.push(props.variables[index]);
                 }
             });
             setHeaders(h);
@@ -103,7 +103,7 @@ function MeterologyData(props) {
                 let oneRow = [];
                 selectedVariables.map((x,index) => {
                     if (x) {
-                        oneRow.push(element[variables[index]]);
+                        oneRow.push(element[props.variables[index]]);
                     }
                 })
                 selectedRealTimeData.push(oneRow);
@@ -113,7 +113,7 @@ function MeterologyData(props) {
             setShowButton(true);
         }
     },[realTime.isLoading,selectedVariables])
-    const options = variables.map((x,index) => {return {name: x, id: index}})
+    const options = props.variables.map((x,index) => {return {name: x, id: index}})
     function onSelect(selectedList, selectedItem) {
         let temp = checkedState;
         temp[selectedItem.id] = true

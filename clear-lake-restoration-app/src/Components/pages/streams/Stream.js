@@ -452,12 +452,11 @@ export default function Stream(props) {
                 <div className='data-col2'>
                     <h3 className="data-header">About the data</h3>
                         <ul>
-                            <li>If there is no data, the sensors might not be submerged in the water.</li>
-                            <li>Check <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">here</a> to read more about the metadata. </li>
-                            <li>Flow data is from the California Nevada River Forecast Center.</li>
+                            <li>If there is no data, the sensors might not be submerged in the water</li>
+                            <li>Check <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">here</a> to read more about the metadata</li>
+                            <li>Flow data is from the California Nevada River Forecast Center</li>
                         </ul>
                 </div>
-
             </div>
 
             <DateRangePicker 

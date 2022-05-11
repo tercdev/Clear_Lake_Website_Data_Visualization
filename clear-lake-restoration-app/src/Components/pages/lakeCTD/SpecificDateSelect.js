@@ -123,44 +123,52 @@ function SpecificDateSelect(props) {
         }};
 
     return (
-        <>
-            <Multiselect 
-                options={year}
-                singleSelect 
-                isObject={false} 
-                onKeyPressFn={function noRefCheck(){}}
-                onRemove={function noRefCheck(){}}
-                onSearch={function noRefCheck(){}}
-                onSelect={handleYearChange}
-                emptyRecordMsg={"N/A"}
-                avoidHighlightFirstOption={true}
-                style={style} 
-                ref={yearRef}/>
-            <Multiselect 
-                options={month}
-                singleSelect 
-                isObject={false} 
-                onKeyPressFn={function noRefCheck(){}}
-                onRemove={function noRefCheck(){}}
-                onSearch={function noRefCheck(){}}
-                onSelect={handleMonthChange}
-                emptyRecordMsg={"N/A"}
-                avoidHighlightFirstOption={true} 
-                style={style} 
-                ref={monthRef}/>
-            <Multiselect 
-                options={day}
-                singleSelect 
-                isObject={false} 
-                onKeyPressFn={function noRefCheck(){}}
-                onRemove={function noRefCheck(){}}
-                onSearch={function noRefCheck(){}}
-                onSelect={handleDayChange}
-                emptyRecordMsg={"N/A"}
-                avoidHighlightFirstOption={true} 
-                style={style}
-                ref={dayRef} />
-            
+        <> 
+            <div className='one-date-container'>
+                <p className='date-label'>Year</p>
+                <Multiselect 
+                    options={year}
+                    singleSelect 
+                    isObject={false} 
+                    onKeyPressFn={function noRefCheck(){}}
+                    onRemove={function noRefCheck(){}}
+                    onSearch={function noRefCheck(){}}
+                    onSelect={handleYearChange}
+                    emptyRecordMsg={"N/A"}
+                    avoidHighlightFirstOption={true}
+                    style={style} 
+                    ref={yearRef}/>
+            </div>
+            <div className='one-date-container'>
+                <p className='date-label'>Month</p>
+                <Multiselect 
+                    options={month}
+                    singleSelect 
+                    isObject={false} 
+                    onKeyPressFn={function noRefCheck(){}}
+                    onRemove={function noRefCheck(){}}
+                    onSearch={function noRefCheck(){}}
+                    onSelect={handleMonthChange}
+                    emptyRecordMsg={"N/A"}
+                    avoidHighlightFirstOption={true} 
+                    style={style} 
+                    ref={monthRef}/>
+            </div>
+            <div className='one-date-container'>
+                <p className='date-label'>Day</p>
+                <Multiselect 
+                    options={day}
+                    singleSelect 
+                    isObject={false} 
+                    onKeyPressFn={function noRefCheck(){}}
+                    onRemove={function noRefCheck(){}}
+                    onSearch={function noRefCheck(){}}
+                    onSelect={handleDayChange}
+                    emptyRecordMsg={"N/A"}
+                    avoidHighlightFirstOption={true} 
+                    style={style}
+                    ref={dayRef} />
+            </div>
         </>
     )
 }

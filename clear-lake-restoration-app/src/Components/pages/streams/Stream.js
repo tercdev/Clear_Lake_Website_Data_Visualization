@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import StreamChart from './StreamChart';
 import Highcharts from 'highcharts';
-import useFetch from 'react-fetch-hook'
+import useFetch from 'react-fetch-hook';
 
 import DateRangePicker from '../../DateRangePicker';
 import DataDisclaimer from '../../DataDisclaimer';
@@ -53,8 +53,7 @@ export default function Stream(props) {
                         m.push([new Date(element.DateTime_UTC).getTime(), fToCel(parseFloat(element[dataType]))]);
                     } else {
                         m.push([new Date(element.DateTime_UTC).getTime(), parseFloat(element[dataType])]);
-                    }
-                    
+                    } 
                 }
             }));
         } else {
@@ -87,18 +86,6 @@ export default function Stream(props) {
                 }
             }
         },
-        // responsive: {
-        //     rules: [{
-        //         condition: {
-        //             maxWidth: 500
-        //         },
-        //         chartOptions: {
-        //             chart: {
-        //                 height: 1000
-        //             }
-        //         }
-        //     }]
-        // },
         credits: {
             enabled: false
         },
@@ -109,7 +96,7 @@ export default function Stream(props) {
             text: ''
         },
         subtitle: {
-            text: 'Click and drag in the plot area to zoom in.<br/>Use the hamburger icon in the top right to download the data displayed in the graph.<br/>Solid line indicates data is cleaned. Dashed line indicates real time data.'
+            text: 'Click and drag in the plot area to zoom in.<br/>Use three-line icon on top right to download the data displayed in the graph.<br/>Clean data plotted on solid line. Provisional data plotted on dashed line.'
         },
         xAxis: [{
             type: 'datetime',
@@ -198,25 +185,6 @@ export default function Stream(props) {
             offset: 0,
             reversed: true
         }],
-        // tooltip: {
-        //     formatter: function () {
-        //         // The first returned item is the header, subsequent items are the
-        //         // points
-        //         const DayOfMonth = new Date(this.x).getDate();
-        //         const Month = new Date(this.x).getMonth(); // Be careful! January is 0, not 1
-        //         const Year = new Date(this.x).getFullYear();
-        //         const TimeHrs = new Date(this.x).getHours();
-        //         const TimeMins = new Date(this.x).getMinutes();
-        //         const dateString = (Month + 1) + "-" + DayOfMonth + "-" + Year + "  " + TimeHrs + ":" + (TimeMins<10?'0':'')+TimeMins;
-        //         return [dateString].concat(
-        //             this.points ?
-        //                 this.points.map(function (point) {
-        //                     return point.series.name + ': ' + point.y;
-        //                 }) : []
-        //         );
-        //     },
-        //     split: true
-        // },
         tooltip: {
             formatter: function() {
                 const DayOfMonth = new Date(this.x).getDate();
@@ -238,7 +206,10 @@ export default function Stream(props) {
                 }, '<b>' + dateString + '</b>');
             },
             shared: true,
-            followPointer: true
+            followPointer: true,
+            style: {
+                fontSize:'15px'
+            }
         },
         series: [
             {
@@ -247,7 +218,6 @@ export default function Stream(props) {
                 selected: true,
                 yAxis: 0,
                 color: Highcharts.getOptions().colors[3],
-                
             }, 
             {
                 name: 'Flow',
@@ -271,8 +241,7 @@ export default function Stream(props) {
                 color: Highcharts.getOptions().colors[5],
                 type: 'column',
                 // pointWidth: 5
-            },
-             
+            },     
         ],
         updateTime: {
             setTime: 0,
@@ -320,6 +289,7 @@ export default function Stream(props) {
     var new_url = url.toString();
     const creekData = useFetch(new_url);
 
+    // clean data Endpoint URL (includes turb and temp)
     var cleanurl = new URL('https://1j27qzg916.execute-api.us-west-2.amazonaws.com/default/clearlake-streamturb-api');
     var search_params_clean = cleanurl.searchParams;
     search_params_clean.set('id',props.id);
@@ -328,26 +298,24 @@ export default function Stream(props) {
     cleanurl.search = search_params_clean.toString();
     const cleanData = useFetch(cleanurl.toString());
 
+    // flow data Endpoint URL
     var flowurl = new URL('https://b8xms0pkrf.execute-api.us-west-2.amazonaws.com/default/clearlake-streams')
     var search_params_flow = flowurl.searchParams;
     search_params_flow.set('id',props.id);
     search_params_flow.set('start',convertDate(startGraphDate));
     search_params_flow.set('end',convertDate(endGraphDate));
     flowurl.search = search_params_flow.toString();
-   // console.log(flowurl)
     var flow_new_url = flowurl.toString();
-    //console.log(flow_new_url)
     const flowData = useFetch(flow_new_url);
 
+    // rain data Endpoint URL
     var rainURL = new URL('https://ts09zwptz4.execute-api.us-west-2.amazonaws.com/default/clearlake-precipitation-api')
     var search_params_rain = rainURL.searchParams;
     search_params_rain.set('id',props.id);
     search_params_rain.set('start',convertDate(startGraphDate));
     search_params_rain.set('end',convertDate(endGraphDate));
     rainURL.search = search_params_rain.toString();
-
     var rain_new_url = rainURL.toString();
-   // console.log(rain_new_url)
     
     const rainData = useFetch(rain_new_url);
 
@@ -473,13 +441,24 @@ export default function Stream(props) {
             </div>
             <DataDisclaimer/>
             <div className='data-desc-container'>
-                <p className='data-desc'>Select start and end dates (maximum 365 day period). <br/>
-                    Click submit to update the graphs below.<br/>
-                    Allow some time for the data to be fetched. The longer the selected time period, the longer it will take to load.<br/>
-                    If there is no data, the sensors might not be submerged in the water. Check <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">here</a> for more information. <br />
-                    Flow data is from the California Nevada River Forecast Center.
-                </p>
+                <div className='data-col1'>
+                    <h3 className="data-header">How to start</h3>
+                    <ul>
+                        <li>Select start and end dates with maximum 365-day period</li>
+                        <li>Click submit to update the graphs below</li>
+                        <li>Graph and data loading wiil depend on the length of the selected time period</li>
+                    </ul>
+                </div>
+                <div className='data-col2'>
+                    <h3 className="data-header">About the data</h3>
+                        <ul>
+                            <li>If there is no data, the sensors might not be submerged in the water</li>
+                            <li>Check <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">here</a> to read more about the metadata</li>
+                            <li>Flow data is from the California Nevada River Forecast Center</li>
+                        </ul>
+                </div>
             </div>
+
             <DateRangePicker 
                 startDate={startDate} 
                 endDate={endDate} 

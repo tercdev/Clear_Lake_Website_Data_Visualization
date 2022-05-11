@@ -5,6 +5,8 @@ import StreamChart from '../streams/StreamChart';
 import useFetch from 'react-fetch-hook';
 import SpecificDateSelect from './SpecificDateSelect';
 
+import './LakeCTD.css';
+
 export default function LakeCTD(props) {
     function getFilteredData(data, dataType) {
         let m = []
@@ -299,7 +301,9 @@ export default function LakeCTD(props) {
                 />
                 <button className="submitButton" onClick={setGraphDates}>Submit</button>
             </div>
-            <StreamChart chartProps={chartProps} isLoading={profileData.isLoading}/>
+            <div className='chart-container-half'>
+                <StreamChart chartProps={chartProps} isLoading={profileData.isLoading}/>
+            </div>
         </div>
         
     )

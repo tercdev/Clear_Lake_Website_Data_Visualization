@@ -13,7 +13,7 @@ function DataArchive() {
            <div className='station-page-header'>
                 <h1 className='station-page-title'>Data Archive</h1>
             </div>
-            <div className='data-desc-container'>
+            <div className='data-archive-desc-container'>
                 <p className='data-desc'>These data were collected and are currently being 
                     processed and analyzed by the UC Davis Tahoe Environmental 
                     Research Center (TERC). They are considered preliminary. 

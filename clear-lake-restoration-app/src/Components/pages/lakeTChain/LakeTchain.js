@@ -63,7 +63,7 @@ export default function LakeTchain(props) {
             ],
             min: 0,
             max: 15,
-            layout: 'horizontal',
+            layout: 'vertical',
             labels: {
                 format: '{value} mg/L'
             }
@@ -76,11 +76,17 @@ export default function LakeTchain(props) {
             ],
             min: 5,
             max: 30,
-            layout: 'horizontal',
+            layout: 'vertical',
             labels: {
                 format: '{value}°C'
             },
         }],
+        legend: {
+            layout: 'vertical',
+            verticalAlign: 'middle',
+            align: 'right',
+            padding: 20,
+        },
         series: [{
             name: 'Dissolved Oxygen',
             data: [],

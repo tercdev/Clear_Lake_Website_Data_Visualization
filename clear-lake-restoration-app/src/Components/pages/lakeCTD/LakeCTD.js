@@ -3,7 +3,7 @@ import Highcharts from 'highcharts';
 import DataDisclaimer from '../../DataDisclaimer';
 import Chart from '../../Chart';
 import useFetch from 'react-fetch-hook';
-import SpecificDateSelect from './SpecificDateSelect';
+import SpecificDateSelect from '../../SpecificDateSelect';
 
 import './LakeCTD.css';
 

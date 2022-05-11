@@ -148,6 +148,7 @@ function MeterologyData(props) {
                 onRemove={onRemove}
                 onSearch={function noRefCheck(){}}
                 onSelect={onSelect}
+                selectedValues={options}
             />
             <div className='one-date-container'>
             <p className='date-label'>Start Date</p>

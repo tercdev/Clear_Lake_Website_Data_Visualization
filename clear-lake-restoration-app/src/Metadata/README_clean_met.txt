@@ -54,3 +54,18 @@ Column Heading Descriptions
 # Wind Tx - RF Channel for Wind Data [channel]			
 # ISS Receipt - ISS reception [%] The percentage of wind data package that has been successfully received by the Vantage Pro 2 instrument.
 # Arc Int Archive Intervals [m]	Data collection frequency
+
+
+
+
+
+Clean Met:
+#Station_ID
+#DateTime_UTC
+#Air_Temp
+#Rel_Humidity
+#Wind_Speed
+#Wind_Dir
+#Atm_Pres
+#Solar_Rad
+#Rain

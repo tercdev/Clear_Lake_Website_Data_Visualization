@@ -17,6 +17,7 @@ input {
     width: fit-content;
     margin: auto;
     padding: 10px;
+    align-items: center;
 }
 
 @media (max-width: 576px) {

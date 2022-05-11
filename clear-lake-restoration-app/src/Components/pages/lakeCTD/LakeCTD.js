@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
 import DataDisclaimer from '../../DataDisclaimer';
-import StreamChart from '../streams/StreamChart';
+import Chart from '../../Chart';
 import useFetch from 'react-fetch-hook';
 import SpecificDateSelect from './SpecificDateSelect';
 
@@ -302,7 +302,7 @@ export default function LakeCTD(props) {
                 <button className="submitButton" onClick={setGraphDates}>Submit</button>
             </div>
             <div className='chart-container-half'>
-                <StreamChart chartProps={chartProps} isLoading={profileData.isLoading}/>
+                <Chart chartProps={chartProps} isLoading={profileData.isLoading}/>
             </div>
         </div>
         

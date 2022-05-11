@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Highcharts from 'highcharts';
-import MetChart from './MetChart.js';
+import Chart from '../../Chart';
 import "react-datepicker/dist/react-datepicker.css";
 import DataDisclaimer from '../../DataDisclaimer.js';
 import DateRangePicker from '../../DateRangePicker.js';
@@ -575,7 +575,7 @@ export default function Met(props) {
                 unit={unit}
             />
             {error && <p className='error-message'>Selected date range was more than 365 days. End date was automatically changed.</p>}
-            <MetChart 
+            <Chart 
                 chartProps={chartProps}
                 isLoading={realTimeData.isLoading || cleanMetData.isLoading}
              />

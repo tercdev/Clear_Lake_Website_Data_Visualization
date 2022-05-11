@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
 import DataDisclaimer from '../../DataDisclaimer';
-import StreamChart from '../streams/StreamChart';
+import Chart from '../../Chart';
 import useFetch from 'react-fetch-hook';
 import { convertDate } from '../../utils';
 import DatePicker from 'react-datepicker';
@@ -255,7 +255,7 @@ export default function LakeTchain(props) {
                 </div>
             </div>
             {error && <p className='error-message'>Selected date range was more than 365 days. End date was automatically changed.</p>}
-            <StreamChart chartProps={chartProps} isLoading={oxyData.isLoading || tempData.isLoading} />
+            <Chart chartProps={chartProps} isLoading={oxyData.isLoading || tempData.isLoading} />
         </div>
         
     )

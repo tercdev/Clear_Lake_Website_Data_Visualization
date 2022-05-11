@@ -56,16 +56,15 @@ Column Heading Descriptions
 # Arc Int Archive Intervals [m]	Data collection frequency
 
 
-
-
+Added on May 11, 2022
 
 Clean Met:
-#Station_ID
-#DateTime_UTC
-#Air_Temp
-#Rel_Humidity
-#Wind_Speed
-#Wind_Dir
-#Atm_Pres
-#Solar_Rad
-#Rain
+# Station_ID
+# DateTime_UTC
+# Air_Temp
+# Rel_Humidity
+# Wind_Speed
+# Wind_Dir
+# Atm_Pres
+# Solar_Rad
+# Rain

@@ -134,7 +134,7 @@ export default function Map(props) {
             } else if (e.features[0].properties.name == "clo") {
                 description = "Clearlake Oaks"
             } else if (e.features[0].properties.name == "jgb") {
-                description = "Jago Bay (relocated to Beakbane Island in June 2020)"
+                description = "Jago Bay<br/>(relocated to Beakbane Island in June 2020)"
             } else {
                 description = "Beakbane Island"
             }

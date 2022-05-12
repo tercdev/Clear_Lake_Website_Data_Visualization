@@ -102,7 +102,11 @@ export default function Map(props) {
             });
             map.current.on("click", "met", e => {
                 console.log(e.features[0].properties.name);
-                window.location.href='/Clear_Lake_Website_Data_Visualization/'+e.features[0].properties.name;
+                if (e.features[0].properties.name != "jgb") {
+                    window.location.href='/Clear_Lake_Website_Data_Visualization/'+e.features[0].properties.name;
+                } else {
+                    window.location.href='/Clear_Lake_Website_Data_Visualization/bbi';
+                }
                 // const link = "/" + e.features[0].properties.name
                 // return <Link to={link}></Link>
                 metPopUp(map,e);
@@ -130,7 +134,7 @@ export default function Map(props) {
             } else if (e.features[0].properties.name == "clo") {
                 description = "Clearlake Oaks"
             } else if (e.features[0].properties.name == "jgb") {
-                description = "Jago Bay"
+                description = "Jago Bay<br/>(relocated to Beakbane Island in June 2020)"
             } else {
                 description = "Beakbane Island"
             }

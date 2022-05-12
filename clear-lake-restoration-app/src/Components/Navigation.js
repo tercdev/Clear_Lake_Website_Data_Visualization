@@ -57,7 +57,7 @@ const Navigation = () => {
               <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/bkp">Buckingham Point</NavDropdown.Item>
               <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/knb">Konocti Bay</NavDropdown.Item>
               <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/clo">Clearlake Oaks</NavDropdown.Item>
-              <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/jgb">Jago Bay</NavDropdown.Item>
+              <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/bbi">Beakbane Island</NavDropdown.Item>
             </NavDropdown>
             <NavDropdown title="Lake Mooring" id="collasible-nav-dropdown" show={showLake} onMouseEnter={showLakeDropdown} onMouseLeave={hideLakeDropdown}>
               <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/lakemooring">Overview</NavDropdown.Item>

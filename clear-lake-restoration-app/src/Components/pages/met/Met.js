@@ -561,6 +561,7 @@ export default function Met(props) {
             <DataDisclaimer/>
             <div className='data-desc-container'>
                 <p className='data-desc'>Select start and end dates (maximum 365 day period). <br/>
+                    Time is in local pacific time.<br/>
                     Click submit to update the graphs below.<br/>
                     Allow some time for the data to be fetched. The longer the selected time period, the longer it will take to load.<br/>
                 </p>

@@ -66,7 +66,7 @@ function App() {
         <Route path='/met' exact element={<MetHome/>} />
         <Route path='/bkp' exact element={<Met id={"1"} name={"Buckingham Point"}/>} />
         <Route path='/clo' exact element={<Met id={"2"} name={"Clearlake Oaks"}/>} />
-        <Route path='/jgb' exact element={<Met id={"3"} name={"Jago Bay"}/>} />
+        <Route path='/bbi' exact element={<Met id={"3"} name={"Beakbane Island"}/>} />
         <Route path='/knb' exact element={<Met id={"4"} name={"Konocti Bay"}/>} />
         <Route path='/nlp' exact element={<Met id={"6"} name={"North Lakeport"}/>} />
         <Route path='/nic' exact element={<Met id={"5"} name={"Nice"}/>} />

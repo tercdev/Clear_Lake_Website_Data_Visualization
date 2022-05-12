@@ -265,15 +265,15 @@ export default function Stream(props) {
         setGraphUnit(unit);
         console.log("set graph unit", unit)
         setError(false);
-        let latestDate = new Date(new Date(startDate).setDate(365));
+        // let latestDate = new Date(new Date(startDate).setDate(365));
         setGraphStartDate(startDate);
-        if (endDate > latestDate) {
-            setError(true);
-            setEndDate(latestDate);
-            setGraphEndDate(latestDate);
-        } else {
+        // if (endDate > latestDate) {
+        //     setError(true);
+        //     setEndDate(latestDate);
+        //     setGraphEndDate(latestDate);
+        // } else {
             setGraphEndDate(endDate);
-        }
+        // }
     }
     var url = new URL('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/cl-creeks');
     var search_params = url.searchParams;

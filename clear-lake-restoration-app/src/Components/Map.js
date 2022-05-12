@@ -102,7 +102,11 @@ export default function Map(props) {
             });
             map.current.on("click", "met", e => {
                 console.log(e.features[0].properties.name);
-                window.location.href='/Clear_Lake_Website_Data_Visualization/'+e.features[0].properties.name;
+                if (e.features[0].properties.name != "jgb") {
+                    window.location.href='/Clear_Lake_Website_Data_Visualization/'+e.features[0].properties.name;
+                } else {
+                    window.location.href='/Clear_Lake_Website_Data_Visualization/bbi';
+                }
                 // const link = "/" + e.features[0].properties.name
                 // return <Link to={link}></Link>
                 metPopUp(map,e);

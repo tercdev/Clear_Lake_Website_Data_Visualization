@@ -186,7 +186,6 @@ export default function LakeTchain(props) {
                 m.push([new Date(element.DateTime_UTC).getTime(),2,parseFloat(element["Height_2m"])]);
                 m.push([new Date(element.DateTime_UTC).getTime(),3,parseFloat(element["Height_3m"])]);
                 m.push([new Date(element.DateTime_UTC).getTime(),4,parseFloat(element["Height_4m"])]);
-                
                 if (!element["Height_5m"]) {
                     h = 5;
                 } else if (!element["Height_6m"]) {

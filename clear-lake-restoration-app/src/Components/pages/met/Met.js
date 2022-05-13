@@ -401,7 +401,7 @@ export default function Met(props) {
 
     useEffect(()=> {
         if (!cleanMetData.isLoading && !realTimeData.isLoading) {
-            if (cleanMetData.data.length != 0) {
+            if (cleanMetData.data.length != 0 || realTimeData.data.length != 0) {
                 let relHumidityData = getFilteredData(cleanMetData.data,"Rel_Humidity");
                 let airTempData = getFilteredData(cleanMetData.data,"Air_Temp");
                 let atmPresData = getFilteredData(cleanMetData.data,"Atm_Pres");

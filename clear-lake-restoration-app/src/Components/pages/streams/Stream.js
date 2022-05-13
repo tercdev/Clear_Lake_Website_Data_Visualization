@@ -151,7 +151,7 @@ export default function Stream(props) {
             
         }, {
             title: {
-                text: 'Temperature [°F]',
+                text: 'Water Temperature [°F]',
                 style: {
                     color: Highcharts.getOptions().colors[7]
                 }
@@ -196,8 +196,8 @@ export default function Stream(props) {
                 let units = {
                     "Turbidity": 'FTU',
                     "Flow": 'cfs',
-                    "Temperature in °F": '°F',
-                    "Temperature in °C": '°C',
+                    "Water Temperature in °F": '°F',
+                    "Water Temperature in °C": '°C',
                     "Precipitation": 'in'
                 }
                 return this.points.reduce(function (s, point) {
@@ -227,7 +227,7 @@ export default function Stream(props) {
                 color: Highcharts.getOptions().colors[0],
             },
             {
-                name: 'Temperature',
+                name: 'Water Temperature',
                 data: [],
                 selected: true,
                 yAxis: 2,
@@ -382,13 +382,13 @@ export default function Stream(props) {
             let yformat = ''
             let yseries = ''
             if (graphUnit == 'f') {
-                ylabel = 'Temperature [°F]'
+                ylabel = 'Water Temperature [°F]'
                 yformat = '{value} °F'
-                yseries = 'Temperature in °F'
+                yseries = 'Water Temperature in °F'
             } else {
-                ylabel = 'Temperature [°C]'
+                ylabel = 'Water Temperature [°C]'
                 yformat = '{value} °C'
-                yseries = 'Temperature in °C'
+                yseries = 'Water Temperature in °C'
             }
             setChartProps({...chartProps,
                 series: [

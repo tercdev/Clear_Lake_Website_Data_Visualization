@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Clear_Lake_Website_Data_Visualization/static/css/main.a75ecc90.css",
-    "main.js": "/Clear_Lake_Website_Data_Visualization/static/js/main.f96fc950.js",
+    "main.css": "/Clear_Lake_Website_Data_Visualization/static/css/main.93bc31e1.css",
+    "main.js": "/Clear_Lake_Website_Data_Visualization/static/js/main.d65f8b6c.js",
     "static/media/Home1.jpg": "/Clear_Lake_Website_Data_Visualization/static/media/Home1.a9fa5a0ab37ed3fe6187.jpg",
     "static/media/sigmund-TlFw-WoI8_w-unsplash.jpg": "/Clear_Lake_Website_Data_Visualization/static/media/sigmund-TlFw-WoI8_w-unsplash.5013dfab49f09458f2d9.jpg",
     "static/media/Middle creek monitoring site.jpeg": "/Clear_Lake_Website_Data_Visualization/static/media/Middle creek monitoring site.a49fa61080e46f6d8f78.jpeg",
@@ -15,21 +15,15 @@
     "static/media/Vector Control.webp": "/Clear_Lake_Website_Data_Visualization/static/media/Vector Control.88e87a724f5e0f92a9d5.webp",
     "static/media/CLO.webp": "/Clear_Lake_Website_Data_Visualization/static/media/CLO.2f3a2d64332f29a65bba.webp",
     "static/media/USGS-01.webp": "/Clear_Lake_Website_Data_Visualization/static/media/USGS-01.2d6f191336119eb3f52d.webp",
-    "static/media/README_clean_met.txt": "/Clear_Lake_Website_Data_Visualization/static/media/README_clean_met.0f9c363d4668865074bd.txt",
-    "static/media/README_realtime_met.txt": "/Clear_Lake_Website_Data_Visualization/static/media/README_realtime_met.8a09d8a871d0dd9b420a.txt",
     "static/media/CAFWlogo.webp": "/Clear_Lake_Website_Data_Visualization/static/media/CAFWlogo.aaaeef658bba37d7bb73.webp",
     "static/media/WorldMark_by_Wyndham_logo.webp": "/Clear_Lake_Website_Data_Visualization/static/media/WorldMark_by_Wyndham_logo.5e13b605ea9c5fc2aa59.webp",
     "static/media/CAFW.webp": "/Clear_Lake_Website_Data_Visualization/static/media/CAFW.053944fedecc80c95c29.webp",
-    "static/media/README_realtime_streams.txt": "/Clear_Lake_Website_Data_Visualization/static/media/README_realtime_streams.46a77343dd65c2ea7d39.txt",
     "index.html": "/Clear_Lake_Website_Data_Visualization/index.html",
-    "static/media/README_tchain.txt": "/Clear_Lake_Website_Data_Visualization/static/media/README_tchain.b559c0cc1eadf9319186.txt",
-    "static/media/README_clean_streams.txt": "/Clear_Lake_Website_Data_Visualization/static/media/README_clean_streams.0e825d712b7e111b53d7.txt",
-    "static/media/README_ctd.txt": "/Clear_Lake_Website_Data_Visualization/static/media/README_ctd.0d48a33e01a21ad2d390.txt",
-    "main.a75ecc90.css.map": "/Clear_Lake_Website_Data_Visualization/static/css/main.a75ecc90.css.map",
-    "main.f96fc950.js.map": "/Clear_Lake_Website_Data_Visualization/static/js/main.f96fc950.js.map"
+    "main.93bc31e1.css.map": "/Clear_Lake_Website_Data_Visualization/static/css/main.93bc31e1.css.map",
+    "main.d65f8b6c.js.map": "/Clear_Lake_Website_Data_Visualization/static/js/main.d65f8b6c.js.map"
   },
   "entrypoints": [
-    "static/css/main.a75ecc90.css",
-    "static/js/main.f96fc950.js"
+    "static/css/main.93bc31e1.css",
+    "static/js/main.d65f8b6c.js"
   ]
 }

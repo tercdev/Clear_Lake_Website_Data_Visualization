@@ -71,7 +71,7 @@ export default function LakeCTD(props) {
             opposite: true,
             showLastLabel: false,
             min: 0,
-            max: 28
+            max: 32
         }, {
             title: {
                 text: 'Dissolved Oxygen [mg/l]',
@@ -90,7 +90,7 @@ export default function LakeCTD(props) {
             opposite: true,
             showLastLabel: false,
             min: 0,
-            max: 11
+            max: 16
         }, {
             title: {
                 text: 'Specific Conductivity [uS/cm]',
@@ -144,7 +144,7 @@ export default function LakeCTD(props) {
             lineWidth: 5,
             showLastLabel: false,
             min: 0,
-            max: 46 // 150?
+            max: 85 // 150?
         }],
         tooltip: {
             formatter: function() {

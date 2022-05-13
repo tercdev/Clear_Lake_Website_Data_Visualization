@@ -1,6 +1,6 @@
 import React from 'react';
-import CTDData from './CTDData';
 import TChainData from './TChainData';
+import CTDData from './CTDData';
 import './DataArchive.css';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
@@ -13,7 +13,7 @@ function DataArchive() {
            <div className='station-page-header'>
                 <h1 className='station-page-title'>Data Archive</h1>
             </div>
-            <div className='data-desc-container'>
+            <div className='data-archive-desc-container'>
                 <p className='data-desc'>These data were collected and are currently being 
                     processed and analyzed by the UC Davis Tahoe Environmental 
                     Research Center (TERC). They are considered preliminary. 
@@ -42,21 +42,20 @@ function DataArchive() {
                             <Tab>Real Time Data</Tab>
                         </TabList>
                         <TabPanel>
+                        <center>Maximum 365 days at a time.</center>
                             <StreamData id="Clean" 
                                 url="https://1j27qzg916.execute-api.us-west-2.amazonaws.com/default/clearlake-streamturb-api" 
                                 variables={["Station_ID","DateTime_UTC","Turb","Temp"]}
                             />
                         </TabPanel>
                         <TabPanel>
-                            <center>Real time data is limited to 180 days.</center>
+                            <center>Maximum 180 days at a time.</center>
                             <StreamData id="Real Time" 
                                 url="https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/cl-creeks"
                                 variables={["Creek","TmStamp","RecNum","Turb_BES","Turb_Mean","Turb_Median","Turb_Var","Turb_Min","Turb_Max","Turb_Temp"]}
                             />
                         </TabPanel>
                     </Tabs>
-                    {/* <h1 className='title'>Stream Data</h1> */}
-                    {/* <StreamDataSection/> */}
                 </TabPanel>
                 <TabPanel>
                     <Tabs>
@@ -65,22 +64,24 @@ function DataArchive() {
                             <Tab>Real Time Data</Tab>
                         </TabList>
                         <TabPanel>
-                            <MeterologyData id="Clean" url="https://4ery4fbt1i.execute-api.us-west-2.amazonaws.com/default/clearlake-met"/>
+                            <center>Maximum 365 days at a time.</center>
+                            <MeterologyData id="Clean" 
+                                url="https://4ery4fbt1i.execute-api.us-west-2.amazonaws.com/default/clearlake-met"
+                                variables={["Station_ID","DateTime_UTC","Air_Temp","Rel_Humidity","Wind_Speed","Wind_Dir","Atm_Pres","Rain","Solar_Rad"]}/>
                         </TabPanel>
                         <TabPanel>
-                            <center>Real time data is limited to 150 days.</center>
-                            <MeterologyData id="Real Time" url="https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/metweatherlink"/>
+                            <center>Maximum 150 days at a time.</center>
+                            <MeterologyData id="Real Time" 
+                                url="https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/metweatherlink"
+                                variables={["Station_ID","DateTime_UTC","Air_Temp","Hi_Air_Temp","Low_Air_Temp","Rel_Humidity","Dew_Point","Wind_Speed","Wind_Dir","Hi_Wind_Speed","Hi_Wind_Speed_Dir","Atm_Pres","Rain","Rain_Rate","Solar_Rad","Solar_Energy"]}/>
                         </TabPanel>
                     </Tabs>
-                    {/* <h1 className='title'>Meterology Data</h1> */}
-                    {/* <MeterologyDataSection/> */}
                 </TabPanel>
                 <TabPanel>
-                    {/* <h1 className='title'>CTD Data</h1> */}
                     <CTDData/>
                 </TabPanel>
                 <TabPanel>
-                    {/* <h1 className='title'>TChain Data</h1> */}
+                    <center>Maximum 365 days at a time.</center>
                     <TChainData/>
                 </TabPanel>
             </Tabs>

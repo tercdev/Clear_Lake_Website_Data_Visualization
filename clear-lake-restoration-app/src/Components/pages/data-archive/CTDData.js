@@ -57,7 +57,7 @@ function CTDData() {
             setShowButton(true)               
         }
     },[profileData.isLoading])
-    var dates_url = new URL('https://shb928ssb8.execute-api.us-west-2.amazonaws.com/default/clearlake-met-sitedates');
+    var dates_url = new URL('https://v35v56rdp6.execute-api.us-west-2.amazonaws.com/default/clearlake-profiledata-sitedates');
     var dates_search_params = dates_url.searchParams;
     dates_search_params.set('id', id);
     dates_url.search = dates_search_params.toString();

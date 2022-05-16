@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Clear_Lake_Website_Data_Visualization/static/css/main.a75ecc90.css",
-    "main.js": "/Clear_Lake_Website_Data_Visualization/static/js/main.8d3d4cf8.js",
+    "main.js": "/Clear_Lake_Website_Data_Visualization/static/js/main.a75d7624.js",
     "static/media/Home1.jpg": "/Clear_Lake_Website_Data_Visualization/static/media/Home1.a9fa5a0ab37ed3fe6187.jpg",
     "static/media/sigmund-TlFw-WoI8_w-unsplash.jpg": "/Clear_Lake_Website_Data_Visualization/static/media/sigmund-TlFw-WoI8_w-unsplash.5013dfab49f09458f2d9.jpg",
     "static/media/Middle creek monitoring site.jpeg": "/Clear_Lake_Website_Data_Visualization/static/media/Middle creek monitoring site.a49fa61080e46f6d8f78.jpeg",
@@ -26,10 +26,10 @@
     "static/media/README_clean_streams.txt": "/Clear_Lake_Website_Data_Visualization/static/media/README_clean_streams.0e825d712b7e111b53d7.txt",
     "static/media/README_ctd.txt": "/Clear_Lake_Website_Data_Visualization/static/media/README_ctd.0d48a33e01a21ad2d390.txt",
     "main.a75ecc90.css.map": "/Clear_Lake_Website_Data_Visualization/static/css/main.a75ecc90.css.map",
-    "main.8d3d4cf8.js.map": "/Clear_Lake_Website_Data_Visualization/static/js/main.8d3d4cf8.js.map"
+    "main.a75d7624.js.map": "/Clear_Lake_Website_Data_Visualization/static/js/main.a75d7624.js.map"
   },
   "entrypoints": [
     "static/css/main.a75ecc90.css",
-    "static/js/main.8d3d4cf8.js"
+    "static/js/main.a75d7624.js"
   ]
 }

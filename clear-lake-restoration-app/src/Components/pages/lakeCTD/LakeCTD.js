@@ -15,7 +15,9 @@ export default function LakeCTD(props) {
     function getFilteredData(data, dataType) {
         let m = []
         data.forEach((element => {
-            m.push([parseFloat(element.Depth), parseFloat(element[dataType])]);
+            if (parseFloat(element[dataType]) >= 0) {
+                m.push([parseFloat(element.Depth), parseFloat(element[dataType])]);
+            }
         }))
         m.sort(function(a,b) {
             return (a[0]-b[0])

@@ -113,9 +113,16 @@ center > * {
 }
 
 .multi-select {
-    width: 90%;
     margin-top: 40px;
     margin-bottom: 40px;
+}
+
+.multiSelectContainer{
+    width: 90%;
+}
+
+.chip {
+    background: #022851
 }
 
 .date-container1 {

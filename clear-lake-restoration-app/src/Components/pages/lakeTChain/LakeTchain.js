@@ -92,12 +92,12 @@ export default function LakeTchain(props) {
             verticalAlign: 'middle',
             align: 'right',
             // padding: 20,
-            itemMarginTop: 50,
-            itemMarginBottom: 50,
+            itemMarginTop: 43, // increase moves bottom one down
+            itemMarginBottom: 47, // increase moves top one up
             // width: 200,
             // itemWidth: 100,
-            y: 7.5,
-            symbolHeight: 280,
+            y: 0,
+            symbolHeight: 275,
             // maxHeight: 700
         },
         series: [{

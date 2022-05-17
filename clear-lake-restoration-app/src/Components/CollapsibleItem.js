@@ -10,7 +10,7 @@ import "./CollapsibleItem.css"
 export default function CollapsibleItem(props) {
   return (
     <div className='collapsible-item' >
-      <Accordion className='c'>
+      <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"

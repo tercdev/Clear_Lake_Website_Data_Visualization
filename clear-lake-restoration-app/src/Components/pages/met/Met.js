@@ -262,7 +262,22 @@ export default function Met(props) {
                 selected: true,
                 yAxis: 3,
                 color: Highcharts.getOptions().colors[7],
-                type: 'scatter',
+                type: 'spline',
+                "lineWidth": 0,
+                        "marker": {
+                            "enabled": "true",
+                            "states": {
+                                "hover": {
+                                "enabled": "true"
+                                }
+                            },
+                            "radius": 5
+                            },
+                        "states": {
+                            "hover": {
+                            "lineWidthPlus": 0
+                            }
+                        },
             },
             {
                 name: 'Wind Speed',
@@ -279,26 +294,6 @@ export default function Met(props) {
                 color: Highcharts.getOptions().colors[6]
             },           
         ],
-        plotOptions: {
-            scatter: {
-                marker: {
-                    radius: 5,
-                    states: {
-                        hover: {
-                            enabled: true,
-                            lineColor: 'rgb(100,100,100)'
-                        }
-                    }
-                },
-                states: {
-                    hover: {
-                        marker: {
-                            enabled: false
-                        }
-                    }
-                },
-            },
-        },
         updateTime: {
             setTime: 0,
             endTime: 0,

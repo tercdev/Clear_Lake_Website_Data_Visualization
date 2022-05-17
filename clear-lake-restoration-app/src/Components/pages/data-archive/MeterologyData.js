@@ -71,7 +71,6 @@ function MeterologyData(props) {
 
     const [realTimeData, setRealTimeData] = useState([])
     
-    // const variables = ["Station_ID","DateTime_UTC","Air_Temp","Hi_Air_Temp","Low_Air_Temp","Rel_Humidity","Dew_Point","Wind_Speed","Wind_Dir","Hi_Wind_Speed","Hi_Wind_Speed_Dir","Atm_Pres","Rain","Rain_Rate","Solar_Rad","Solar_Energy"];
     const [headers, setHeaders] = useState([])
     const [checkedState, setCheckedState] = useState(
         new Array(props.variables.length).fill(true)
@@ -131,7 +130,7 @@ function MeterologyData(props) {
         <center>
             <div className='location-container'>
                 <p className='date-label'>Location</p>
-                <select onChange={(e) => {setIdTemp(e.target.value); setShowButton(false);}}>
+                <select className="select-drop" onChange={(e) => {setIdTemp(e.target.value); setShowButton(false);}}>
                     <option value="1">Buckingham Point</option>
                     <option value="2">Clearlake Oaks</option>
                     <option value="3">Jago Bay</option>
@@ -149,36 +148,39 @@ function MeterologyData(props) {
                 onSearch={function noRefCheck(){}}
                 onSelect={onSelect}
                 selectedValues={options}
+                className="multi-select"
             />
-            <div className='one-date-container'>
-            <p className='date-label'>Start Date</p>
-            <DatePicker
-                selected={startDate}
-                onChange={handleStartDateChange}
-                selectsStart
-                startDate={startDate}
-                endDate={endDate}
-                maxDate={endDate}
-                minDate={new Date("2019/01/01")}
-                showMonthDropdown
-                showYearDropdown
-                dropdownMode='select'
-            />
-            </div>
-            <div className='one-date-container'>
-            <p className='date-label'>End Date</p>
-            <DatePicker
-                selected={endDate}
-                onChange={handleEndDateChange}
-                selectsEnd
-                startDate={startDate}
-                endDate={endDate}
-                minDate={startDate}
-                maxDate={today}
-                showMonthDropdown
-                showYearDropdown
-                dropdownMode='select'
-            />
+            <div className='date-container1'>
+                <div className='one-date-container'>
+                <p className='date-label'>Start Date</p>
+                <DatePicker
+                    selected={startDate}
+                    onChange={handleStartDateChange}
+                    selectsStart
+                    startDate={startDate}
+                    endDate={endDate}
+                    maxDate={endDate}
+                    minDate={new Date("2019/01/01")}
+                    showMonthDropdown
+                    showYearDropdown
+                    dropdownMode='select'
+                />
+                </div>
+                <div className='one-date-container'>
+                <p className='date-label'>End Date</p>
+                <DatePicker
+                    selected={endDate}
+                    onChange={handleEndDateChange}
+                    selectsEnd
+                    startDate={startDate}
+                    endDate={endDate}
+                    minDate={startDate}
+                    maxDate={today}
+                    showMonthDropdown
+                    showYearDropdown
+                    dropdownMode='select'
+                />
+                </div>
             </div>
             <button className="submitButton" onClick={setGraphDates}>Submit</button>
             {error && <p className='error-message'>Selected date range was more than {props.id == "Clean" ? 365 : 150} days. End date was automatically changed.</p>}

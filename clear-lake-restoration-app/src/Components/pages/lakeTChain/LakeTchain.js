@@ -122,7 +122,7 @@ export default function LakeTchain(props) {
             //     lineWidth: 5,
             //     lineColor: Highcharts.getOptions().colors[0],
             // },
-            color: Highcharts.getOptions().colors[0],
+            color: Highcharts.getOptions().colors[1],
             selected: true
         }],
         updateTime: {

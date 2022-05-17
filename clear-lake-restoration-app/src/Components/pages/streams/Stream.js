@@ -5,6 +5,7 @@ import useFetch from 'react-fetch-hook';
 
 import DateRangePicker from '../../DateRangePicker';
 import DataDisclaimer from '../../DataDisclaimer';
+import CollapsibleItem from '../../CollapsibleItem';
 
 import { convertDate } from '../../utils';
 
@@ -22,8 +23,6 @@ import "./Stream.css";
 //     return new Date(today.getTime() - timeZoneOffset);
 // }
 
-
-
 export default function Stream(props) {
     const [unit, setUnit] = useState('f'); 
     const [graphUnit, setGraphUnit] = useState('f');
@@ -36,6 +35,7 @@ export default function Stream(props) {
         setUnit('c')
         console.log("radio to C")
     }
+   
     // get data based on graph type
     function getFilteredData(data, dataType) {
         let m = [];
@@ -70,15 +70,11 @@ export default function Stream(props) {
         m.sort(function(a,b) {
             return (a[0]-b[0])
         })
-    // console.log(m)
-        // return m.reverse();
         return m.reverse()
     }
     const [chartProps,setChartProps] = useState({
-
         chart: {
             zoomType: 'x',
-            // height: (9 / 16 * 120) + '%' // 16:9 ratio
             height: 1200,
             events: {
                 load() {
@@ -100,10 +96,8 @@ export default function Stream(props) {
         },
         xAxis: [{
             type: 'datetime',
-            // crosshair: true
         }, {
             type: 'datetime',
-            // opposite: true,
             top: '-70%',
             offset: 0,
         }, {
@@ -218,22 +212,19 @@ export default function Stream(props) {
                 selected: true,
                 yAxis: 0,
                 color: Highcharts.getOptions().colors[3],
-            }, 
-            {
+            }, {
                 name: 'Flow',
                 data: [],
                 selected: true,
                 yAxis: 1,
                 color: Highcharts.getOptions().colors[0],
-            },
-            {
+            }, {
                 name: 'Water Temperature',
                 data: [],
                 selected: true,
                 yAxis: 2,
                 color: Highcharts.getOptions().colors[7]
-            },
-            {
+            }, {
                 name: 'Precipitation',
                 data: [],
                 selected: true,
@@ -254,13 +245,16 @@ export default function Stream(props) {
     const [endDate, setEndDate] = useState(today);
     const [startGraphDate, setGraphStartDate] = useState(lastWeek);
     const [endGraphDate, setGraphEndDate] = useState(today);
+    const [error, setError] = useState(false);
+    
     function handleStartDateChange(e) {
         setStartDate(e);
     }
+    
     function handleEndDateChange(e) {
         setEndDate(e);
     }
-    const [error, setError] = useState(false);
+    
     function setGraphDates() {
         setGraphUnit(unit);
         console.log("set graph unit", unit)
@@ -275,6 +269,8 @@ export default function Stream(props) {
             setGraphEndDate(endDate);
         }
     }
+
+    // real-time data Endpoint URL 
     var url = new URL('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/cl-creeks');
     var search_params = url.searchParams;
     search_params.set('id',props.id);
@@ -316,7 +312,6 @@ export default function Stream(props) {
     search_params_rain.set('end',convertDate(endGraphDate));
     rainURL.search = search_params_rain.toString();
     var rain_new_url = rainURL.toString();
-    
     const rainData = useFetch(rain_new_url);
 
     function removePast(data, date) {
@@ -412,12 +407,11 @@ export default function Stream(props) {
                 ],
                 xAxis: [{
                     min: minX, max: maxX,
-                    // plotLines: [{
-                    //     color: '#FF0000',
-                    //     width: 5,
-                    //     value: lastdate
-                    // }]
-                },{min: minX, max: maxX},{min: minX, max: maxX}],
+                }, {
+                    min: minX, max: maxX
+                },{
+                    min: minX, max: maxX
+                }],
                 yAxis: [{},{},{title: {
                     text: ylabel,
                     style: {
@@ -434,29 +428,31 @@ export default function Stream(props) {
         }
     },[startGraphDate,endGraphDate,creekData.isLoading,flowData.isLoading,rainData.isLoading,cleanData.isLoading,graphUnit])
 
+    // for the collapsible FAQ
+    const header1 = "How to use the graphs and see the data below?";
+    const content1 = [<ol>
+            <li>Select start and end dates with maximum 365-day period</li>
+            <li>Click submit to update the graphs below</li>
+            <li>Graph and data loading will depend on the length of the selected time period</li>
+        </ol>];
+
+    const header2 = "Why is no data showing up on my plots?";
+    const content2 = [<p>If there is no data, the sensors might not be submerged in the water. Check <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">here</a> to read more about the metadata.</p>];
+
+    const header3 = "Where are the data collected?";
+    const content3 = [<p>Stream turbidity and temperature are measured by UC Davis sensors that are co-located with existing California Department of Water Resources gauging stations. However, river flow data and precipitation data are externally scraped from <a href="https://cdec.water.ca.gov/">California Department of Water Resources</a>.</p>];
+
     return (
         <div className="stream-container">
             <div className='station-page-header'>
                 <h1 className='station-page-title'>{props.name}</h1>
             </div>
             <DataDisclaimer/>
-            <div className='data-desc-container'>
-                <div className='data-col1'>
-                    <h3 className="data-header">How to start</h3>
-                    <ul>
-                        <li>Select start and end dates with maximum 365-day period</li>
-                        <li>Click submit to update the graphs below</li>
-                        <li>Graph and data loading wiil depend on the length of the selected time period</li>
-                    </ul>
-                </div>
-                <div className='data-col2'>
-                    <h3 className="data-header">About the data</h3>
-                        <ul>
-                            <li>If there is no data, the sensors might not be submerged in the water</li>
-                            <li>Check <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">here</a> to read more about the metadata</li>
-                            <li>Flow data is from the California Nevada River Forecast Center</li>
-                        </ul>
-                </div>
+
+            <div className="collapsible-container">
+                <CollapsibleItem header={header1} content={content1}/>
+                <CollapsibleItem header={header2} content={content2}/>
+                <CollapsibleItem header={header3} content={content3}/>
             </div>
 
             <DateRangePicker 

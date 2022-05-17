@@ -4,8 +4,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./DateRangePicker.css"
 
-import { addDays, subDays } from './utils';
-
 function DateRangePicker(props) {
     const today = new Date();
     return (

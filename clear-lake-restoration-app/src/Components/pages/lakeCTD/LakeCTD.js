@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import Highcharts from 'highcharts';
-import DataDisclaimer from '../../DataDisclaimer';
-import Chart from '../../Chart';
 import useFetch from 'react-fetch-hook';
+import Highcharts from 'highcharts';
+
+import Chart from '../../Chart';
+import DataDisclaimer from '../../DataDisclaimer';
 import SpecificDateSelect from '../../SpecificDateSelect';
+import CollapsibleItem from '../../CollapsibleItem';
 
 import './LakeCTD.css';
 
 export default function LakeCTD(props) {
+
+    // get data based on graph type
     function getFilteredData(data, dataType) {
         let m = []
         data.forEach((element => {
@@ -208,21 +212,21 @@ export default function LakeCTD(props) {
     })
     
     var today = new Date();
-    // var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
     const [startDate, setStartDate] = useState(today);
     const [startGraphDate, setGraphStartDate] = useState(today);
     const [endGraphDate, setGraphEndDate] = useState(today);
+    
     function handleStartDateChange(e) {
         console.log(e)
-        // setStartDate(new Date(e[0]));
         setStartDate(e)
     }
+    
     function setGraphDates() {
         console.log(startDate)
         setGraphStartDate(startDate);
-        // let x = new Date(startDate.getFullYear(), startDate.getMonth(), 28);
         setGraphEndDate(startDate);
     }
+    
     function convertDatetoUTC(date) {
         let year = date.getUTCFullYear().toString();
         let month = (date.getUTCMonth()+1).toString();
@@ -235,14 +239,16 @@ export default function LakeCTD(props) {
         }
         return year+month+day;
     }
+    
+    // Endpoint URL to get clean profile data
     var url = new URL('https://3kgpak926a.execute-api.us-west-2.amazonaws.com/default/clearlake-profiledata');
     var search_params = url.searchParams;
     search_params.set('id',props.id);
     search_params.set('start',convertDatetoUTC(startGraphDate));
     search_params.set('end',convertDatetoUTC(endGraphDate));
     url.search = search_params.toString();
-    var new_url = url.toString();
-    const profileData = useFetch(new_url);
+    const profileData = useFetch(url.toString());
+    
     useEffect(() => {
         if (!profileData.isLoading) {
             console.log(profileData.data)
@@ -251,35 +257,32 @@ export default function LakeCTD(props) {
             let speCondData = getFilteredData(profileData.data, "SpeCond");
             let tempData = getFilteredData(profileData.data, "Temp");
             let turbData = getFilteredData(profileData.data, "Turb");
-            // let depthData = getFilteredData(profileData.data, "Depth");
-            // console.log(chlaData)
-            // console.log(JSON.stringify(chlaData))
             setChartProps({...chartProps,
                 series: [
                     {
                         data: chlaData
-                    },
-                    {
+                    }, {
                         data: doData
-                    }, 
-                    {
+                    }, {
                         data: speCondData
-                    },
-                    {
+                    }, {
                         data: tempData
-                    },
-                    {
+                    }, {
                         data: turbData
                     }
                 ]
             })
         }
     },[profileData.isLoading,startGraphDate])
+
+    // Endpoint URL to distinct/unique dates for each site of profile data
+    // Why? We want to dropdown to show dates that have data
     var dates_url = new URL('https://v35v56rdp6.execute-api.us-west-2.amazonaws.com/default/clearlake-profiledata-sitedates');
     var dates_search_params = dates_url.searchParams;
     dates_search_params.set('id', props.id);
     dates_url.search = dates_search_params.toString();
     const includedDates = useFetch(dates_url.toString());
+
     const [dates, setDates] = useState([]);
     useEffect(() => {
         if (!includedDates.isLoading) {
@@ -292,17 +295,25 @@ export default function LakeCTD(props) {
             console.log(includedDates.data)
         }
     },[includedDates.isLoading])
+
+    // for the collapsible FAQ
+    const header1 = "How to use the graphs and see the data below?";
+    const content1 = [<ol>
+            <li>Select year, month, and date.</li>
+            <li>Click submit to update the graphs below.</li>
+        </ol>];
+
     return (
         <div>
             <div className='station-page-header'>
                 <h1 className='station-page-title'>{props.name}</h1>
             </div>
             <DataDisclaimer />
-            <div className='data-desc-container'>
-                <p className='data-desc'>Select year, month, and date. <br/>
-                    Click submit to update the graphs below.<br/>
-                </p>
+
+            <div className="collapsible-container">
+                <CollapsibleItem header={header1} content={content1}/>
             </div>
+
             <div className='date-container'>
                 <SpecificDateSelect 
                     data={includedDates.data} 

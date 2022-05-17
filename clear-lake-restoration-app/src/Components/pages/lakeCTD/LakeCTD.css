@@ -1,4 +1,11 @@
 .chart-container-half {
-    width: 75vw;
+    width: 65vw;
     margin: auto;
+}
+
+@media (max-width: 576px) {
+    .chart-container-half {
+        width: 100vw;
+        margin: auto;
+    }
 }

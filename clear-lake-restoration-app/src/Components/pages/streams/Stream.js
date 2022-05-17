@@ -6,6 +6,8 @@ import useFetch from 'react-fetch-hook';
 import DateRangePicker from '../../DateRangePicker';
 import DataDisclaimer from '../../DataDisclaimer';
 
+import CollapsibleItem from '../../CollapsibleItem';
+
 import { convertDate } from '../../utils';
 
 import "./Stream.css";
@@ -434,13 +436,31 @@ export default function Stream(props) {
         }
     },[startGraphDate,endGraphDate,creekData.isLoading,flowData.isLoading,rainData.isLoading,cleanData.isLoading,graphUnit])
 
+    const header1 = "How to use the graphs and see the data below?";
+    const content1 = [<ul>
+            <li>Select start and end dates with maximum 365-day period</li>
+            <li>Click submit to update the graphs below</li>
+            <li>Graph and data loading wiil depend on the length of the selected time period</li>
+        </ul>];
+
+    const header2 = "About the data";
+    const content2 = [<ul>
+            <li>If there is no data, the sensors might not be submerged in the water</li>
+            <li>Check <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">here</a> to read more about the metadata</li>
+            <li>Flow data is from the California Nevada River Forecast Center</li>
+        </ul>];
     return (
         <div className="stream-container">
             <div className='station-page-header'>
                 <h1 className='station-page-title'>{props.name}</h1>
             </div>
             <DataDisclaimer/>
-            <div className='data-desc-container'>
+
+            <div className="collapsible-container">
+                <CollapsibleItem header={header1} content={content1}/>
+                <CollapsibleItem header={header2} content={content2}/>
+            </div>
+            {/* <div className='data-desc-container'>
                 <div className='data-col1'>
                     <h3 className="data-header">How to start</h3>
                     <ul>
@@ -457,7 +477,7 @@ export default function Stream(props) {
                             <li>Flow data is from the California Nevada River Forecast Center</li>
                         </ul>
                 </div>
-            </div>
+            </div> */}
 
             <DateRangePicker 
                 startDate={startDate} 

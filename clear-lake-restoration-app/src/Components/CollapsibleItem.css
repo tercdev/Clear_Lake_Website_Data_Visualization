@@ -1,0 +1,15 @@
+.collapsible-container {
+    width: 80vw;
+    margin: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.collapsible-item {
+    margin-bottom: 10px;
+}
+
+.MuiPaper-root.MuiAccordion-root{
+    background-color: #CDD6E0
+}
+

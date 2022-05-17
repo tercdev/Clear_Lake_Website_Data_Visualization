@@ -46,7 +46,7 @@ function DataArchive() {
                 <CollapsibleItem header={header2} content={content2}/>
             </div>
          
-            <Tabs className="   ">
+            <Tabs className="outer-tab-container">
                 <TabList>
                     <Tab>Stream Data</Tab>
                     <Tab>Meterology Data</Tab>

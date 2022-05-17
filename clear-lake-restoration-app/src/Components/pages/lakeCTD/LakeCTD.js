@@ -113,7 +113,7 @@ export default function LakeCTD(props) {
             lineColor: Highcharts.getOptions().colors[5],
             lineWidth: 5,
             showLastLabel: false,
-            min: 220,
+            min: 210,
             max: 410
         }, {
             title: {
@@ -131,8 +131,8 @@ export default function LakeCTD(props) {
             lineColor: Highcharts.getOptions().colors[3],
             lineWidth: 5,
             showLastLabel: false,
-            min: 8,
-            max: 28
+            min: 5,
+            max: 30
         }, {
             title: {
                 text: 'Turbidity [FTU]',

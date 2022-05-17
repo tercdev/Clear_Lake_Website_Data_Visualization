@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import useFetch from 'react-fetch-hook';
 import Highcharts from 'highcharts';
-import Chart from '../../Chart';
 import "react-datepicker/dist/react-datepicker.css";
+
+import Chart from '../../Chart';
 import DataDisclaimer from '../../DataDisclaimer.js';
 import DateRangePicker from '../../DateRangePicker.js';
-import useFetch from 'react-fetch-hook'
+import CollapsibleItem from '../../CollapsibleItem';
+
 import { 
         convertDate, 
         convertGMTtoPSTTime,
@@ -553,19 +556,29 @@ export default function Met(props) {
         }
       },[cleanMetData.isLoading, realTimeData.isLoading, startGraphDate, endGraphDate, graphUnit])
 
+    // for the collapsible FAQ
+    const header1 = "How to use the graphs and see the data below?";
+    const content1 = [<ol>
+            <li>Select start and end dates with maximum 365-day period. Time is in local pacific time.</li>
+            <li>Click submit to update the graphs below.</li>
+            <li>Graph and data loading will depend on the length of the selected time period.</li>
+        </ol>];
+
+    const header2 = "Why is no data showing up on my plots?";
+    const content2 = [<p>If there is no data, please refer <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">here</a> to read more about the metadata.</p>];
+
+
     return (
         <div>
             <div className='station-page-header'>
                 <h1 className='station-page-title'>{props.name}</h1>
             </div>
             <DataDisclaimer/>
-            <div className='data-desc-container'>
-                <p className='data-desc'>Select start and end dates (maximum 365 day period). <br/>
-                    Time is in local pacific time.<br/>
-                    Click submit to update the graphs below.<br/>
-                    Allow some time for the data to be fetched. The longer the selected time period, the longer it will take to load.<br/>
-                </p>
+            <div className="collapsible-container">
+                <CollapsibleItem header={header1} content={content1}/>
+                <CollapsibleItem header={header2} content={content2}/>
             </div>
+
             <DateRangePicker 
                 startDate={startDate} 
                 endDate={endDate} 

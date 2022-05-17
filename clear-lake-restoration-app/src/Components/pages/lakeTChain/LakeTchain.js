@@ -73,6 +73,7 @@ export default function LakeTchain(props) {
             labels: {
                 format: '{value}°C'
             },
+            reversed: false
         }, {
             stops: [
                 [0, '#c4463a'],

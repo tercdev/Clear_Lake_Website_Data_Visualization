@@ -36,7 +36,8 @@ export function convertGMTtoPSTTime (date) {
 }
 //conversion from API cardinal to prgm degree
 export function cardinalToDeg(direction) {
-    if (parseFloat(direction) != NaN) {
+    console.log(parseFloat(direction))
+    if (!isNaN(parseFloat(direction))) {
         return parseFloat(direction)
     }
     if (direction === 'N') {

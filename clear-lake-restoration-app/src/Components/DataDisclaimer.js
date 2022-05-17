@@ -1,7 +1,5 @@
 import React from 'react';
 
-import './DataDisclaimer.css'
-
 function DataDisclaimer() {
     return (
         <div className='data-disclaimer'>

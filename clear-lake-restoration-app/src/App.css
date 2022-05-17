@@ -83,10 +83,48 @@
   font-weight: 600;
 }
 
-.data-header {
-  text-align: center;
-  margin-bottom: 30px;
+
+/* COLLAPSIBLE FAQ COMPONENT */
+
+.collapsible-container {
+  width: 80vw;
+  margin: auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
+
+.collapsible-item {
+  margin-bottom: 10px;
+}
+
+.MuiPaper-root.MuiAccordion-root{
+  background-color: #FFF2CC;
+  /* border: 1px solid #022851; */
+}
+
+
+/* DATA DISCLAIMER COMPONENT */
+
+.data-disclaimer{
+  text-align: center;
+  width: 80vw;
+  margin: auto;
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center; */
+}
+
+.disclaimer2{
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.disclaimer1{
+  color: rgb(221, 73, 73);
+  font-weight: 600;
+  font-size: 18px;
+}
+
 
 
 @media only screen and (max-width: 600px) {
@@ -106,14 +144,6 @@
     color: #fff;
     font-size: 90px;
   }
-
-  /* .home, .kelsey, .middle, .scotts {
-    display: flex;
-    height: 40vh;
-    align-items: center;
-    justify-content: center;
-    font-size: 3rem;
-  } */
 
   .data-desc-container {
     margin: 15px;

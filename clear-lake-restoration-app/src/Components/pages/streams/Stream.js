@@ -5,7 +5,6 @@ import useFetch from 'react-fetch-hook';
 
 import DateRangePicker from '../../DateRangePicker';
 import DataDisclaimer from '../../DataDisclaimer';
-
 import CollapsibleItem from '../../CollapsibleItem';
 
 import { convertDate } from '../../utils';

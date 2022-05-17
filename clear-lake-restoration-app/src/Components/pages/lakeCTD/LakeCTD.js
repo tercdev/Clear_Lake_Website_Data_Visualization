@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import Highcharts from 'highcharts';
-import DataDisclaimer from '../../DataDisclaimer';
-import Chart from '../../Chart';
 import useFetch from 'react-fetch-hook';
+import Highcharts from 'highcharts';
+
+import Chart from '../../Chart';
+import DataDisclaimer from '../../DataDisclaimer';
 import SpecificDateSelect from '../../SpecificDateSelect';
+import CollapsibleItem from '../../CollapsibleItem';
 
 import './LakeCTD.css';
 
@@ -292,17 +294,25 @@ export default function LakeCTD(props) {
             console.log(includedDates.data)
         }
     },[includedDates.isLoading])
+
+    // for the collapsible FAQ
+    const header1 = "How to use the graphs and see the data below?";
+    const content1 = [<ol>
+            <li>Select year, month, and date.</li>
+            <li>Click submit to update the graphs below.</li>
+        </ol>];
+
     return (
         <div>
             <div className='station-page-header'>
                 <h1 className='station-page-title'>{props.name}</h1>
             </div>
             <DataDisclaimer />
-            <div className='data-desc-container'>
-                <p className='data-desc'>Select year, month, and date. <br/>
-                    Click submit to update the graphs below.<br/>
-                </p>
+
+            <div className="collapsible-container">
+                <CollapsibleItem header={header1} content={content1}/>
             </div>
+
             <div className='date-container'>
                 <SpecificDateSelect 
                     data={includedDates.data} 

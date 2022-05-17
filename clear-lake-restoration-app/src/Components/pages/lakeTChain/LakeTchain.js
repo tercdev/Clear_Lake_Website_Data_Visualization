@@ -113,6 +113,17 @@ export default function LakeTchain(props) {
             },
             yAxis: 1,
             colorAxis: 1
+        }, {
+            name: 'Maximum Depth',
+            data: [],
+            type: 'line',
+            yAxis: 1,
+            // marker: {
+            //     lineWidth: 5,
+            //     lineColor: Highcharts.getOptions().colors[0],
+            // },
+            color: Highcharts.getOptions().colors[0],
+            selected: true
         }],
         updateTime: {
             setTime: 0,
@@ -163,7 +174,11 @@ export default function LakeTchain(props) {
     const tempData = useFetch(temp_url.toString());
     function getFilteredData(data, dataType) {
         let m = []
-        if (dataType == "oxy") {
+        if (dataType == "depth") {
+            data.forEach((element => {
+                m.push([new Date(element.DateTime_UTC).getTime(), parseFloat(element["Height_max"])])
+            }))
+        } else if (dataType == "oxy") {
             data.forEach((element => {
                 m.push([new Date(element.DateTime_UTC).getTime(),0.5, parseFloat(element["Height_0.5m"])]);
                 let val1m = (((1-0.5)/(2-0.5)) * (parseFloat(element["Height_2m"]) - parseFloat(element["Height_0.5m"])) + parseFloat(element["Height_0.5m"]));
@@ -264,11 +279,15 @@ export default function LakeTchain(props) {
                 var minX = oxyFiltered[0][0];
                 var maxX = oxyFiltered[oxyFiltered.length-1][0]
             }
+            let depthFiltered = getFilteredData(oxyData.data, "depth");
+            console.log(depthFiltered)
             setChartProps({...chartProps,
                 series: [{
                     data: tempFiltered
                 },{
                     data: oxyFiltered
+                }, {
+                    data: depthFiltered
                 }],
                 xAxis: [{
                     min: minX,

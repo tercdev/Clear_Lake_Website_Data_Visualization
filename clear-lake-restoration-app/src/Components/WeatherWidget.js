@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactWeather from 'react-open-weather';
-import './WeatherWidget.css';
+import './Weather.css';
 
 const WeatherWidget = (props) => {
     const customStyles = {

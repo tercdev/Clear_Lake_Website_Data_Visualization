@@ -1,3 +1,4 @@
+/* for Weather.js */
 h2 {
     align-self: center;
     font-weight: 600;
@@ -20,4 +21,22 @@ h2 {
 
 svg,i {
     align-self: center;
+}
+
+
+/* For Weather Widget JS file */
+.header-0-2-3 {
+    font-size: 26px!important;
+}
+
+.rw-today * {
+    font-size: 16px!important;
+}
+
+.rw-today-current {
+    font-size: 45px!important;
+}
+
+.rw-forecast-days-panel * {
+    font-size: 16px!important;
 }

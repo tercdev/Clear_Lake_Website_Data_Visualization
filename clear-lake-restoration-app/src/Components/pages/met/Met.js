@@ -216,7 +216,7 @@ export default function Met(props) {
                 const Year = new Date(this.x).getFullYear();
                 const TimeHrs = new Date(this.x).getHours();
                 const TimeMins = new Date(this.x).getMinutes();
-                const dateString = (Month + 1) + "-" + DayOfMonth + "-" + Year + "  " + TimeHrs + ":" + (TimeMins<10?'0':'')+TimeMins;
+                const dateString = (Month + 1) + "-" + DayOfMonth + "-" + Year + "  " + (TimeHrs<10?'0':'') + TimeHrs + ":" + (TimeMins<10?'0':'')+TimeMins;
                 let units = {
                     "Air Temperature in °F": "°F",
                     "Air Temperature in °C": "°C",

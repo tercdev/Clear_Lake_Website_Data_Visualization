@@ -68,3 +68,33 @@ center > * {
 .error-message {
     color: red;
 }
+
+.react-tabs__tab {
+    margin-left: 20px;
+    border-radius: 5px 5px 0 0;
+    border-color: #032751;
+    background-color: #CDD6E0;
+    padding: 10px;
+    border-bottom: 1px solid #032751;
+}
+
+.outer-tab-container {
+    margin: 100px;
+    border: 2px solid #022851;
+    border-radius: 10px;
+    padding-top: 20px;
+    padding-bottom: 80px;
+}
+
+.react-tabs__tab-list {
+    margin-top: 30px;
+    border-color: #032751;
+}
+
+.react-tabs__tab--selected {
+    background-color: #1D4776;
+    color: white;
+    font-weight: 700;
+    /* border-color: #032751; */
+    /* border: 3px solid #032751; */
+}

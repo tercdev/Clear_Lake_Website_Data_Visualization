@@ -18,7 +18,7 @@ function DataArchive() {
             <li>Select location, start date, end date, and desired variables.</li>
             <li>Click submit.</li>
             <li>Wait for data to be fetched.</li>
-            <li>Buttons will then appear, allowing data downloads to your computer. Metadata README files are also available fo further explanation on data variables.</li>
+            <li>Buttons will then appear, allowing data downloads to your computer. Metadata README files are also available for further explanation on data variables.</li>
         </ol>];
 
     const header2 = "What is the difference between clean and real-time data?";
@@ -45,14 +45,8 @@ function DataArchive() {
                 <CollapsibleItem header={header1} content={content1}/>
                 <CollapsibleItem header={header2} content={content2}/>
             </div>
-
-            
-                    <p className='data-desc'>Select location, start and end dates, and desired variables. Click submit. 
-                Wait for data to be fetched. Click on Download button to download the CSV.
-                </p>
-                
          
-            <Tabs>
+            <Tabs className="   ">
                 <TabList>
                     <Tab>Stream Data</Tab>
                     <Tab>Meterology Data</Tab>

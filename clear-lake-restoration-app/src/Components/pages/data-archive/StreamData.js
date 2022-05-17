@@ -125,7 +125,7 @@ function StreamData(props) {
         <center>
             <div className='location-container'>
                 <p className='date-label'>Location</p>
-                <select onChange={(e) => {setIdTemp(e.target.value); setShowButton(false);}}>
+                <select className="select-drop" onChange={(e) => {setIdTemp(e.target.value); setShowButton(false);}}>
                     <option value="1">Kelsey Creek</option>
                     <option value="2">Middle Creek</option>
                     <option value="3">Scotts Creek</option>
@@ -139,39 +139,44 @@ function StreamData(props) {
                 onSearch={function noRefCheck(){}}
                 onSelect={onSelect}
                 selectedValues={options}
+                className="multi-select"
             />
-            <div className='one-date-container'>
-            <p className='date-label'>Start Date</p>
-            <DatePicker
-                selected={startDate}
-                onChange={handleStartDateChange}
-                selectsStart
-                startDate={startDate}
-                endDate={endDate}
-                maxDate={endDate}
-                minDate={new Date("2019/01/01")}
-                // minDate={subDays(endDate, 180)}
-                showMonthDropdown
-                showYearDropdown
-                dropdownMode='select'
-            />
+            
+            <div className='date-container1'>
+                <div className='one-date-container'>
+                <p className='date-label'>Start Date</p>
+                <DatePicker
+                    selected={startDate}
+                    onChange={handleStartDateChange}
+                    selectsStart
+                    startDate={startDate}
+                    endDate={endDate}
+                    maxDate={endDate}
+                    minDate={new Date("2019/01/01")}
+                    // minDate={subDays(endDate, 180)}
+                    showMonthDropdown
+                    showYearDropdown
+                    dropdownMode='select'
+                />
+                </div>
+                <div className='one-date-container'>
+                <p className='date-label'>End Date</p>
+                <DatePicker
+                    selected={endDate}
+                    onChange={handleEndDateChange}
+                    selectsEnd
+                    startDate={startDate}
+                    endDate={endDate}
+                    minDate={startDate}
+                    // maxDate={addDays(startDate, 180, today)}
+                    maxDate={today}
+                    showMonthDropdown
+                    showYearDropdown
+                    dropdownMode='select'
+                />
+                </div>
             </div>
-            <div className='one-date-container'>
-            <p className='date-label'>End Date</p>
-            <DatePicker
-                selected={endDate}
-                onChange={handleEndDateChange}
-                selectsEnd
-                startDate={startDate}
-                endDate={endDate}
-                minDate={startDate}
-                // maxDate={addDays(startDate, 180, today)}
-                maxDate={today}
-                showMonthDropdown
-                showYearDropdown
-                dropdownMode='select'
-            />
-            </div>
+            
             <button className="submitButton" onClick={setGraphDates}>Submit</button>
             {error && <p className='error-message'>Selected date range was more than {props.id == "Clean" ? 365 : 180} days. End date was automatically changed.</p>}
         

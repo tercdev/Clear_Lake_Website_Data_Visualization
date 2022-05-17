@@ -69,6 +69,10 @@ center > * {
     color: red;
 }
 
+.submitButton {
+    margin: 20px;
+}
+
 .react-tabs__tab {
     margin-left: 20px;
     border-radius: 5px 5px 0 0;
@@ -82,8 +86,8 @@ center > * {
     margin: 100px;
     border: 2px solid #022851;
     border-radius: 10px;
-    padding-top: 20px;
-    padding-bottom: 80px;
+    /* padding-top: 20px;
+    padding-bottom: 80px; */
 }
 
 .react-tabs__tab-list {
@@ -97,4 +101,31 @@ center > * {
     font-weight: 700;
     /* border-color: #032751; */
     /* border: 3px solid #032751; */
+}
+
+.react-tabs__tab-panel {
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.select-drop {
+    width: 15%;
+    padding: 5px;
+}
+
+.location-container {
+    margin: 20px
+}
+
+.multi-select {
+    width: 90%;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.date-container1 {
+    display: flex;
+    margin-bottom: 1rem;
+    gap: 50px;
+    width: fit-content;
 }

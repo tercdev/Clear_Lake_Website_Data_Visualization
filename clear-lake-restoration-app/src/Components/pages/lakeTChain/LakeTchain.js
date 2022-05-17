@@ -26,12 +26,12 @@ export default function LakeTchain(props) {
         boost: { //??
             useGPUTranslations: true
         },
-        xAxis: [{
-            type: 'datetime',
-        }, {
+        xAxis: [ {
             type: 'datetime',
             offset: 0,
             top: '-57%'
+        },{
+            type: 'datetime',
         }],
         yAxis: [{
             title: {
@@ -55,19 +55,9 @@ export default function LakeTchain(props) {
             
         }],
         colorAxis: [{
-            stops: [
-                [0, '#c4463a'],
-                [0.1, '#c4463a'],
-                [0.5, '#fffbbc'],
-                [1, '#3060cf']
-            ],
-            min: 0,
-            max: 15,
-            layout: 'horizontal',
-            labels: {
-                format: '{value} mg/L'
-            }
-        }, {
+            
+            text: 'Temperature'
+            ,
             stops: [
                 [0, '#3060cf'],
                 [0.5, '#fffbbc'],
@@ -76,24 +66,39 @@ export default function LakeTchain(props) {
             ],
             min: 5,
             max: 30,
-            layout: 'horizontal',
-            labels: {
-                format: '{value}°C'
+            legend: {
+                layout: 'vertical',
+                verticalAlign: 'middle',
+                align: 'right',
+                padding: 20,
             },
+            labels: {
+                format: '{value}°C',
+                text: 'Temperature'
+            },
+        },{
+            
+            text: 'Dissolved oxygen',
+            
+            stops: [
+                [0, '#c4463a'],
+                [0.1, '#c4463a'],
+                [0.5, '#fffbbc'],
+                [1, '#3060cf']
+            ],
+            min: 0,
+            max: 15,
+            legend: {
+                layout: 'vertical',
+                verticalAlign: 'middle',
+                align: 'right',
+                padding: 20,
+            },
+            labels: {
+                format: '{value} mg/L'
+            }
         }],
         series: [{
-            name: 'Dissolved Oxygen',
-            data: [],
-            type: 'heatmap',
-            boostThreshold: 100, // ?
-            borderWidth: 0, // ?
-            nullColor: '#EFEFEF',
-            colsize: 36e5, // 1 hour
-            tooltip: {
-                headerFormat:'Dissolved Oxygen<br/>',
-                pointFormat: '{point.x:%Y-%m-%d %H:%M}, {point.y}m, {point.value}mg/L'
-            },
-        }, {
             name: 'Temperature',
             data: [],
             type: 'heatmap',
@@ -107,6 +112,18 @@ export default function LakeTchain(props) {
             },
             yAxis: 1,
             colorAxis: 1
+        },{
+            name: 'Dissolved Oxygen',
+            data: [],
+            type: 'heatmap',
+            boostThreshold: 100, // ?
+            borderWidth: 0, // ?
+            nullColor: '#EFEFEF',
+            colsize: 36e5, // 1 hour
+            tooltip: {
+                headerFormat:'Dissolved Oxygen<br/>',
+                pointFormat: '{point.x:%Y-%m-%d %H:%M}, {point.y}m, {point.value}mg/L'
+            },
         }],
         updateTime: {
             setTime: 0,

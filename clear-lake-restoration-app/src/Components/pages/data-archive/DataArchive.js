@@ -1,33 +1,57 @@
 import React from 'react';
-import TChainData from './TChainData';
-import CTDData from './CTDData';
-import './DataArchive.css';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
+
+import TChainData from './TChainData';
+import CTDData from './CTDData';
 import StreamData from './StreamData';
 import MeterologyData from './MeterologyData';
+import CollapsibleItem from '../../CollapsibleItem';
+
+import './DataArchive.css';
 
 function DataArchive() {
+
+    // for the collapsible FAQ
+    const header1 = "How to download data?";
+    const content1 = [<ol>
+            <li>Select location, start date, end date, and desired variables.</li>
+            <li>Click submit.</li>
+            <li>Wait for data to be fetched.</li>
+            <li>Buttons will then appear, allowing data downloads to your computer. Metadata README files are also available fo further explanation on data variables.</li>
+        </ol>];
+
+    const header2 = "What is the difference between clean and real-time data?";
+    const content2 = [<p>Clean data has been reviewed by the TERC team. Real-time data is information that is delivered immediately after the data collection process. 
+            There may be spikes or inconsistent data, as real-time data has not been reviewed by the TERC team. For more information regarding data, please visit the <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">Metadata Explanation page</a>.</p>];
+
+
+
     return(
         <>
            <div className='station-page-header'>
                 <h1 className='station-page-title'>Data Archive</h1>
             </div>
-            <div className='data-archive-desc-container'>
-                <p className='data-desc'>These data were collected and are currently being 
-                    processed and analyzed by the UC Davis Tahoe Environmental 
-                    Research Center (TERC). They are considered preliminary. 
-                    Do not use or distribute without written permission from 
-                    TERC.For all questions please contact Dr. Shohei Watanabe 
-                    (swatanabe@ucdavis.edu) or Dr. Alicia Cortes (alicortes@ucdavis.edu)</p>
-                
-                    <p className='data-desc'>Learn about the Metadata <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">here</a>.</p>
-                    
+
+            <div className='data-disclaimer'>
+                <p className='disclaimer2'>These data were collected and are currently being processed and analyzed by 
+                    the UC Davis Tahoe Environmental Research Center (TERC). They are 
+                    considered preliminary. Do not use or distribute without written permission 
+                    from TERC.</p>
+                <p className='disclaimer2'>For all questions please contact Dr. Shohei Watanabe (swatanabe@ucdavis.edu) 
+                    or Dr. Alicia Cortes (alicortes@ucdavis.edu)</p>
+            </div>
+            <div className="collapsible-container">
+                <CollapsibleItem header={header1} content={content1}/>
+                <CollapsibleItem header={header2} content={content2}/>
+            </div>
+
+            
                     <p className='data-desc'>Select location, start and end dates, and desired variables. Click submit. 
                 Wait for data to be fetched. Click on Download button to download the CSV.
                 </p>
                 
-            </div>
+         
             <Tabs>
                 <TabList>
                     <Tab>Stream Data</Tab>

@@ -27,6 +27,7 @@ export default function Met(props) {
         setUnit('c')
         console.log("radio to C")
     }
+    // get data based on graph type
     function getFilteredData(data, dataType) {
         let m = [];
     
@@ -53,7 +54,6 @@ export default function Met(props) {
     const [chartProps, setChartProps] = useState({
         chart: {
             zoomType: 'x',
-            // ignoreHiddenSeries: false,
             height: 1500,
             events: {
                 load() {
@@ -71,7 +71,7 @@ export default function Met(props) {
             text: ''
         },
         subtitle: {
-            text: 'Click and drag in the plot area to zoom in.<br/>Use the hamburger icon in the top right to download the data displayed in the graph.<br/>Solid line indicates data is cleaned. Dashed line indicates real time data.'
+            text: 'Click and drag in the plot area to zoom in.<br/>Use three-line icon on top right to download the data displayed in the graph.<br/>Clean data plotted on solid line. Provisional data plotted on dashed line.'
         },
         xAxis: [{
             type: 'datetime'
@@ -149,13 +149,6 @@ export default function Met(props) {
                     color: Highcharts.getOptions().colors[7]
                 }
             },
-            // labels: {
-            //     format: '{value}°',
-            //     style: {
-            //         color: Highcharts.getOptions().colors[3]
-            //     }
-            // },
-            // labels: {
             tickPositions: [0, 90, 180, 270, 360],
             labels: {
                 formatter: function() {
@@ -176,8 +169,7 @@ export default function Met(props) {
             lineWidth: 5,
             max: 360,
             tickInterval: 90
-        },
-        { 
+        }, { 
             labels: {
                 format: '{value} m/s',
                 style: {
@@ -216,31 +208,6 @@ export default function Met(props) {
             offset: 0,
             top: '77%'
         }],
-        // tooltip: {
-        //     formatter: function () {
-        //         // The first returned item is the header, subsequent items are the
-        //         // points
-        //         const DayOfMonth = new Date(this.x).getDate();
-        //         const Month = new Date(this.x).getMonth(); // Be careful! January is 0, not 1
-        //         const Year = new Date(this.x).getFullYear();
-        //         const TimeHrs = new Date(this.x).getHours();
-        //         const TimeMins = new Date(this.x).getMinutes();
-        //         const dateString = (Month + 1) + "-" + DayOfMonth + "-" + Year + "  " + TimeHrs + ":" + TimeMins + ' PST';
-        //         return [dateString].concat(
-        //             this.points ?
-        //                 this.points.map(function (point) {
-        //                     if (point.series.name  == 'Relative Humidity Clean' || point.series.name == 'Relative Humidity Live') {
-        //                         return point.series.name + ': ' + point.y +'%'
-        //                     }
-        //                     else {
-        //                         return point.series.name + ': ' + point.y +'°C';
-        //                     }
-                            
-        //                 }) : []
-        //         );
-        //     },
-        //     split: true
-        // },
         tooltip: {
             formatter: function() {
                 const DayOfMonth = new Date(this.x).getDate();
@@ -266,6 +233,7 @@ export default function Met(props) {
             shared: true,
             followPointer: true
         },
+
         series: [
             {
                 name: 'Air Temperature',
@@ -273,7 +241,6 @@ export default function Met(props) {
                 selected: true,
                 yAxis: 0,
                 color: Highcharts.getOptions().colors[3],
-                
             },
             {
                 name: 'Relative Humidity',
@@ -329,19 +296,7 @@ export default function Met(props) {
                         }
                     }
                 },
-                // tooltip: {
-                //     headerFormat: '<b>{series.name} {point.y}°</b><br>',
-                //     pointFormat: '{point.x:%m/%d/%y %H:%M:%S}'
-                // }
             },
-            // line: {
-            //     tooltip: {
-            //         headerFormat: '<b>{series.name} {point.y} m/s</b><br>',
-            //         pointFormat: '{point.x:%m/%d/%y %H:%M:%S}'
-            //         // pointFormat: '',
-            //         // footerFormat: '{point.x:%m/%d/%y %H:%M:%S}<br>'
-            //     }
-            // },
         },
         updateTime: {
             setTime: 0,
@@ -377,6 +332,7 @@ export default function Met(props) {
         }
     }
 
+    // real-time data Endpoint URL 
     var real_time_url = new URL('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/metweatherlink');
     let real_search_params = real_time_url.searchParams;
     real_search_params.set('id',props.id);
@@ -386,22 +342,19 @@ export default function Met(props) {
     } else {
         real_search_params.set('rptdate', convertDate(startGraphDate)); // at most 180 days away from endDate
     }
-    // real_search_params.set('rptdate', convertDate(startGraphDate)); // at most 180 days away from endDate
     real_search_params.set('rptend', convertDate(endGraphDate));
     real_time_url.search = real_search_params.toString();
+    const realTimeData = useFetch(real_time_url.toString());
   
+    // clean data Endpoint URL
     var clean_data_url = new URL('https://4ery4fbt1i.execute-api.us-west-2.amazonaws.com/default/clearlake-met');
     var search_params = clean_data_url.searchParams;
     search_params.set('id',props.id);
     search_params.set('start',convertDate(startGraphDate));
     search_params.set('end',convertDate(endGraphDate));
     clean_data_url.search = search_params.toString();
+    const cleanMetData = useFetch(clean_data_url.toString());
   
-    var clean_url = clean_data_url.toString();
-    const cleanMetData = useFetch(clean_url);
-  
-    const realTimeData = useFetch(real_time_url.toString());
-
     useEffect(()=> {
         if (!cleanMetData.isLoading && !realTimeData.isLoading) {
             if (cleanMetData.data.length != 0 || realTimeData.data.length != 0) {
@@ -425,8 +378,6 @@ export default function Met(props) {
                     let dataLastDate = new Date(atmPresData[0][0]);
                     let realDataLastDate = new Date(realTimeAtmPresData[0][0]);
                     let realDataFirstDate = new Date(realTimeAtmPresData[realTimeAtmPresData.length-1][0])
-                    // console.log(dataLastDate.getDay(), realDataLastDate.getDay(), realDataFirstDate.getDay())
-                    // console.log(dataLastDate.toDateString(), realDataLastDate.toDateString(), realDataFirstDate.toDateString())
                     if (dataLastDate.getDay() == realDataLastDate.getDay() || dataLastDate.getDay() == realDataFirstDate.getDay()) {
                         realTimeAtmPresData = []
                         realTimeRelHumidityData = []
@@ -443,7 +394,6 @@ export default function Met(props) {
                     realTimeWindDirData = removePast(realTimeWindDirData, lastdate);
                     realTimeSolarRadData = removePast(realTimeSolarRadData, lastdate);
                 }
-                // console.log(realTimeAtmPresData)
                 
                 let combinedAtmPresData = atmPresData.concat(realTimeAtmPresData);
                 combinedAtmPresData.sort(function(a,b) {
@@ -525,11 +475,6 @@ export default function Met(props) {
                     ],
                     xAxis: [{
                         min: minX, max: maxX,
-                        // plotLines: [{
-                        //     color: '#FF0000',
-                        //     width: 5,
-                        //     value: lastdate
-                        // }]
                     },{
                         min: minX, max: maxX,
                     },{

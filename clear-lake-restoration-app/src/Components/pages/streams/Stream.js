@@ -72,15 +72,11 @@ export default function Stream(props) {
         m.sort(function(a,b) {
             return (a[0]-b[0])
         })
-    // console.log(m)
-        // return m.reverse();
         return m.reverse()
     }
     const [chartProps,setChartProps] = useState({
-
         chart: {
             zoomType: 'x',
-            // height: (9 / 16 * 120) + '%' // 16:9 ratio
             height: 1200,
             events: {
                 load() {
@@ -102,10 +98,8 @@ export default function Stream(props) {
         },
         xAxis: [{
             type: 'datetime',
-            // crosshair: true
         }, {
             type: 'datetime',
-            // opposite: true,
             top: '-70%',
             offset: 0,
         }, {
@@ -220,22 +214,19 @@ export default function Stream(props) {
                 selected: true,
                 yAxis: 0,
                 color: Highcharts.getOptions().colors[3],
-            }, 
-            {
+            }, {
                 name: 'Flow',
                 data: [],
                 selected: true,
                 yAxis: 1,
                 color: Highcharts.getOptions().colors[0],
-            },
-            {
+            }, {
                 name: 'Water Temperature',
                 data: [],
                 selected: true,
                 yAxis: 2,
                 color: Highcharts.getOptions().colors[7]
-            },
-            {
+            }, {
                 name: 'Precipitation',
                 data: [],
                 selected: true,
@@ -277,6 +268,8 @@ export default function Stream(props) {
             setGraphEndDate(endDate);
         }
     }
+
+    // real-time data Endpoint URL 
     var url = new URL('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/cl-creeks');
     var search_params = url.searchParams;
     search_params.set('id',props.id);
@@ -318,7 +311,6 @@ export default function Stream(props) {
     search_params_rain.set('end',convertDate(endGraphDate));
     rainURL.search = search_params_rain.toString();
     var rain_new_url = rainURL.toString();
-    
     const rainData = useFetch(rain_new_url);
 
     function removePast(data, date) {
@@ -414,12 +406,11 @@ export default function Stream(props) {
                 ],
                 xAxis: [{
                     min: minX, max: maxX,
-                    // plotLines: [{
-                    //     color: '#FF0000',
-                    //     width: 5,
-                    //     value: lastdate
-                    // }]
-                },{min: minX, max: maxX},{min: minX, max: maxX}],
+                }, {
+                    min: minX, max: maxX
+                },{
+                    min: minX, max: maxX
+                }],
                 yAxis: [{},{},{title: {
                     text: ylabel,
                     style: {

@@ -79,7 +79,7 @@ function CTDData() {
         <center>
             <div className='location-container'>
                 <p className='date-label'>Location</p>
-                <select onChange={(e) => {setIdTemp(e.target.value); setShowButton(false)}}>
+                <select className="select-drop" onChange={(e) => {setIdTemp(e.target.value); setShowButton(false)}}>
                     <option value="1">UA-01</option>
                     <option value="2">UA-06</option>
                     <option value="3">UA-07</option>
@@ -114,7 +114,7 @@ function CTDData() {
                 dateFormat="MM/yyyy"
             />
             </div> */}
-            <div className='date-container'>
+            <div className='date-container1'>
                 <SpecificDateSelect 
                     data={includedDates.data} 
                     isLoading={includedDates.isLoading} 

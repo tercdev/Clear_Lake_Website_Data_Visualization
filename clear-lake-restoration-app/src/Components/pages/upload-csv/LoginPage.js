@@ -17,7 +17,7 @@ export default function LoginPage() {
 
     const Login = details => {
         console.log(details);
-        if (details.email == adminUser.email && details.password == adminUser.password) {
+        if (details.email === adminUser.email && details.password === adminUser.password) {
             console.log("logged in");
             setUser ({
                 name: details.name,
@@ -47,7 +47,7 @@ export default function LoginPage() {
                 </div>
             </div>
          
-            {(user.email != "") 
+            {(user.email !== "") 
                 ? ( // when user successfully logs in
                     <div className='welcome-container'>
                         <h2 className="welcome-header">Welcome, <span>{user.name}</span>!</h2> 

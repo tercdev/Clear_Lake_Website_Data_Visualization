@@ -37,7 +37,6 @@ function TChainData() {
     const [idTemp, setIdTemp] = useState(1);
     const [id, setId] = useState(1);
 
-    
 
     var temp_url = new URL('https://18eduqff9f.execute-api.us-west-2.amazonaws.com/default/clearlake-laketemperature')
     var search_params_temp = temp_url.searchParams;
@@ -45,7 +44,6 @@ function TChainData() {
     search_params_temp.set('start',convertDate(startGraphDate));
     search_params_temp.set('end',convertDate(endGraphDate));
     temp_url.search = search_params_temp.toString();
-    
     const tempData = useFetch(temp_url.toString());
 
     var oxy_url = new URL('https://f6axabo7w6.execute-api.us-west-2.amazonaws.com/default/clearlake-lakeoxygen');
@@ -54,7 +52,6 @@ function TChainData() {
     search_params_oxy.set('start',convertDate(startGraphDate));
     search_params_oxy.set('end',convertDate(endGraphDate));
     oxy_url.search = search_params_oxy.toString();
-
     const oxyData = useFetch(oxy_url.toString());
 
     const [oxycsv, setoxycsv] = useState([])
@@ -72,7 +69,7 @@ function TChainData() {
         <center>
             <div className='location-container'>
                 <p className='date-label'>Location</p>
-                <select onChange={(e) => {setIdTemp(e.target.value); setShowButton(false)}}>
+                <select className="select-drop" onChange={(e) => {setIdTemp(e.target.value); setShowButton(false)}}>
                     <option value="1">LA-03</option>
                     <option value="2">NR-02</option>
                     <option value="3">OA-04</option>
@@ -81,35 +78,37 @@ function TChainData() {
                     <option value="6">UA-08</option>
                 </select>
             </div>
-            <div className='one-date-container'>
-            <p className='date-label'>Start Date</p>
-            <DatePicker
-                selected={startDate}
-                onChange={handleStartDateChange}
-                selectsStart
-                startDate={startDate}
-                endDate={endDate}
-                maxDate={endDate}
-                minDate={new Date("2019/1/1")}
-                showMonthDropdown
-                showYearDropdown
-                dropdownMode='select'
-            />
-            </div>
-            <div className='one-date-container'>
-            <p className='date-label'>End Date</p>
-            <DatePicker
-                selected={endDate}
-                onChange={handleEndDateChange}
-                selectsEnd
-                startDate={startDate}
-                endDate={endDate}
-                minDate={startDate}
-                maxDate={today}
-                showMonthDropdown
-                showYearDropdown
-                dropdownMode='select'
-            />
+            <div className='date-container1'>
+                <div className='one-date-container'>
+                <p className='date-label'>Start Date</p>
+                <DatePicker
+                    selected={startDate}
+                    onChange={handleStartDateChange}
+                    selectsStart
+                    startDate={startDate}
+                    endDate={endDate}
+                    maxDate={endDate}
+                    minDate={new Date("2019/1/1")}
+                    showMonthDropdown
+                    showYearDropdown
+                    dropdownMode='select'
+                />
+                </div>
+                <div className='one-date-container'>
+                <p className='date-label'>End Date</p>
+                <DatePicker
+                    selected={endDate}
+                    onChange={handleEndDateChange}
+                    selectsEnd
+                    startDate={startDate}
+                    endDate={endDate}
+                    minDate={startDate}
+                    maxDate={today}
+                    showMonthDropdown
+                    showYearDropdown
+                    dropdownMode='select'
+                />
+                </div>
             </div>
             <button className="submitButton" onClick={setGraphDates}>Submit</button>
             {error && <p className='error-message'>Selected date range was more than 365 days. End date was automatically changed.</p>}

@@ -37,7 +37,6 @@ function TChainData() {
     const [idTemp, setIdTemp] = useState(1);
     const [id, setId] = useState(1);
 
-    
 
     var temp_url = new URL('https://18eduqff9f.execute-api.us-west-2.amazonaws.com/default/clearlake-laketemperature')
     var search_params_temp = temp_url.searchParams;
@@ -45,7 +44,6 @@ function TChainData() {
     search_params_temp.set('start',convertDate(startGraphDate));
     search_params_temp.set('end',convertDate(endGraphDate));
     temp_url.search = search_params_temp.toString();
-    
     const tempData = useFetch(temp_url.toString());
 
     var oxy_url = new URL('https://f6axabo7w6.execute-api.us-west-2.amazonaws.com/default/clearlake-lakeoxygen');
@@ -54,7 +52,6 @@ function TChainData() {
     search_params_oxy.set('start',convertDate(startGraphDate));
     search_params_oxy.set('end',convertDate(endGraphDate));
     oxy_url.search = search_params_oxy.toString();
-
     const oxyData = useFetch(oxy_url.toString());
 
     const [oxycsv, setoxycsv] = useState([])

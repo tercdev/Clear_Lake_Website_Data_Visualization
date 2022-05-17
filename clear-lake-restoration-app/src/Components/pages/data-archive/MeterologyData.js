@@ -49,7 +49,6 @@ function MeterologyData(props) {
     let met_params = met_url.searchParams;
     met_params.set('id',id);
 
-    // console.log(startGraphDate);
     if (props.id == "Clean") {
         met_params.set('start', convertDate(startGraphDate));
         met_params.set('end', convertDate(endGraphDate));
@@ -95,7 +94,6 @@ function MeterologyData(props) {
                 }
             });
             setHeaders(h);
-            let selectedCleanData = [];
             let selectedRealTimeData = [];
             
             realTime.data.forEach((element => {

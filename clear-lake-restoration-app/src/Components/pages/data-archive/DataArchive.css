@@ -15,7 +15,6 @@
     display: block;
     text-align: center;
     width: fit-content;
-    /* margin: auto; */
     background-color: #022851;
     border-radius: 0.25rem;
     padding: 5px 25px;
@@ -86,8 +85,6 @@ center > * {
     margin: 100px;
     border: 2px solid #022851;
     border-radius: 10px;
-    /* padding-top: 20px;
-    padding-bottom: 80px; */
 }
 
 .react-tabs__tab-list {
@@ -99,8 +96,6 @@ center > * {
     background-color: #1D4776;
     color: white;
     font-weight: 700;
-    /* border-color: #032751; */
-    /* border: 3px solid #032751; */
 }
 
 .react-tabs__tab-panel {

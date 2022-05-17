@@ -56,19 +56,6 @@ export default function LakeTchain(props) {
         }],
         colorAxis: [{
             stops: [
-                [0, '#c4463a'],
-                [0.1, '#c4463a'],
-                [0.5, '#fffbbc'],
-                [1, '#3060cf']
-            ],
-            min: 0,
-            max: 15,
-            layout: 'vertical',
-            labels: {
-                format: '{value} mg/L'
-            }
-        }, {
-            stops: [
                 [0, '#3060cf'],
                 [0.5, '#fffbbc'],
                 [0.9, '#c4463a'],
@@ -80,6 +67,19 @@ export default function LakeTchain(props) {
             labels: {
                 format: '{value}°C'
             },
+        }, {
+            stops: [
+                [0, '#c4463a'],
+                [0.1, '#c4463a'],
+                [0.5, '#fffbbc'],
+                [1, '#3060cf']
+            ],
+            min: 0,
+            max: 15,
+            layout: 'vertical',
+            labels: {
+                format: '{value} mg/L'
+            }
         }],
         legend: {
             layout: 'vertical',
@@ -88,18 +88,6 @@ export default function LakeTchain(props) {
             padding: 20,
         },
         series: [{
-            name: 'Dissolved Oxygen',
-            data: [],
-            type: 'heatmap',
-            boostThreshold: 100, // ?
-            borderWidth: 0, // ?
-            nullColor: '#EFEFEF',
-            colsize: 36e5, // 1 hour
-            tooltip: {
-                headerFormat:'Dissolved Oxygen<br/>',
-                pointFormat: '{point.x:%Y-%m-%d %H:%M}, {point.y}m, {point.value}mg/L'
-            },
-        }, {
             name: 'Temperature',
             data: [],
             type: 'heatmap',
@@ -110,6 +98,18 @@ export default function LakeTchain(props) {
             tooltip: {
                 headerFormat:'Temperature<br/>',
                 pointFormat: '{point.x:%Y-%m-%d %H:%M}, {point.y}m, {point.value}°C'
+            },
+        }, {
+            name: 'Dissolved Oxygen',
+            data: [],
+            type: 'heatmap',
+            boostThreshold: 100, // ?
+            borderWidth: 0, // ?
+            nullColor: '#EFEFEF',
+            colsize: 36e5, // 1 hour
+            tooltip: {
+                headerFormat:'Dissolved Oxygen<br/>',
+                pointFormat: '{point.x:%Y-%m-%d %H:%M}, {point.y}m, {point.value}mg/L'
             },
             yAxis: 1,
             colorAxis: 1
@@ -266,9 +266,9 @@ export default function LakeTchain(props) {
             }
             setChartProps({...chartProps,
                 series: [{
-                    data: oxyFiltered
-                },{
                     data: tempFiltered
+                },{
+                    data: oxyFiltered
                 }],
                 xAxis: [{
                     min: minX,

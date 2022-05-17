@@ -8,5 +8,5 @@
         {"type":"Feature","properties":{"name":"knb"},"geometry":{"type":"Point","coordinates":[-122.74286270141602,38.991971023322954]}},
         {"type":"Feature","properties":{"name":"clo"},"geometry":{"type":"Point","coordinates":[-122.6762580871582,39.01958379846303]}},
         {"type":"Feature","properties":{"name":"jgb"},"geometry":{"type":"Point","coordinates":[-122.66647338867188,38.946326305260754]}},
-        {"type":"Feature","properties":{},"geometry":{"type":"Point","coordinates":[-122.64673233032227,38.95446976982263]}}]
+        {"type":"Feature","properties":{"name":"bbi"},"geometry":{"type":"Point","coordinates":[-122.64673233032227,38.95446976982263]}}]
 }

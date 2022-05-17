@@ -6,6 +6,7 @@ import { convertDate } from '../../utils';
 import Multiselect from 'multiselect-react-dropdown';
 
 function MeterologyData(props) {
+    const [error, setError] = useState(false);
     const [showButton, setShowButton] = useState(false);
     var today = new Date();
     var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
@@ -22,73 +23,84 @@ function MeterologyData(props) {
         setShowButton(false)
     }
     function setGraphDates() {
+        setError(false);
+        if (props.id == "Clean") {
+            var latestDate = new Date(new Date(startDate).setDate(365));
+        } else{
+            var latestDate = new Date(new Date(startDate).setDate(150));
+        } 
         setGraphStartDate(startDate);
-        setGraphEndDate(endDate);
+        if (endDate > latestDate) {
+            setError(true);
+            setEndDate(latestDate);
+            setGraphEndDate(latestDate);
+        } else {
+            setGraphEndDate(endDate);
+        }
         setId(idTemp);
-        setSelectedVariables(checkedState);
+        let newArr = [];
+        checkedState.forEach(x => newArr.push(x));
+        setSelectedVariables(newArr);
     }
     const [idTemp, setIdTemp] = useState(1);
     const [id, setId] = useState(1);
-    var real_time_url = new URL(props.url);
-    let real_search_params = real_time_url.searchParams;
-    real_search_params.set('id',id);
+    var met_url = new URL(props.url);
+    console.log(met_url);
+    let met_params = met_url.searchParams;
+    met_params.set('id',id);
 
-    // console.log(startGraphDate);
     if (props.id == "Clean") {
-        real_search_params.set('start', convertDate(startGraphDate));
-        real_search_params.set('end', convertDate(endGraphDate));
+        met_params.set('start', convertDate(startGraphDate));
+        met_params.set('end', convertDate(endGraphDate));
     } else {
-        let oldestDate = new Date(new Date().setDate(endGraphDate.getDate() - 150));
-        if (startGraphDate < oldestDate) {
-            real_search_params.set('rptdate', convertDate(oldestDate));
-        } else {
-            real_search_params.set('rptdate', convertDate(startGraphDate)); // at most 180 days away from endDate
-        }
-        real_search_params.set('rptend', convertDate(endGraphDate));
+        // let oldestDate = new Date(new Date().setDate(endGraphDate.getDate() - 150));
+        // if (startGraphDate < oldestDate) {
+        //     met_params.set('rptdate', convertDate(oldestDate));
+        // } else {
+        //     met_params.set('rptdate', convertDate(startGraphDate)); // at most 180 days away from endDate
+        // }
+        met_params.set('rptdate', convertDate(startGraphDate)); // at most 150 days away from endDate
+        met_params.set('rptend', convertDate(endGraphDate));
     }
 
-    real_time_url.search = real_search_params.toString();
+    met_url.search = met_params.toString();
 
 
-    const realTime = useFetch(real_time_url.toString());
+    const realTime = useFetch(met_url.toString());
 
     const [realTimeData, setRealTimeData] = useState([])
     
-    const variables = ["Station_ID","DateTime_UTC","Air_Temp","Hi_Air_Temp","Low_Air_Temp","Rel_Humidity","Dew_Point","Wind_Speed","Wind_Dir","Hi_Wind_Speed","Hi_Wind_Speed_Dir","Atm_Pres","Rain","Rain_Rate","Solar_Rad","Solar_Energy"];
     const [headers, setHeaders] = useState([])
     const [checkedState, setCheckedState] = useState(
-        new Array(variables.length).fill(false)
+        new Array(props.variables.length).fill(true)
     );
     const [selectedVariables, setSelectedVariables] = useState(
-        new Array(variables.length).fill(false)
+        new Array(props.variables.length).fill(true)
     );
-    const handleCheckBoxOnChange = (position) => {
-        const updatedCheckedState = checkedState.map((item, index) =>
-            index === position ? !item : item
-        );
-        setCheckedState(updatedCheckedState);
-        setShowButton(false);
-    }
+    // const handleCheckBoxOnChange = (position) => {
+    //     const updatedCheckedState = checkedState.map((item, index) =>
+    //         index === position ? !item : item
+    //     );
+    //     setCheckedState(updatedCheckedState);
+    //     setShowButton(false);
+    // }
     useEffect(()=> {
         if (!realTime.isLoading) {
             // select variables
             let h = [];
             selectedVariables.map((x,index) => {
                 if (x) {
-                    h.push(variables[index]);
+                    h.push(props.variables[index]);
                 }
             });
             setHeaders(h);
-            let selectedCleanData = [];
             let selectedRealTimeData = [];
             
-            // console.log(data)
-            // console.log(realTime.data)
             realTime.data.forEach((element => {
                 let oneRow = [];
                 selectedVariables.map((x,index) => {
                     if (x) {
-                        oneRow.push(element[variables[index]]);
+                        oneRow.push(element[props.variables[index]]);
                     }
                 })
                 selectedRealTimeData.push(oneRow);
@@ -98,7 +110,7 @@ function MeterologyData(props) {
             setShowButton(true);
         }
     },[realTime.isLoading,selectedVariables])
-    const options = variables.map((x,index) => {return {name: x, id: index}})
+    const options = props.variables.map((x,index) => {return {name: x, id: index}})
     function onSelect(selectedList, selectedItem) {
         let temp = checkedState;
         temp[selectedItem.id] = true
@@ -116,7 +128,7 @@ function MeterologyData(props) {
         <center>
             <div className='location-container'>
                 <p className='date-label'>Location</p>
-                <select onChange={(e) => {setIdTemp(e.target.value); setShowButton(false);}}>
+                <select className="select-drop" onChange={(e) => {setIdTemp(e.target.value); setShowButton(false);}}>
                     <option value="1">Buckingham Point</option>
                     <option value="2">Clearlake Oaks</option>
                     <option value="3">Jago Bay</option>
@@ -133,51 +145,49 @@ function MeterologyData(props) {
                 onRemove={onRemove}
                 onSearch={function noRefCheck(){}}
                 onSelect={onSelect}
+                selectedValues={options}
+                className="multi-select"
             />
-            {/* <div className='variables-container'>
-                {variables.map((name,index)=> {
-                    return (
-                        <div key={index}>
-                            <input
-                                type="checkbox"
-                                id={`custom-checkbox-${index}`}
-                                name={name}
-                                value={name}
-                                checked={checkedState[index]}
-                                onChange={() => handleCheckBoxOnChange(index)}
-                            />
-                            <label htmlFor={`custom-checkbox-${index}`}>{name}</label>
-                        </div>
-                    )
-                })}
-            </div> */}
-            <div className='one-date-container'>
-            <p className='date-label'>Start Date</p>
-            <DatePicker
-                selected={startDate}
-                onChange={handleStartDateChange}
-                selectsStart
-                startDate={startDate}
-                endDate={endDate}
-                maxDate={endDate}
-            />
-            </div>
-            <div className='one-date-container'>
-            <p className='date-label'>End Date</p>
-            <DatePicker
-                selected={endDate}
-                onChange={handleEndDateChange}
-                selectsEnd
-                startDate={startDate}
-                endDate={endDate}
-                minDate={startDate}
-                maxDate={today}
-            />
+            <div className='date-container1'>
+                <div className='one-date-container'>
+                <p className='date-label'>Start Date</p>
+                <DatePicker
+                    selected={startDate}
+                    onChange={handleStartDateChange}
+                    selectsStart
+                    startDate={startDate}
+                    endDate={endDate}
+                    maxDate={endDate}
+                    minDate={new Date("2019/01/01")}
+                    showMonthDropdown
+                    showYearDropdown
+                    dropdownMode='select'
+                />
+                </div>
+                <div className='one-date-container'>
+                <p className='date-label'>End Date</p>
+                <DatePicker
+                    selected={endDate}
+                    onChange={handleEndDateChange}
+                    selectsEnd
+                    startDate={startDate}
+                    endDate={endDate}
+                    minDate={startDate}
+                    maxDate={today}
+                    showMonthDropdown
+                    showYearDropdown
+                    dropdownMode='select'
+                />
+                </div>
             </div>
             <button className="submitButton" onClick={setGraphDates}>Submit</button>
-        
+            {error && <p className='error-message'>Selected date range was more than {props.id == "Clean" ? 365 : 150} days. End date was automatically changed.</p>}
         {realTime.isLoading && <center>Fetching Data...</center>}
         {!realTime.isLoading && realTimeData.length != 0 && showButton && <><CSVLink data={realTimeData} className="csv-link" target="_blank" headers={headers}>Download {props.id} Met Data</CSVLink></>}
+        {props.id == "Real Time" ? 
+            !realTime.isLoading && realTimeData.length != 0 && showButton && <a href={require("../../../Metadata/README_realtime_met.txt")} download="README_realtime_met">Download {props.id} Meteorology Metadata README</a>
+            : !realTime.isLoading && realTimeData.length != 0 && showButton && <a href={require("../../../Metadata/README_clean_met.txt")} download="README_clean_met">Download {props.id} Meteorology Metadata README</a>}
+        
         {!realTime.isLoading && realTimeData.length == 0 && <p>There is no {props.id.toLowerCase()} meterology data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}
         </center>
     </>

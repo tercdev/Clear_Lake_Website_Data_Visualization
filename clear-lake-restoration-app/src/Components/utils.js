@@ -25,66 +25,66 @@ export function addDays(date, num, compareDate) {
 }
 export function convertGMTtoPSTTime (date) {
     // reference: https://stackoverflow.com/questions/22493924/get-user-time-and-convert-them-to-pst
-    var offset = 420; 
-    var offsetMillis = offset * 60 * 1000;
+    // var offset = 420; 
+    // var offsetMillis = offset * 60 * 1000;
     var today = date;
-    var millis = today.getTime();
+    // var millis = today.getTime();
     var timeZoneOffset = (today.getTimezoneOffset() * 60 * 1000);
 
-    var pst = millis - offsetMillis; 
+    // var pst = millis - offsetMillis; 
     return new Date(today.getTime() - timeZoneOffset);
 }
 //conversion from API cardinal to prgm degree
 export function cardinalToDeg(direction) {
-    if (parseFloat(direction) == direction) {
+    if (parseFloat(direction) === direction) {
         return parseFloat(direction)
     }
-    if (direction == 'N') {
+    if (direction === 'N') {
         return 0
     };
-    if (direction == 'NNE') {
+    if (direction === 'NNE') {
         return 22.5
     };
-    if (direction == 'NE') {
+    if (direction === 'NE') {
         return 45
     };
-    if (direction == 'ENE') {
+    if (direction === 'ENE') {
         return 67.5
     };
-    if (direction == 'E') {
+    if (direction === 'E') {
         return 90
     };
-    if (direction == 'ESE') {
+    if (direction === 'ESE') {
         return 112.5
     };
-    if (direction == 'SE') {
+    if (direction === 'SE') {
         return 135
     };
-    if (direction == 'SSE') {
+    if (direction === 'SSE') {
         return 157.5
     };
-    if (direction == 'S') {
+    if (direction === 'S') {
         return 180
     };
-    if (direction == 'SSW') {
+    if (direction === 'SSW') {
         return 202.5
     };
-    if (direction == 'SW') {
+    if (direction === 'SW') {
         return 225
     };
-    if (direction == 'WSW') {
+    if (direction === 'WSW') {
         return 247.5
     };
-    if (direction == 'W') {
+    if (direction === 'W') {
         return 270
     };
-    if (direction == 'WNW') {
+    if (direction === 'WNW') {
         return 292.5
     };
-    if (direction == 'NW') {
+    if (direction === 'NW') {
         return 315
     };
-    if (direction == 'NNW') {
+    if (direction === 'NNW') {
         return 337.5
     };
 
@@ -93,7 +93,7 @@ export function cardinalToDeg(direction) {
 }
 
 export function removePast(data, date) {
-    if (date == undefined) {
+    if (date === undefined) {
         return data;
     }
     let i = 0;

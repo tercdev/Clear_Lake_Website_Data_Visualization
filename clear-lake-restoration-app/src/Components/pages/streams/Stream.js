@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import StreamChart from './StreamChart';
+import Chart from '../../Chart';
 import Highcharts from 'highcharts';
-import useFetch from 'react-fetch-hook'
+import useFetch from 'react-fetch-hook';
 
 import DateRangePicker from '../../DateRangePicker';
 import DataDisclaimer from '../../DataDisclaimer';
+import CollapsibleItem from '../../CollapsibleItem';
 
 import { convertDate } from '../../utils';
 
@@ -22,8 +23,6 @@ import "./Stream.css";
 //     return new Date(today.getTime() - timeZoneOffset);
 // }
 
-
-
 export default function Stream(props) {
     const [unit, setUnit] = useState('f'); 
     const [graphUnit, setGraphUnit] = useState('f');
@@ -36,25 +35,25 @@ export default function Stream(props) {
         setUnit('c')
         console.log("radio to C")
     }
+   
     // get data based on graph type
     function getFilteredData(data, dataType) {
         let m = [];
-        if (dataType == "Temp" || dataType == "Turb_Temp") {
+        if (dataType === "Temp" || dataType === "Turb_Temp") {
             data.forEach((element => {
                 const fToCel= temp => Math.round( (temp *1.8 )+32 );
                 if (element.hasOwnProperty('TmStamp')) {
-                    if (graphUnit == 'f') {
+                    if (graphUnit === 'f') {
                         m.push([new Date(element.TmStamp).getTime(), fToCel(parseFloat(element[dataType]))]);
                     } else {
                         m.push([new Date(element.TmStamp).getTime(), parseFloat(element[dataType])]);
                     }
                 } else {
-                    if (graphUnit == 'f') {
+                    if (graphUnit === 'f') {
                         m.push([new Date(element.DateTime_UTC).getTime(), fToCel(parseFloat(element[dataType]))]);
                     } else {
                         m.push([new Date(element.DateTime_UTC).getTime(), parseFloat(element[dataType])]);
-                    }
-                    
+                    } 
                 }
             }));
         } else {
@@ -71,15 +70,11 @@ export default function Stream(props) {
         m.sort(function(a,b) {
             return (a[0]-b[0])
         })
-    // console.log(m)
-        // return m.reverse();
         return m.reverse()
     }
     const [chartProps,setChartProps] = useState({
-
         chart: {
             zoomType: 'x',
-            // height: (9 / 16 * 120) + '%' // 16:9 ratio
             height: 1200,
             events: {
                 load() {
@@ -87,18 +82,6 @@ export default function Stream(props) {
                 }
             }
         },
-        // responsive: {
-        //     rules: [{
-        //         condition: {
-        //             maxWidth: 500
-        //         },
-        //         chartOptions: {
-        //             chart: {
-        //                 height: 1000
-        //             }
-        //         }
-        //     }]
-        // },
         credits: {
             enabled: false
         },
@@ -109,14 +92,12 @@ export default function Stream(props) {
             text: ''
         },
         subtitle: {
-            text: 'Click and drag in the plot area to zoom in.<br/>Use the hamburger icon in the top right to download the data displayed in the graph.<br/>Solid line indicates data is cleaned. Dashed line indicates real time data.'
+            text: 'Click and drag in the plot area to zoom in.<br/>Use three-line icon on top right to download the data displayed in the graph.<br/>Clean data plotted on solid line. Provisional data plotted on dashed line.'
         },
         xAxis: [{
             type: 'datetime',
-            // crosshair: true
         }, {
             type: 'datetime',
-            // opposite: true,
             top: '-70%',
             offset: 0,
         }, {
@@ -164,7 +145,7 @@ export default function Stream(props) {
             
         }, {
             title: {
-                text: 'Temperature [°F]',
+                text: 'Water Temperature [°F]',
                 style: {
                     color: Highcharts.getOptions().colors[7]
                 }
@@ -198,25 +179,6 @@ export default function Stream(props) {
             offset: 0,
             reversed: true
         }],
-        // tooltip: {
-        //     formatter: function () {
-        //         // The first returned item is the header, subsequent items are the
-        //         // points
-        //         const DayOfMonth = new Date(this.x).getDate();
-        //         const Month = new Date(this.x).getMonth(); // Be careful! January is 0, not 1
-        //         const Year = new Date(this.x).getFullYear();
-        //         const TimeHrs = new Date(this.x).getHours();
-        //         const TimeMins = new Date(this.x).getMinutes();
-        //         const dateString = (Month + 1) + "-" + DayOfMonth + "-" + Year + "  " + TimeHrs + ":" + (TimeMins<10?'0':'')+TimeMins;
-        //         return [dateString].concat(
-        //             this.points ?
-        //                 this.points.map(function (point) {
-        //                     return point.series.name + ': ' + point.y;
-        //                 }) : []
-        //         );
-        //     },
-        //     split: true
-        // },
         tooltip: {
             formatter: function() {
                 const DayOfMonth = new Date(this.x).getDate();
@@ -225,13 +187,23 @@ export default function Stream(props) {
                 const TimeHrs = new Date(this.x).getHours();
                 const TimeMins = new Date(this.x).getMinutes();
                 const dateString = (Month + 1) + "-" + DayOfMonth + "-" + Year + "  " + TimeHrs + ":" + (TimeMins<10?'0':'')+TimeMins;
+                let units = {
+                    "Turbidity": 'FTU',
+                    "Flow": 'cfs',
+                    "Water Temperature in °F": '°F',
+                    "Water Temperature in °C": '°C',
+                    "Precipitation": 'in'
+                }
                 return this.points.reduce(function (s, point) {
                     return s + '<br/>' + point.series.name + ': ' +
-                        point.y;
+                        point.y + ' ' + units[point.series.name];
                 }, '<b>' + dateString + '</b>');
             },
             shared: true,
-            followPointer: true
+            followPointer: true,
+            style: {
+                fontSize:'15px'
+            }
         },
         series: [
             {
@@ -240,23 +212,19 @@ export default function Stream(props) {
                 selected: true,
                 yAxis: 0,
                 color: Highcharts.getOptions().colors[3],
-                
-            }, 
-            {
+            }, {
                 name: 'Flow',
                 data: [],
                 selected: true,
                 yAxis: 1,
                 color: Highcharts.getOptions().colors[0],
-            },
-            {
-                name: 'Temperature',
+            }, {
+                name: 'Water Temperature',
                 data: [],
                 selected: true,
                 yAxis: 2,
                 color: Highcharts.getOptions().colors[7]
-            },
-            {
+            }, {
                 name: 'Precipitation',
                 data: [],
                 selected: true,
@@ -264,8 +232,7 @@ export default function Stream(props) {
                 color: Highcharts.getOptions().colors[5],
                 type: 'column',
                 // pointWidth: 5
-            },
-             
+            },     
         ],
         updateTime: {
             setTime: 0,
@@ -278,13 +245,16 @@ export default function Stream(props) {
     const [endDate, setEndDate] = useState(today);
     const [startGraphDate, setGraphStartDate] = useState(lastWeek);
     const [endGraphDate, setGraphEndDate] = useState(today);
+    const [error, setError] = useState(false);
+    
     function handleStartDateChange(e) {
         setStartDate(e);
     }
+    
     function handleEndDateChange(e) {
         setEndDate(e);
     }
-    const [error, setError] = useState(false);
+    
     function setGraphDates() {
         setGraphUnit(unit);
         console.log("set graph unit", unit)
@@ -299,6 +269,8 @@ export default function Stream(props) {
             setGraphEndDate(endDate);
         }
     }
+
+    // real-time data Endpoint URL 
     var url = new URL('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/cl-creeks');
     var search_params = url.searchParams;
     search_params.set('id',props.id);
@@ -313,6 +285,7 @@ export default function Stream(props) {
     var new_url = url.toString();
     const creekData = useFetch(new_url);
 
+    // clean data Endpoint URL (includes turb and temp)
     var cleanurl = new URL('https://1j27qzg916.execute-api.us-west-2.amazonaws.com/default/clearlake-streamturb-api');
     var search_params_clean = cleanurl.searchParams;
     search_params_clean.set('id',props.id);
@@ -321,31 +294,28 @@ export default function Stream(props) {
     cleanurl.search = search_params_clean.toString();
     const cleanData = useFetch(cleanurl.toString());
 
+    // flow data Endpoint URL
     var flowurl = new URL('https://b8xms0pkrf.execute-api.us-west-2.amazonaws.com/default/clearlake-streams')
     var search_params_flow = flowurl.searchParams;
     search_params_flow.set('id',props.id);
     search_params_flow.set('start',convertDate(startGraphDate));
     search_params_flow.set('end',convertDate(endGraphDate));
     flowurl.search = search_params_flow.toString();
-   // console.log(flowurl)
     var flow_new_url = flowurl.toString();
-    //console.log(flow_new_url)
     const flowData = useFetch(flow_new_url);
 
+    // rain data Endpoint URL
     var rainURL = new URL('https://ts09zwptz4.execute-api.us-west-2.amazonaws.com/default/clearlake-precipitation-api')
     var search_params_rain = rainURL.searchParams;
     search_params_rain.set('id',props.id);
     search_params_rain.set('start',convertDate(startGraphDate));
     search_params_rain.set('end',convertDate(endGraphDate));
     rainURL.search = search_params_rain.toString();
-
     var rain_new_url = rainURL.toString();
-   // console.log(rain_new_url)
-    
     const rainData = useFetch(rain_new_url);
 
     function removePast(data, date) {
-        if (date == undefined) {
+        if (date === undefined) {
             return data;
         }
         let i = 0;
@@ -363,14 +333,14 @@ export default function Stream(props) {
             let turbfiltereddata = getFilteredData(creekData.data, "Turb_BES");
             let cleanturbtempfiltereddata = getFilteredData(cleanData.data, "Temp");
             let cleanturbfiltereddata = getFilteredData(cleanData.data, "Turb");
-            if (cleanturbfiltereddata.length != 0 && turbfiltereddata.length != 0) {
+            if (cleanturbfiltereddata.length !== 0 && turbfiltereddata.length !== 0) {
                 console.log(cleanturbfiltereddata)
                 var lastdate = cleanturbfiltereddata[0][0];
                 console.log(lastdate);
                 let dataLastDate = new Date(cleanturbfiltereddata[0][0]);
                 let realDataLastDate = new Date(turbfiltereddata[0][0]);
                 let realDataFirstDate = new Date(turbfiltereddata[turbfiltereddata.length-1][0]);
-                if (dataLastDate.getDay() == realDataLastDate.getDay() || dataLastDate.getDay() == realDataFirstDate.getDay()) {
+                if (dataLastDate.getDay() === realDataLastDate.getDay() || dataLastDate.getDay() === realDataFirstDate.getDay()) {
                     turbfiltereddata = [];
                     turbtempfiltereddata = [];
                     lastdate = undefined;
@@ -381,7 +351,7 @@ export default function Stream(props) {
             let flowfiltereddata = getFilteredData(flowData.data, "Flow");
             let rainfiltereddata = getFilteredData(rainData.data, "Rain");
             let zoneProps = [];
-            if (lastdate == undefined && turbfiltereddata.length != 0) {
+            if (lastdate === undefined && turbfiltereddata.length !== 0) {
                 zoneProps = [{value: turbfiltereddata[0][0]},{dashStyle: 'dash'}]
             } else {
                 zoneProps = [{value: lastdate},{dashStyle: 'dash'}]
@@ -405,12 +375,15 @@ export default function Stream(props) {
             })
             let ylabel = ''
             let yformat = ''
-            if (graphUnit == 'f') {
-                ylabel = 'Temperature [°F]'
+            let yseries = ''
+            if (graphUnit === 'f') {
+                ylabel = 'Water Temperature [°F]'
                 yformat = '{value} °F'
+                yseries = 'Water Temperature in °F'
             } else {
-                ylabel = 'Temperature [°C]'
+                ylabel = 'Water Temperature [°C]'
                 yformat = '{value} °C'
+                yseries = 'Water Temperature in °C'
             }
             setChartProps({...chartProps,
                 series: [
@@ -425,7 +398,8 @@ export default function Stream(props) {
                     {
                         data: combinedturbtemp,
                         zoneAxis: 'x',
-                        zones: zoneProps
+                        zones: zoneProps,
+                        name: yseries
                     },
                     {
                         data: rainfiltereddata
@@ -433,12 +407,11 @@ export default function Stream(props) {
                 ],
                 xAxis: [{
                     min: minX, max: maxX,
-                    // plotLines: [{
-                    //     color: '#FF0000',
-                    //     width: 5,
-                    //     value: lastdate
-                    // }]
-                },{min: minX, max: maxX},{min: minX, max: maxX}],
+                }, {
+                    min: minX, max: maxX
+                },{
+                    min: minX, max: maxX
+                }],
                 yAxis: [{},{},{title: {
                     text: ylabel,
                     style: {
@@ -455,20 +428,33 @@ export default function Stream(props) {
         }
     },[startGraphDate,endGraphDate,creekData.isLoading,flowData.isLoading,rainData.isLoading,cleanData.isLoading,graphUnit])
 
+    // for the collapsible FAQ
+    const header1 = "How to use the graphs and see the data below?";
+    const content1 = [<ol>
+            <li>Select start and end dates with maximum 365-day period</li>
+            <li>Click submit to update the graphs below</li>
+            <li>Graph and data loading will depend on the length of the selected time period</li>
+        </ol>];
+
+    const header2 = "Why is no data showing up on my plots?";
+    const content2 = [<p>If there is no data, the sensors might not be submerged in the water. Check <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">here</a> to read more about the metadata.</p>];
+
+    const header3 = "Where is the data collected?";
+    const content3 = [<p>Stream turbidity and temperature are measured by UC Davis sensors that are co-located with existing California Department of Water Resources gauging stations. However, river flow data and precipitation data are externally scraped from <a href="https://cdec.water.ca.gov/">California Department of Water Resources</a>.</p>];
+
     return (
         <div className="stream-container">
             <div className='station-page-header'>
                 <h1 className='station-page-title'>{props.name}</h1>
             </div>
             <DataDisclaimer/>
-            <div className='data-desc-container'>
-                <p className='data-desc'>Select start and end dates (maximum 365 day period). <br/>
-                    Click submit to update the graphs below.<br/>
-                    Allow some time for the data to be fetched. The longer the selected time period, the longer it will take to load.<br/>
-                    If there is no data, the sensors might not be submerged in the water. Check <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">here</a> for more information. <br />
-                    Flow data is from the California Nevada River Forecast Center.
-                </p>
+
+            <div className="collapsible-container">
+                <CollapsibleItem header={header1} content={content1}/>
+                <CollapsibleItem header={header2} content={content2}/>
+                <CollapsibleItem header={header3} content={content3}/>
             </div>
+
             <DateRangePicker 
                 startDate={startDate} 
                 endDate={endDate} 
@@ -480,7 +466,7 @@ export default function Stream(props) {
                 unit={unit}
             />
             {error && <p className='error-message'>Selected date range was more than 365 days. End date was automatically changed.</p>}
-            <StreamChart 
+            <Chart 
                 chartProps={chartProps}
                 isLoading={creekData.isLoading || flowData.isLoading || rainData.isLoading || cleanData.isLoading}
              />

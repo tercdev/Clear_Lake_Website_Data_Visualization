@@ -15,7 +15,6 @@
     display: block;
     text-align: center;
     width: fit-content;
-    /* margin: auto; */
     background-color: #022851;
     border-radius: 0.25rem;
     padding: 5px 25px;
@@ -63,4 +62,73 @@ center > * {
 .clicked {
     background-color: #022851;
     color: #fff;
+}
+
+.error-message {
+    color: red;
+}
+
+.submitButton {
+    margin: 20px;
+}
+
+.react-tabs__tab {
+    margin-left: 20px;
+    border-radius: 5px 5px 0 0;
+    border-color: #032751;
+    background-color: #CDD6E0;
+    padding: 10px;
+    border-bottom: 1px solid #032751;
+}
+
+.outer-tab-container {
+    margin: 100px;
+    border: 2px solid #022851;
+    border-radius: 10px;
+}
+
+.react-tabs__tab-list {
+    margin-top: 40px;
+    border-color: #032751;
+}
+
+.react-tabs__tab--selected {
+    background-color: #1D4776;
+    color: white;
+    font-weight: 700;
+}
+
+.react-tabs__tab-panel {
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.select-drop {
+    width: 15%;
+    padding: 5px;
+}
+
+.location-container {
+    margin: 20px
+}
+
+.multi-select {
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.multiSelectContainer{
+    width: 90%;
+}
+
+.chip {
+    background: #022851
+}
+
+.date-container1 {
+    display: flex;
+    margin-bottom: 1rem;
+    gap: 30px;
+    width: fit-content;
+    align-items: center;
 }

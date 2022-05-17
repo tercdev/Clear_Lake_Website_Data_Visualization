@@ -437,18 +437,18 @@ export default function Stream(props) {
     },[startGraphDate,endGraphDate,creekData.isLoading,flowData.isLoading,rainData.isLoading,cleanData.isLoading,graphUnit])
 
     const header1 = "How to use the graphs and see the data below?";
-    const content1 = [<ul>
+    const content1 = [<ol>
             <li>Select start and end dates with maximum 365-day period</li>
             <li>Click submit to update the graphs below</li>
-            <li>Graph and data loading wiil depend on the length of the selected time period</li>
-        </ul>];
+            <li>Graph and data loading will depend on the length of the selected time period</li>
+        </ol>];
 
-    const header2 = "About the data";
-    const content2 = [<ul>
-            <li>If there is no data, the sensors might not be submerged in the water</li>
-            <li>Check <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">here</a> to read more about the metadata</li>
-            <li>River flow data and Precipitation data were externally scraped from <a href="https://cdec.water.ca.gov/">California Department of Water Resources</a></li>
-        </ul>];
+    const header2 = "Why is no data showing up on my plots?";
+    const content2 = [<p>If there is no data, the sensors might not be submerged in the water. Check <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">here</a> to read more about the metadata.</p>];
+
+    const header3 = "Where are the data collected?";
+    const content3 = [<p>Stream turbidity and temperature are measured by UC Davis sensors that are co-located with existing California Department of Water Resources gauging stations. However, river flow data and precipitation data are externally scraped from <a href="https://cdec.water.ca.gov/">California Department of Water Resources</a>.</p>];
+
     return (
         <div className="stream-container">
             <div className='station-page-header'>
@@ -459,6 +459,7 @@ export default function Stream(props) {
             <div className="collapsible-container">
                 <CollapsibleItem header={header1} content={content1}/>
                 <CollapsibleItem header={header2} content={content2}/>
+                <CollapsibleItem header={header3} content={content3}/>
             </div>
             {/* <div className='data-desc-container'>
                 <div className='data-col1'>

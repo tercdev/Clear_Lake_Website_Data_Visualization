@@ -55,7 +55,7 @@ function DataArchive() {
                     <Tabs>
                         <TabList>
                             <Tab>Clean Data</Tab>
-                            <Tab>Real Time Data</Tab>
+                            <Tab>Real-Time Data</Tab>
                         </TabList>
                         <TabPanel>
                         <center>Maximum 365 days at a time.</center>

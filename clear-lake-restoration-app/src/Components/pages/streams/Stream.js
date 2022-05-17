@@ -447,7 +447,7 @@ export default function Stream(props) {
     const content2 = [<ul>
             <li>If there is no data, the sensors might not be submerged in the water</li>
             <li>Check <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">here</a> to read more about the metadata</li>
-            <li>Flow data is from the California Nevada River Forecast Center</li>
+            <li>River flow data and Precipitation data were externally scraped from <a href="https://cdec.water.ca.gov/">California Department of Water Resources</a></li>
         </ul>];
     return (
         <div className="stream-container">

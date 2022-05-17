@@ -23,9 +23,9 @@ const Uploader = () => {
           let fileName;
           console.log(parsedFileName);
 
-          if ((parsedFileName[0] == "met") || (parsedFileName[0] == "clearlake")) {
+          if ((parsedFileName[0] === "met") || (parsedFileName[0] === "clearlake")) {
             fileName = parsedFileName[0] +"/"+ parsedFileName[1] +"/"+ f['file'].name;
-          } else if ((parsedFileName[0] == "streams")) {
+          } else if ((parsedFileName[0] === "streams")) {
             fileName = parsedFileName[0] +"/"+ parsedFileName[1] +"/"+ parsedFileName[2] +"/" + f['file'].name;
           } else {
             fileName = f['file'].name

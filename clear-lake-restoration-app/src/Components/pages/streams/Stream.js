@@ -39,17 +39,17 @@ export default function Stream(props) {
     // get data based on graph type
     function getFilteredData(data, dataType) {
         let m = [];
-        if (dataType == "Temp" || dataType == "Turb_Temp") {
+        if (dataType === "Temp" || dataType === "Turb_Temp") {
             data.forEach((element => {
                 const fToCel= temp => Math.round( (temp *1.8 )+32 );
                 if (element.hasOwnProperty('TmStamp')) {
-                    if (graphUnit == 'f') {
+                    if (graphUnit === 'f') {
                         m.push([new Date(element.TmStamp).getTime(), fToCel(parseFloat(element[dataType]))]);
                     } else {
                         m.push([new Date(element.TmStamp).getTime(), parseFloat(element[dataType])]);
                     }
                 } else {
-                    if (graphUnit == 'f') {
+                    if (graphUnit === 'f') {
                         m.push([new Date(element.DateTime_UTC).getTime(), fToCel(parseFloat(element[dataType]))]);
                     } else {
                         m.push([new Date(element.DateTime_UTC).getTime(), parseFloat(element[dataType])]);
@@ -315,7 +315,7 @@ export default function Stream(props) {
     const rainData = useFetch(rain_new_url);
 
     function removePast(data, date) {
-        if (date == undefined) {
+        if (date === undefined) {
             return data;
         }
         let i = 0;
@@ -333,14 +333,14 @@ export default function Stream(props) {
             let turbfiltereddata = getFilteredData(creekData.data, "Turb_BES");
             let cleanturbtempfiltereddata = getFilteredData(cleanData.data, "Temp");
             let cleanturbfiltereddata = getFilteredData(cleanData.data, "Turb");
-            if (cleanturbfiltereddata.length != 0 && turbfiltereddata.length != 0) {
+            if (cleanturbfiltereddata.length !== 0 && turbfiltereddata.length !== 0) {
                 console.log(cleanturbfiltereddata)
                 var lastdate = cleanturbfiltereddata[0][0];
                 console.log(lastdate);
                 let dataLastDate = new Date(cleanturbfiltereddata[0][0]);
                 let realDataLastDate = new Date(turbfiltereddata[0][0]);
                 let realDataFirstDate = new Date(turbfiltereddata[turbfiltereddata.length-1][0]);
-                if (dataLastDate.getDay() == realDataLastDate.getDay() || dataLastDate.getDay() == realDataFirstDate.getDay()) {
+                if (dataLastDate.getDay() === realDataLastDate.getDay() || dataLastDate.getDay() === realDataFirstDate.getDay()) {
                     turbfiltereddata = [];
                     turbtempfiltereddata = [];
                     lastdate = undefined;
@@ -351,7 +351,7 @@ export default function Stream(props) {
             let flowfiltereddata = getFilteredData(flowData.data, "Flow");
             let rainfiltereddata = getFilteredData(rainData.data, "Rain");
             let zoneProps = [];
-            if (lastdate == undefined && turbfiltereddata.length != 0) {
+            if (lastdate === undefined && turbfiltereddata.length !== 0) {
                 zoneProps = [{value: turbfiltereddata[0][0]},{dashStyle: 'dash'}]
             } else {
                 zoneProps = [{value: lastdate},{dashStyle: 'dash'}]
@@ -376,7 +376,7 @@ export default function Stream(props) {
             let ylabel = ''
             let yformat = ''
             let yseries = ''
-            if (graphUnit == 'f') {
+            if (graphUnit === 'f') {
                 ylabel = 'Water Temperature [°F]'
                 yformat = '{value} °F'
                 yseries = 'Water Temperature in °F'

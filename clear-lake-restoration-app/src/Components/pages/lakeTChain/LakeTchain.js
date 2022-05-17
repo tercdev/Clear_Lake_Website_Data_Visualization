@@ -9,6 +9,12 @@ import '../../DateRangePicker.css'
 
 require('highcharts/modules/heatmap')(Highcharts);
 require('highcharts/modules/boost')(Highcharts);
+// disable legend pagination
+(function (H) {
+    H.wrap(H.Legend.prototype, 'handleOverflow', function (p, h) {
+        return h;
+    });
+}(Highcharts));
 
 export default function LakeTchain(props) {
     const [chartProps, setChartProps] = useState({
@@ -85,7 +91,14 @@ export default function LakeTchain(props) {
             layout: 'vertical',
             verticalAlign: 'middle',
             align: 'right',
-            padding: 20,
+            // padding: 20,
+            itemMarginTop: 50,
+            itemMarginBottom: 50,
+            // width: 200,
+            // itemWidth: 100,
+            y: 7.5,
+            symbolHeight: 280,
+            // maxHeight: 700
         },
         series: [{
             name: 'Temperature',

@@ -27,6 +27,7 @@ export default function Met(props) {
         setUnit('c')
         console.log("radio to C")
     }
+    
     // get data based on graph type
     function getFilteredData(data, dataType) {
         let m = [];
@@ -310,13 +311,16 @@ export default function Met(props) {
     const [endDate, setEndDate] = useState(today);
     const [startGraphDate, setGraphStartDate] = useState(lastWeek);
     const [endGraphDate, setGraphEndDate] = useState(today);
+    const [error, setError] = useState(false);
+    
     function handleStartDateChange(e) {
         setStartDate(e);
     }
+    
     function handleEndDateChange(e) {
         setEndDate(e);
     }
-    const [error, setError] = useState(false);
+   
     function setGraphDates() {
         setGraphUnit(unit);
         console.log("set graph unit", unit)

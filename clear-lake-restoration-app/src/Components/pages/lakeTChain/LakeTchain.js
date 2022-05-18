@@ -296,6 +296,12 @@ export default function LakeTchain(props) {
             })
         }
     },[startGraphDate, endGraphDate, oxyData.isLoading, tempData.isLoading])
+    const header1 = "How to use the graphs and see the data below?";
+    const content1 = [<ol>
+            <li>Select start and end dates with maximum 365-day period. Time is in local pacific time.</li>
+            <li>Click submit to update the graphs below.</li>
+            <li>Graph and data loading will depend on the length of the selected time period.</li>
+        </ol>];
     return (
         <div>
             <div className='station-page-header'>

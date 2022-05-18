@@ -22,6 +22,7 @@ export default function LakeTchain(props) {
                 },
                 render() {
                     console.log(this)
+                    // legend titles
                     this.renderer.text('Temperature [°C]', this.chartWidth-30, 110)
                     .attr({
                         rotation: 90
@@ -40,6 +41,8 @@ export default function LakeTchain(props) {
                         // fontSize: '16px'
                     })
                     .add();
+                    // dots
+                    // this.renderer.symbol('circle', this.xAxis[0].toPixels(0), this.yAxis[0].toPixels(2));
                 }
             }
         },
@@ -161,12 +164,39 @@ export default function LakeTchain(props) {
             data: [],
             type: 'line',
             yAxis: 1,
-            // marker: {
-            //     lineWidth: 5,
-            //     lineColor: Highcharts.getOptions().colors[0],
-            // },
+            colorAxis: 1, // always gets associated with a color axis
             color: Highcharts.getOptions().colors[1],
+            lineWidth: 1,
+            marker: {
+                // lineWidth: 5,
+                // lineColor: Highcharts.getOptions().colors[1],
+                fillColor: Highcharts.getOptions().colors[1],
+            },
             selected: true
+        }, {
+            name: 'Instrument Location',
+            data: [],
+            type: 'scatter',
+            yAxis: 0,
+            colorAxis: 0,
+            color: Highcharts.getOptions().colors[0],
+            marker: {
+                // lineWidth: 5,
+                // lineColor: Highcharts.getOptions().colors[0],
+                fillColor: Highcharts.getOptions().colors[0],
+            },
+        }, {
+            name: 'Instrument Location',
+            data: [],
+            type: 'scatter',
+            yAxis: 1,
+            colorAxis: 1,
+            color: Highcharts.getOptions().colors[0],
+            marker: {
+                // lineWidth: 5,
+                // lineColor: Highcharts.getOptions().colors[0],
+                fillColor: Highcharts.getOptions().colors[0],
+            },
         }],
         updateTime: {
             setTime: 0,
@@ -215,8 +245,19 @@ export default function LakeTchain(props) {
     temp_url.search = search_params_temp.toString();
     
     const tempData = useFetch(temp_url.toString());
-    function getFilteredData(data, dataType) {
+    function getFilteredData(data, dataType, isInstrument = false) {
         let m = []
+        if (isInstrument && data.length != 0) {
+            Object.keys(data[0]).forEach(key => {
+                let re = /^Height_([^m]*)m$/;
+                console.log(re.exec(key))
+                if (re.exec(key) !== null) {
+                    m.push([new Date(data[0].DateTime_UTC).getTime(),parseFloat(re.exec(key)[1])])
+                }
+            })
+            console.log(m)
+            return m
+        }
         if (dataType == "depth") {
             data.forEach((element => {
                 m.push([new Date(element.DateTime_UTC).getTime(), parseFloat(element["Height_max"])])
@@ -324,6 +365,8 @@ export default function LakeTchain(props) {
             }
             let depthFiltered = getFilteredData(oxyData.data, "depth");
             console.log(depthFiltered)
+            let oxyInstrument = getFilteredData(oxyData.data, "oxy", true);
+            let tempInstrument = getFilteredData(tempData.data, 'temp', true)
             setChartProps({...chartProps,
                 series: [{
                     data: tempFiltered
@@ -331,6 +374,10 @@ export default function LakeTchain(props) {
                     data: oxyFiltered
                 }, {
                     data: depthFiltered
+                }, {
+                    data: oxyInstrument
+                }, {
+                    data: tempInstrument
                 }],
                 xAxis: [{
                     min: minX,

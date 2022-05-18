@@ -9,7 +9,7 @@ import '../../DateRangePicker.css'
 
 require('highcharts/modules/heatmap')(Highcharts);
 require('highcharts/modules/boost')(Highcharts);
-
+let m = []
 export default function LakeTchain(props) {
     const [chartProps, setChartProps] = useState({
         chart: {
@@ -74,8 +74,8 @@ export default function LakeTchain(props) {
                 [0.9, '#c4463a'],
                 [1, '#c4463a']
             ],
-            min: 5,
-            max: 30,
+            min: getMinValue(m),
+            max: getMaxValue(m),
             layout: 'horizontal',
             labels: {
                 format: '{value}°C'
@@ -155,8 +155,29 @@ export default function LakeTchain(props) {
     temp_url.search = search_params_temp.toString();
     
     const tempData = useFetch(temp_url.toString());
+
+    function getMaxValue(m) {
+        let max = -1;
+        for (let i = 0; i < m.length; i++) {
+            if (m[i][2] > max) {
+                max = m[i][2];
+            }
+        }
+        return max;
+    }
+
+    function getMinValue(m) {
+        let min = 2000000000;
+        for (let i = 0; i < m.length; i++) {
+            if (m[i][2] < min && m[i][2] != 0) {
+                min = m[i][2];
+            }
+        }
+        return min;
+    }
+
     function getFilteredData(data, dataType) {
-        let m = []
+        m = []
         if (dataType == "oxy") {
             data.forEach((element => {
                 m.push([new Date(element.DateTime_UTC).getTime(),0.5, parseFloat(element["Height_0.5m"])]);
@@ -254,6 +275,7 @@ export default function LakeTchain(props) {
             console.log(oxyFiltered)
             console.log(tempData.data)
             let tempFiltered = getFilteredData(tempData.data, "temp");
+
             if (oxyFiltered.length != 0) {
                 var minX = oxyFiltered[0][0];
                 var maxX = oxyFiltered[oxyFiltered.length-1][0]

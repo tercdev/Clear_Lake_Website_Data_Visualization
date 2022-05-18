@@ -125,7 +125,7 @@ export default function Met(props) {
             offset: true,
             lineColor: Highcharts.getOptions().colors[0],
             lineWidth: 5,
-            min: 0,
+            // min: 0,
             max: 100
         }, {
             labels: {
@@ -499,7 +499,10 @@ export default function Met(props) {
                             }
                         },
                         max: maxTemp
-                    }, {}, {}, {}, {}, {}]
+                    }, {
+                        // min: 0,
+                        // max: 100
+                    }, {}, {}, {}, {}]
                 })
             }
         }

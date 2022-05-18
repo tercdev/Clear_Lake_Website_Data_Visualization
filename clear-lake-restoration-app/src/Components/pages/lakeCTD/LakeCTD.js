@@ -7,6 +7,7 @@ import DataDisclaimer from '../../DataDisclaimer';
 import SpecificDateSelect from '../../SpecificDateSelect';
 import CollapsibleItem from '../../CollapsibleItem';
 
+import '../data-archive/DataArchive.css';
 import './LakeCTD.css';
 
 export default function LakeCTD(props) {

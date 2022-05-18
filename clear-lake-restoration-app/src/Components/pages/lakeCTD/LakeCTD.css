@@ -3,6 +3,11 @@
     margin: auto;
 }
 
+.chip {
+    background: #fff;
+    color: #000;
+}
+
 @media (max-width: 576px) {
     .chart-container-half {
         width: 100vw;

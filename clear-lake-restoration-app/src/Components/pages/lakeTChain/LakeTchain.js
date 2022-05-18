@@ -88,10 +88,19 @@ export default function LakeTchain(props) {
                 text: 'Temperature []'
             },
             stops: [
-                [0, '#3060cf'],
-                [0.5, '#fffbbc'],
-                [0.9, '#c4463a'],
-                [1, '#c4463a']
+                [0, '#1e3a8a'], // blue
+                [0.1, '#1d4ed8'],
+                [0.2,'#3b82f6'],
+                // [0.3, '#93c5fd'],
+                // [0.4, '#dbeafe'], // almost white blue
+                [0.35, '#64ff64'], // green
+                [0.5, '#fdfd47'], // yellow
+                // [0.6, '#fee2e2'], // almost white red
+                [0.65, '#fda500'], // orange
+                // [0.7, '#fca5a5'],// pink
+                [0.8, '#ef4444'],
+                [0.9, '#b91c1c'],
+                [1, '#7f1d1d'] // red
             ],
             min: 5,
             max: 30,

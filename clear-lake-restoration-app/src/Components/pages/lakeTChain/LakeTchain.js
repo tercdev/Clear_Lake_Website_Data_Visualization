@@ -9,12 +9,6 @@ import '../../DateRangePicker.css'
 
 require('highcharts/modules/heatmap')(Highcharts);
 require('highcharts/modules/boost')(Highcharts);
-// disable legend pagination
-(function (H) {
-    H.wrap(H.Legend.prototype, 'handleOverflow', function (p, h) {
-        return h;
-    });
-}(Highcharts));
 
 export default function LakeTchain(props) {
     const [chartProps, setChartProps] = useState({
@@ -61,6 +55,9 @@ export default function LakeTchain(props) {
             
         }],
         colorAxis: [{
+            title: {
+                text: 'Temperature []'
+            },
             stops: [
                 [0, '#3060cf'],
                 [0.5, '#fffbbc'],
@@ -75,6 +72,9 @@ export default function LakeTchain(props) {
             },
             reversed: false
         }, {
+            title: {
+                text: 'Dissolved Oxygen [mg/L]'
+            },
             stops: [
                 [0, '#c4463a'],
                 [0.1, '#c4463a'],
@@ -100,6 +100,9 @@ export default function LakeTchain(props) {
             y: 0,
             symbolHeight: 275,
             // maxHeight: 700
+            navigation: {
+                enabled: false
+            }
         },
         series: [{
             name: 'Temperature',

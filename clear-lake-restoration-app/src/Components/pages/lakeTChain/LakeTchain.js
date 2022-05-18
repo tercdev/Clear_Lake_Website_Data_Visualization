@@ -5,6 +5,7 @@ import Chart from '../../Chart';
 import useFetch from 'react-fetch-hook';
 import { convertDate } from '../../utils';
 import DatePicker from 'react-datepicker';
+import CollapsibleItem from '../../CollapsibleItem';
 import '../../DateRangePicker.css';
 
 require('highcharts/modules/heatmap')(Highcharts);
@@ -23,7 +24,7 @@ export default function LakeTchain(props) {
                 render() {
                     console.log(this)
                     // legend titles
-                    this.renderer.text('Temperature [°C]', this.chartWidth-30, 110)
+                    this.renderer.text('Temperature [°C]', this.chartWidth-30, 165)
                     .attr({
                         rotation: 90
                     })
@@ -32,7 +33,7 @@ export default function LakeTchain(props) {
                         // fontSize: '16px'
                     })
                     .add();
-                    this.renderer.text('Dissolved Oxygen [mg/L]', this.chartWidth-30, 465)
+                    this.renderer.text('Dissolved Oxygen [mg/L]', this.chartWidth-30, 470)
                     .attr({
                         rotation: 90
                     })
@@ -48,6 +49,9 @@ export default function LakeTchain(props) {
         },
         title: {
             text: ''
+        },
+        subtitle: {
+            text: 'Click and drag in the plot area to zoom in.<br/>Use three-line icon on top right to download the data displayed in the graph.<br/>White Dots represent depth of the loggers. Black line is the depth of the water column'
         },
         credits: {
             enabled: false
@@ -141,12 +145,13 @@ export default function LakeTchain(props) {
             verticalAlign: 'middle',
             align: 'right',
             // padding: 20,
-            itemMarginTop: 43, // increase moves bottom one down
-            itemMarginBottom: 47, // increase moves top one up
+            itemMarginTop: 35, // increase moves bottom one down
+            itemMarginBottom: 40, // increase moves top one up
             width: 100,
             // itemWidth: 100,
-            y: 0,
-            symbolHeight: 275,
+            y: 30,
+            // symbolHeight: 275,
+            symbolHeight: 250,
             // maxHeight: 700
             navigation: {
                 enabled: false
@@ -426,12 +431,24 @@ export default function LakeTchain(props) {
             })
         }
     },[startGraphDate, endGraphDate, oxyData.isLoading, tempData.isLoading])
+
+    // for the collapsible FAQ
+    const header1 = "How to use the graphs and see the data below?";
+    const content1 = [<ol>
+            <li>Select start and end dates with maximum 365-day period. Time is in ? time.</li>
+            <li>Click submit to update the graphs below.</li>
+            <li>Graph and data loading will depend on the length of the selected time period.</li>
+        </ol>];
+    
     return (
         <div>
             <div className='station-page-header'>
                 <h1 className='station-page-title'>{props.name}</h1>
             </div>
             <DataDisclaimer/>
+            <div className="collapsible-container">
+                <CollapsibleItem header={header1} content={content1}/>
+            </div>
             <div className='date-container'>
                 <div className='one-date-container'>
                 <p className='date-label'>Start Date</p>

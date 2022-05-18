@@ -174,7 +174,7 @@ export default function LakeTchain(props) {
             },
             selected: true
         }, {
-            name: 'Instrument Location',
+            name: 'Instrument Location for Temperature',
             data: [],
             type: 'scatter',
             yAxis: 0,
@@ -186,7 +186,7 @@ export default function LakeTchain(props) {
                 fillColor: Highcharts.getOptions().colors[0],
             },
         }, {
-            name: 'Instrument Location',
+            name: 'Instrument Location for Dissolved Oxygen',
             data: [],
             type: 'scatter',
             yAxis: 1,
@@ -375,9 +375,9 @@ export default function LakeTchain(props) {
                 }, {
                     data: depthFiltered
                 }, {
-                    data: oxyInstrument
-                }, {
                     data: tempInstrument
+                }, {
+                    data: oxyInstrument
                 }],
                 xAxis: [{
                     min: minX,

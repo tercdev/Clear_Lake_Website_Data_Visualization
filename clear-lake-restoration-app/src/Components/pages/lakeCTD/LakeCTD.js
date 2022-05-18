@@ -15,7 +15,9 @@ export default function LakeCTD(props) {
     function getFilteredData(data, dataType) {
         let m = []
         data.forEach((element => {
-            m.push([parseFloat(element.Depth), parseFloat(element[dataType])]);
+            if (parseFloat(element[dataType]) >= 0) {
+                m.push([parseFloat(element.Depth), parseFloat(element[dataType])]);
+            }
         }))
         m.sort(function(a,b) {
             return (a[0]-b[0])
@@ -111,7 +113,7 @@ export default function LakeCTD(props) {
             lineColor: Highcharts.getOptions().colors[5],
             lineWidth: 5,
             showLastLabel: false,
-            min: 220,
+            min: 210,
             max: 410
         }, {
             title: {
@@ -129,8 +131,8 @@ export default function LakeCTD(props) {
             lineColor: Highcharts.getOptions().colors[3],
             lineWidth: 5,
             showLastLabel: false,
-            min: 8,
-            max: 28
+            min: 5,
+            max: 30
         }, {
             title: {
                 text: 'Turbidity [FTU]',
@@ -299,7 +301,7 @@ export default function LakeCTD(props) {
     // for the collapsible FAQ
     const header1 = "How to use the graphs and see the data below?";
     const content1 = [<ol>
-            <li>Select year, month, and date.</li>
+            <li>Select year, month, and date. Dates are in UTC.</li>
             <li>Click submit to update the graphs below.</li>
         </ol>];
 
@@ -314,7 +316,7 @@ export default function LakeCTD(props) {
                 <CollapsibleItem header={header1} content={content1}/>
             </div>
 
-            <div className='date-container'>
+            <div className='date-container profile-graph'>
                 <SpecificDateSelect 
                     data={includedDates.data} 
                     isLoading={includedDates.isLoading} 

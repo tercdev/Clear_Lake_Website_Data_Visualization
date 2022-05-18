@@ -430,14 +430,17 @@ export default function Met(props) {
                 let ylabel = ''
                 let yformat = ''
                 let yseries = ''
+                let maxTemp = 0;
                 if (graphUnit == 'f') {
                     ylabel = 'Air Temperature [°F]'
                     yformat = '{value} °F'
-                    yseries = 'Air Temperature in °F'
+                    yseries = 'Air Temperature in °F';
+                    maxTemp = 120;
                 } else {
                     ylabel = 'Air Temperature [°C]'
                     yformat = '{value} °C'
                     yseries = 'Air Temperature in °C'
+                    maxTemp = 40;
                 }
                 setChartProps({...chartProps,
                     series: [
@@ -494,7 +497,8 @@ export default function Met(props) {
                             style: {
                                 color: Highcharts.getOptions().colors[3]
                             }
-                        }
+                        },
+                        max: maxTemp
                     }, {}, {}, {}, {}, {}]
                 })
             }

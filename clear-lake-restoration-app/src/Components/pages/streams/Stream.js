@@ -439,7 +439,7 @@ export default function Stream(props) {
     const header2 = "Why is no data showing up on my plots?";
     const content2 = [<p>If there is no data, the sensors might not be submerged in the water. Check <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">here</a> to read more about the metadata.</p>];
 
-    const header3 = "Where are the data collected?";
+    const header3 = "Where is the data collected?";
     const content3 = [<p>Stream turbidity and temperature are measured by UC Davis sensors that are co-located with existing California Department of Water Resources gauging stations. However, river flow data and precipitation data are externally scraped from <a href="https://cdec.water.ca.gov/">California Department of Water Resources</a>.</p>];
 
     return (

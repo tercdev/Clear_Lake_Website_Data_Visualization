@@ -5,7 +5,7 @@ import Chart from '../../Chart';
 import useFetch from 'react-fetch-hook';
 import { convertDate } from '../../utils';
 import DatePicker from 'react-datepicker';
-import '../../DateRangePicker.css'
+import '../../DateRangePicker.css';
 
 require('highcharts/modules/heatmap')(Highcharts);
 require('highcharts/modules/boost')(Highcharts);
@@ -15,7 +15,33 @@ export default function LakeTchain(props) {
         chart: {
             zoomType: 'x',
             type: 'heatmap',
-            height: 700
+            height: 700,
+            events: {
+                load() {
+                    this.showLoading();
+                },
+                render() {
+                    console.log(this)
+                    this.renderer.text('Temperature [°C]', this.chartWidth-30, 110)
+                    .attr({
+                        rotation: 90
+                    })
+                    .css({
+                        // color: '#4572A7',
+                        // fontSize: '16px'
+                    })
+                    .add();
+                    this.renderer.text('Dissolved Oxygen [mg/L]', this.chartWidth-30, 465)
+                    .attr({
+                        rotation: 90
+                    })
+                    .css({
+                        // color: '#4572A7',
+                        // fontSize: '16px'
+                    })
+                    .add();
+                }
+            }
         },
         title: {
             text: ''
@@ -95,7 +121,7 @@ export default function LakeTchain(props) {
             // padding: 20,
             itemMarginTop: 43, // increase moves bottom one down
             itemMarginBottom: 47, // increase moves top one up
-            // width: 200,
+            width: 100,
             // itemWidth: 100,
             y: 0,
             symbolHeight: 275,

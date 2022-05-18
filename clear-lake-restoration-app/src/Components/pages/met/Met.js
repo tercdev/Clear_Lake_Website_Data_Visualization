@@ -376,8 +376,7 @@ export default function Met(props) {
                     
                     let dataLastDate = new Date(atmPresData[0][0]);
                     let realDataLastDate = new Date(realTimeAtmPresData[0][0]);
-                    let realDataFirstDate = new Date(realTimeAtmPresData[realTimeAtmPresData.length-1][0])
-                    if (dataLastDate.getDay() == realDataLastDate.getDay() || dataLastDate.getDay() == realDataFirstDate.getDay()) {
+                    if (dataLastDate.getFullYear() == realDataLastDate.getFullYear() && dataLastDate.getMonth() == realDataLastDate.getMonth() && dataLastDate.getDay() == realDataLastDate.getDay()) {
                         realTimeAtmPresData = []
                         realTimeRelHumidityData = []
                         realTimeAirTempData = []

@@ -201,7 +201,11 @@ export default function LakeTchain(props) {
             marker: {
                 // lineWidth: 5,
                 // lineColor: Highcharts.getOptions().colors[0],
-                fillColor: Highcharts.getOptions().colors[0],
+                fillColor: '#fff',
+                lineColor: 'black',
+                lineWidth: 1,
+                symbol: 'circle'
+
             },
         }, {
             name: 'Instrument Location for Dissolved Oxygen',
@@ -213,7 +217,10 @@ export default function LakeTchain(props) {
             marker: {
                 // lineWidth: 5,
                 // lineColor: Highcharts.getOptions().colors[0],
-                fillColor: Highcharts.getOptions().colors[0],
+                fillColor: '#fff',
+                lineColor: 'black',
+                lineWidth: 1,
+                symbol: 'circle'
             },
         }],
         updateTime: {

@@ -1,12 +1,12 @@
 {
     "type": "FeatureCollection",
     "features": [
-        {"type":"Feature","properties":{"name":"nic"},"geometry":{"type":"Point","coordinates":[-122.84362792968749,39.12153746241925]}},
-        {"type":"Feature","properties":{"name":"nlp"},"geometry":{"type":"Point","coordinates":[-122.90044784545898,39.09676228071075]}},
-        {"type":"Feature","properties":{"name":"bvr"},"geometry":{"type":"Point","coordinates":[-122.8875732421875,39.02518507512901]}},
-        {"type":"Feature","properties":{"name":"bkp"},"geometry":{"type":"Point","coordinates":[-122.75281906127928,39.01771660762443]}},
-        {"type":"Feature","properties":{"name":"knb"},"geometry":{"type":"Point","coordinates":[-122.74286270141602,38.991971023322954]}},
-        {"type":"Feature","properties":{"name":"clo"},"geometry":{"type":"Point","coordinates":[-122.6762580871582,39.01958379846303]}},
-        {"type":"Feature","properties":{"name":"jgb"},"geometry":{"type":"Point","coordinates":[-122.66647338867188,38.946326305260754]}},
-        {"type":"Feature","properties":{"name":"bbi"},"geometry":{"type":"Point","coordinates":[-122.64673233032227,38.95446976982263]}}]
+        {"type":"Feature","properties":{"name":"nic"},"geometry":{"type":"Point","coordinates":[-122.85102,39.12188]}},
+        {"type":"Feature","properties":{"name":"nlp"},"geometry":{"type":"Point","coordinates":[-122.89978,39.095301]}},
+        {"type":"Feature","properties":{"name":"bvr"},"geometry":{"type":"Point","coordinates":[-122.88712,39.025291]}},
+        {"type":"Feature","properties":{"name":"bkp"},"geometry":{"type":"Point","coordinates":[-122.75053,39.016991]}},
+        {"type":"Feature","properties":{"name":"knb"},"geometry":{"type":"Point","coordinates":[-122.74281,38.99276]}},
+        {"type":"Feature","properties":{"name":"clo"},"geometry":{"type":"Point","coordinates":[-122.67577,39.018989]}},
+        {"type":"Feature","properties":{"name":"jgb"},"geometry":{"type":"Point","coordinates":[-122.66901,38.944567]}},
+        {"type":"Feature","properties":{"name":"bek"},"geometry":{"type":"Point","coordinates":[-122.64555,38.949779]}}]
 }

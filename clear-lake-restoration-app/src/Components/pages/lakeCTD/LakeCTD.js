@@ -7,7 +7,6 @@ import DataDisclaimer from '../../DataDisclaimer';
 import SpecificDateSelect from '../../SpecificDateSelect';
 import CollapsibleItem from '../../CollapsibleItem';
 
-import '../data-archive/DataArchive.css';
 import './LakeCTD.css';
 
 export default function LakeCTD(props) {
@@ -317,7 +316,7 @@ export default function LakeCTD(props) {
                 <CollapsibleItem header={header1} content={content1}/>
             </div>
 
-            <div className='date-container'>
+            <div className='date-container profile-graph'>
                 <SpecificDateSelect 
                     data={includedDates.data} 
                     isLoading={includedDates.isLoading} 

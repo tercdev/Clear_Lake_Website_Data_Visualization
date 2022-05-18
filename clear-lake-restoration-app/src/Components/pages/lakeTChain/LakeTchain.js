@@ -133,7 +133,8 @@ export default function LakeTchain(props) {
             layout: 'vertical',
             labels: {
                 format: '{value} mg/L'
-            }
+            },
+            reversed: false
         }],
         legend: {
             layout: 'vertical',

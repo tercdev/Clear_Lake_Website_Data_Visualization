@@ -161,7 +161,7 @@ export default function LakeTchain(props) {
             nullColor: '#EFEFEF',
             colsize: 36e5, // 1 hour
             tooltip: {
-                headerFormat:'Temperature<br/>',
+                headerFormat:'<b>Temperature</b><br/>',
                 pointFormat: '{point.x:%Y-%m-%d %H:%M}, {point.y}m, {point.value}°C'
             },
         }, {
@@ -173,7 +173,7 @@ export default function LakeTchain(props) {
             nullColor: '#EFEFEF',
             colsize: 36e5, // 1 hour
             tooltip: {
-                headerFormat:'Dissolved Oxygen<br/>',
+                headerFormat:'<b>Dissolved Oxygen</b><br/>',
                 pointFormat: '{point.x:%Y-%m-%d %H:%M}, {point.y}m, {point.value}mg/L'
             },
             yAxis: 1,
@@ -191,7 +191,11 @@ export default function LakeTchain(props) {
                 // lineColor: Highcharts.getOptions().colors[1],
                 fillColor: Highcharts.getOptions().colors[1],
             },
-            selected: true
+            selected: true,
+            tooltip: {
+                headerFormat:'<b>Maximum Depth</b><br/>',
+                pointFormat: '{point.x:%Y-%m-%d %H:%M}, {point.y}m'
+            },
         }, {
             name: 'Instrument Location for Temperature',
             data: [],
@@ -206,7 +210,10 @@ export default function LakeTchain(props) {
                 lineColor: 'black',
                 lineWidth: 1,
                 symbol: 'circle'
-
+            },
+            tooltip: {
+                headerFormat:'<b>Instrument Location</b><br/>',
+                pointFormat: '{point.y}m'
             },
         }, {
             name: 'Instrument Location for Dissolved Oxygen',
@@ -222,6 +229,10 @@ export default function LakeTchain(props) {
                 lineColor: 'black',
                 lineWidth: 1,
                 symbol: 'circle'
+            },
+            tooltip: {
+                headerFormat:'<b>Instrument Location</b><br/>',
+                pointFormat: '{point.y}m'
             },
         }],
         updateTime: {

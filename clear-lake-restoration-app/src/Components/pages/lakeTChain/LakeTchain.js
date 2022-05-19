@@ -120,8 +120,10 @@ export default function LakeTchain(props) {
                 // [0.9, '#b91c1c'],
                 // [1, '#7f1d1d'] // red
             ],
-            min: 5,
-            max: 30,
+            min: 7,
+            max: 28,
+            startOnTick: false,
+            endOnTick: false,
             layout: 'vertical',
             labels: {
                 format: '{value}°C'
@@ -302,6 +304,9 @@ export default function LakeTchain(props) {
                     m.push([new Date(data[0].DateTime_UTC).getTime(),parseFloat(re.exec(key)[1])])
                 }
             })
+            if (dataType == "temp") {
+                m.push([new Date(data[0].DateTime_UTC).getTime(),parseFloat(data[0].Height_max)])
+            }
             console.log(m)
             return m
         }

@@ -92,28 +92,33 @@ export default function LakeTchain(props) {
                 text: 'Temperature []'
             },
             stops: [
-                [0, '#1e3a8a'], // blue
-                [0.1, '#1d4ed8'],
-                [0.2,'#3b82f6'],
-                // [0.15, '#1c6ff8'],
-                [0.28, '#27bbe0'],
-                [0.36, '#31db92'],
-                // [0.38, '#7ed663'],
-                [0.44, '#9bfa24'],
-                // [0.3, '#93c5fd'],
-                // [0.4, '#dbeafe'], // almost white blue
-                // [0.35, '#64ff64'], // green
-                [0.5, '#ffee00'], // yellow
-                [0.58, '#fbb806'],
-                [0.66, '#f6830c'],
-                [0.74, '#f24d11'],
-                [0.82, '#ed1717'],
-                // [0.6, '#fee2e2'], // almost white red
-                // [0.65, '#fda500'], // orange
-                // [0.7, '#fca5a5'],// pink
-                // [0.8, '#ef4444'],
-                [0.9, '#b91c1c'],
-                [1, '#7f1d1d'] // red
+                [0, '#183067'], // darker
+                [0.1, '#3060cf'],
+                [0.5, '#fffbbc'],
+                [0.9, '#c4463a'],
+                [1, '#62231d'] // darker
+                // [0, '#1e3a8a'], // blue
+                // [0.1, '#1d4ed8'],
+                // [0.2,'#3b82f6'],
+                // // [0.15, '#1c6ff8'],
+                // [0.28, '#27bbe0'],
+                // [0.36, '#31db92'],
+                // // [0.38, '#7ed663'],
+                // [0.44, '#9bfa24'],
+                // // [0.3, '#93c5fd'],
+                // // [0.4, '#dbeafe'], // almost white blue
+                // // [0.35, '#64ff64'], // green
+                // [0.5, '#ffee00'], // yellow
+                // [0.58, '#fbb806'],
+                // [0.66, '#f6830c'],
+                // [0.74, '#f24d11'],
+                // [0.82, '#ed1717'],
+                // // [0.6, '#fee2e2'], // almost white red
+                // // [0.65, '#fda500'], // orange
+                // // [0.7, '#fca5a5'],// pink
+                // // [0.8, '#ef4444'],
+                // [0.9, '#b91c1c'],
+                // [1, '#7f1d1d'] // red
             ],
             min: 5,
             max: 30,
@@ -192,8 +197,8 @@ export default function LakeTchain(props) {
             color: Highcharts.getOptions().colors[1],
             lineWidth: 1,
             marker: {
-                // lineWidth: 5,
-                // lineColor: Highcharts.getOptions().colors[1],
+                lineWidth: 2,
+                lineColor: Highcharts.getOptions().colors[1],
                 fillColor: Highcharts.getOptions().colors[1],
             },
             selected: true,

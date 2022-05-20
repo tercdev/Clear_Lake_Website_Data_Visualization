@@ -451,7 +451,7 @@ export default function LakeTchain(props) {
         </ol>];
 
     const header2 = "Why is no data showing up on my plots?";
-    const content2 = [<p>There is currently data from 3/23/2019 to 2/4/2022. Check <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">here</a> to read more about the metadata.</p>];
+    const content2 = [<p>If there is no data, check <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">here</a> to read more about the metadata.</p>];
 
     return (
         <div>

@@ -449,7 +449,10 @@ export default function LakeTchain(props) {
             <li>Click submit to update the graphs below.</li>
             <li>Graph and data loading will depend on the length of the selected time period.</li>
         </ol>];
-    
+
+    const header2 = "Why is no data showing up on my plots?";
+    const content2 = [<p>There is currently data from 3/23/2019 to 2/4/2022. Check <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">here</a> to read more about the metadata.</p>];
+
     return (
         <div>
             <div className='station-page-header'>
@@ -458,6 +461,7 @@ export default function LakeTchain(props) {
             <DataDisclaimer/>
             <div className="collapsible-container">
                 <CollapsibleItem header={header1} content={content1}/>
+                <CollapsibleItem header={header2} content={content2}/>
             </div>
             <div className='date-container'>
                 <div className='one-date-container'>

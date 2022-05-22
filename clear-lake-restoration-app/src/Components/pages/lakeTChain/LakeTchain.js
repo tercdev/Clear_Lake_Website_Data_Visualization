@@ -197,7 +197,7 @@ export default function LakeTchain(props) {
             yAxis: 1,
             colorAxis: 1, // always gets associated with a color axis
             color: Highcharts.getOptions().colors[1],
-            lineWidth: 1,
+            lineWidth: 2,
             marker: {
                 lineWidth: 2,
                 lineColor: Highcharts.getOptions().colors[1],

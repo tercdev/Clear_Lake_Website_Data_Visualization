@@ -356,7 +356,7 @@ export default function LakeTchain(props) {
                             h = Math.round(j);
                             break;
                         } else {
-                            m.push([new Date(element.DateTime_UTC).getTime(),j,parseFloat(element[string])]);
+                            m.push([new Date(element.DateTime_UTC).getTime(),j,parseFloat(element[strings])]);
                         }
                         j++;
                     }    

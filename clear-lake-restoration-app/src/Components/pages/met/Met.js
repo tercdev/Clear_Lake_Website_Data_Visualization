@@ -32,9 +32,7 @@ export default function Met(props) {
     // get data based on graph type
     function getFilteredData(data, dataType) {
         let m = [];
-        console.log("dataType",dataType,data)
         data.forEach((element => {
-            // console.log(element)
              let pstTime = convertGMTtoPSTTime(new Date(element.DateTime_UTC));
             if (dataType === "Wind_Dir") {
                 m.push([pstTime.getTime(), cardinalToDeg(element[dataType])]);
@@ -250,7 +248,7 @@ export default function Met(props) {
                 selected: true,
                 yAxis: 0,
                 color: Highcharts.getOptions().colors[3],
-                // boostThreshold: 10000
+                boostThreshold: 10000
             },
             {
                 name: 'Relative Humidity',
@@ -258,7 +256,7 @@ export default function Met(props) {
                 selected: true,
                 yAxis: 1,
                 color: Highcharts.getOptions().colors[0],
-                // boostThreshold: 10000
+                boostThreshold: 10000
             },
             {
                 name: 'Atmospheric Pressure',
@@ -266,7 +264,7 @@ export default function Met(props) {
                 selected: true,
                 yAxis: 2,
                 color: Highcharts.getOptions().colors[4],
-                // boostThreshold: 10000
+                boostThreshold: 10000
             },
             {
                 name: 'Wind Direction',
@@ -296,7 +294,7 @@ export default function Met(props) {
                 selected: true,
                 yAxis: 4,
                 color: Highcharts.getOptions().colors[5],
-                // boostThreshold: 10000
+                boostThreshold: 10000
             },     
             {
                 name: 'Solar Radiation',
@@ -304,7 +302,7 @@ export default function Met(props) {
                 selected: true,
                 yAxis: 5,
                 color: Highcharts.getOptions().colors[6],
-                // boostThreshold: 10000
+                boostThreshold: 10000
             },           
         ],
         updateTime: {
@@ -320,7 +318,7 @@ export default function Met(props) {
     const [startGraphDate, setGraphStartDate] = useState(lastWeek);
     const [endGraphDate, setGraphEndDate] = useState(today);
     const [error, setError] = useState(false);
-    
+    const [isLoading, setIsLoading] = useState(true);
     function handleStartDateChange(e) {
         setStartDate(e);
     }
@@ -333,41 +331,9 @@ export default function Met(props) {
         setGraphUnit(unit);
         console.log("set graph unit", unit)
         setError(false);
-        // let latestDate = new Date(new Date(startDate).setDate(365));
         setGraphStartDate(startDate);
-        // if (endDate > latestDate) {
-        //     setError(true);
-        //     setEndDate(latestDate);
-        //     setGraphEndDate(latestDate);
-        // } else {
-            setGraphEndDate(endDate);
-        // }
+        setGraphEndDate(endDate);
     }
-
-    // real-time data Endpoint URL 
-    // var real_time_url = new URL('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/metweatherlink');
-    // let real_search_params = real_time_url.searchParams;
-    // real_search_params.set('id',props.id);
-    // let oldestDate = new Date(new Date().setDate(endGraphDate.getDate() - 150));
-    // if (startGraphDate < oldestDate) {
-    //     console.log("oldest date")
-    //     real_search_params.set('rptdate', convertDate(oldestDate));
-    // } else {
-    //     console.log("startgraph end")
-    //     real_search_params.set('rptdate', convertDate(startGraphDate)); // at most 180 days away from endDate
-    // }
-    // real_search_params.set('rptend', convertDate(endGraphDate));
-    // real_time_url.search = real_search_params.toString();
-    // const realTimeData = useFetch(real_time_url.toString());
-  
-    // // clean data Endpoint URL
-    // var clean_data_url = new URL('https://4ery4fbt1i.execute-api.us-west-2.amazonaws.com/default/clearlake-met');
-    // var search_params = clean_data_url.searchParams;
-    // search_params.set('id',props.id);
-    // search_params.set('start',convertDate(startGraphDate));
-    // search_params.set('end',convertDate(endGraphDate));
-    // clean_data_url.search = search_params.toString();
-    // const cleanMetData = useFetch(clean_data_url.toString());
 
     const realTime = useFetch('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/metweatherlink')
     const cleanMet = useFetch('https://4ery4fbt1i.execute-api.us-west-2.amazonaws.com/default/clearlake-met')
@@ -403,16 +369,17 @@ export default function Met(props) {
         fetchlist.push(realTime.get(`?id=${props.id}&rptdate=${convertDate(compareDate)}&rptend=${convertDate(endGraphDate)}`))
         cleanFetchList.push(cleanMet.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(endGraphDate)}`))
         console.log("loading initiliazing array: ",realTime.loading)
-        // let fetchlist = [get(`?id=${v}&rptdate=20220310&rptend=20220516`),
-        // get(`?id=${v}&rptdate=20220110&rptend=20220316`)]
+
         console.log(fetchlist)
         console.log("loading before all: ",realTime.loading)
+        setIsLoading(true);
         let realTime_arr = await Promise.all(
             fetchlist
             )
         let cleanMet_arr = await Promise.all(
             cleanFetchList
             )
+        setIsLoading(false);
         // console.log(promise_arr)
         // combine all 
         let realTimeData = [].concat.apply([],realTime_arr)
@@ -603,7 +570,7 @@ export default function Met(props) {
             {error && <p className='error-message'>Selected date range was more than 365 days. End date was automatically changed.</p>}
             <Chart 
                 chartProps={chartProps}
-                isLoading={realTime.loading || cleanMet.loading}
+                isLoading={isLoading}
              />
         </div>
         

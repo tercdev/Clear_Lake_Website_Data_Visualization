@@ -6,5 +6,6 @@
     {"type":"Feature","properties":{"name": "ua01"},"geometry":{"type":"Point","coordinates":[-122.788,39.024]}},
     {"type":"Feature","properties":{"name": "nr02"},"geometry":{"type":"Point","coordinates":[-122.745,39.028]}},
     {"type":"Feature","properties":{"name": "la03"},"geometry":{"type":"Point","coordinates":[-122.717,38.983]}},
+    {"type":"Feature","properties":{"name": "ua07"},"geometry":{"type":"Point","coordinates":[-122.873,39.061]}},
     {"type":"Feature","properties":{"name": "oa04"},"geometry":{"type":"Point","coordinates":[-122.699,39.0127]}}]
 }

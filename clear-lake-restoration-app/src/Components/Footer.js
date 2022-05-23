@@ -27,7 +27,7 @@ export default class Footer extends Component {
     return (
       <div className="footerContainer">
             <div className="title-footer">
-                <p className="main-title">Clear Lake</p>
+                <p className="main-title">Clear Lake Data</p>
                 <p className="sub-title">Tahoe Environmental Research Center </p>
                 <div className="funding-container">
                   <p>Funding Provided by</p>

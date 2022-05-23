@@ -87,21 +87,6 @@ function CTDData() {
                     <option value="5">LA-03</option>
                     <option value="6">NR-02</option>
                     <option value="7">OA-04</option>
-                    <option value="8">LA03_SB19</option>
-                    <option value="9">LA03_SB25</option>
-                    <option value="10">UA01_SB25</option>
-                    <option value="11">NR02_SB19</option>
-                    <option value="12">NR02_SB25</option>
-                    <option value="13">OA04_SB19</option>
-                    <option value="14">OA04_SB25</option>
-                    <option value="15">UA06_SB19</option>
-                    <option value="16">UA06_SB25</option>
-                    <option value="17">UA07_SB19</option>
-                    <option value="18">UA07_SB25</option>
-                    <option value="19">UA08_SB19</option>
-                    <option value="20">UA08_SB25</option>
-                    <option value="21">UA08_UA07</option>
-                    <option value="22">UA01_SB19</option>
                 </select>
             </div>
             {/* <div className='one-date-container'>

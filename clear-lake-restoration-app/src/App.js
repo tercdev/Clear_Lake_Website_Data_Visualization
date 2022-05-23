@@ -66,7 +66,7 @@ function App() {
         <Route path='/met' exact element={<MetHome/>} />
         <Route path='/bkp' exact element={<Met id={"1"} name={"Buckingham Point"}/>} />
         <Route path='/clo' exact element={<Met id={"2"} name={"Clearlake Oaks"}/>} />
-        <Route path='/bbi' exact element={<Met id={"3"} name={"Beakbane Island"}/>} />
+        <Route path='/bek' exact element={<Met id={"3"} name={"Beakbane Island"}/>} />
         <Route path='/knb' exact element={<Met id={"4"} name={"Konocti Bay"}/>} />
         <Route path='/nlp' exact element={<Met id={"6"} name={"North Lakeport"}/>} />
         <Route path='/nic' exact element={<Met id={"5"} name={"Nice"}/>} />
@@ -78,9 +78,8 @@ function App() {
         <Route path='/oa04' exact element={<LakeTchain id={"3"} name={"OA-04 Station"}/>} />
         <Route path='/ua01' exact element={<LakeTchain id={"4"} name={"UA-01 Station"}/>} />
         <Route path='/ua06' exact element={<LakeTchain id={"5"} name={"UA-06 Station"}/>} />
-        {/* no data for UA07 */}
-        {/* <Route path='/ua07' exact element={<LakeTchain name={"UA-07 Station"}/>} /> */}
         <Route path='/ua08' exact element={<LakeTchain id={"6"} name={"UA-08 Station"}/>} />
+        <Route path='/ua07' exact element={<LakeTchain id={"7"} name={"UA-07 Station"}/>} />
 
         <Route path='/lakeCTD' exact element={<LakeCTDHome/>} />
         <Route path='/ua01-profile' exact element={<LakeCTD id={"1"} name={"UA-01 Profile"}/>} />

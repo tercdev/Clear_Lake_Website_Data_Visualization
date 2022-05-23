@@ -1,4 +1,16 @@
 .chart-container-half {
-    width: 75vw;
+    width: 65vw;
     margin: auto;
+}
+
+.profile-graph .chip {
+    background: #fff;
+    color: #000;
+}
+
+@media (max-width: 576px) {
+    .chart-container-half {
+        width: 100vw;
+        margin: auto;
+    }
 }

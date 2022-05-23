@@ -11,7 +11,7 @@ export default class TitleComponent extends Component {
               <img src={logo} alt="Logo" />
              </Link>
             <div className="title">
-                <p className="main-title">Clear Lake</p>
+                <p className="main-title">Clear Lake Data</p>
                 <p className="sub-title">Tahoe Environmental Research Center </p>
             </div>
       </div>

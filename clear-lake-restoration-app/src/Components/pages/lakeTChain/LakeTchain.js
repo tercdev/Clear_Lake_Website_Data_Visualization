@@ -331,112 +331,45 @@ export default function LakeTchain(props) {
         } else if (dataType == "temp") {
             data.forEach((element => {
                 let h = -1;
+                //initial height 0.5m given
                 m.push([new Date(element.DateTime_UTC).getTime(),0.5,parseFloat(element["Height_0.5m"])]);
-                if (element["Height_1m"] == null) {
-                    h = 1;
-                } 
-                else if (element["Height_2m"] == null) {
-                    h = 2;
-                    m.push([new Date(element.DateTime_UTC).getTime(),1,parseFloat(element["Height_1m"])]);
-                } 
-                else if (element["Height_3m"] == null) {
-                    h = 3;
-                    m.push([new Date(element.DateTime_UTC).getTime(),1,parseFloat(element["Height_1m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),2,parseFloat(element["Height_2m"])]);
-                } 
-                else if (element["Height_4m"] == null) {
-                    h = 4;
-                    m.push([new Date(element.DateTime_UTC).getTime(),1,parseFloat(element["Height_1m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),2,parseFloat(element["Height_2m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),3,parseFloat(element["Height_3m"])]);
-                } 
-                else if (element["Height_5m"] == null) {
-                    h = 5;
-                    m.push([new Date(element.DateTime_UTC).getTime(),1,parseFloat(element["Height_1m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),2,parseFloat(element["Height_2m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),3,parseFloat(element["Height_3m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),4,parseFloat(element["Height_4m"])]);
-                } else if (element["Height_6m"] == null) {
-                    h = 6;
-                    m.push([new Date(element.DateTime_UTC).getTime(),1,parseFloat(element["Height_1m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),2,parseFloat(element["Height_2m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),3,parseFloat(element["Height_3m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),4,parseFloat(element["Height_4m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),5,parseFloat(element["Height_5m"])]);
-                } else if (element["Height_7m"] == null) {
-                    h = 7;
-                    m.push([new Date(element.DateTime_UTC).getTime(),1,parseFloat(element["Height_1m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),2,parseFloat(element["Height_2m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),3,parseFloat(element["Height_3m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),4,parseFloat(element["Height_4m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),5,parseFloat(element["Height_5m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),6,parseFloat(element["Height_6m"])]);
-                } else if (element["Height_8m"] == null) {
-                    h = 8;
-                    m.push([new Date(element.DateTime_UTC).getTime(),1,parseFloat(element["Height_1m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),2,parseFloat(element["Height_2m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),3,parseFloat(element["Height_3m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),4,parseFloat(element["Height_4m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),5,parseFloat(element["Height_5m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),6,parseFloat(element["Height_6m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),7,parseFloat(element["Height_7m"])]);
-                } else if (element["Height_9m"] == null) {
-                    h = 9;
-                    m.push([new Date(element.DateTime_UTC).getTime(),1,parseFloat(element["Height_1m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),2,parseFloat(element["Height_2m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),3,parseFloat(element["Height_3m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),4,parseFloat(element["Height_4m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),5,parseFloat(element["Height_5m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),6,parseFloat(element["Height_6m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),7,parseFloat(element["Height_7m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),8,parseFloat(element["Height_8m"])]);
-                } else if (element["Height_10m"] == null) {
-                    h = 10;
-                    m.push([new Date(element.DateTime_UTC).getTime(),1,parseFloat(element["Height_1m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),2,parseFloat(element["Height_2m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),3,parseFloat(element["Height_3m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),4,parseFloat(element["Height_4m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),5,parseFloat(element["Height_5m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),6,parseFloat(element["Height_6m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),7,parseFloat(element["Height_7m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),8,parseFloat(element["Height_8m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),9,parseFloat(element["Height_9m"])]);
-                } else if (element["Height_11m"] == null) {
-                    h = 11;
-                    m.push([new Date(element.DateTime_UTC).getTime(),1,parseFloat(element["Height_1m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),2,parseFloat(element["Height_2m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),3,parseFloat(element["Height_3m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),4,parseFloat(element["Height_4m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),5,parseFloat(element["Height_5m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),6,parseFloat(element["Height_6m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),7,parseFloat(element["Height_7m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),8,parseFloat(element["Height_8m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),9,parseFloat(element["Height_9m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),10,parseFloat(element["Height_10m"])]);
-                } else {
-                    h = 12;
-                    m.push([new Date(element.DateTime_UTC).getTime(),1,parseFloat(element["Height_1m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),2,parseFloat(element["Height_2m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),3,parseFloat(element["Height_3m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),4,parseFloat(element["Height_4m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),5,parseFloat(element["Height_5m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),6,parseFloat(element["Height_6m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),7,parseFloat(element["Height_7m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),8,parseFloat(element["Height_8m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),9,parseFloat(element["Height_9m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),10,parseFloat(element["Height_10m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),11,parseFloat(element["Height_11m"])]);
+                
+                let starting = -1;
+                
+                //finds starting height after 0.5m where data is available and applicable
+                for (let j = 0.51; j <= 1.5; j += 0.01) {
+                    let strings = "Height_" + j + "m";
+                    if (element[strings] != null) {
+                        starting = j;
+                        break;
+                    }
                 }
-                //console.log("H: " + h);
-                //console.log("Hmax: " + Math.floor(parseFloat(element["Height_max"])));
+                
+                //if data from 0.51m<=height<=1.5m is found
+                if (starting != -1) {
+                    let j = starting+1;
+                    let strings = "Height_" + j + "m";
+                    
+                    //checks the +1 incrementts of the start heights for existance
+                    while (true) {
+                        if (element[strings] == null) {
+                            h = Math.round(j);
+                            break;
+                        } else {
+                            m.push([new Date(element.DateTime_UTC).getTime(),j,parseFloat(element[string])]);
+                        }
+                        j++;
+                    }    
+                } else {
+                    //data from 0.51m<=height<=1.5m not found, default to 1m for interpolation
+                    h = 1;
+                }
                 let heightM = parseFloat(element["Height_max"]);
                 let heightMWhole = Math.floor(parseFloat(element["Height_max"]));
+                
                 for (let j = h; j <= heightMWhole; j++) {
                     let strVal = "Height_" + (h-1) + "m";
-                    //console.log(strVal);
                     let values =  (((j-(h-1))/(heightM-(h-1))) * (parseFloat(element["Height_surface"]) - parseFloat(element[strVal])) + parseFloat(element[strVal]));
-                    //console.log(((j-(h-1))/(heightM-(h-1))));
-                    //console.log(parseFloat(element[strVal]));
                     m.push([new Date(element.DateTime_UTC).getTime(),j,values]);
                 }
                 m.push([new Date(element.DateTime_UTC).getTime(),parseFloat(element["Height_max"]),parseFloat(element["Height_surface"])]);

@@ -3,8 +3,6 @@ import React, { Component } from 'react';
 import CLO from '../images/sponsors/CLO.webp';
 import BVR from '../images/sponsors/bvr_logo.webp';
 
-import CAFW from '../images/sponsors/CAFW.webp';
-import CAFWlogo from '../images/sponsors/CAFWlogo.webp';
 import VectorControl from '../images/sponsors/Vector Control.webp';
 import CLSC from '../images/sponsors/CLSC.png';
 
@@ -34,7 +32,6 @@ export default class Footer extends Component {
                 <div className="funding-container">
                   <p>Funding Provided by</p>
                   <img src={CNRA} alt="California Natural Resources Agency" />
-                  {/* <img src={CAFW} alt="California Department of Fish and Wildlife" /> */}
                 </div>
                 <div className="funding-container">
                   <p>In Collaboration With</p>

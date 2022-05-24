@@ -1,11 +1,16 @@
 {
   "files": {
-    "main.css": "/Clear_Lake_Website_Data_Visualization/static/css/main.613ccda9.css",
-    "main.js": "/Clear_Lake_Website_Data_Visualization/static/js/main.ad68d014.js",
+    "main.css": "/Clear_Lake_Website_Data_Visualization/static/css/main.5e3969da.css",
+    "main.js": "/Clear_Lake_Website_Data_Visualization/static/js/main.03cd5ccb.js",
     "static/media/Home1.jpg": "/Clear_Lake_Website_Data_Visualization/static/media/Home1.a9fa5a0ab37ed3fe6187.jpg",
     "static/media/sigmund-TlFw-WoI8_w-unsplash.jpg": "/Clear_Lake_Website_Data_Visualization/static/media/sigmund-TlFw-WoI8_w-unsplash.5013dfab49f09458f2d9.jpg",
     "static/media/Middle creek monitoring site.jpeg": "/Clear_Lake_Website_Data_Visualization/static/media/Middle creek monitoring site.a49fa61080e46f6d8f78.jpeg",
     "static/media/Konocti Bay Met Station.png": "/Clear_Lake_Website_Data_Visualization/static/media/Konocti Bay Met Station.0fa695906025595835ef.png",
+    "static/media/CNRA-Logo_xA0_Image.png": "/Clear_Lake_Website_Data_Visualization/static/media/CNRA-Logo_xA0_Image.d52d2d3613e80811e69e.png",
+    "static/media/sponsor1.png": "/Clear_Lake_Website_Data_Visualization/static/media/sponsor1.2c42ffca55710a3b2701.png",
+    "static/media/SFEI.png": "/Clear_Lake_Website_Data_Visualization/static/media/SFEI.6571b890a166cf025aeb.png",
+    "static/media/waterBoards.png": "/Clear_Lake_Website_Data_Visualization/static/media/waterBoards.a6af1fc461b5acee2f15.png",
+    "static/media/NASA.png": "/Clear_Lake_Website_Data_Visualization/static/media/NASA.5e8842436e1208323379.png",
     "static/media/Clear Lake before sunset.webp": "/Clear_Lake_Website_Data_Visualization/static/media/Clear Lake before sunset.68b03425f20af88826a1.webp",
     "static/media/CLSC.png": "/Clear_Lake_Website_Data_Visualization/static/media/CLSC.24ada85d22a83a6fbce4.png",
     "static/media/Clear Lake at sunset.webp": "/Clear_Lake_Website_Data_Visualization/static/media/Clear Lake at sunset.d795e0e1da3677db9b94.webp",
@@ -17,19 +22,17 @@
     "static/media/USGS-01.webp": "/Clear_Lake_Website_Data_Visualization/static/media/USGS-01.2d6f191336119eb3f52d.webp",
     "static/media/README_clean_met.txt": "/Clear_Lake_Website_Data_Visualization/static/media/README_clean_met.0ca1fd05a8da3e01fae6.txt",
     "static/media/README_realtime_met.txt": "/Clear_Lake_Website_Data_Visualization/static/media/README_realtime_met.98cea78ddcabb18c22c9.txt",
-    "static/media/CAFWlogo.webp": "/Clear_Lake_Website_Data_Visualization/static/media/CAFWlogo.aaaeef658bba37d7bb73.webp",
     "static/media/WorldMark_by_Wyndham_logo.webp": "/Clear_Lake_Website_Data_Visualization/static/media/WorldMark_by_Wyndham_logo.5e13b605ea9c5fc2aa59.webp",
-    "static/media/CAFW.webp": "/Clear_Lake_Website_Data_Visualization/static/media/CAFW.053944fedecc80c95c29.webp",
     "static/media/README_realtime_streams.txt": "/Clear_Lake_Website_Data_Visualization/static/media/README_realtime_streams.68c7c8c3c7e4cb304785.txt",
     "static/media/README_tchain.txt": "/Clear_Lake_Website_Data_Visualization/static/media/README_tchain.8935e7b93aec4f252e46.txt",
     "index.html": "/Clear_Lake_Website_Data_Visualization/index.html",
     "static/media/README_clean_streams.txt": "/Clear_Lake_Website_Data_Visualization/static/media/README_clean_streams.a7a7aaf4787fe9bf9b80.txt",
     "static/media/README_ctd.txt": "/Clear_Lake_Website_Data_Visualization/static/media/README_ctd.38e97308d642dae09356.txt",
-    "main.613ccda9.css.map": "/Clear_Lake_Website_Data_Visualization/static/css/main.613ccda9.css.map",
-    "main.ad68d014.js.map": "/Clear_Lake_Website_Data_Visualization/static/js/main.ad68d014.js.map"
+    "main.5e3969da.css.map": "/Clear_Lake_Website_Data_Visualization/static/css/main.5e3969da.css.map",
+    "main.03cd5ccb.js.map": "/Clear_Lake_Website_Data_Visualization/static/js/main.03cd5ccb.js.map"
   },
   "entrypoints": [
-    "static/css/main.613ccda9.css",
-    "static/js/main.ad68d014.js"
+    "static/css/main.5e3969da.css",
+    "static/js/main.03cd5ccb.js"
   ]
 }

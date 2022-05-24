@@ -103,6 +103,7 @@ export default function LakeCTD(props) {
             max: 16,
             startOnTick: false,
             endOnTick: false,
+            gridLineWidth: 0
         }, {
             title: {
                 text: 'Specific Conductivity [µS/cm]',
@@ -124,6 +125,7 @@ export default function LakeCTD(props) {
             max: 600,
             startOnTick: false,
             endOnTick: false,
+            gridLineWidth: 0
         }, {
             title: {
                 text: 'Temperature [°C]',
@@ -145,6 +147,7 @@ export default function LakeCTD(props) {
             max: 32,
             startOnTick: false,
             endOnTick: false,
+            gridLineWidth: 0
         }, {
             title: {
                 text: 'Turbidity [FTU]',
@@ -166,6 +169,7 @@ export default function LakeCTD(props) {
             max: 80, // 150?
             startOnTick: false,
             endOnTick: false,
+            gridLineWidth: 0
         }],
         tooltip: {
             formatter: function() {

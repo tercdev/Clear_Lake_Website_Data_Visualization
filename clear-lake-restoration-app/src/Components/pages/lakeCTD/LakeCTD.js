@@ -207,6 +207,9 @@ export default function LakeCTD(props) {
                 }
             }
         },
+        legend: {
+            verticalAlign: 'top'
+        },
         updateTime: {
             setTime: 0,
             endTime: 0,

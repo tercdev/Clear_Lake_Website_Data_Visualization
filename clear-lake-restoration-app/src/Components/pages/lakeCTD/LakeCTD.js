@@ -77,7 +77,9 @@ export default function LakeCTD(props) {
             opposite: true,
             showLastLabel: false,
             min: 0,
-            max: 32
+            max: 32,
+            startOnTick: false,
+            endOnTick: false,
         }, {
             title: {
                 text: 'Dissolved Oxygen [mg/l]',
@@ -96,7 +98,9 @@ export default function LakeCTD(props) {
             opposite: true,
             showLastLabel: false,
             min: 0,
-            max: 16
+            max: 16,
+            startOnTick: false,
+            endOnTick: false,
         }, {
             title: {
                 text: 'Specific Conductivity [µS/cm]',
@@ -113,8 +117,10 @@ export default function LakeCTD(props) {
             lineColor: Highcharts.getOptions().colors[5],
             lineWidth: 5,
             showLastLabel: false,
-            min: 210,
-            max: 410
+            min: 180,
+            max: 500,
+            startOnTick: false,
+            endOnTick: false,
         }, {
             title: {
                 text: 'Temperature [°C]',
@@ -131,8 +137,10 @@ export default function LakeCTD(props) {
             lineColor: Highcharts.getOptions().colors[3],
             lineWidth: 5,
             showLastLabel: false,
-            min: 5,
-            max: 30
+            min: 0,
+            max: 32,
+            startOnTick: false,
+            endOnTick: false,
         }, {
             title: {
                 text: 'Turbidity [FTU]',
@@ -150,7 +158,9 @@ export default function LakeCTD(props) {
             lineWidth: 5,
             showLastLabel: false,
             min: 0,
-            max: 85 // 150?
+            max: 80, // 150?
+            startOnTick: false,
+            endOnTick: false,
         }],
         tooltip: {
             formatter: function() {

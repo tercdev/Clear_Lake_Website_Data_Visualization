@@ -16,46 +16,12 @@ import LakeTchain from './Components/pages/lakeTChain/LakeTchain';
 import LakeCTDHome from './Components/pages/lakeCTD/LakeCTDHome.js';
 import LakeCTD from './Components/pages/lakeCTD/LakeCTD.js';
 import DataArchive from './Components/pages/data-archive/DataArchive';
-
-function getCurrentTime() {
-  var time = new Date().toLocaleDateString();
-  time = time.split('/');
-  var currentTimeArr = time.slice(0).reverse().map(
-      val => { return val;
-  })
-  if (currentTimeArr[1].length < 2) {
-      currentTimeArr[1] = '0' + currentTimeArr[1];
-  }
-  if (currentTimeArr[2].length < 2) {
-      currentTimeArr[2] = '0' + currentTimeArr[2];
-  }
-  var curTime = currentTimeArr[0] + currentTimeArr[2] + currentTimeArr[1];
-  return curTime;
-}
-
-function getPreviousWeekDate() {
-  var today = new Date();
-  var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
-  var month = (lastWeek.getUTCMonth() + 1).toString(); //months from 1-12
-  var day = lastWeek.getUTCDate().toString();
-  var year = lastWeek.getUTCFullYear().toString();
-
-  if (month.length < 2) {
-      month = '0' + month;
-  }
-  if (day.length < 2) {
-      day = '0' + day;
-  }
-  return year+month+day;
-}
+import Map from './Components/Map.js';
 
 function App() {
-  var fromDate = getPreviousWeekDate();
-  var toDate = getCurrentTime();
   return (
     <Router basename='/Clear_Lake_Website_Data_Visualization/'>
-      <FullHeader />
-      <Navigation/>
+      {window.location.pathname !== '/Clear_Lake_Website_Data_Visualization/map' ? <><FullHeader/><Navigation/></>:<></>}
       <Routes>
         <Route path='/' exact element={<Home/>} />
         <Route path='/stream' exact element={<StreamHome />} />
@@ -93,8 +59,10 @@ function App() {
         <Route path='/upload-csv' exact element={<LoginPage/>} />
 
         <Route path='/data-archive' exact element={<DataArchive/>} />
+
+        <Route path='/map' exact element={<Map name="all"/>} />
       </Routes>
-      <Footer />
+      {window.location.pathname!=='/Clear_Lake_Website_Data_Visualization/map'?<Footer />:<></>}
     </Router>
 
   );

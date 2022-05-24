@@ -16,6 +16,7 @@ import LakeTchain from './Components/pages/lakeTChain/LakeTchain';
 import LakeCTDHome from './Components/pages/lakeCTD/LakeCTDHome.js';
 import LakeCTD from './Components/pages/lakeCTD/LakeCTD.js';
 import DataArchive from './Components/pages/data-archive/DataArchive';
+import Map from './Components/Map.js';
 
 function getCurrentTime() {
   var time = new Date().toLocaleDateString();
@@ -93,6 +94,8 @@ function App() {
         <Route path='/upload-csv' exact element={<LoginPage/>} />
 
         <Route path='/data-archive' exact element={<DataArchive/>} />
+
+        <Route path='/map' exact element={<Map name="all"/>} />
       </Routes>
       <Footer />
     </Router>

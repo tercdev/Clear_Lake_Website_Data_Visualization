@@ -61,13 +61,13 @@ export default function LakeCTD(props) {
         }],
         yAxis: [{
             title: {
-                text: 'Chlorophyll [ug/l]',
+                text: 'Chlorophyll [µg/l]',
                 style: {
                     color: Highcharts.getOptions().colors[7]
                 }
             },
             labels: {
-                format: '{value} ug/l',
+                format: '{value}',
                 style: {
                     color: Highcharts.getOptions().colors[7]
                 }
@@ -86,7 +86,7 @@ export default function LakeCTD(props) {
                 }
             },
             labels: {
-                format: '{value} mg/l',
+                format: '{value}',
                 style: {
                     color: Highcharts.getOptions().colors[0]
                 }
@@ -99,13 +99,13 @@ export default function LakeCTD(props) {
             max: 16
         }, {
             title: {
-                text: 'Specific Conductivity [uS/cm]',
+                text: 'Specific Conductivity [µS/cm]',
                 style: {
                     color: Highcharts.getOptions().colors[5]
                 }
             },
             labels: {
-                format: '{value} uS/cm',
+                format: '{value}',
                 style: {
                     color: Highcharts.getOptions().colors[5]
                 }
@@ -123,7 +123,7 @@ export default function LakeCTD(props) {
                 }
             },
             labels: {
-                format: '{value} °C',
+                format: '{value}',
                 style: {
                     color: Highcharts.getOptions().colors[3]
                 }
@@ -141,7 +141,7 @@ export default function LakeCTD(props) {
                 }
             },
             labels: {
-                format: '{value} FTU',
+                format: '{value}',
                 style: {
                     color: Highcharts.getOptions().colors[4]
                 }
@@ -155,9 +155,9 @@ export default function LakeCTD(props) {
         tooltip: {
             formatter: function() {
                 let units = {
-                    "Chlorophyll": "ug/l",
+                    "Chlorophyll": "µg/l",
                     "Dissolved Oxygen": 'mg/l',
-                    "Specific Conductivity": 'uS/cm',
+                    "Specific Conductivity": 'µS/cm',
                     "Temperature": '°C',
                     "Turbidity": 'FTU'
                 }

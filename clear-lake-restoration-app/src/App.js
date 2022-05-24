@@ -55,8 +55,8 @@ function App() {
   var toDate = getCurrentTime();
   return (
     <Router basename='/Clear_Lake_Website_Data_Visualization/'>
-      <FullHeader />
-      <Navigation/>
+      {window.location.pathname !== '/Clear_Lake_Website_Data_Visualization/map' ? <><FullHeader />
+      <Navigation/></>:<></>}
       <Routes>
         <Route path='/' exact element={<Home/>} />
         <Route path='/stream' exact element={<StreamHome />} />
@@ -97,7 +97,7 @@ function App() {
 
         <Route path='/map' exact element={<Map name="all"/>} />
       </Routes>
-      <Footer />
+      {window.location.pathname!=='/Clear_Lake_Website_Data_Visualization/map'?<Footer />:<></>}
     </Router>
 
   );

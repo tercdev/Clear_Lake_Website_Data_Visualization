@@ -4,10 +4,10 @@ import Dropzone from 'react-dropzone-uploader';
 import 'react-dropzone-uploader/dist/styles.css';
 import './Uploader.css';
 
-// API endpoint : https://swkt2vo9q1.execute-api.us-west-2.amazonaws.com/default/clearlake-getPresignedFileURL
+// API endpoint : https://ckxm4p1ddg.execute-api.us-west-2.amazonaws.com/clearlake-getPresignedUrlTest
 
 const Uploader = () => {
-    const API_ENDPOINT = "https://swkt2vo9q1.execute-api.us-west-2.amazonaws.com/default/clearlake-getPresignedFileURL";
+    const API_ENDPOINT = "https://ckxm4p1ddg.execute-api.us-west-2.amazonaws.com/clearlake-getPresignedUrlTest";
     const axios = require('axios').default;
 
     const handleChangeStatus = ({ meta, remove }, status) => {

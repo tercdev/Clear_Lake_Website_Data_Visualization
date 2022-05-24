@@ -70,7 +70,8 @@ export default function LakeCTD(props) {
                 format: '{value}',
                 style: {
                     color: Highcharts.getOptions().colors[7]
-                }
+                },
+                step: 2
             },
             lineColor: Highcharts.getOptions().colors[7],
             lineWidth: 5,
@@ -91,7 +92,8 @@ export default function LakeCTD(props) {
                 format: '{value}',
                 style: {
                     color: Highcharts.getOptions().colors[0]
-                }
+                },
+                step: 2
             },
             lineColor: Highcharts.getOptions().colors[0],
             lineWidth: 5,
@@ -112,13 +114,14 @@ export default function LakeCTD(props) {
                 format: '{value}',
                 style: {
                     color: Highcharts.getOptions().colors[5]
-                }
+                },
+                step: 2
             },
             lineColor: Highcharts.getOptions().colors[5],
             lineWidth: 5,
             showLastLabel: false,
-            min: 180,
-            max: 500,
+            min: 200,
+            max: 600,
             startOnTick: false,
             endOnTick: false,
         }, {
@@ -132,7 +135,8 @@ export default function LakeCTD(props) {
                 format: '{value}',
                 style: {
                     color: Highcharts.getOptions().colors[3]
-                }
+                },
+                step: 2
             },
             lineColor: Highcharts.getOptions().colors[3],
             lineWidth: 5,
@@ -152,7 +156,8 @@ export default function LakeCTD(props) {
                 format: '{value}',
                 style: {
                     color: Highcharts.getOptions().colors[4]
-                }
+                },
+                step: 2
             },
             lineColor: Highcharts.getOptions().colors[4],
             lineWidth: 5,

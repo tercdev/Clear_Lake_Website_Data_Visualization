@@ -21,8 +21,7 @@ import Map from './Components/Map.js';
 function App() {
   return (
     <Router basename='/Clear_Lake_Website_Data_Visualization/'>
-      {window.location.pathname !== '/Clear_Lake_Website_Data_Visualization/map' ? <><FullHeader />
-      <Navigation/></>:<></>}
+      {window.location.pathname !== '/Clear_Lake_Website_Data_Visualization/map' ? <><FullHeader/><Navigation/></>:<></>}
       <Routes>
         <Route path='/' exact element={<Home/>} />
         <Route path='/stream' exact element={<StreamHome />} />

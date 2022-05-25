@@ -63,9 +63,6 @@ export default function Met(props) {
                 }
             }
         },
-        boost: {
-            useGPUTranslations: true
-        },
         credits: {
             enabled: false
         },
@@ -248,7 +245,6 @@ export default function Met(props) {
                 selected: true,
                 yAxis: 0,
                 color: Highcharts.getOptions().colors[3],
-                boostThreshold: 10000
             },
             {
                 name: 'Relative Humidity',
@@ -256,7 +252,6 @@ export default function Met(props) {
                 selected: true,
                 yAxis: 1,
                 color: Highcharts.getOptions().colors[0],
-                boostThreshold: 10000
             },
             {
                 name: 'Atmospheric Pressure',
@@ -264,7 +259,6 @@ export default function Met(props) {
                 selected: true,
                 yAxis: 2,
                 color: Highcharts.getOptions().colors[4],
-                boostThreshold: 10000
             },
             {
                 name: 'Wind Direction',
@@ -294,7 +288,6 @@ export default function Met(props) {
                 selected: true,
                 yAxis: 4,
                 color: Highcharts.getOptions().colors[5],
-                boostThreshold: 10000
             },     
             {
                 name: 'Solar Radiation',
@@ -302,7 +295,6 @@ export default function Met(props) {
                 selected: true,
                 yAxis: 5,
                 color: Highcharts.getOptions().colors[6],
-                boostThreshold: 10000
             },           
         ],
         updateTime: {
@@ -319,6 +311,8 @@ export default function Met(props) {
     const [endGraphDate, setGraphEndDate] = useState(today);
     const [error, setError] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [realTime_arr,setRealTimeArr] = useState([])
+    const [cleanMet_arr,setCleanMetArr] = useState([])
     function handleStartDateChange(e) {
         setStartDate(e);
     }
@@ -373,168 +367,182 @@ export default function Met(props) {
         console.log(fetchlist)
         console.log("loading before all: ",realTime.loading)
         setIsLoading(true);
-        let realTime_arr = await Promise.all(
+
+        fetchlist = fetchlist.reverse() // reverse api calls since data is returned in reverse order 
+
+        // fetch all data
+        setRealTimeArr( await Promise.all(
             fetchlist
             )
-        let cleanMet_arr = await Promise.all(
+        )
+        setCleanMetArr( await Promise.all(
             cleanFetchList
-            )
+            ))
+
         setIsLoading(false);
-        // console.log(promise_arr)
-        // combine all 
-        let realTimeData = [].concat.apply([],realTime_arr)
-        let cleanMetData = [].concat.apply([],cleanMet_arr)
-        console.log("loading after",realTime.loading)
-
-        if (cleanMetData.length != 0 || realTimeData.length != 0) {
-            let relHumidityData = getFilteredData(cleanMetData,"Rel_Humidity");
-            let airTempData = getFilteredData(cleanMetData,"Air_Temp");
-            let atmPresData = getFilteredData(cleanMetData,"Atm_Pres");
-            let windSpeedData = getFilteredData(cleanMetData,"Wind_Speed");
-            let windDirData = getFilteredData(cleanMetData,"Wind_Dir");
-            let solarRadData = getFilteredData(cleanMetData,"Solar_Rad");
-
-            let realTimeRelHumidityData = getFilteredData(realTimeData,"Rel_Humidity");
-            let realTimeAirTempData = getFilteredData(realTimeData,"Air_Temp");
-            let realTimeAtmPresData = getFilteredData(realTimeData, "Atm_Pres"); // start from lastdate
-            let realTimeWindSpeedData = getFilteredData(realTimeData,"Wind_Speed");
-            let realTimeWindDirData = getFilteredData(realTimeData,"Wind_Dir");            
-            let realTimeSolarRadData = getFilteredData(realTimeData, "Solar_Rad"); // start from lastdate
-
-            if (atmPresData.length != 0 && realTimeAtmPresData.length != 0) {
-                var lastdate = atmPresData[0][0];
-                
-                let dataLastDate = new Date(atmPresData[0][0]);
-                let realDataLastDate = new Date(realTimeAtmPresData[0][0]);
-                if (dataLastDate.getFullYear() == realDataLastDate.getFullYear() && dataLastDate.getMonth() == realDataLastDate.getMonth() && dataLastDate.getDay() == realDataLastDate.getDay()) {
-                    realTimeAtmPresData = []
-                    realTimeRelHumidityData = []
-                    realTimeAirTempData = []
-                    realTimeWindSpeedData = []
-                    realTimeWindDirData = []
-                    realTimeSolarRadData = []
-                    lastdate = undefined
-                }
-                realTimeAtmPresData = removePast(realTimeAtmPresData, lastdate);
-                realTimeRelHumidityData = removePast(realTimeRelHumidityData, lastdate);
-                realTimeAirTempData = removePast(realTimeAirTempData, lastdate);
-                realTimeWindSpeedData = removePast(realTimeWindSpeedData, lastdate);
-                realTimeWindDirData = removePast(realTimeWindDirData, lastdate);
-                realTimeSolarRadData = removePast(realTimeSolarRadData, lastdate);
-            }
-            
-            let combinedAtmPresData = atmPresData.concat(realTimeAtmPresData);
-            combinedAtmPresData.sort(function(a,b) {
-                return (a[0]-b[0])
-            })
-            let combinedRelHumidityData = relHumidityData.concat(realTimeRelHumidityData);
-            combinedRelHumidityData.sort(function(a,b) {
-                return (a[0]-b[0])
-            })
-            let combinedAirTempData = airTempData.concat(realTimeAirTempData);
-            combinedAirTempData.sort(function(a,b) {
-                return (a[0]-b[0])
-            })
-            let combinedWindSpeedData = windSpeedData.concat(realTimeWindSpeedData);
-            combinedWindSpeedData.sort(function(a,b) {
-                return (a[0]-b[0])
-            })
-            let combinedWindDirData = windDirData.concat(realTimeWindDirData);
-            combinedWindDirData.sort(function(a,b) {
-                return (a[0]-b[0])
-            })
-            let combinedSolarRadData = solarRadData.concat(realTimeSolarRadData);
-            combinedSolarRadData.sort(function(a,b) {
-                return (a[0]-b[0])
-            })
-            let zoneProps = [];
-            if (lastdate == undefined && realTimeAtmPresData.length != 0) {
-                zoneProps = [{value: realTimeAtmPresData[0][0]},{dashStyle: 'dash'}]
-            } else {
-                zoneProps = [{value: lastdate}, {dashStyle: 'dash'}]
-            }
-            let maxX = combinedAtmPresData[combinedAtmPresData.length-1][0];
-            let minX = combinedAtmPresData[0][0];
-            let ylabel = ''
-            let yformat = ''
-            let yseries = ''
-            let maxTemp = 0;
-            if (graphUnit == 'f') {
-                ylabel = 'Air Temperature [°F]'
-                yformat = '{value} °F'
-                yseries = 'Air Temperature in °F';
-                maxTemp = 120;
-            } else {
-                ylabel = 'Air Temperature [°C]'
-                yformat = '{value} °C'
-                yseries = 'Air Temperature in °C'
-                maxTemp = 40;
-            }
-            setChartProps({...chartProps,
-                series: [
-                {
-                    data: combinedAirTempData,
-                    zoneAxis: 'x',
-                    zones: zoneProps,
-                    name: yseries
-                }, 
-                {
-                    data: combinedRelHumidityData,
-                    zoneAxis: 'x',
-                    zones: zoneProps
-                },
-                {
-                    data: combinedAtmPresData,
-                    zoneAxis: 'x',
-                    zones: zoneProps
-                },
-                {
-                    data: combinedWindDirData,
-                    zoneAxis: 'x',
-                    zones: zoneProps
-                },
-                {
-                    data: combinedWindSpeedData,
-                    zoneAxis: 'x',
-                    zones: zoneProps
-                },
-                {
-                    data: combinedSolarRadData,
-                    zoneAxis: 'x',
-                    zones: zoneProps
-                },
-                ],
-                xAxis: [{
-                    min: minX, max: maxX,
-                },{
-                    min: minX, max: maxX,
-                },{
-                    min: minX, max: maxX,
-                },{
-                    min: minX, max: maxX,
-                }],
-                yAxis: [{
-                    title: {
-                        text: ylabel,
-                        style: {
-                            color: Highcharts.getOptions().colors[3]
-                        }
-                    },
-                    labels: {
-                        format: yformat,
-                        style: {
-                            color: Highcharts.getOptions().colors[3]
-                        }
-                    },
-                    max: maxTemp
-                }, {
-                    // min: 0,
-                    // max: 100
-                }, {}, {}, {}, {}]
-            })
-        }
+        
     },[startGraphDate,endGraphDate])
 
+    useEffect(()=> {
+        if (!isLoading) {
+            let realTimeData = [].concat.apply([],realTime_arr)
+            let cleanMetData = [].concat.apply([],cleanMet_arr)
+    
+            // if both arrays are empty then error
+            if (cleanMetData.length != 0 || realTimeData.length != 0) { 
+                // filter data into arrays
+                let relHumidityData = getFilteredData(cleanMetData,"Rel_Humidity");
+                let airTempData = getFilteredData(cleanMetData,"Air_Temp");
+                let atmPresData = getFilteredData(cleanMetData,"Atm_Pres");
+                let windSpeedData = getFilteredData(cleanMetData,"Wind_Speed");
+                let windDirData = getFilteredData(cleanMetData,"Wind_Dir");
+                let solarRadData = getFilteredData(cleanMetData,"Solar_Rad");
+    
+                let realTimeRelHumidityData = getFilteredData(realTimeData,"Rel_Humidity");
+                let realTimeAirTempData = getFilteredData(realTimeData,"Air_Temp");
+                let realTimeAtmPresData = getFilteredData(realTimeData, "Atm_Pres"); // start from lastdate
+                let realTimeWindSpeedData = getFilteredData(realTimeData,"Wind_Speed");
+                let realTimeWindDirData = getFilteredData(realTimeData,"Wind_Dir");            
+                let realTimeSolarRadData = getFilteredData(realTimeData, "Solar_Rad"); // start from lastdate
+    
+                if (atmPresData.length != 0 && realTimeAtmPresData.length != 0) {
+                    var lastdate = atmPresData[0][0];
+                    let dataLastDate = new Date(atmPresData[0][0]);
+                    let realDataLastDate = new Date(realTimeAtmPresData[0][0]);
+    
+                    if (dataLastDate.getFullYear() == realDataLastDate.getFullYear() && dataLastDate.getMonth() == realDataLastDate.getMonth() && dataLastDate.getDay() == realDataLastDate.getDay()) {
+                        realTimeAtmPresData = []
+                        realTimeRelHumidityData = []
+                        realTimeAirTempData = []
+                        realTimeWindSpeedData = []
+                        realTimeWindDirData = []
+                        realTimeSolarRadData = []
+                        lastdate = undefined
+                    }
+                    realTimeAtmPresData = removePast(realTimeAtmPresData, lastdate);
+                    realTimeRelHumidityData = removePast(realTimeRelHumidityData, lastdate);
+                    realTimeAirTempData = removePast(realTimeAirTempData, lastdate);
+                    realTimeWindSpeedData = removePast(realTimeWindSpeedData, lastdate);
+                    realTimeWindDirData = removePast(realTimeWindDirData, lastdate);
+                    realTimeSolarRadData = removePast(realTimeSolarRadData, lastdate);
+                }
+                
+                let combinedAtmPresData = atmPresData.concat(realTimeAtmPresData);
+                combinedAtmPresData.sort(function(a,b) {
+                    return (a[0]-b[0])
+                })
+    
+                let combinedRelHumidityData = relHumidityData.concat(realTimeRelHumidityData);
+                combinedRelHumidityData.sort(function(a,b) {
+                    return (a[0]-b[0])
+                })
+                let combinedAirTempData = airTempData.concat(realTimeAirTempData);
+                combinedAirTempData.sort(function(a,b) {
+                    return (a[0]-b[0])
+                })
+                let combinedWindSpeedData = windSpeedData.concat(realTimeWindSpeedData);
+                combinedWindSpeedData.sort(function(a,b) {
+                    return (a[0]-b[0])
+                })
+                let combinedWindDirData = windDirData.concat(realTimeWindDirData);
+                combinedWindDirData.sort(function(a,b) {
+                    return (a[0]-b[0])
+                })
+                let combinedSolarRadData = solarRadData.concat(realTimeSolarRadData);
+                combinedSolarRadData.sort(function(a,b) {
+                    return (a[0]-b[0])
+                })
+    
+                let zoneProps = [];
+                if (lastdate == undefined && realTimeAtmPresData.length != 0) {
+                    zoneProps = [{value: realTimeAtmPresData[0][0]},{dashStyle: 'dash'}]
+                } else {
+                    zoneProps = [{value: lastdate}, {dashStyle: 'dash'}]
+                }
+    
+                let maxX = combinedAtmPresData[combinedAtmPresData.length-1][0];
+                let minX = combinedAtmPresData[0][0];
+                let ylabel = ''
+                let yformat = ''
+                let yseries = ''
+                let maxTemp = 0;
+    
+                if (graphUnit == 'f') {
+                    ylabel = 'Air Temperature [°F]'
+                    yformat = '{value} °F'
+                    yseries = 'Air Temperature in °F';
+                    maxTemp = 120;
+                } else {
+                    ylabel = 'Air Temperature [°C]'
+                    yformat = '{value} °C'
+                    yseries = 'Air Temperature in °C'
+                    maxTemp = 40;
+                }
+    
+                setChartProps({...chartProps,
+                    series: [
+                    {
+                        data: combinedAirTempData,
+                        zoneAxis: 'x',
+                        zones: zoneProps,
+                        name: yseries
+                    }, 
+                    {
+                        data: combinedRelHumidityData,
+                        zoneAxis: 'x',
+                        zones: zoneProps
+                    },
+                    {
+                        data: combinedAtmPresData,
+                        zoneAxis: 'x',
+                        zones: zoneProps
+                    },
+                    {
+                        data: combinedWindDirData,
+                        zoneAxis: 'x',
+                        zones: zoneProps
+                    },
+                    {
+                        data: combinedWindSpeedData,
+                        zoneAxis: 'x',
+                        zones: zoneProps
+                    },
+                    {
+                        data: combinedSolarRadData,
+                        zoneAxis: 'x',
+                        zones: zoneProps
+                    },
+                    ],
+                    xAxis: [{
+                        min: minX, max: maxX,
+                    },{
+                        min: minX, max: maxX,
+                    },{
+                        min: minX, max: maxX,
+                    },{
+                        min: minX, max: maxX,
+                    }],
+                    yAxis: [{
+                        title: {
+                            text: ylabel,
+                            style: {
+                                color: Highcharts.getOptions().colors[3]
+                            }
+                        },
+                        labels: {
+                            format: yformat,
+                            style: {
+                                color: Highcharts.getOptions().colors[3]
+                            }
+                        },
+                        max: maxTemp
+                    }, {
+                    }, {}, {}, {}, {}]
+                })
+            }
+        }
+    },[isLoading])
+    
     const header1 = "How to use the graphs and see the data below?";
     const content1 = [<ol>
             <li>Select start and end dates with maximum 365-day period. Time is in local pacific time.</li>

@@ -92,31 +92,51 @@ export default function Stream(props) {
             text: ''
         },
         subtitle: {
-            text: 'Click and drag in the plot area to zoom in.<br/>Use three-line icon on top right to download the data displayed in the graph.<br/>Clean data plotted on solid line. Provisional data plotted on dashed line.'
+            text: 'Click and drag in the plot area to zoom in.<br/>Use three-line icon on top right to download the data displayed in the graph.<br/>Clean data plotted on solid line. Provisional data plotted on dashed line.',
+            style: {
+                fontSize: '1rem'
+            }
         },
         xAxis: [{
             type: 'datetime',
+            labels: {
+                style: {
+                    fontSize: '1rem'
+                }
+            }
         }, {
             type: 'datetime',
             top: '-70%',
             offset: 0,
+            labels: {
+                style: {
+                    fontSize: '1rem'
+                }
+            }
         }, {
             type: 'datetime',
             top: '-35%',
             offset: 0,
+            labels: {
+                style: {
+                    fontSize: '1rem'
+                }
+            }
         }],
         yAxis: 
         [{ // Primary yAxis
             labels: {
                 format: '{value} NTU',
                 style: {
-                    color: Highcharts.getOptions().colors[3]
+                    color: Highcharts.getOptions().colors[3],
+                    fontSize: '1rem'
                 }
             },
             title: {
                 text: 'Turbidity [NTU]',
                 style: {
-                    color: Highcharts.getOptions().colors[3]
+                    color: Highcharts.getOptions().colors[3],
+                    fontSize: '1rem'
                 }
             },
             opposite: true,
@@ -129,13 +149,15 @@ export default function Stream(props) {
             title: {
                 text: 'Flow [cfs]',
                 style: {
-                    color: Highcharts.getOptions().colors[0]
+                    color: Highcharts.getOptions().colors[0],
+                    fontSize: '1rem'
                 }
             },
             labels: {
                 format: '{value} cfs',
                 style: {
-                    color: Highcharts.getOptions().colors[0]
+                    color: Highcharts.getOptions().colors[0],
+                    fontSize: '1rem'
                 }
             },
             lineColor: Highcharts.getOptions().colors[0],
@@ -147,13 +169,15 @@ export default function Stream(props) {
             title: {
                 text: 'Water Temperature [°F]',
                 style: {
-                    color: Highcharts.getOptions().colors[7]
+                    color: Highcharts.getOptions().colors[7],
+                    fontSize: '1rem'
                 }
             },
             labels: {
                 format: '{value} °F',
                 style: {
-                    color: Highcharts.getOptions().colors[7]
+                    color: Highcharts.getOptions().colors[7],
+                    fontSize: '1rem'
                 }
             },
             lineColor: Highcharts.getOptions().colors[7],
@@ -165,13 +189,15 @@ export default function Stream(props) {
             title: {
                 text: 'Precipitation [in]',
                 style: {
-                    color: Highcharts.getOptions().colors[5]
+                    color: Highcharts.getOptions().colors[5],
+                    fontSize: '1rem'
                 }
             },
             labels: {
                 format: '{value} in',
                 style: {
-                    color: Highcharts.getOptions().colors[5]
+                    color: Highcharts.getOptions().colors[5],
+                    fontSize: '1rem'
                 }
             },
             height: '30%',
@@ -202,7 +228,7 @@ export default function Stream(props) {
             shared: true,
             followPointer: true,
             style: {
-                fontSize:'15px'
+                fontSize:'1rem'
             }
         },
         series: [
@@ -234,6 +260,12 @@ export default function Stream(props) {
                 // pointWidth: 5
             },     
         ],
+        legend: {
+            verticalAlign: 'top',
+            itemStyle: {
+                fontSize: '1rem'
+            }
+        },
         updateTime: {
             setTime: 0,
             endTime: 0,

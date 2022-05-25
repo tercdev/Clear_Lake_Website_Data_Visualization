@@ -125,6 +125,8 @@ export default function Met(props) {
             offset: true,
             lineColor: Highcharts.getOptions().colors[0],
             lineWidth: 5,
+            // min: 0,
+            max: 100
         }, {
             labels: {
                 format: '{value} kPa',
@@ -216,7 +218,7 @@ export default function Met(props) {
                 const Year = new Date(this.x).getFullYear();
                 const TimeHrs = new Date(this.x).getHours();
                 const TimeMins = new Date(this.x).getMinutes();
-                const dateString = (Month + 1) + "-" + DayOfMonth + "-" + Year + "  " + TimeHrs + ":" + (TimeMins<10?'0':'')+TimeMins;
+                const dateString = (Month + 1) + "-" + DayOfMonth + "-" + Year + "  " + (TimeHrs<10?'0':'') + TimeHrs + ":" + (TimeMins<10?'0':'')+TimeMins;
                 let units = {
                     "Air Temperature in °F": "°F",
                     "Air Temperature in °C": "°C",
@@ -262,7 +264,22 @@ export default function Met(props) {
                 selected: true,
                 yAxis: 3,
                 color: Highcharts.getOptions().colors[7],
-                type: 'scatter',
+                type: 'spline',
+                "lineWidth": 0,
+                        "marker": {
+                            "enabled": "true",
+                            "states": {
+                                "hover": {
+                                "enabled": "true"
+                                }
+                            },
+                            "radius": 5
+                            },
+                        "states": {
+                            "hover": {
+                            "lineWidthPlus": 0
+                            }
+                        },
             },
             {
                 name: 'Wind Speed',
@@ -279,26 +296,6 @@ export default function Met(props) {
                 color: Highcharts.getOptions().colors[6]
             },           
         ],
-        plotOptions: {
-            scatter: {
-                marker: {
-                    radius: 5,
-                    states: {
-                        hover: {
-                            enabled: true,
-                            lineColor: 'rgb(100,100,100)'
-                        }
-                    }
-                },
-                states: {
-                    hover: {
-                        marker: {
-                            enabled: false
-                        }
-                    }
-                },
-            },
-        },
         updateTime: {
             setTime: 0,
             endTime: 0,
@@ -381,8 +378,7 @@ export default function Met(props) {
                     
                     let dataLastDate = new Date(atmPresData[0][0]);
                     let realDataLastDate = new Date(realTimeAtmPresData[0][0]);
-                    let realDataFirstDate = new Date(realTimeAtmPresData[realTimeAtmPresData.length-1][0])
-                    if (dataLastDate.getDay() == realDataLastDate.getDay() || dataLastDate.getDay() == realDataFirstDate.getDay()) {
+                    if (dataLastDate.getFullYear() == realDataLastDate.getFullYear() && dataLastDate.getMonth() == realDataLastDate.getMonth() && dataLastDate.getDay() == realDataLastDate.getDay()) {
                         realTimeAtmPresData = []
                         realTimeRelHumidityData = []
                         realTimeAirTempData = []
@@ -434,14 +430,17 @@ export default function Met(props) {
                 let ylabel = ''
                 let yformat = ''
                 let yseries = ''
+                let maxTemp = 0;
                 if (graphUnit == 'f') {
                     ylabel = 'Air Temperature [°F]'
                     yformat = '{value} °F'
-                    yseries = 'Air Temperature in °F'
+                    yseries = 'Air Temperature in °F';
+                    maxTemp = 120;
                 } else {
                     ylabel = 'Air Temperature [°C]'
                     yformat = '{value} °C'
                     yseries = 'Air Temperature in °C'
+                    maxTemp = 40;
                 }
                 setChartProps({...chartProps,
                     series: [
@@ -498,8 +497,12 @@ export default function Met(props) {
                             style: {
                                 color: Highcharts.getOptions().colors[3]
                             }
-                        }
-                    }, {}, {}, {}, {}, {}]
+                        },
+                        max: maxTemp
+                    }, {
+                        // min: 0,
+                        // max: 100
+                    }, {}, {}, {}, {}]
                 })
             }
         }

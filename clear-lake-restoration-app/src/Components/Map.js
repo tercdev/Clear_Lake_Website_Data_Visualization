@@ -47,7 +47,7 @@ export default function Map(props) {
             });
             map.current.on("click", "streams", e => {
                 console.log(e.features[0].properties.name);
-                window.location.href='/Clear_Lake_Website_Data_Visualization/'+e.features[0].properties.name;
+                window.top.location.href='/Clear_Lake_Website_Data_Visualization/'+e.features[0].properties.name;
                 // streamPopUp(map, e);
             });
         });
@@ -103,9 +103,9 @@ export default function Map(props) {
             map.current.on("click", "met", e => {
                 console.log(e.features[0].properties.name);
                 if (e.features[0].properties.name != "jgb") {
-                    window.location.href='/Clear_Lake_Website_Data_Visualization/'+e.features[0].properties.name;
+                    window.top.location.href='/Clear_Lake_Website_Data_Visualization/'+e.features[0].properties.name;
                 } else {
-                    window.location.href='/Clear_Lake_Website_Data_Visualization/bbi';
+                    window.top.location.href='/Clear_Lake_Website_Data_Visualization/bbi';
                 }
                 // const link = "/" + e.features[0].properties.name
                 // return <Link to={link}></Link>
@@ -175,7 +175,7 @@ export default function Map(props) {
             });
             map.current.on("click", "lake", e => {
                 console.log(e.features[0].properties.name);
-                window.location.href='/Clear_Lake_Website_Data_Visualization/'+e.features[0].properties.name;
+                window.top.location.href='/Clear_Lake_Website_Data_Visualization/'+e.features[0].properties.name;
                 lakePopUp(map,e);
                 // map.flyTo({
                 //     center: e.features[0].geometry.coordinates
@@ -227,7 +227,7 @@ export default function Map(props) {
             });
             map.current.on("click", "profile", e => {
                 console.log(e.features[0].properties.name);
-                window.location.href='/Clear_Lake_Website_Data_Visualization/'+e.features[0].properties.name+'-profile';
+                window.top.location.href='/Clear_Lake_Website_Data_Visualization/'+e.features[0].properties.name+'-profile';
                 profilePopUp(map,e);
                 // map.flyTo({
                 //     center: e.features[0].geometry.coordinates

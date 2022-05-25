@@ -140,7 +140,7 @@ export default function LakeTchain(props) {
                 [1, '#3060cf']
             ],
             min: 0,
-            max: 15,
+            max: 12,
             layout: 'vertical',
             labels: {
                 format: '{value} mg/L'

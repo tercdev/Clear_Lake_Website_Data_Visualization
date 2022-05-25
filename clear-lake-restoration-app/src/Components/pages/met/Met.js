@@ -72,35 +72,60 @@ export default function Met(props) {
             text: ''
         },
         subtitle: {
-            text: 'Click and drag in the plot area to zoom in.<br/>Use three-line icon on top right to download the data displayed in the graph.<br/>Clean data plotted on solid line. Provisional data plotted on dashed line.'
+            text: 'Click and drag in the plot area to zoom in.<br/>Use three-line icon on top right to download the data displayed in the graph.<br/>Clean data plotted on solid line. Provisional data plotted on dashed line.',
+            style: {
+                fontSize: '1rem'
+            }
         },
         xAxis: [{
-            type: 'datetime'
+            type: 'datetime',
+            labels: {
+                style: {
+                    fontSize: '1rem'
+                }
+            }
         }, {
             type: 'datetime',
             offset: 0,
-            top: '-77%'
+            top: '-77%',
+            labels: {
+                style: {
+                    fontSize: '1rem'
+                }
+            }
         }, {
             type: 'datetime',
             offset: 0,
-            top: '-51.5%'
+            top: '-51.5%',
+            labels: {
+                style: {
+                    fontSize: '1rem'
+                }
+            }
         }, {
             type: 'datetime',
             offset: 0,
-            top: '-26%'
+            top: '-26%',
+            labels: {
+                style: {
+                    fontSize: '1rem'
+                }
+            }
         }],
         yAxis: 
         [{ // Primary yAxis
             labels: {
                 format: '{value}°F',
                 style: {
-                    color: Highcharts.getOptions().colors[3]
+                    color: Highcharts.getOptions().colors[3],
+                    fontSize: '1rem'
                 }
             },
             title: {
                 text: 'Air Temperature [°F]',
                 style: {
-                    color: Highcharts.getOptions().colors[3]
+                    color: Highcharts.getOptions().colors[3],
+                    fontSize: '1rem'
                 }
             },
             opposite: true,
@@ -112,13 +137,15 @@ export default function Met(props) {
             title: {
                 text: 'Relative Humidity [%]',
                 style: {
-                    color: Highcharts.getOptions().colors[0]
+                    color: Highcharts.getOptions().colors[0],
+                    fontSize: '1rem'
                 }
             },
             labels: {
                 format: '{value}%',
                 style: {
-                    color: Highcharts.getOptions().colors[0]
+                    color: Highcharts.getOptions().colors[0],
+                    fontSize: '1rem'
                 }
             },
             height: '22.5%',
@@ -131,13 +158,15 @@ export default function Met(props) {
             labels: {
                 format: '{value} kPa',
                 style: {
-                    color: Highcharts.getOptions().colors[4]
+                    color: Highcharts.getOptions().colors[4],
+                    fontSize: '1rem'
                 }
             },
             title: {
                 text: 'Atmospheric Pressure [kPa]',
                 style: {
-                    color: Highcharts.getOptions().colors[4]
+                    color: Highcharts.getOptions().colors[4],
+                    fontSize: '1rem'
                 }
             },
             lineColor: Highcharts.getOptions().colors[4],
@@ -149,7 +178,8 @@ export default function Met(props) {
             title: {
                 text: 'Wind Direction [degrees]',
                 style: {
-                    color: Highcharts.getOptions().colors[7]
+                    color: Highcharts.getOptions().colors[7],
+                    fontSize: '1rem'
                 }
             },
             tickPositions: [0, 90, 180, 270, 360],
@@ -163,6 +193,9 @@ export default function Met(props) {
                         360: 'North'
                     }
                 return (obj[this.value])
+                },
+                style: {
+                    fontSize: '1rem'
                 }
             },
             height: '22.5%',
@@ -176,13 +209,15 @@ export default function Met(props) {
             labels: {
                 format: '{value} m/s',
                 style: {
-                    color: Highcharts.getOptions().colors[5]
+                    color: Highcharts.getOptions().colors[5],
+                    fontSize: '1rem'
                 }
             },
             title: {
                 text: 'Wind Speed [m/s]',
                 style: {
-                    color: Highcharts.getOptions().colors[5]
+                    color: Highcharts.getOptions().colors[5],
+                    fontSize: '1rem'
                 }
             },
             opposite: true,
@@ -196,13 +231,15 @@ export default function Met(props) {
             labels: {
                 format: '{value}',
                 style: {
-                    color: Highcharts.getOptions().colors[6]
+                    color: Highcharts.getOptions().colors[6],
+                    fontSize: '1rem'
                 }
             },
             title: {
                 text: 'Solar Radiation [W/m2]',
                 style: {
-                    color: Highcharts.getOptions().colors[6]
+                    color: Highcharts.getOptions().colors[6],
+                    fontSize: '1rem'
                 }
             },
             lineColor: Highcharts.getOptions().colors[6],
@@ -234,7 +271,10 @@ export default function Met(props) {
                 }, '<b>' + dateString + '</b>');
             },
             shared: true,
-            followPointer: true
+            followPointer: true,
+            style: {
+                fontSize:'1rem'
+            }
         },
 
         series: [
@@ -297,7 +337,10 @@ export default function Met(props) {
             },           
         ],
         legend: {
-            verticalAlign: 'top'
+            verticalAlign: 'top',
+            itemStyle: {
+                fontSize: '1rem'
+            }
         },
         updateTime: {
             setTime: 0,

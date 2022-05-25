@@ -24,26 +24,24 @@ export default function LakeTchain(props) {
                 render() {
                     console.log(this)
                     // legend titles
-                    this.renderer.text('Temperature [°C]', this.chartWidth-30, 165)
+                    this.renderer.text('Temperature [°C]', this.chartWidth-30, 145)
                     .attr({
                         rotation: 90
                     })
                     .css({
                         // color: '#4572A7',
-                        // fontSize: '16px'
+                        fontSize: '1rem'
                     })
                     .add();
-                    this.renderer.text('Dissolved Oxygen [mg/L]', this.chartWidth-30, 470)
+                    this.renderer.text('Dissolved Oxygen [mg/L]', this.chartWidth-30, 450)
                     .attr({
                         rotation: 90
                     })
                     .css({
                         // color: '#4572A7',
-                        // fontSize: '16px'
+                        fontSize: '1rem'
                     })
                     .add();
-                    // dots
-                    // this.renderer.symbol('circle', this.xAxis[0].toPixels(0), this.yAxis[0].toPixels(2));
                 }
             }
         },
@@ -51,7 +49,10 @@ export default function LakeTchain(props) {
             text: ''
         },
         subtitle: {
-            text: 'Click and drag in the plot area to zoom in.<br/>Use three-line icon on top right to download the data displayed in the graph.<br/>White Dots represent depth of the loggers. Black line is the depth of the water column'
+            text: 'Click and drag in the plot area to zoom in.<br/>Use three-line icon on top right to download the data displayed in the graph.<br/>White Dots represent depth of the loggers. Black line is the depth of the water column',
+            style: {
+                fontSize: '1rem'
+            }
         },
         credits: {
             enabled: false
@@ -61,14 +62,33 @@ export default function LakeTchain(props) {
         },
         xAxis: [{
             type: 'datetime',
+            labels: {
+                style: {
+                    fontSize: '1rem'
+                }
+            }
         }, {
             type: 'datetime',
             offset: 0,
-            top: '-57%'
+            top: '-57%',
+            labels: {
+                style: {
+                    fontSize: '1rem'
+                }
+            }
         }],
         yAxis: [{
             title: {
-                text: 'Height above bottom [m]'
+                text: 'Height above bottom [m]',
+                style: {
+                    fontSize: '1rem'
+                }
+            },
+            labels: {
+                format: '{value} m',
+                style: {
+                    fontSize: '1rem'
+                }
             },
             reversed: false,
             min: 0,
@@ -77,7 +97,16 @@ export default function LakeTchain(props) {
             offset: 0,
         }, {
             title: {
-                text: 'Height above bottom [m]'
+                text: 'Height above bottom [m]',
+                style: {
+                    fontSize: '1rem'
+                }
+            },
+            labels: {
+                format: '{value} m',
+                style: {
+                    fontSize: '1rem'
+                }
             },
             reversed: false,
             min: 0,
@@ -87,38 +116,13 @@ export default function LakeTchain(props) {
             top: '57%',
             
         }],
-        colorAxis: [{
-            title: {
-                text: 'Temperature []'
-            },
+        colorAxis: [{ // temperature
             stops: [
-                [0, '#183067'], // darker
+                [0, '#183067'], // darker blue
                 [0.1, '#3060cf'],
-                [0.5, '#fffbbc'],
+                [0.5, '#fffbbc'], // yellow
                 [0.9, '#c4463a'],
-                [1, '#62231d'] // darker
-                // [0, '#1e3a8a'], // blue
-                // [0.1, '#1d4ed8'],
-                // [0.2,'#3b82f6'],
-                // // [0.15, '#1c6ff8'],
-                // [0.28, '#27bbe0'],
-                // [0.36, '#31db92'],
-                // // [0.38, '#7ed663'],
-                // [0.44, '#9bfa24'],
-                // // [0.3, '#93c5fd'],
-                // // [0.4, '#dbeafe'], // almost white blue
-                // // [0.35, '#64ff64'], // green
-                // [0.5, '#ffee00'], // yellow
-                // [0.58, '#fbb806'],
-                // [0.66, '#f6830c'],
-                // [0.74, '#f24d11'],
-                // [0.82, '#ed1717'],
-                // // [0.6, '#fee2e2'], // almost white red
-                // // [0.65, '#fda500'], // orange
-                // // [0.7, '#fca5a5'],// pink
-                // // [0.8, '#ef4444'],
-                // [0.9, '#b91c1c'],
-                // [1, '#7f1d1d'] // red
+                [1, '#62231d'] // darker red
             ],
             min: 7,
             max: 28,
@@ -126,13 +130,13 @@ export default function LakeTchain(props) {
             endOnTick: false,
             layout: 'vertical',
             labels: {
-                format: '{value}°C'
+                format: '{value}°C',
+                style: {
+                    fontSize: '1rem'
+                }
             },
             reversed: false
-        }, {
-            title: {
-                text: 'Dissolved Oxygen [mg/L]'
-            },
+        }, { // dissolved oxygen
             stops: [
                 [0, '#c4463a'],
                 [0.1, '#c4463a'],
@@ -143,7 +147,10 @@ export default function LakeTchain(props) {
             max: 12,
             layout: 'vertical',
             labels: {
-                format: '{value} mg/L'
+                format: '{value} mg/L',
+                style: {
+                    fontSize: '1rem'
+                }
             },
             reversed: false
         }],
@@ -154,7 +161,7 @@ export default function LakeTchain(props) {
             // padding: 20,
             itemMarginTop: 35, // increase moves bottom one down
             itemMarginBottom: 40, // increase moves top one up
-            width: 100,
+            width: 110,
             // itemWidth: 100,
             y: 30,
             // symbolHeight: 275,
@@ -173,8 +180,8 @@ export default function LakeTchain(props) {
             nullColor: '#EFEFEF',
             colsize: 36e5, // 1 hour
             tooltip: {
-                headerFormat:'<b>Temperature</b><br/>',
-                pointFormat: '{point.x:%Y-%m-%d %H:%M}, {point.y}m, {point.value}°C'
+                headerFormat:'<b style="font-size: 1rem">Temperature</b><br/>',
+                pointFormat: '<span style="font-size: 1rem">{point.x:%Y-%m-%d %H:%M}, {point.y}m, {point.value}°C</span>'
             },
         }, {
             name: 'Dissolved Oxygen',
@@ -185,8 +192,8 @@ export default function LakeTchain(props) {
             nullColor: '#EFEFEF',
             colsize: 36e5, // 1 hour
             tooltip: {
-                headerFormat:'<b>Dissolved Oxygen</b><br/>',
-                pointFormat: '{point.x:%Y-%m-%d %H:%M}, {point.y}m, {point.value}mg/L'
+                headerFormat:'<b style="font-size: 1rem">Dissolved Oxygen</b><br/>',
+                pointFormat: '<span style="font-size: 1rem">{point.x:%Y-%m-%d %H:%M}, {point.y}m, {point.value}mg/L</span>'
             },
             yAxis: 1,
             colorAxis: 1
@@ -205,8 +212,8 @@ export default function LakeTchain(props) {
             },
             selected: true,
             tooltip: {
-                headerFormat:'<b>Maximum Depth</b><br/>',
-                pointFormat: '{point.x:%Y-%m-%d %H:%M}, {point.y}m'
+                headerFormat:'<b style="font-size:1rem">Maximum Depth</b><br/>',
+                pointFormat: '<span style="font-size:1rem">{point.x:%Y-%m-%d %H:%M}, {point.y}m</span>'
             },
         }, {
             name: 'Instrument Location for Temperature',
@@ -221,11 +228,11 @@ export default function LakeTchain(props) {
                 fillColor: '#fff',
                 lineColor: 'black',
                 lineWidth: 1,
-                symbol: 'circle'
+                symbol: 'circle',
             },
             tooltip: {
-                headerFormat:'<b>Instrument Location</b><br/>',
-                pointFormat: '{point.y}m'
+                headerFormat:'<b style="font-size:1rem">Instrument Location</b><br/>',
+                pointFormat: '<span style="font-size:1rem">{point.y}m</span>'
             },
         }, {
             name: 'Instrument Location for Dissolved Oxygen',
@@ -240,11 +247,11 @@ export default function LakeTchain(props) {
                 fillColor: '#fff',
                 lineColor: 'black',
                 lineWidth: 1,
-                symbol: 'circle'
+                symbol: 'circle',
             },
             tooltip: {
-                headerFormat:'<b>Instrument Location</b><br/>',
-                pointFormat: '{point.y}m'
+                headerFormat:'<b style="font-size:1rem">Instrument Location</b><br/>',
+                pointFormat: '<style="font-size:1rem">{point.y}m</span>'
             },
         }],
         updateTime: {

@@ -42,7 +42,10 @@ export default function LakeCTD(props) {
             text: ''
         },
         subtitle: {
-            text: 'Click and drag in the plot area to zoom in.<br/>Use three-line icon on top right to download the data displayed in the graph.<br/>Click on the name of the series in the legend on the bottom to hide / show the series on the graph.'
+            text: 'Click and drag in the plot area to zoom in.<br/>Use three-line icon on top right to download the data displayed in the graph.<br/>Click on the name of the series in the legend on the bottom to hide / show the series on the graph.',
+            style: {
+                fontSize: '1rem'
+            }
         },
         credits: {
             enabled: false,
@@ -51,10 +54,16 @@ export default function LakeCTD(props) {
             reversed: false,
             title: {
                 enabled: true,
-                text: 'Depth [m]'
+                text: 'Depth [m]',
+                style: {
+                    fontSize: '1rem'
+                }
             },
             labels: {
-                format: '{value} m'
+                format: '{value} m',
+                style: {
+                    fontSize: '1rem'
+                }
             },
             max: 0,
             gridLineWidth: 1
@@ -63,13 +72,15 @@ export default function LakeCTD(props) {
             title: {
                 text: 'Chlorophyll [µg/l]',
                 style: {
-                    color: Highcharts.getOptions().colors[7]
+                    color: Highcharts.getOptions().colors[7],
+                    fontSize: '1rem'
                 }
             },
             labels: {
                 format: '{value}',
                 style: {
-                    color: Highcharts.getOptions().colors[7]
+                    color: Highcharts.getOptions().colors[7],
+                    fontSize: '1rem'
                 },
                 step: 2
             },
@@ -85,13 +96,15 @@ export default function LakeCTD(props) {
             title: {
                 text: 'Dissolved Oxygen [mg/l]',
                 style: {
-                    color: Highcharts.getOptions().colors[0]
+                    color: Highcharts.getOptions().colors[0],
+                    fontSize: '1rem'
                 }
             },
             labels: {
                 format: '{value}',
                 style: {
-                    color: Highcharts.getOptions().colors[0]
+                    color: Highcharts.getOptions().colors[0],
+                    fontSize: '1rem'
                 },
                 step: 2
             },
@@ -108,13 +121,15 @@ export default function LakeCTD(props) {
             title: {
                 text: 'Specific Conductivity [µS/cm]',
                 style: {
-                    color: Highcharts.getOptions().colors[5]
+                    color: Highcharts.getOptions().colors[5],
+                    fontSize: '1rem'
                 }
             },
             labels: {
                 format: '{value}',
                 style: {
-                    color: Highcharts.getOptions().colors[5]
+                    color: Highcharts.getOptions().colors[5],
+                    fontSize: '1rem'
                 },
                 step: 2
             },
@@ -130,13 +145,15 @@ export default function LakeCTD(props) {
             title: {
                 text: 'Temperature [°C]',
                 style: {
-                    color: Highcharts.getOptions().colors[3]
+                    color: Highcharts.getOptions().colors[3],
+                    fontSize: '1rem'
                 }
             },
             labels: {
                 format: '{value}',
                 style: {
-                    color: Highcharts.getOptions().colors[3]
+                    color: Highcharts.getOptions().colors[3],
+                    fontSize: '1rem'
                 },
                 step: 2
             },
@@ -152,13 +169,15 @@ export default function LakeCTD(props) {
             title: {
                 text: 'Turbidity [FTU]',
                 style: {
-                    color: Highcharts.getOptions().colors[4]
+                    color: Highcharts.getOptions().colors[4],
+                    fontSize: '1rem'
                 }
             },
             labels: {
                 format: '{value}',
                 style: {
-                    color: Highcharts.getOptions().colors[4]
+                    color: Highcharts.getOptions().colors[4],
+                    fontSize: '1rem'
                 },
                 step: 2
             },
@@ -186,7 +205,10 @@ export default function LakeCTD(props) {
                 }, '<b>' + this.x + ' m' + '</b>');
             },
             shared: true,
-            followPointer: true
+            followPointer: true.valueOf,
+            style: {
+                fontSize: '1rem'
+            }
         },
         series: [{
             name: 'Chlorophyll',
@@ -227,7 +249,10 @@ export default function LakeCTD(props) {
             }
         },
         legend: {
-            verticalAlign: 'top'
+            verticalAlign: 'top',
+            itemStyle: {
+                fontSize: '1rem'
+            }
         },
         updateTime: {
             setTime: 0,

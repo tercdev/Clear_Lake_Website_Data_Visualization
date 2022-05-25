@@ -323,7 +323,7 @@ export default function LakeCTD(props) {
     // for the collapsible FAQ
     const header1 = "How to use the graphs and see the data below?";
     const content1 = [<ol>
-            <li>Select year, month, and date. Dates are in UTC.</li>
+            <li>Select year, month, and date. Profiles are normally measured between 9 AM and 2 PM, local time (UTC - 8 h)</li>
             <li>Click submit to update the graphs below.</li>
         </ol>];
 

@@ -232,7 +232,7 @@ export default function Map(props) {
         }
         if (props.name == "met") {
             addMetMarkers();
-            targets.met = "Meterological Stations"
+            targets.met = "Meteorological Stations"
         }
         if (props.name == "lake") {
             addLakeMarkers();
@@ -244,7 +244,7 @@ export default function Map(props) {
             addLakeMarkers();
             addBoundary();
             targets.streams = "Stream Monitoring Sites"
-            targets.met = "Meterological Stations"
+            targets.met = "Meteorological Stations"
             targets.lake = "Lake Monitoring Sites"
             targets.bounds_line = "Watershed Boundary"
         }

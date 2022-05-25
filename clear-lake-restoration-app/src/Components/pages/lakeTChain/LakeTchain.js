@@ -338,7 +338,8 @@ export default function LakeTchain(props) {
                 
                 //finds starting height after 0.5m where data is available and applicable
                 for (let j = 0.51; j <= 1.5; j += 0.01) {
-                    let strings = "Height_" + j + "m";
+                    let val = Math.round(j*100)/100;
+                    let strings = "Height_" + val + "m";
                     if (element[strings] != null) {
                         starting = j;
                         break;

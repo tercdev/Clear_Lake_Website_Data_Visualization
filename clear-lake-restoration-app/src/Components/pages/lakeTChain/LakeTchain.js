@@ -338,8 +338,11 @@ export default function LakeTchain(props) {
                 
                 //finds starting height after 0.5m where data is available and applicable
                 for (let j = 0.51; j <= 1.5; j += 0.01) {
+                    //accounts for weird rounding issue when using for loop
                     let val = Math.round(j*100)/100;
                     let strings = "Height_" + val + "m";
+                    
+                    //checks for existence of datapoint
                     if (element[strings] != null) {
                         starting = j;
                         break;
@@ -370,7 +373,10 @@ export default function LakeTchain(props) {
                 
                 for (let j = h; j <= heightMWhole; j++) {
                     let strVal = "Height_" + (h-1) + "m";
+                    
+                    //retrieves the temp at the lake surface and the temp at height h-1 meters and using those values to predict the temp at height j meters
                     let values =  (((j-(h-1))/(heightM-(h-1))) * (parseFloat(element["Height_surface"]) - parseFloat(element[strVal])) + parseFloat(element[strVal]));
+                    
                     m.push([new Date(element.DateTime_UTC).getTime(),j,values]);
                 }
                 m.push([new Date(element.DateTime_UTC).getTime(),parseFloat(element["Height_max"]),parseFloat(element["Height_surface"])]);

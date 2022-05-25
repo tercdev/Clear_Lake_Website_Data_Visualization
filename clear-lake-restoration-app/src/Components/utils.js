@@ -102,3 +102,20 @@ export function removePast(data, date) {
     }
     return data;
 }
+
+export function removeExcess(data, date) {
+    if (date === undefined) {
+        return data;
+    }
+
+    for (let i = data.length -1; i >= 0;i--){
+        for (let j = data[i].length-1;j >=0;j--) {
+            
+            if (new Date(data[i][j]["DateTime_UTC"]).getTime() > date) {
+                data[i].splice(j,1)
+            }
+        }
+    }
+
+    return data;
+}

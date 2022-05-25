@@ -103,15 +103,20 @@ export function removePast(data, date) {
     return data;
 }
 
-export function removeExcess(data, date) {
-    if (date === undefined) {
+export function removeExcess(data, lastDate,startDate) {
+    if (lastDate === undefined) {
+        return data;
+    }
+    if (startDate === undefined) {
         return data;
     }
 
     for (let i = data.length -1; i >= 0;i--){
-        for (let j = data[i].length-1;j >=0;j--) {
-            
-            if (new Date(data[i][j]["DateTime_UTC"]).getTime() > date) {
+        for (let j = data[i].length-2; j >=0;j--) {
+            if (new Date(data[i][j]["DateTime_UTC"]).getTime() > lastDate) {
+                data[i].splice(j,1)
+            }
+            if (new Date(data[i][j]["DateTime_UTC"]).getTime() < startDate) {
                 data[i].splice(j,1)
             }
         }

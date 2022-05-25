@@ -17,6 +17,7 @@ import {
         removeExcess
      } from '../../utils.js';
 
+let TIMEZONE_OFFSET = 7;
 export default function Met(props) {
     const [unit, setUnit] = useState('f'); 
     const [graphUnit, setGraphUnit] = useState('f');
@@ -374,20 +375,31 @@ export default function Met(props) {
                 cleanFetchList
                 )
 
+            let lastEndDate = new Date(endGraphDate)
+            lastEndDate.setHours(23,59,0,0)
+            lastEndDate.setTime(lastEndDate.getTime() + TIMEZONE_OFFSET*60*60*1000) // convert end date to pst time zone
+
+            let startCompDate = new Date(startGraphDate)
+            startCompDate.setHours(TIMEZONE_OFFSET,0,0)
+
             // if clean data is empty then move on with only realtime data
             if (cleanArr.length > 0 && cleanArr[0].length > 0 ) { 
-                let lastArr = cleanArr.slice(-1)
-                let lastDateofCleanData = new Date(lastArr[0].slice(-1)[0]['DateTime_UTC']) // get last date of clean data
 
-                let lastEndDate = new Date(endGraphDate)
-                lastEndDate.setHours(23,59,0,0)
-                lastEndDate.setTime(lastEndDate.getTime() + 8*60*60*1000) // convert end date to pst time zone
+                for (let j = 0;j< cleanArr.length;j++) {
+                    if (cleanArr[j].length === 0) {
+                        cleanArr.splice(j,1)
+                    }
+                }
+                let lastArr = cleanArr.slice(-1)
+
+                let lastDateofCleanData = new Date(lastArr[0].slice(-1)[0]['DateTime_UTC']) // get last date of clean data
 
                 // if true then clean date is sufficient and no need for realtime
                 if ( lastDateofCleanData >= endGraphDate) {
                     /* trim any extra hours, this is because we query for an extra UTC day, we must
                      remove a couple hours */
-                    let trimData = removeExcess(cleanArr,lastEndDate.getTime())
+
+                    let trimData = removeExcess(cleanArr,lastEndDate.getTime(),startCompDate.getTime())
                     setCleanMetArr(trimData)
                 }
                 else {
@@ -395,21 +407,21 @@ export default function Met(props) {
                     let realTimedata = await Promise.all(
                         realTimeFetchlist
                     )
-                    let trimRealtimeData = removeExcess(realTimedata ,lastEndDate.getTime())
+                    let trimRealtimeData = removeExcess(realTimedata ,lastEndDate.getTime(),startCompDate.getTime())
                     setRealTimeArr(trimRealtimeData)
                     setCleanMetArr(cleanArr)
                 }
             }
             // only realtime data is necessary 
             else {
-                let lastEndDate = new Date(endGraphDate)
-                lastEndDate.setHours(23,59,0,0)
-                lastEndDate.setTime(lastEndDate.getTime() + 8*60*60*1000)
+                // let lastEndDate = new Date(endGraphDate)
+                // lastEndDate.setHours(23,59,0,0)
+                // lastEndDate.setTime(lastEndDate.getTime() + 8*60*60*1000)
                 
                 let realTimearr =  await Promise.all(
                     realTimeFetchlist
                     )
-                let trimRealData = removeExcess(realTimearr ,lastEndDate.getTime())
+                let trimRealData = removeExcess(realTimearr ,lastEndDate.getTime(),startCompDate.getTime())
                 setRealTimeArr(trimRealData)
             }
 

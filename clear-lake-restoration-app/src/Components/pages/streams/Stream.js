@@ -234,6 +234,9 @@ export default function Stream(props) {
                 // pointWidth: 5
             },     
         ],
+        legend: {
+            verticalAlign: 'top'
+        },
         updateTime: {
             setTime: 0,
             endTime: 0,

@@ -296,6 +296,9 @@ export default function Met(props) {
                 color: Highcharts.getOptions().colors[6]
             },           
         ],
+        legend: {
+            verticalAlign: 'top'
+        },
         updateTime: {
             setTime: 0,
             endTime: 0,

@@ -121,8 +121,8 @@ export default function LakeCTD(props) {
             lineColor: Highcharts.getOptions().colors[5],
             lineWidth: 5,
             showLastLabel: false,
-            min: 200,
-            max: 600,
+            min: 180,
+            max: 410,
             startOnTick: false,
             endOnTick: false,
             gridLineWidth: 0
@@ -143,8 +143,8 @@ export default function LakeCTD(props) {
             lineColor: Highcharts.getOptions().colors[3],
             lineWidth: 5,
             showLastLabel: false,
-            min: 0,
-            max: 32,
+            min: 4,
+            max: 28,
             startOnTick: false,
             endOnTick: false,
             gridLineWidth: 0

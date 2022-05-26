@@ -282,7 +282,7 @@ export default function Map(props) {
 
     return (
     <div className="map">
-        <p className='map-caption'>Hover over markers to see the name of the location. Click on the marker to be redirected to a page with the corresponding visualizations.</p>
+        <p className='map-caption'>Click on the markers to see the name of the location. Click on the link in the pop up to be go to a page with the corresponding visualizations.</p>
         
         <div ref={mapContainer} className="map-container" />
         <div className="sidebar">

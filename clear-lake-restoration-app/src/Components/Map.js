@@ -72,7 +72,7 @@ export default function Map(props) {
             }
             const description = e.features[0].properties.name.charAt(0).toUpperCase() + e.features[0].properties.name.slice(1) + " Creek"
             const link = "<a href='/Clear_Lake_Website_Data_Visualization/" + e.features[0].properties.name + "'>" + description + "</a>"                    
-            new mapboxgl.Popup({focusAfterOpen: false, closeButton: false}).setLngLat(coordinates).setHTML(link).addTo(map.current)
+            new mapboxgl.Popup({focusAfterOpen: false, closeButton: true}).setLngLat(coordinates).setHTML(link).addTo(map.current)
         }
     }
     function addMetMarkers() {
@@ -154,7 +154,7 @@ export default function Map(props) {
             }
             // description = "<h1>" + description + "<h1/>"
             const link = "<a href='/Clear_Lake_Website_Data_Visualization/" + url + "'>" + description + "</a>" + note
-            new mapboxgl.Popup({focusAfterOpen: false, closeButton: false}).setLngLat(coordinates).setHTML(link).addTo(map.current)
+            new mapboxgl.Popup({focusAfterOpen: false, closeButton: true}).setLngLat(coordinates).setHTML(link).addTo(map.current)
         }
     }
     function addLakeMarkers() {

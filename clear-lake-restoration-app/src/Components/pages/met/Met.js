@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import useFetch from 'react-fetch-hook';
+// import useFetch from 'react-fetch-hook';
 import Highcharts from 'highcharts';
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -8,36 +8,36 @@ import DataDisclaimer from '../../DataDisclaimer.js';
 import DateRangePicker from '../../DateRangePicker.js';
 import CollapsibleItem from '../../CollapsibleItem';
 
+import useFetch from 'use-http';
 import { 
         convertDate, 
         convertGMTtoPSTTime,
         cardinalToDeg,
-        removePast
+        removePast,
+        removeExcess
      } from '../../utils.js';
 
+let TIMEZONE_OFFSET = 7;
 export default function Met(props) {
     const [unit, setUnit] = useState('f'); 
     const [graphUnit, setGraphUnit] = useState('f');
     
     function handleF(e) {
-        console.log(e)
         setUnit('f')
     }
     function handleC(e) {
         setUnit('c')
-        console.log("radio to C")
     }
     
     // get data based on graph type
     function getFilteredData(data, dataType) {
         let m = [];
-    
         data.forEach((element => {
              let pstTime = convertGMTtoPSTTime(new Date(element.DateTime_UTC));
-            if (dataType == "Wind_Dir") {
+            if (dataType === "Wind_Dir") {
                 m.push([pstTime.getTime(), cardinalToDeg(element[dataType])]);
-            } else if (dataType == "Air_Temp") {
-                if (graphUnit == 'f') {
+            } else if (dataType === "Air_Temp") {
+                if (graphUnit === 'f') {
                     const fToCel= temp => Math.round( (temp *1.8 )+32 );
                     m.push([pstTime.getTime(), fToCel(parseFloat(element[dataType]))]);
                 } else {
@@ -47,6 +47,7 @@ export default function Met(props) {
                 m.push([pstTime.getTime(), parseFloat(element[dataType])]);
             }
         }));
+
         m.sort(function(a,b) {
             return (a[0], b[0])
         })
@@ -297,7 +298,7 @@ export default function Met(props) {
                 data: [],
                 selected: true,
                 yAxis: 2,
-                color: Highcharts.getOptions().colors[4]
+                color: Highcharts.getOptions().colors[4],
             },
             {
                 name: 'Wind Direction',
@@ -313,7 +314,7 @@ export default function Met(props) {
                                 "enabled": "true"
                                 }
                             },
-                            "radius": 5
+                            "radius": 3
                             },
                         "states": {
                             "hover": {
@@ -333,7 +334,7 @@ export default function Met(props) {
                 data: [],
                 selected: true,
                 yAxis: 5,
-                color: Highcharts.getOptions().colors[6]
+                color: Highcharts.getOptions().colors[6],
             },           
         ],
         legend: {
@@ -355,7 +356,10 @@ export default function Met(props) {
     const [startGraphDate, setGraphStartDate] = useState(lastWeek);
     const [endGraphDate, setGraphEndDate] = useState(today);
     const [error, setError] = useState(false);
-    
+    const [isLoading, setIsLoading] = useState(true);
+    const [realTime_arr,setRealTimeArr] = useState([])
+    const [cleanMet_arr,setCleanMetArr] = useState([])
+
     function handleStartDateChange(e) {
         setStartDate(e);
     }
@@ -366,65 +370,141 @@ export default function Met(props) {
    
     function setGraphDates() {
         setGraphUnit(unit);
-        console.log("set graph unit", unit)
         setError(false);
-        let latestDate = new Date(new Date(startDate).setDate(365));
         setGraphStartDate(startDate);
-        if (endDate > latestDate) {
-            setError(true);
-            setEndDate(latestDate);
-            setGraphEndDate(latestDate);
-        } else {
-            setGraphEndDate(endDate);
-        }
+        setGraphEndDate(endDate);
     }
 
-    // real-time data Endpoint URL 
-    var real_time_url = new URL('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/metweatherlink');
-    let real_search_params = real_time_url.searchParams;
-    real_search_params.set('id',props.id);
-    let oldestDate = new Date(new Date().setDate(endGraphDate.getDate() - 150));
-    if (startGraphDate < oldestDate) {
-        real_search_params.set('rptdate', convertDate(oldestDate));
-    } else {
-        real_search_params.set('rptdate', convertDate(startGraphDate)); // at most 180 days away from endDate
-    }
-    real_search_params.set('rptend', convertDate(endGraphDate));
-    real_time_url.search = real_search_params.toString();
-    const realTimeData = useFetch(real_time_url.toString());
-  
-    // clean data Endpoint URL
-    var clean_data_url = new URL('https://4ery4fbt1i.execute-api.us-west-2.amazonaws.com/default/clearlake-met');
-    var search_params = clean_data_url.searchParams;
-    search_params.set('id',props.id);
-    search_params.set('start',convertDate(startGraphDate));
-    search_params.set('end',convertDate(endGraphDate));
-    clean_data_url.search = search_params.toString();
-    const cleanMetData = useFetch(clean_data_url.toString());
-  
+    // endpoint provided by TERC
+    const realTime = useFetch('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/metweatherlink')
+    // endpoint that contains clean data
+    const cleanMet = useFetch('https://4ery4fbt1i.execute-api.us-west-2.amazonaws.com/default/clearlake-met')
+
     useEffect(()=> {
-        if (!cleanMetData.isLoading && !realTimeData.isLoading) {
-            if (cleanMetData.data.length != 0 || realTimeData.data.length != 0) {
-                let relHumidityData = getFilteredData(cleanMetData.data,"Rel_Humidity");
-                let airTempData = getFilteredData(cleanMetData.data,"Air_Temp");
-                let atmPresData = getFilteredData(cleanMetData.data,"Atm_Pres");
-                let windSpeedData = getFilteredData(cleanMetData.data,"Wind_Speed");
-                let windDirData = getFilteredData(cleanMetData.data,"Wind_Dir");
-                let solarRadData = getFilteredData(cleanMetData.data,"Solar_Rad");
+        setCleanMetArr([])
+        setRealTimeArr([])
 
-                let realTimeRelHumidityData = getFilteredData(realTimeData.data,"Rel_Humidity");
-                let realTimeAirTempData = getFilteredData(realTimeData.data,"Air_Temp");
-                let realTimeAtmPresData = getFilteredData(realTimeData.data, "Atm_Pres"); // start from lastdate
-                let realTimeWindSpeedData = getFilteredData(realTimeData.data,"Wind_Speed");
-                let realTimeWindDirData = getFilteredData(realTimeData.data,"Wind_Dir");            
-                let realTimeSolarRadData = getFilteredData(realTimeData.data, "Solar_Rad"); // start from lastdate
+        // find difference between user picked dates
+        let diffTime = endGraphDate.getTime() - startGraphDate.getTime()
+        let diffDay = diffTime/(1000*3600*24)
 
-                if (atmPresData.length != 0 && realTimeAtmPresData.length != 0) {
+        let realTimeFetchlist =[]
+        let cleanFetchList = []
+        
+        let newDay = 0;
+        let compareDate = startGraphDate;
+
+        while (diffDay > 150) {
+            newDay = new Date(new Date(compareDate.getTime()).setDate(compareDate.getDate() + 150));
+
+            diffTime = endGraphDate.getTime() - newDay.getTime()
+            diffDay = diffTime/(1000*3600*24)
+
+            realTimeFetchlist.push(realTime.get(`?id=${props.id}&rptdate=${convertDate(compareDate)}&rptend=${convertDate(newDay)}`))
+            cleanFetchList.push(cleanMet.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(newDay)}`))
+
+            // next query should be the last day +1 so no overlap with data
+            let newDayPlusOne = new Date(new Date(compareDate.getTime()).setDate(compareDate.getDate() + 151));
+            compareDate = newDayPlusOne
+
+        }
+        // query one extra day since data retrieved is in UTC
+        let endDayPlusOne = new Date(new Date(endGraphDate.getTime()).setDate(endGraphDate.getDate() + 1));
+
+        realTimeFetchlist.push(realTime.get(`?id=${props.id}&rptdate=${convertDate(compareDate)}&rptend=${convertDate(endDayPlusOne)}`))
+        cleanFetchList.push(cleanMet.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(endDayPlusOne)}`))
+
+        setIsLoading(true); // Loading is true
+
+        realTimeFetchlist = realTimeFetchlist.reverse() // reverse api calls since data is returned in reverse order 
+
+        async function fetchData() {
+            // start with fetching any potential clean data
+            let cleanArr = await Promise.all(
+                cleanFetchList
+                )
+
+            let lastEndDate = new Date(endGraphDate)
+            lastEndDate.setHours(23,59,0,0)
+            lastEndDate.setTime(lastEndDate.getTime() + TIMEZONE_OFFSET*60*60*1000) // convert end date to pst time zone
+
+            // if clean data is empty then move on with only realtime data
+            if (cleanArr.length > 0 && cleanArr[0].length > 0 ) { 
+
+                // check if any empty arrays 
+                for (let j = 0;j< cleanArr.length;j++) {
+                    if (cleanArr[j].length === 0) {
+                        cleanArr.splice(j,1)
+                    }
+                }
+                let lastArr = cleanArr.slice(-1)
+
+                let lastDateofCleanData = new Date(lastArr[0].slice(-1)[0]['DateTime_UTC']) // get last date of clean data
+
+                // if true then clean date is sufficient and no need for realtime
+                if ( lastDateofCleanData >= endGraphDate) {
+                    /* trim any extra hours, this is because we query for an extra UTC day, we must
+                     remove a couple hours */
+
+                    let trimData = removeExcess(cleanArr,lastEndDate.getTime())
+                    setCleanMetArr(trimData)
+                }
+                else {
+                    // fetch real time data if clean data doesn't cover the whole date
+                    let realTimedata = await Promise.all(
+                        realTimeFetchlist
+                    )
+                    let trimRealtimeData = removeExcess(realTimedata ,lastEndDate.getTime())
+                    setRealTimeArr(trimRealtimeData)
+                    setCleanMetArr(cleanArr)
+                }
+            }
+            // only realtime data is necessary 
+            else {
+                
+                let realTimearr =  await Promise.all(
+                    realTimeFetchlist
+                    )
+                let trimRealData = removeExcess(realTimearr ,lastEndDate.getTime())
+                setRealTimeArr(trimRealData)
+            }
+
+            setIsLoading(false); //loading is done
+        }
+
+        fetchData()
+        
+    },[startGraphDate,endGraphDate])
+
+    useEffect(()=> {
+        if (!isLoading) {
+
+            let realTimeData = [].concat.apply([],realTime_arr)
+            let cleanMetData = [].concat.apply([],cleanMet_arr)
+    
+            // if both arrays are empty then error
+            if (cleanMetData.length !== 0 || realTimeData.length !== 0) { 
+                // filter data into arrays
+                let relHumidityData = getFilteredData(cleanMetData,"Rel_Humidity");
+                let airTempData = getFilteredData(cleanMetData,"Air_Temp");
+                let atmPresData = getFilteredData(cleanMetData,"Atm_Pres");
+                let windSpeedData = getFilteredData(cleanMetData,"Wind_Speed");
+                let windDirData = getFilteredData(cleanMetData,"Wind_Dir");
+                let solarRadData = getFilteredData(cleanMetData,"Solar_Rad");
+    
+                let realTimeRelHumidityData = getFilteredData(realTimeData,"Rel_Humidity");
+                let realTimeAirTempData = getFilteredData(realTimeData,"Air_Temp");
+                let realTimeAtmPresData = getFilteredData(realTimeData, "Atm_Pres"); // start from lastdate
+                let realTimeWindSpeedData = getFilteredData(realTimeData,"Wind_Speed");
+                let realTimeWindDirData = getFilteredData(realTimeData,"Wind_Dir");            
+                let realTimeSolarRadData = getFilteredData(realTimeData, "Solar_Rad"); // start from lastdate
+    
+                if (atmPresData.length !== 0 && realTimeAtmPresData.length !== 0) {
                     var lastdate = atmPresData[0][0];
-                    
                     let dataLastDate = new Date(atmPresData[0][0]);
                     let realDataLastDate = new Date(realTimeAtmPresData[0][0]);
-                    if (dataLastDate.getFullYear() == realDataLastDate.getFullYear() && dataLastDate.getMonth() == realDataLastDate.getMonth() && dataLastDate.getDay() == realDataLastDate.getDay()) {
+    
+                    if (dataLastDate.getFullYear() === realDataLastDate.getFullYear() && dataLastDate.getMonth() === realDataLastDate.getMonth() && dataLastDate.getDay() === realDataLastDate.getDay()) {
                         realTimeAtmPresData = []
                         realTimeRelHumidityData = []
                         realTimeAirTempData = []
@@ -445,6 +525,7 @@ export default function Met(props) {
                 combinedAtmPresData.sort(function(a,b) {
                     return (a[0]-b[0])
                 })
+    
                 let combinedRelHumidityData = relHumidityData.concat(realTimeRelHumidityData);
                 combinedRelHumidityData.sort(function(a,b) {
                     return (a[0]-b[0])
@@ -465,19 +546,22 @@ export default function Met(props) {
                 combinedSolarRadData.sort(function(a,b) {
                     return (a[0]-b[0])
                 })
+    
                 let zoneProps = [];
-                if (lastdate == undefined && realTimeAtmPresData.length != 0) {
+                if (lastdate === undefined && realTimeAtmPresData.length !== 0) {
                     zoneProps = [{value: realTimeAtmPresData[0][0]},{dashStyle: 'dash'}]
                 } else {
                     zoneProps = [{value: lastdate}, {dashStyle: 'dash'}]
                 }
+    
                 let maxX = combinedAtmPresData[combinedAtmPresData.length-1][0];
                 let minX = combinedAtmPresData[0][0];
                 let ylabel = ''
                 let yformat = ''
                 let yseries = ''
                 let maxTemp = 0;
-                if (graphUnit == 'f') {
+    
+                if (graphUnit === 'f') {
                     ylabel = 'Air Temperature [°F]'
                     yformat = '{value} °F'
                     yseries = 'Air Temperature in °F';
@@ -488,6 +572,7 @@ export default function Met(props) {
                     yseries = 'Air Temperature in °C'
                     maxTemp = 40;
                 }
+    
                 setChartProps({...chartProps,
                     series: [
                     {
@@ -546,15 +631,12 @@ export default function Met(props) {
                         },
                         max: maxTemp
                     }, {
-                        // min: 0,
-                        // max: 100
                     }, {}, {}, {}, {}]
                 })
             }
         }
-      },[cleanMetData.isLoading, realTimeData.isLoading, startGraphDate, endGraphDate, graphUnit])
+    },[isLoading,graphUnit])
 
-    // for the collapsible FAQ
     const header1 = "How to use the graphs and see the data below?";
     const content1 = [<ol>
             <li>Select start and end dates with maximum 365-day period. Time is in local pacific time.</li>
@@ -590,7 +672,7 @@ export default function Met(props) {
             {error && <p className='error-message'>Selected date range was more than 365 days. End date was automatically changed.</p>}
             <Chart 
                 chartProps={chartProps}
-                isLoading={realTimeData.isLoading || cleanMetData.isLoading}
+                isLoading={isLoading}
              />
         </div>
         

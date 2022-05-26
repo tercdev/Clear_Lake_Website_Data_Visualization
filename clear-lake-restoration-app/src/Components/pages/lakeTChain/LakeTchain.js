@@ -7,7 +7,9 @@ import DatePicker from 'react-datepicker';
 import CollapsibleItem from '../../CollapsibleItem';
 import '../../DateRangePicker.css';
 import useFetch from 'use-http';
+import {NoDataToDisplay} from 'react-highcharts-no-data-to-display';
 
+NoDataToDisplay(Highcharts);
 require('highcharts/modules/heatmap')(Highcharts);
 require('highcharts/modules/boost')(Highcharts);
 
@@ -70,19 +72,55 @@ export default function LakeTchain(props) {
             time: {
                 useUTC: false
             },
+            
             events: {
                 load() { // show Loading... text and add legend labels
                     this.showLoading();
                     createLegendLabels(this, 150, 450);
                 },
-                render() { // rerender legend labels
-                    createLegendLabels(this, 150, 450);
+                render() {
+                    // legend titles
+                    this.renderer.text('Temperature [°C]', this.chartWidth-30, 145)
+                    .attr({
+                        rotation: 90
+                    })
+                    .css({
+                        // color: '#4572A7',
+                        fontSize: '1rem'
+                    })
+                    .add();
+                    this.renderer.text('Dissolved Oxygen [mg/L]', this.chartWidth-30, 450)
+                    .attr({
+                        rotation: 90
+                    })
+                    .css({
+                        // color: '#4572A7',
+                        fontSize: '1rem'
+                    })
+                    .add();
                 }
             }
         },
         title: {
             text: ''
         },
+        lang:{
+            noData: 'No data to display! Check FAQ for more information.', //the text to be displayed
+            
+          },
+          noData: {
+            style: {
+                fontWeight: 'bold',
+                fontSize: '20px',
+                color: 'rgb(221,73,73)',
+            },
+            position: {
+                "x": 0,
+                "y": 0,
+                "align": "center",
+                "verticalAlign": "middle"
+            }
+          },
         subtitle: {
             text: 'Click and drag in the plot area to zoom in.<br/>Use three-line icon on top right to download the data displayed in the graph.<br/>White Dots represent depth of the loggers. Black line is the depth of the water column.',
             style: {

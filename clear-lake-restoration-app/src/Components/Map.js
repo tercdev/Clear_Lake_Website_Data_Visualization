@@ -8,6 +8,13 @@ import '@watergis/mapbox-gl-legend/css/styles.css';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiY2hlbmFsaSIsImEiOiJjbDBqY2V2bGowYjlrM2NtaXhjYzlyM2pxIn0.BxtrB0AyBeGd8lug5c6mUg';
 
+/**
+ * Component for showing mapbox map.
+ * 
+ * @component
+ * @param {String} name type of map: "stream", "met", "lake", "all"
+ * @returns {JSX.Element} Map Component template
+ */
 export default function Map(props) {
     const mapContainer = useRef(null);
     const map = useRef(null);

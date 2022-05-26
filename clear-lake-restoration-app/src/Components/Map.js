@@ -79,7 +79,7 @@ export default function Map(props) {
             }
             const description = e.features[0].properties.name.charAt(0).toUpperCase() + e.features[0].properties.name.slice(1) + " Creek"
             const link = "<a href='/Clear_Lake_Website_Data_Visualization/" + e.features[0].properties.name + "'>" + description + "</a>"                    
-            new mapboxgl.Popup({focusAfterOpen: false, closeButton: true, closeOnMove: false, closeOnClick: false}).setLngLat(coordinates).setHTML(link).addTo(map.current)
+            new mapboxgl.Popup({focusAfterOpen: false, closeButton: true, closeOnMove: false, closeOnClick: true}).setLngLat(coordinates).setHTML(link).addTo(map.current)
         }
     }
     function addMetMarkers() {
@@ -165,7 +165,7 @@ export default function Map(props) {
             if (e.features[0].properties.name == "jgb") {
                 link = description + note
             }
-            new mapboxgl.Popup({focusAfterOpen: false, closeButton: true, closeOnMove: false, closeOnClick: false}).setLngLat(coordinates).setHTML(link).addTo(map.current)
+            new mapboxgl.Popup({focusAfterOpen: false, closeButton: true, closeOnMove: false, closeOnClick: true}).setLngLat(coordinates).setHTML(link).addTo(map.current)
         }
     }
     function addLakeMarkers() {
@@ -223,7 +223,7 @@ export default function Map(props) {
                 note = " (discontinued on 6/15/2020)"
             }
             let link = "<b>"+description+"</b><br/><a href='/Clear_Lake_Website_Data_Visualization/" + e.features[0].properties.name + "'> Lake Mooring</a>"+ note +"<br/><a href='/Clear_Lake_Website_Data_Visualization/"+e.features[0].properties.name+"-profile'>Lake Profile</a>"
-            new mapboxgl.Popup({focusAfterOpen: false, closeButton: true, closeOnMove: false, closeOnClick: false}).setLngLat(coordinates).setHTML(link).addTo(map.current)
+            new mapboxgl.Popup({focusAfterOpen: false, closeButton: true, closeOnMove: false, closeOnClick: true}).setLngLat(coordinates).setHTML(link).addTo(map.current)
         }
     }
     function addBoundary() {

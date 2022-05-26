@@ -140,6 +140,7 @@ export default function Map(props) {
             let description = ""
             let url = e.features[0].properties.name
             let note = ""
+            let link = ""
             if (e.features[0].properties.name == "bkp") {
                 description = "Buckingham Point";
             } else if (e.features[0].properties.name == "nic") {
@@ -154,13 +155,16 @@ export default function Map(props) {
                 description = "Clearlake Oaks"
             } else if (e.features[0].properties.name == "jgb") {
                 description = "Jago Bay"
-                note = "<br/>(relocated to Beakbane Island in June 2020)"
+                note = "<br/>(relocated to <a href='/Clear_Lake_Website_Data_Visualization/bek'>Beakbane Island</a> in June 2020)"
                 url = "bek"
             } else {
                 description = "Beakbane Island"
             }
             // description = "<h1>" + description + "<h1/>"
-            const link = "<a href='/Clear_Lake_Website_Data_Visualization/" + url + "'>" + description + "</a>" + note
+            link = "<a href='/Clear_Lake_Website_Data_Visualization/" + url + "'>" + description + "</a>" + note
+            if (e.features[0].properties.name == "jgb") {
+                link = description + note
+            }
             new mapboxgl.Popup({focusAfterOpen: false, closeButton: true, closeOnMove: false, closeOnClick: false}).setLngLat(coordinates).setHTML(link).addTo(map.current)
         }
     }

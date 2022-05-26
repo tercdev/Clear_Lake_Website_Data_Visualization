@@ -333,26 +333,39 @@ export default function LakeTchain(props) {
                     
                     //finds end height by increment every 0.01m
                     if (element[strings] != null) {
-                        e = i;
+                    
+                        e = val;
                         //ending height
                         let ending = "Height_" + e + "m";
                         let h = Math.ceil(s);
                         let end = Math.ceil(e);
 
-                        for (let j = h; j < end; j++) {
+                        let init = -1;
+                        let v = -1;
+                        if (s%1 == 0) {
+                            init = h+1;
+                            v = h;
+                        } else {
+                            init = h;
+                            v = h-1;
+                        }
+                        
+
+                        for (let j = init; j < end && e-s != -1; j++) {
                             //retrieves the dissolved oxygen at the lake surface and the dissolved oxygen at height h-1 meters and using those values to predict the dissolved oxygen at height j meters
                             let strVal = "Height_" + h + "m";
-                            let values =  (((j-(h-1))/(e-(h-1))) * (parseFloat(element[ending]) - parseFloat(element[stri])) + parseFloat(element[strVal]));
-
-                            m.push([new Date(element.DateTime_UTC).getTime(),j, values]);
+                            let values =  (((j-(v))/(e-(v))) * (parseFloat(element[ending]) - parseFloat(element[stri])) + parseFloat(element[stri]));
+                            let val = Math.round(j*100)/100;
+                            m.push([new Date(element.DateTime_UTC).getTime(),val, Math.round(values*100)/100]);
                         }
-                        m.push([new Date(element.DateTime_UTC).getTime(),e, parseFloat(element[ending])]);
+                        m.push([new Date(element.DateTime_UTC).getTime(),Math.round(e*100)/100, parseFloat(element[ending])]);
                         stri = ending;
                         s = e;
                         e = -1;
                     }
                     i += 0.01;
                 }
+
             }))
         } else if (dataType == "temp") {
             data.forEach((element => {
@@ -374,11 +387,12 @@ export default function LakeTchain(props) {
 
                     //finds end height by increment every 0.01m
                     if (element[strings] != null) {
+                        
                         //adds start data to m
                         m.push([new Date(element.DateTime_UTC).getTime(),s,parseFloat(element[stri])]);
 
                         //end height set to value of i
-                        e = i;
+                        e = val;
 
 
                         let ending = "Height_" + e + "m";
@@ -389,12 +403,24 @@ export default function LakeTchain(props) {
                         //end height - 1 for interpolate
                         let end = Math.ceil(e);
 
+                        console.log("Start: " + s);
+                        console.log("End: " + e);
+                        let init = -1;
+                        let v = -1;
+                        if (s%1 == 0) {
+                            init = h+1;
+                            v = h;
+                        } else {
+                            init = h;
+                            v = h-1;
+                        }
+
                         //don't do interpolation if end and start are exactly 1 apart
-                        for (let j = h; j < end && e-s != 1; j++) {
+                        for (let j = init; j < end && e-s != 1; j++) {
                             //retrieves the temp at the lake surface and the temp at height h-1 meters and using those values to predict the temp at height j meters
                             let strVal = "Height_" + h + "m";
-                            let values =  (((j-(h-1))/(e-(h-1))) * (parseFloat(element[ending]) - parseFloat(element[stri])) + parseFloat(element[strVal]));
-                            m.push([new Date(element.DateTime_UTC).getTime(),j, values]);
+                            let values =  (((j-(v))/(e-(v))) * (parseFloat(element[ending]) - parseFloat(element[stri])) + parseFloat(element[strVal]));
+                            m.push([new Date(element.DateTime_UTC).getTime(),Math.round(j*100)/100, Math.round(values*100)/100]);
                         }
                         s = e;
                         stri = ending;
@@ -403,8 +429,29 @@ export default function LakeTchain(props) {
                     }
                     i += 0.01;
                 }
+                m.push([new Date(element.DateTime_UTC).getTime(),s,parseFloat(element[stri])]);
+                //end height set to value of i
+                e = heightMax;
+                //start height for interpolate
+                let h = Math.ceil(s);
+
+                let init = -1;
+                let v = -1;
+                if (s%1 == 0) {
+                    init = h+1;
+                    v = h;
+                } else {
+                    init = h;
+                    v = h-1;
+                }
+
+                //don't do interpolation if end and start are exactly 1 apart
+                for (let j = init; j < heightMax && e-s != 1; j++) {
+                    //retrieves the temp at the lake surface and the temp at height h-1 meters and using those values to predict the temp at height j meters
+                    let values =  (((j-(v))/(e-(v))) * (parseFloat(element["Height_surface"]) - parseFloat(element[stri])) + parseFloat(element[stri]));
+                    m.push([new Date(element.DateTime_UTC).getTime(),Math.round(j*100)/100, Math.round(values*100)/100]);
+                }
                 m.push([new Date(element.DateTime_UTC).getTime(),heightMax,parseFloat(element["Height_surface"])]);
-                h = -1;
             }))
         }
         
@@ -514,3 +561,4 @@ export default function LakeTchain(props) {
         
     )
     }
+

@@ -7,7 +7,9 @@ import { convertDate } from '../../utils';
 import DatePicker from 'react-datepicker';
 import CollapsibleItem from '../../CollapsibleItem';
 import '../../DateRangePicker.css';
+import {NoDataToDisplay} from 'react-highcharts-no-data-to-display';
 
+NoDataToDisplay(Highcharts);
 require('highcharts/modules/heatmap')(Highcharts);
 require('highcharts/modules/boost')(Highcharts);
 
@@ -17,12 +19,12 @@ export default function LakeTchain(props) {
             zoomType: 'x',
             type: 'heatmap',
             height: 700,
+            
             events: {
                 load() {
                     this.showLoading();
                 },
                 render() {
-                    console.log(this)
                     // legend titles
                     this.renderer.text('Temperature [°C]', this.chartWidth-30, 145)
                     .attr({
@@ -48,6 +50,23 @@ export default function LakeTchain(props) {
         title: {
             text: ''
         },
+        lang:{
+            noData: 'No data to display! Check FAQ for more information.', //the text to be displayed
+            
+          },
+          noData: {
+            style: {
+                fontWeight: 'bold',
+                fontSize: '20px',
+                color: 'rgb(221,73,73)',
+            },
+            position: {
+                "x": 0,
+                "y": 0,
+                "align": "center",
+                "verticalAlign": "middle"
+            }
+          },
         subtitle: {
             text: 'Click and drag in the plot area to zoom in.<br/>Use three-line icon on top right to download the data displayed in the graph.<br/>White Dots represent depth of the loggers. Black line is the depth of the water column',
             style: {
@@ -413,6 +432,9 @@ export default function LakeTchain(props) {
     }
     useEffect(() => {
         if (!oxyData.isLoading && !tempData.isLoading) {
+            if (oxyData.data.length === 0 && tempData.data.length === 0) {
+                console.log("no data")
+            }
             console.log(oxyData.data)
             let oxyFiltered = getFilteredData(oxyData.data, "oxy");
             console.log(oxyFiltered)

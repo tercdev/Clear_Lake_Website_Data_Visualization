@@ -5,11 +5,13 @@ import Weather from './Weather.js';
 import WeatherWidget from './WeatherWidget.js';
 import { useOpenWeather } from 'react-open-weather';
 
+const API_KEY = process.env.REACT_APP_OPENWEATHER_API_KEY
+
 function FullHeader() {
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(!show);
     const { data, isLoading, errorMessage } = useOpenWeather({
-        key: '39a0efe4b13f3c2c01d5ee665e14217e',
+        key: API_KEY,
         lat: '38.9582',
         lon: '-122.6264',
         lang: 'en',

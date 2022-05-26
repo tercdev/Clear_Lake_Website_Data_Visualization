@@ -316,70 +316,94 @@ export default function LakeTchain(props) {
             }))
         } else if (dataType == "oxy") {
             data.forEach((element => {
-                m.push([new Date(element.DateTime_UTC).getTime(),0.5, parseFloat(element["Height_0.5m"])]);
-                let val1m = (((1-0.5)/(2-0.5)) * (parseFloat(element["Height_2m"]) - parseFloat(element["Height_0.5m"])) + parseFloat(element["Height_0.5m"]));
-                m.push([new Date(element.DateTime_UTC).getTime(),1, val1m]);
-                m.push([new Date(element.DateTime_UTC).getTime(),2, parseFloat(element["Height_2m"])]);
-                let val3m = (((3-2)/(6-2)) * (parseFloat(element["Height_6m"]) - parseFloat(element["Height_2m"])) + parseFloat(element["Height_2m"]));
-                m.push([new Date(element.DateTime_UTC).getTime(),3, val3m]);
-                let val4m = (((4-2)/(6-2)) * (parseFloat(element["Height_6m"]) - parseFloat(element["Height_2m"])) + parseFloat(element["Height_2m"]));
-                m.push([new Date(element.DateTime_UTC).getTime(),4, val4m]);
-                let val5m = (((5-2)/(6-2)) * (parseFloat(element["Height_6m"]) - parseFloat(element["Height_2m"])) + parseFloat(element["Height_2m"]));
-                m.push([new Date(element.DateTime_UTC).getTime(),5, val5m]);
-                m.push([new Date(element.DateTime_UTC).getTime(),6, parseFloat(element["Height_6m"])]);
+                //start data
+                let s = 0.5;
+
+                let i = s;
+
+                //end data
+                let e = -1;
+
+                let stri = "Height_0.5m";
+                m.push([new Date(element.DateTime_UTC).getTime(),s, parseFloat(element["Height_0.5m"])]);
+                while (i <= 15.00) {
+                    e = -1;
+                    let val = Math.round(i*100)/100;
+                    let strings = "Height_" + val + "m";
+                    
+                    //finds end height by increment every 0.01m
+                    if (element[strings] != null) {
+                        e = i;
+                        //ending height
+                        let ending = "Height_" + e + "m";
+                        let h = Math.ceil(s);
+                        let end = Math.ceil(e);
+
+                        for (let j = h; j < end; j++) {
+                            //retrieves the dissolved oxygen at the lake surface and the dissolved oxygen at height h-1 meters and using those values to predict the dissolved oxygen at height j meters
+                            let strVal = "Height_" + h + "m";
+                            let values =  (((j-(h-1))/(e-(h-1))) * (parseFloat(element[ending]) - parseFloat(element[stri])) + parseFloat(element[strVal]));
+
+                            m.push([new Date(element.DateTime_UTC).getTime(),j, values]);
+                        }
+                        m.push([new Date(element.DateTime_UTC).getTime(),e, parseFloat(element[ending])]);
+                        stri = ending;
+                        s = e;
+                        e = -1;
+                    }
+                    i += 0.01;
+                }
             }))
         } else if (dataType == "temp") {
             data.forEach((element => {
-                let h = -1;
+                //start data
+                let s = 0.5;
+
+                let i = s;
+
+                //end data
+                let e = -1;
+
+                let stri = "Height_0.5m";
                 //initial height 0.5m given
-                m.push([new Date(element.DateTime_UTC).getTime(),0.5,parseFloat(element["Height_0.5m"])]);
-                
-                let starting = -1;
-                
-                //finds starting height after 0.5m where data is available and applicable
-                for (let j = 0.51; j <= 1.5; j += 0.01) {
-                    //accounts for weird rounding issue when using for loop
-                    let val = Math.round(j*100)/100;
+                let heightMax = parseFloat(element["Height_max"]);
+                while (i <= heightMax) {
+                    e = -1;
+                    let val = Math.round(i*100)/100;
                     let strings = "Height_" + val + "m";
-                    
-                    //checks for existence of datapoint
+
+                    //finds end height by increment every 0.01m
                     if (element[strings] != null) {
-                        starting = j;
-                        break;
-                    }
-                }
-                
-                //if data from 0.51m<=height<=1.5m is found
-                if (starting != -1) {
-                    let j = starting+1;
-                    let strings = "Height_" + j + "m";
-                    
-                    //checks the +1 incrementts of the start heights for existance
-                    while (true) {
-                        if (element[strings] == null) {
-                            h = Math.round(j);
-                            break;
-                        } else {
-                            m.push([new Date(element.DateTime_UTC).getTime(),j,parseFloat(element[strings])]);
+                        //adds start data to m
+                        m.push([new Date(element.DateTime_UTC).getTime(),s,parseFloat(element[stri])]);
+
+                        //end height set to value of i
+                        e = i;
+
+
+                        let ending = "Height_" + e + "m";
+
+                        //start height for interpolate
+                        let h = Math.ceil(s);
+
+                        //end height - 1 for interpolate
+                        let end = Math.ceil(e);
+
+                        //don't do interpolation if end and start are exactly 1 apart
+                        for (let j = h; j < end && e-s != 1; j++) {
+                            //retrieves the temp at the lake surface and the temp at height h-1 meters and using those values to predict the temp at height j meters
+                            let strVal = "Height_" + h + "m";
+                            let values =  (((j-(h-1))/(e-(h-1))) * (parseFloat(element[ending]) - parseFloat(element[stri])) + parseFloat(element[strVal]));
+                            m.push([new Date(element.DateTime_UTC).getTime(),j, values]);
                         }
-                        j++;
-                    }    
-                } else {
-                    //data from 0.51m<=height<=1.5m not found, default to 1m for interpolation
-                    h = 1;
+                        s = e;
+                        stri = ending;
+                        e = -1;
+
+                    }
+                    i += 0.01;
                 }
-                let heightM = parseFloat(element["Height_max"]);
-                let heightMWhole = Math.floor(parseFloat(element["Height_max"]));
-                
-                for (let j = h; j <= heightMWhole; j++) {
-                    let strVal = "Height_" + (h-1) + "m";
-                    
-                    //retrieves the temp at the lake surface and the temp at height h-1 meters and using those values to predict the temp at height j meters
-                    let values =  (((j-(h-1))/(heightM-(h-1))) * (parseFloat(element["Height_surface"]) - parseFloat(element[strVal])) + parseFloat(element[strVal]));
-                    
-                    m.push([new Date(element.DateTime_UTC).getTime(),j,values]);
-                }
-                m.push([new Date(element.DateTime_UTC).getTime(),parseFloat(element["Height_max"]),parseFloat(element["Height_surface"])]);
+                m.push([new Date(element.DateTime_UTC).getTime(),heightMax,parseFloat(element["Height_surface"])]);
                 h = -1;
             }))
         }
@@ -489,4 +513,4 @@ export default function LakeTchain(props) {
         </div>
         
     )
-}
+    }

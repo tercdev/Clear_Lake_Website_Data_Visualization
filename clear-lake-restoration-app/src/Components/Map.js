@@ -39,7 +39,7 @@ export default function Map(props) {
                 if (e.features.length) {
                     map.current.getCanvas().style.cursor = "pointer";
                 }
-                // streamPopUp(map,e);
+                streamPopUp(map,e);
             });
             map.current.on("mouseleave", "streams", () => {
                 map.current.getCanvas().style.cursor = "";
@@ -48,7 +48,7 @@ export default function Map(props) {
             map.current.on("click", "streams", e => {
                 console.log(e.features[0].properties.name);
                 // window.top.location.href='/Clear_Lake_Website_Data_Visualization/'+e.features[0].properties.name;
-                streamPopUp(map, e);
+                // streamPopUp(map, e);
                 map.current.flyTo({
                     center: e.features[0].geometry.coordinates,
                     speed: 0.2,
@@ -72,7 +72,7 @@ export default function Map(props) {
             }
             const description = e.features[0].properties.name.charAt(0).toUpperCase() + e.features[0].properties.name.slice(1) + " Creek"
             const link = "<a href='/Clear_Lake_Website_Data_Visualization/" + e.features[0].properties.name + "'>" + description + "</a>"                    
-            new mapboxgl.Popup({focusAfterOpen: false, closeButton: true}).setLngLat(coordinates).setHTML(link).addTo(map.current)
+            new mapboxgl.Popup({focusAfterOpen: false, closeButton: true, closeOnMove: true, closeOnClick: true}).setLngLat(coordinates).setHTML(link).addTo(map.current)
         }
     }
     function addMetMarkers() {
@@ -99,7 +99,7 @@ export default function Map(props) {
                 if (e.features.length) {
                     map.current.getCanvas().style.cursor = "pointer";
                 }
-                // metPopUp(map,e);
+                metPopUp(map,e);
             });
             map.current.on("mouseleave", "met", () => {
                 map.current.getCanvas().style.cursor = "";
@@ -114,7 +114,7 @@ export default function Map(props) {
                 // }
                 // const link = "/" + e.features[0].properties.name
                 // return <Link to={link}></Link>
-                metPopUp(map,e);
+                // metPopUp(map,e);
                 map.current.flyTo({
                     center: e.features[0].geometry.coordinates,
                     speed: 0.2,
@@ -154,7 +154,7 @@ export default function Map(props) {
             }
             // description = "<h1>" + description + "<h1/>"
             const link = "<a href='/Clear_Lake_Website_Data_Visualization/" + url + "'>" + description + "</a>" + note
-            new mapboxgl.Popup({focusAfterOpen: false, closeButton: true}).setLngLat(coordinates).setHTML(link).addTo(map.current)
+            new mapboxgl.Popup({focusAfterOpen: false, closeButton: true, closeOnMove: true, closeOnClick: true}).setLngLat(coordinates).setHTML(link).addTo(map.current)
         }
     }
     function addLakeMarkers() {
@@ -181,7 +181,7 @@ export default function Map(props) {
                 if (e.features.length) {
                     map.current.getCanvas().style.cursor = "pointer";
                 }
-                // lakePopUp(map,e);
+                lakePopUp(map,e);
             });
             map.current.on("mouseleave", "lake", () => {
                 map.current.getCanvas().style.cursor = "";
@@ -190,7 +190,7 @@ export default function Map(props) {
             map.current.on("click", "lake", e => {
                 console.log(e.features[0].properties.name);
                 // window.top.location.href='/Clear_Lake_Website_Data_Visualization/'+e.features[0].properties.name;
-                lakePopUp(map,e);
+                // lakePopUp(map,e);
                 map.current.flyTo({
                     center: e.features[0].geometry.coordinates,
                     speed: 0.2,
@@ -212,7 +212,7 @@ export default function Map(props) {
                 note = " (discontinued on 6/15/2020)"
             }
             let link = "<b>"+description+"</b><br/><a href='/Clear_Lake_Website_Data_Visualization/" + e.features[0].properties.name + "'> Lake Mooring</a>"+ note +"<br/><a href='/Clear_Lake_Website_Data_Visualization/"+e.features[0].properties.name+"-profile'>Lake Profile</a>"
-            new mapboxgl.Popup({focusAfterOpen: false, closeButton: true, maxWidth: 'none'}).setLngLat(coordinates).setHTML(link).addTo(map.current)
+            new mapboxgl.Popup({focusAfterOpen: false, closeButton: true, closeOnMove: true, closeOnClick: true, maxWidth: 'none'}).setLngLat(coordinates).setHTML(link).addTo(map.current)
         }
     }
     function addBoundary() {
@@ -282,7 +282,7 @@ export default function Map(props) {
 
     return (
     <div className="map">
-        <p className='map-caption'>Click on the markers to see the name of the location. Click on the link in the pop up to be go to a page with the corresponding visualizations.</p>
+        <p className='map-caption'>Hover over the markers to see the name of the location. Click on the link in the pop up to be go to a page with the corresponding visualizations. Click on the map, move the map, or click the close button in the top right corner of the popup to close the popup.</p>
         
         <div ref={mapContainer} className="map-container" />
         <div className="sidebar">

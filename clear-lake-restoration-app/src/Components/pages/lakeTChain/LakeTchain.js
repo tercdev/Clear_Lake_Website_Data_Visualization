@@ -190,6 +190,7 @@ export default function LakeTchain(props) {
             nullColor: '#EFEFEF',
             colsize: 36e5, // 1 hour
             tooltip: {
+                valueDecimals: 2,
                 headerFormat:'<b style="font-size: 1rem">Temperature</b><br/>',
                 pointFormat: '<span style="font-size: 1rem">{point.x:%Y-%m-%d %H:%M}, {point.y}m, {point.value}°C</span>'
             },
@@ -202,6 +203,7 @@ export default function LakeTchain(props) {
             nullColor: '#EFEFEF',
             colsize: 36e5, // 1 hour
             tooltip: {
+                valueDecimals: 2,
                 headerFormat:'<b style="font-size: 1rem">Dissolved Oxygen</b><br/>',
                 pointFormat: '<span style="font-size: 1rem">{point.x:%Y-%m-%d %H:%M}, {point.y}m, {point.value}mg/L</span>'
             },

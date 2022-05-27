@@ -15,6 +15,13 @@ export default function LakeTchain(props) {
     var templabel;
     var dolabel;
     function createLegendLabels(x, top, bottom) {
+        // destroy previous labels
+        if (typeof templabel !== 'undefined') {
+            templabel.destroy();
+            templabel = undefined
+            dolabel.destroy();
+            dolabel = undefined
+        }
         // legend titles
         templabel = x.renderer.text('Temperature [°C]', x.chartWidth-30, top)
         .attr({
@@ -49,10 +56,6 @@ export default function LakeTchain(props) {
                     createLegendLabels(this, 150, 450);
                 },
                 render() {
-                    if (typeof templabel !== 'undefined') {
-                        templabel.destroy();
-                        dolabel.destroy();
-                    }
                     createLegendLabels(this, 150, 450);
                 }
             }
@@ -197,10 +200,6 @@ export default function LakeTchain(props) {
                     chart: {
                         events: {
                             render() {
-                                if (typeof templabel !== 'undefined') {
-                                    templabel.destroy();
-                                    dolabel.destroy();
-                                }
                                 createLegendLabels(this, 180, 455)
                             }
                         }
@@ -220,10 +219,6 @@ export default function LakeTchain(props) {
                     chart: {
                         events: {
                             render() {
-                                if (typeof templabel !== 'undefined') {
-                                    templabel.destroy();
-                                    dolabel.destroy();
-                                }
                                 createLegendLabels(this, 215, 465)
                             }
                         }

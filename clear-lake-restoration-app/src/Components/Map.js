@@ -16,8 +16,11 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiY2hlbmFsaSIsImEiOiJjbDBqY2V2bGowYjlrM2NtaXhjY
  * @component
  * @param {String} name type of map: "stream", "met", "lake", "all"
  * @returns {JSX.Element} Map Component template
+ * 
+ * https://docs.mapbox.com/help/tutorials/use-mapbox-gl-js-with-react/
  */
 export default function Map(props) {
+    // set default state
     const mapContainer = useRef(null);
     const map = useRef(null);
     const [lng, setLng] = useState(-122.8);
@@ -79,13 +82,11 @@ export default function Map(props) {
      * Create Popup for Streams
      * 
      * @param {mapboxgl.Map} map.current Reference to the map object
-     * @param {*} e information about the event
+     * @param {Object} e.features[0] Properties of the geoJSON feature that was clicked
      * 
      * https://docs.mapbox.com/mapbox-gl-js/example/popup-on-hover/
      */
     function streamPopUp(map, e) {
-        console.log(e.features)
-        console.log(typeof(e.features))
         if (e.features.length) {
             // Change the cursor style as a UI indicator.
             map.current.getCanvas().style.cursor = "pointer";
@@ -275,6 +276,11 @@ export default function Map(props) {
 
     useEffect(() => {
         if (map.current) return; // initialize map only once
+        /**
+         * Initialize the Map
+         * 
+         * https://docs.mapbox.com/mapbox-gl-js/api/map/
+         */
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
             style: 'mapbox://styles/mapbox/streets-v11',

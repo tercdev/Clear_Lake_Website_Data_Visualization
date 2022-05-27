@@ -78,7 +78,7 @@ export default function Map(props) {
                 coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
             }
             const description = e.features[0].properties.name.charAt(0).toUpperCase() + e.features[0].properties.name.slice(1) + " Creek"
-            const link = "<a href='/Clear_Lake_Website_Data_Visualization/" + e.features[0].properties.name + "'>" + description + "</a>"                    
+            const link = "<a href='/Clear_Lake_Website_Data_Visualization/" + e.features[0].properties.name + "' target='_top'>" + description + "</a>"                    
             new mapboxgl.Popup({focusAfterOpen: false, closeButton: true, closeOnMove: false, closeOnClick: true}).setLngLat(coordinates).setHTML(link).addTo(map.current)
         }
     }
@@ -155,13 +155,13 @@ export default function Map(props) {
                 description = "Clearlake Oaks"
             } else if (e.features[0].properties.name == "jgb") {
                 description = "Jago Bay"
-                note = "<br/>(relocated to <a href='/Clear_Lake_Website_Data_Visualization/bek'>Beakbane Island</a> in June 2020)"
+                note = "<br/>(relocated to <a href='/Clear_Lake_Website_Data_Visualization/bek target='_top''>Beakbane Island</a> in June 2020)"
                 url = "bek"
             } else {
                 description = "Beakbane Island"
             }
             // description = "<h1>" + description + "<h1/>"
-            link = "<a href='/Clear_Lake_Website_Data_Visualization/" + url + "'>" + description + "</a>" + note
+            link = "<a href='/Clear_Lake_Website_Data_Visualization/" + url + "' target='_top'>" + description + "</a>" + note
             if (e.features[0].properties.name == "jgb") {
                 link = description + note
             }
@@ -222,7 +222,7 @@ export default function Map(props) {
             if (e.features[0].properties.name == "ua07") {
                 note = " (discontinued on 6/15/2020)"
             }
-            let link = "<b>"+description+"</b><br/><a href='/Clear_Lake_Website_Data_Visualization/" + e.features[0].properties.name + "'> Lake Mooring</a>"+ note +"<br/><a href='/Clear_Lake_Website_Data_Visualization/"+e.features[0].properties.name+"-profile'>Lake Profile</a>"
+            let link = "<b>"+description+"</b><br/><a href='/Clear_Lake_Website_Data_Visualization/" + e.features[0].properties.name + "' target='_top'> Lake Mooring</a>"+ note +"<br/><a href='/Clear_Lake_Website_Data_Visualization/"+e.features[0].properties.name+"-profile' target='_top'>Lake Profile</a>"
             new mapboxgl.Popup({focusAfterOpen: false, closeButton: true, closeOnMove: false, closeOnClick: true}).setLngLat(coordinates).setHTML(link).addTo(map.current)
         }
     }

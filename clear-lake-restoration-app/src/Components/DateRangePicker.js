@@ -24,7 +24,7 @@ function DateRangePicker(props) {
                 showYearDropdown
                 // yearDropdownItemNumber={today.getFullYear()-2019}
                 dropdownMode="select"
-                minDate={new Date("2019-01-02")}
+                minDate={new Date("2018-10-02")}
             />
             </div>
             <div className='one-date-container'>

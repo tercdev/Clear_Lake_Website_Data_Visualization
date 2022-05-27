@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
 import DataDisclaimer from '../../DataDisclaimer';
 import Chart from '../../Chart';
-import useFetch from 'react-fetch-hook';
-import { convertDate } from '../../utils';
+import { convertDate,convertGMTtoPSTTime } from '../../utils';
 import DatePicker from 'react-datepicker';
 import CollapsibleItem from '../../CollapsibleItem';
 import '../../DateRangePicker.css';
+import useFetch from 'use-http';
 
 require('highcharts/modules/heatmap')(Highcharts);
 require('highcharts/modules/boost')(Highcharts);
@@ -17,12 +17,14 @@ export default function LakeTchain(props) {
             zoomType: 'x',
             type: 'heatmap',
             height: 700,
+            time: {
+                useUTC: false
+            },
             events: {
                 load() {
                     this.showLoading();
                 },
                 render() {
-                    console.log(this)
                     // legend titles
                     this.renderer.text('Temperature [°C]', this.chartWidth-30, 145)
                     .attr({
@@ -260,172 +262,202 @@ export default function LakeTchain(props) {
         }
     })
     var today = new Date();
-    var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
-    const [startDate, setStartDate] = useState(lastWeek);
+    var lastYear = new Date(today.getFullYear(), today.getMonth(), today.getDate()-365);
+    const [startDate, setStartDate] = useState(lastYear);
     const [endDate, setEndDate] = useState(today);
-    const [startGraphDate, setGraphStartDate] = useState(lastWeek);
+    const [startGraphDate, setGraphStartDate] = useState(lastYear);
     const [endGraphDate, setGraphEndDate] = useState(today);
+    const [oxygenDataArr,setOxygenDataArr] = useState([])
+    const [tempDataArr,setTempDataArr] = useState([])
+    const [isLoading,setIsLoading] = useState(true)
+
     function handleStartDateChange(e) {
         setStartDate(e);
     }
     function handleEndDateChange(e) {
         setEndDate(e);
     }
-    const [error, setError] = useState(false);
+
     function setGraphDates() {
-        setError(false);
-        let latestDate = new Date(new Date(startDate).setDate(365));
         setGraphStartDate(startDate);
-        if (endDate > latestDate) {
-            setError(true);
-            setEndDate(latestDate);
-            setGraphEndDate(latestDate);
-        } else {
-            setGraphEndDate(endDate);
-        }
+        setGraphEndDate(endDate);
     }
-    var oxy_url = new URL('https://f6axabo7w6.execute-api.us-west-2.amazonaws.com/default/clearlake-lakeoxygen');
-    var search_params_oxy = oxy_url.searchParams;
-    search_params_oxy.set('id',props.id);
-    search_params_oxy.set('start',convertDate(startGraphDate));
-    search_params_oxy.set('end',convertDate(endGraphDate));
-    oxy_url.search = search_params_oxy.toString();
+    const lakeOxygen = useFetch('https://f6axabo7w6.execute-api.us-west-2.amazonaws.com/default/clearlake-lakeoxygen')
 
-    const oxyData = useFetch(oxy_url.toString());
-
-    var temp_url = new URL('https://18eduqff9f.execute-api.us-west-2.amazonaws.com/default/clearlake-laketemperature')
-    var search_params_temp = temp_url.searchParams;
-    search_params_temp.set('id',props.id);
-    search_params_temp.set('start',convertDate(startGraphDate));
-    search_params_temp.set('end',convertDate(endGraphDate));
-    temp_url.search = search_params_temp.toString();
+    const lakeTemp = useFetch('https://18eduqff9f.execute-api.us-west-2.amazonaws.com/default/clearlake-laketemperature')
     
-    const tempData = useFetch(temp_url.toString());
     function getFilteredData(data, dataType, isInstrument = false) {
         let m = []
         if (isInstrument && data.length != 0) {
             Object.keys(data[0]).forEach(key => {
+                let pstTime = convertGMTtoPSTTime(new Date(data[0].DateTime_UTC));
                 let re = /^Height_([^m]*)m$/;
-                console.log(re.exec(key))
+                // console.log(re.exec(key))
                 if (re.exec(key) !== null) {
-                    m.push([new Date(data[0].DateTime_UTC).getTime(),parseFloat(re.exec(key)[1])])
+                    m.push([pstTime.getTime(),parseFloat(re.exec(key)[1])])
                 }
             })
             if (dataType == "temp") {
-                m.push([new Date(data[0].DateTime_UTC).getTime(),parseFloat(data[0].Height_max)])
+                let pstTime = convertGMTtoPSTTime(new Date(data[0].DateTime_UTC));
+                m.push([pstTime.getTime(),parseFloat(data[0].Height_max)])
             }
-            console.log(m)
             return m
         }
         if (dataType == "depth") {
             data.forEach((element => {
-                m.push([new Date(element.DateTime_UTC).getTime(), parseFloat(element["Height_max"])])
+                let pstTime = convertGMTtoPSTTime(new Date(element.DateTime_UTC));
+                m.push([pstTime.getTime(), parseFloat(element["Height_max"])])
             }))
         } else if (dataType == "oxy") {
             data.forEach((element => {
-                m.push([new Date(element.DateTime_UTC).getTime(),0.5, parseFloat(element["Height_0.5m"])]);
+                let pstTime = convertGMTtoPSTTime(new Date(element.DateTime_UTC));
+                m.push([pstTime.getTime(),0.5, parseFloat(element["Height_0.5m"])]);
                 let val1m = (((1-0.5)/(2-0.5)) * (parseFloat(element["Height_2m"]) - parseFloat(element["Height_0.5m"])) + parseFloat(element["Height_0.5m"]));
-                m.push([new Date(element.DateTime_UTC).getTime(),1, val1m]);
-                m.push([new Date(element.DateTime_UTC).getTime(),2, parseFloat(element["Height_2m"])]);
+                m.push([pstTime.getTime(),1, val1m]);
+                m.push([pstTime.getTime(),2, parseFloat(element["Height_2m"])]);
                 let val3m = (((3-2)/(6-2)) * (parseFloat(element["Height_6m"]) - parseFloat(element["Height_2m"])) + parseFloat(element["Height_2m"]));
-                m.push([new Date(element.DateTime_UTC).getTime(),3, val3m]);
+                m.push([pstTime.getTime(),3, val3m]);
                 let val4m = (((4-2)/(6-2)) * (parseFloat(element["Height_6m"]) - parseFloat(element["Height_2m"])) + parseFloat(element["Height_2m"]));
-                m.push([new Date(element.DateTime_UTC).getTime(),4, val4m]);
+                m.push([pstTime.getTime(),4, val4m]);
                 let val5m = (((5-2)/(6-2)) * (parseFloat(element["Height_6m"]) - parseFloat(element["Height_2m"])) + parseFloat(element["Height_2m"]));
-                m.push([new Date(element.DateTime_UTC).getTime(),5, val5m]);
-                m.push([new Date(element.DateTime_UTC).getTime(),6, parseFloat(element["Height_6m"])]);
+                m.push([pstTime.getTime(),5, val5m]);
+                m.push([pstTime.getTime(),6, parseFloat(element["Height_6m"])]);
             }))
         } else if (dataType == "temp") {
             data.forEach((element => {
+                let pstTime = convertGMTtoPSTTime(new Date(element.DateTime_UTC));
                 let h = -1;
-                m.push([new Date(element.DateTime_UTC).getTime(),0.5,parseFloat(element["Height_0.5m"])]);
-                m.push([new Date(element.DateTime_UTC).getTime(),1,parseFloat(element["Height_1m"])]);
-                m.push([new Date(element.DateTime_UTC).getTime(),2,parseFloat(element["Height_2m"])]);
-                m.push([new Date(element.DateTime_UTC).getTime(),3,parseFloat(element["Height_3m"])]);
-                m.push([new Date(element.DateTime_UTC).getTime(),4,parseFloat(element["Height_4m"])]);
+                m.push([pstTime.getTime(),0.5,parseFloat(element["Height_0.5m"])]);
+                m.push([pstTime.getTime(),1,parseFloat(element["Height_1m"])]);
+                m.push([pstTime.getTime(),2,parseFloat(element["Height_2m"])]);
+                m.push([pstTime.getTime(),3,parseFloat(element["Height_3m"])]);
+                m.push([pstTime.getTime(),4,parseFloat(element["Height_4m"])]);
                 if (element["Height_5m"] == null) {
                     h = 5;
                 } else if (element["Height_6m"] == null) {
                     h = 6;
-                    m.push([new Date(element.DateTime_UTC).getTime(),5,parseFloat(element["Height_5m"])]);
+                    m.push([pstTime.getTime(),5,parseFloat(element["Height_5m"])]);
                 } else if (element["Height_7m"] == null) {
                     h = 7;
-                    m.push([new Date(element.DateTime_UTC).getTime(),5,parseFloat(element["Height_5m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),6,parseFloat(element["Height_6m"])]);
+                    m.push([pstTime.getTime(),5,parseFloat(element["Height_5m"])]);
+                    m.push([pstTime.getTime(),6,parseFloat(element["Height_6m"])]);
                 } else if (element["Height_8m"] == null) {
                     h = 8;
-                    m.push([new Date(element.DateTime_UTC).getTime(),5,parseFloat(element["Height_5m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),6,parseFloat(element["Height_6m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),7,parseFloat(element["Height_7m"])]);
+                    m.push([pstTime.getTime(),5,parseFloat(element["Height_5m"])]);
+                    m.push([pstTime.getTime(),6,parseFloat(element["Height_6m"])]);
+                    m.push([pstTime.getTime(),7,parseFloat(element["Height_7m"])]);
                 } else if (element["Height_9m"] == null) {
                     h = 9;
-                    m.push([new Date(element.DateTime_UTC).getTime(),5,parseFloat(element["Height_5m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),6,parseFloat(element["Height_6m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),7,parseFloat(element["Height_7m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),8,parseFloat(element["Height_8m"])]);
+                    m.push([pstTime.getTime(),5,parseFloat(element["Height_5m"])]);
+                    m.push([pstTime.getTime(),6,parseFloat(element["Height_6m"])]);
+                    m.push([pstTime.getTime(),7,parseFloat(element["Height_7m"])]);
+                    m.push([pstTime.getTime(),8,parseFloat(element["Height_8m"])]);
                 } else if (element["Height_10m"] == null) {
                     h = 10;
-                    m.push([new Date(element.DateTime_UTC).getTime(),5,parseFloat(element["Height_5m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),6,parseFloat(element["Height_6m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),7,parseFloat(element["Height_7m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),8,parseFloat(element["Height_8m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),9,parseFloat(element["Height_9m"])]);
+                    m.push([pstTime.getTime(),5,parseFloat(element["Height_5m"])]);
+                    m.push([pstTime.getTime(),6,parseFloat(element["Height_6m"])]);
+                    m.push([pstTime.getTime(),7,parseFloat(element["Height_7m"])]);
+                    m.push([pstTime.getTime(),8,parseFloat(element["Height_8m"])]);
+                    m.push([pstTime.getTime(),9,parseFloat(element["Height_9m"])]);
                 } else if (element["Height_11m"] == null) {
                     h = 11;
-                    m.push([new Date(element.DateTime_UTC).getTime(),5,parseFloat(element["Height_5m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),6,parseFloat(element["Height_6m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),7,parseFloat(element["Height_7m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),8,parseFloat(element["Height_8m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),9,parseFloat(element["Height_9m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),10,parseFloat(element["Height_10m"])]);
+                    m.push([pstTime.getTime(),5,parseFloat(element["Height_5m"])]);
+                    m.push([pstTime.getTime(),6,parseFloat(element["Height_6m"])]);
+                    m.push([pstTime.getTime(),7,parseFloat(element["Height_7m"])]);
+                    m.push([pstTime.getTime(),8,parseFloat(element["Height_8m"])]);
+                    m.push([pstTime.getTime(),9,parseFloat(element["Height_9m"])]);
+                    m.push([pstTime.getTime(),10,parseFloat(element["Height_10m"])]);
                 } else {
                     h = 12;
-                    m.push([new Date(element.DateTime_UTC).getTime(),5,parseFloat(element["Height_5m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),6,parseFloat(element["Height_6m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),7,parseFloat(element["Height_7m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),8,parseFloat(element["Height_8m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),9,parseFloat(element["Height_9m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),10,parseFloat(element["Height_10m"])]);
-                    m.push([new Date(element.DateTime_UTC).getTime(),11,parseFloat(element["Height_11m"])]);
+                    m.push([pstTime.getTime(),5,parseFloat(element["Height_5m"])]);
+                    m.push([pstTime.getTime(),6,parseFloat(element["Height_6m"])]);
+                    m.push([pstTime.getTime(),7,parseFloat(element["Height_7m"])]);
+                    m.push([pstTime.getTime(),8,parseFloat(element["Height_8m"])]);
+                    m.push([pstTime.getTime(),9,parseFloat(element["Height_9m"])]);
+                    m.push([pstTime.getTime(),10,parseFloat(element["Height_10m"])]);
+                    m.push([pstTime.getTime(),11,parseFloat(element["Height_11m"])]);
                 }
-                //console.log("H: " + h);
-                //console.log("Hmax: " + Math.floor(parseFloat(element["Height_max"])));
+
                 let heightM = parseFloat(element["Height_max"]);
                 let heightMWhole = Math.floor(parseFloat(element["Height_max"]));
                 for (let j = h; j <= heightMWhole; j++) {
                     let strVal = "Height_" + (h-1) + "m";
-                    //console.log(strVal);
                     let values =  (((j-(h-1))/(heightM-(h-1))) * (parseFloat(element["Height_surface"]) - parseFloat(element[strVal])) + parseFloat(element[strVal]));
-                    //console.log(((j-(h-1))/(heightM-(h-1))));
-                    //console.log(parseFloat(element[strVal]));
-                    m.push([new Date(element.DateTime_UTC).getTime(),j,values]);
+                    m.push([pstTime.getTime(),j,values]);
                 }
-                m.push([new Date(element.DateTime_UTC).getTime(),parseFloat(element["Height_max"]),parseFloat(element["Height_surface"])]);
+                m.push([pstTime.getTime(),parseFloat(element["Height_max"]),parseFloat(element["Height_surface"])]);
                 h = -1;
             }))
         }
         
-        // sort?
         m.sort(function(a,b) {
             return (a[0]-b[0])
         })
         return m
     }
     useEffect(() => {
-        if (!oxyData.isLoading && !tempData.isLoading) {
-            console.log(oxyData.data)
-            let oxyFiltered = getFilteredData(oxyData.data, "oxy");
-            console.log(oxyFiltered)
-            console.log(tempData.data)
-            let tempFiltered = getFilteredData(tempData.data, "temp");
+        setOxygenDataArr([])
+        setTempDataArr([])
+
+        // find difference between user picked dates
+        let diffTime = endGraphDate.getTime() - startGraphDate.getTime()
+        let diffDay = diffTime/(1000*3600*24)
+
+        let oxygenFetch =[]
+        let tempFetch = []
+        
+        let newDay = 0;
+        let compareDate = startGraphDate;
+
+        while (diffDay > 366) {
+            newDay = new Date(new Date(compareDate.getTime()).setDate(compareDate.getDate() + 366));
+
+            diffTime = endGraphDate.getTime() - newDay.getTime()
+            diffDay = diffTime/(1000*3600*24)
+
+            oxygenFetch.push(lakeOxygen.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(newDay)}`))
+            tempFetch.push(lakeTemp.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(newDay)}`))
+
+            // next query should be the last day +1 so no overlap with data
+            let newDayPlusOne = new Date(new Date(compareDate.getTime()).setDate(compareDate.getDate() + 366));
+            compareDate = newDayPlusOne
+
+        }
+
+        // query one extra day since data retrieved is in UTC
+        let endDayPlusOne = new Date(new Date(endGraphDate.getTime()).setDate(endGraphDate.getDate() + 1));
+
+        oxygenFetch.push(lakeOxygen.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(endDayPlusOne)}`))
+        tempFetch.push(lakeTemp.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(endDayPlusOne)}`))
+        setIsLoading(true); // Loading is true
+
+        async function fetchData() {
+            oxygenFetch = await Promise.all(oxygenFetch)
+            tempFetch = await Promise.all(tempFetch)
+
+            let combinedOxygenData = [].concat.apply([],oxygenFetch)
+            let combinedTempData = [].concat.apply([],tempFetch)
+
+            setOxygenDataArr(combinedOxygenData)
+            setTempDataArr(combinedTempData)
+            setIsLoading(false)
+        }
+        fetchData()
+
+    },[startGraphDate,endGraphDate])
+    useEffect(() => {
+        if (!isLoading) {
+            
+            let oxyFiltered = getFilteredData(oxygenDataArr, "oxy");
+            let tempFiltered = getFilteredData(tempDataArr, "temp");
+            
             if (oxyFiltered.length != 0) {
                 var minX = oxyFiltered[0][0];
                 var maxX = oxyFiltered[oxyFiltered.length-1][0]
             }
-            let depthFiltered = getFilteredData(oxyData.data, "depth");
-            console.log(depthFiltered)
-            let oxyInstrument = getFilteredData(oxyData.data, "oxy", true);
-            let tempInstrument = getFilteredData(tempData.data, 'temp', true)
+            let depthFiltered = getFilteredData(oxygenDataArr, "depth");
+            let oxyInstrument = getFilteredData(oxygenDataArr, "oxy", true);
+            let tempInstrument = getFilteredData(tempDataArr, 'temp', true)
             setChartProps({...chartProps,
                 series: [{
                     data: tempFiltered
@@ -447,7 +479,7 @@ export default function LakeTchain(props) {
                 }]
             })
         }
-    },[startGraphDate, endGraphDate, oxyData.isLoading, tempData.isLoading])
+    },[isLoading])
 
     // for the collapsible FAQ
     const header1 = "How to use the graphs and see the data below?";
@@ -505,8 +537,7 @@ export default function LakeTchain(props) {
                 <button className="submitButton" onClick={setGraphDates}>Submit</button>
                 </div>
             </div>
-            {error && <p className='error-message'>Selected date range was more than 365 days. End date was automatically changed.</p>}
-            <Chart chartProps={chartProps} isLoading={oxyData.isLoading || tempData.isLoading} />
+            <Chart chartProps={chartProps} isLoading={isLoading} />
         </div>
         
     )

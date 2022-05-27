@@ -1,11 +1,13 @@
 import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
-import LegendControl from 'mapboxgl-legend';
 import './Map.css'
 
 import { MapboxLegendControl } from "@watergis/mapbox-gl-legend";
 import '@watergis/mapbox-gl-legend/css/styles.css';
 
+/**
+ * Mapbox Access Token with URL restrictions created at https://www.mapbox.com/
+ */
 mapboxgl.accessToken = 'pk.eyJ1IjoiY2hlbmFsaSIsImEiOiJjbDBqY2V2bGowYjlrM2NtaXhjYzlyM2pxIn0.BxtrB0AyBeGd8lug5c6mUg';
 
 /**
@@ -22,6 +24,9 @@ export default function Map(props) {
     const [lat, setLat] = useState(39.06);
     const [zoom, setZoom] = useState(10.5);
 
+    /**
+     * Add Stream Markers onto the Map.
+     */
     function addStreamMarkers() {
         map.current.on('load', () => {
             map.current.addSource('streams', {
@@ -46,24 +51,24 @@ export default function Map(props) {
                 if (e.features.length) {
                     map.current.getCanvas().style.cursor = "pointer";
                 }
-                // streamPopUp(map,e);
             });
             map.current.on("mouseleave", "streams", () => {
                 map.current.getCanvas().style.cursor = "";
-                // closePopUp();
             });
             map.current.on("click", "streams", e => {
-                console.log(e.features[0].properties.name);
-                // window.top.location.href='/Clear_Lake_Website_Data_Visualization/'+e.features[0].properties.name;
                 streamPopUp(map, e);
                 map.current.flyTo({
                     center: e.features[0].geometry.coordinates,
                     speed: 0.2,
                     curve: 1,
+                    zoom: 10.5
                 });
             });
         });
     }
+    /**
+     * Close a popup.
+     */
     function closePopUp() {
         const popup = document.getElementsByClassName('mapboxgl-popup');
         if (popup.length) {
@@ -126,6 +131,7 @@ export default function Map(props) {
                     center: e.features[0].geometry.coordinates,
                     speed: 0.2,
                     curve: 1,
+                    zoom: 10.5
                 });
             });
         });
@@ -206,6 +212,7 @@ export default function Map(props) {
                     center: e.features[0].geometry.coordinates,
                     speed: 0.2,
                     curve: 1,
+                    zoom: 10.5
                 });
             });
         });

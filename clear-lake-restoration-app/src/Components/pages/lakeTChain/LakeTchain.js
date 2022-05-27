@@ -432,9 +432,6 @@ export default function LakeTchain(props) {
     }
     useEffect(() => {
         if (!oxyData.isLoading && !tempData.isLoading) {
-            if (oxyData.data.length === 0 && tempData.data.length === 0) {
-                console.log("no data")
-            }
             console.log(oxyData.data)
             let oxyFiltered = getFilteredData(oxyData.data, "oxy");
             console.log(oxyFiltered)

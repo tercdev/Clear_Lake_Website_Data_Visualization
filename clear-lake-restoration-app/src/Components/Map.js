@@ -75,15 +75,37 @@ export default function Map(props) {
             popup[0].remove();
         }
     }
+    /**
+     * Create Popup for Streams
+     * 
+     * @param {mapboxgl.Map} map.current Reference to the map object
+     * @param {*} e information about the event
+     * 
+     * https://docs.mapbox.com/mapbox-gl-js/example/popup-on-hover/
+     */
     function streamPopUp(map, e) {
+        console.log(e.features)
+        console.log(typeof(e.features))
         if (e.features.length) {
+            // Change the cursor style as a UI indicator.
             map.current.getCanvas().style.cursor = "pointer";
+            // Copy coordinates array.
             const coordinates = e.features[0].geometry.coordinates.slice();
+            // Ensure that if the map is zoomed out such that multiple
+            // copies of the feature are visible, the popup appears
+            // over the copy being pointed to.
             while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
                 coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
             }
+            /**
+             * Name of the location
+             */
             const description = e.features[0].properties.name.charAt(0).toUpperCase() + e.features[0].properties.name.slice(1) + " Creek"
+            /**
+             * Link to data visualization that reloads the top frame
+             */
             const link = "<a href='/Clear_Lake_Website_Data_Visualization/" + e.features[0].properties.name + "' target='_top'>" + description + "</a>"                    
+            // Create a popup, populate the popup, set coordinates, add to map
             new mapboxgl.Popup({focusAfterOpen: false, closeButton: true, closeOnMove: false, closeOnClick: true}).setLngLat(coordinates).setHTML(link).addTo(map.current)
         }
     }
@@ -261,7 +283,15 @@ export default function Map(props) {
             minZoom: 9,
             maxBounds: [[-124.53, 36.94], [-120, 42.0]]
         });
+        /**
+         * Elements that will be added to the legend.
+         * 
+         * `id_of_the_layer`: `name_to_appear_in_the_legend`
+         */
         let targets = {}
+        /**
+         * Add markers to the map depending on the props.name parameter
+         */
         if (props.name == "stream") {
             addStreamMarkers();
             targets.streams = "Stream Monitoring Sites"
@@ -284,13 +314,20 @@ export default function Map(props) {
             targets.lake = "Lake Monitoring Sites"
             targets.bounds_line = "Watershed Boundary"
         }
-        // const legend = new LegendControl({toggler: true, collapsed: true});
+        /**
+         * Legend for the map.
+         * 
+         * https://github.com/watergis/mapbox-gl-legend
+         */
         const legend = new MapboxLegendControl(targets, {accesstoken: mapboxgl.accessToken})
         map.current.addControl(legend, 'bottom-left');
     });
 
     useEffect(() => {
         if (!map.current) return; // wait for map to initialize
+        /**
+         * Update Longitude, Latitude, Zoom as the map gets moved around
+         */
         map.current.on('move', () => {
             setLng(map.current.getCenter().lng.toFixed(4));
             setLat(map.current.getCenter().lat.toFixed(4));

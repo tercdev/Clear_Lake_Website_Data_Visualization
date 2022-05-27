@@ -14,9 +14,9 @@ require('highcharts/modules/boost')(Highcharts);
 export default function LakeTchain(props) {
     var templabel;
     var dolabel;
-    function createLegendLabels(x) {
+    function createLegendLabels(x, top, bottom) {
         // legend titles
-        templabel = x.renderer.text('Temperature [°C]', x.chartWidth-30, 145)
+        templabel = x.renderer.text('Temperature [°C]', x.chartWidth-30, top)
         .attr({
             rotation: 90
         })
@@ -25,7 +25,7 @@ export default function LakeTchain(props) {
             fontSize: '1rem'
         })
         .add();
-        dolabel = x.renderer.text('Dissolved Oxygen [mg/L]', x.chartWidth-30, 450)
+        dolabel = x.renderer.text('Dissolved Oxygen [mg/L]', x.chartWidth-30, bottom)
         .attr({
             rotation: 90
         })
@@ -46,12 +46,14 @@ export default function LakeTchain(props) {
             events: {
                 load() {
                     this.showLoading();
-                    createLegendLabels(this);
+                    createLegendLabels(this, 150, 450);
                 },
                 render() {
-                    templabel.destroy();
-                    dolabel.destroy();
-                    createLegendLabels(this);
+                    if (typeof templabel !== 'undefined') {
+                        templabel.destroy();
+                        dolabel.destroy();
+                    }
+                    createLegendLabels(this, 150, 450);
                 }
             }
         },
@@ -169,17 +171,65 @@ export default function LakeTchain(props) {
             verticalAlign: 'middle',
             align: 'right',
             // padding: 20,
-            itemMarginTop: 35, // increase moves bottom one down
-            itemMarginBottom: 40, // increase moves top one up
+            itemMarginTop: 39, // increase moves bottom one down
+            itemMarginBottom: 37, // increase moves top one up
             width: 110,
             // itemWidth: 100,
             y: 30,
-            // symbolHeight: 275,
-            symbolHeight: 250,
+            symbolHeight: 240, // height of color axis
             // maxHeight: 700
             navigation: {
                 enabled: false
             }
+        },
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 600
+                },
+                chartOptions: {
+                    legend: {
+                        symbolHeight: 220,
+                        y: 50,
+                        itemMarginBottom: 35,
+                        itemMarginTop: 40
+                    },
+                    chart: {
+                        events: {
+                            render() {
+                                if (typeof templabel !== 'undefined') {
+                                    templabel.destroy();
+                                    dolabel.destroy();
+                                }
+                                createLegendLabels(this, 180, 455)
+                            }
+                        }
+                    }
+                }
+            }, {
+                condition: {
+                    maxWidth: 350
+                },
+                chartOptions: {
+                    legend: {
+                        symbolHeight: 200,
+                        y: 60,
+                        itemMarginBottom: 15,
+                        itemMarginTop: 50
+                    },
+                    chart: {
+                        events: {
+                            render() {
+                                if (typeof templabel !== 'undefined') {
+                                    templabel.destroy();
+                                    dolabel.destroy();
+                                }
+                                createLegendLabels(this, 215, 465)
+                            }
+                        }
+                    }
+                }
+            }, ]
         },
         series: [{
             name: 'Temperature',

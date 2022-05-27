@@ -47,25 +47,29 @@ export default function Stream(props) {
             data.forEach((element => {
                 const fToCel= temp => Math.round( (temp *1.8 )+32 );
                 if (element.hasOwnProperty('TmStamp')) {
+                    let pstTime = convertGMTtoPSTTime(new Date(element.TmStamp));
                     if (graphUnit === 'f') {
-                        m.push([new Date(element.TmStamp).getTime(), fToCel(parseFloat(element[dataType]))]);
+                        m.push([pstTime.getTime(), fToCel(parseFloat(element[dataType]))]);
                     } else {
-                        m.push([new Date(element.TmStamp).getTime(), parseFloat(element[dataType])]);
+                        m.push([pstTime.getTime(), parseFloat(element[dataType])]);
                     }
                 } else {
+                    let pstTime = convertGMTtoPSTTime(new Date(element.DateTime_UTC));
                     if (graphUnit === 'f') {
-                        m.push([new Date(element.DateTime_UTC).getTime(), fToCel(parseFloat(element[dataType]))]);
+                        m.push([pstTime.getTime(), fToCel(parseFloat(element[dataType]))]);
                     } else {
-                        m.push([new Date(element.DateTime_UTC).getTime(), parseFloat(element[dataType])]);
+                        m.push([pstTime.getTime(), parseFloat(element[dataType])]);
                     } 
                 }
             }));
         } else {
             data.forEach((element => {
                 if (element.hasOwnProperty('TmStamp')) {
-                    m.push([new Date(element.TmStamp).getTime(), parseFloat(element[dataType])]);
+                    let pstTime = convertGMTtoPSTTime(new Date(element.TmStamp));
+                    m.push([pstTime.getTime(), parseFloat(element[dataType])]);
                 } else if (element.hasOwnProperty('DateTime_UTC')) {
-                    m.push([new Date(element.DateTime_UTC).getTime(), parseFloat(element[dataType])]);
+                    let pstTime = convertGMTtoPSTTime(new Date(element.DateTime_UTC));
+                    m.push([pstTime.getTime(), parseFloat(element[dataType])]);
                 } else if (element.hasOwnProperty('DateTime_PST')) {
                     m.push([new Date(element.DateTime_PST).getTime(), parseFloat(element[dataType])]);
                 }
@@ -389,9 +393,11 @@ export default function Stream(props) {
             compareDate = newDayPlusOne
 
         }
+        // query one extra day since data retrieved is in UTC
+        let endDayPlusOne = new Date(new Date(endGraphDate.getTime()).setDate(endGraphDate.getDate() + 1));
 
-        realTimeDataFetch.push(creekRealTime.get(`?id=${props.id}&rptdate=${convertDate(compareDate)}&rptend=${convertDate(endGraphDate)}`))
-        cleanDataFetch.push(creekClean.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(endGraphDate)}`))
+        realTimeDataFetch.push(creekRealTime.get(`?id=${props.id}&rptdate=${convertDate(compareDate)}&rptend=${convertDate(endDayPlusOne)}`))
+        cleanDataFetch.push(creekClean.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(endDayPlusOne)}`))
 
         flowDataFetch.push(creekFlow.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(endGraphDate)}`))
         rainDataFetch.push(creekRain.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(endGraphDate)}`))

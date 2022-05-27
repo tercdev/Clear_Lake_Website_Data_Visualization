@@ -49,7 +49,7 @@ const Navigation = () => {
               <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/middle">Middle</NavDropdown.Item>
               <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/scotts">Scotts</NavDropdown.Item>
             </NavDropdown>
-            <NavDropdown title="Meterology" id="collasible-nav-dropdown" show={showMet} onMouseEnter={showMetDropdown} onMouseLeave={hideMetDropdown}>
+            <NavDropdown title="Meteorology" id="collasible-nav-dropdown" show={showMet} onMouseEnter={showMetDropdown} onMouseLeave={hideMetDropdown}>
               <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/met">Overview</NavDropdown.Item>
               <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/nic">Nice</NavDropdown.Item>
               <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/nlp">North Lakeport</NavDropdown.Item>

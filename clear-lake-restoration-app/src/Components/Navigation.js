@@ -81,7 +81,7 @@ const Navigation = () => {
             </NavDropdown>            
             <Nav.Link href='https://tahoe.ucdavis.edu/clear-lake-wind-maps'>Wind Animations</Nav.Link>
             <Nav.Link href='/Clear_Lake_Website_Data_Visualization/data-archive'>Data Archive</Nav.Link>
-            <Nav.Link href='https://clearlakerestoration.sf.ucdavis.edu/'>Main Clear Lake Site</Nav.Link>
+            <Nav.Link href='https://clearlakerehabilitation.ucdavis.edu/'>Main Clear Lake Site</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

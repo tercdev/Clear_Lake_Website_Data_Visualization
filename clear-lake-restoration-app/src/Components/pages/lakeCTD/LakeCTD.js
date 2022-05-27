@@ -42,7 +42,10 @@ export default function LakeCTD(props) {
             text: ''
         },
         subtitle: {
-            text: 'Click and drag in the plot area to zoom in.<br/>Use three-line icon on top right to download the data displayed in the graph.<br/>Click on the name of the series in the legend on the bottom to hide / show the series on the graph.'
+            text: 'Click and drag in the plot area to zoom in.<br/>Use three-line icon on top right to download the data displayed in the graph.<br/>Click on the name of the series in the legend on the bottom to hide / show the series on the graph.',
+            style: {
+                fontSize: '1rem'
+            }
         },
         credits: {
             enabled: false,
@@ -51,113 +54,148 @@ export default function LakeCTD(props) {
             reversed: false,
             title: {
                 enabled: true,
-                text: 'Depth [m]'
+                text: 'Depth [m]',
+                style: {
+                    fontSize: '1rem'
+                }
             },
             labels: {
-                format: '{value} m'
+                format: '{value} m',
+                style: {
+                    fontSize: '1rem'
+                }
             },
             max: 0,
             gridLineWidth: 1
         }],
         yAxis: [{
             title: {
-                text: 'Chlorophyll [ug/l]',
+                text: 'Chlorophyll [µg/l]',
                 style: {
-                    color: Highcharts.getOptions().colors[7]
+                    color: Highcharts.getOptions().colors[7],
+                    fontSize: '1rem'
                 }
             },
             labels: {
-                format: '{value} ug/l',
+                format: '{value}',
                 style: {
-                    color: Highcharts.getOptions().colors[7]
-                }
+                    color: Highcharts.getOptions().colors[7],
+                    fontSize: '1rem'
+                },
+                step: 2
             },
             lineColor: Highcharts.getOptions().colors[7],
             lineWidth: 5,
             opposite: true,
             showLastLabel: false,
             min: 0,
-            max: 32
+            max: 32,
+            startOnTick: false,
+            endOnTick: false,
         }, {
             title: {
                 text: 'Dissolved Oxygen [mg/l]',
                 style: {
-                    color: Highcharts.getOptions().colors[0]
+                    color: Highcharts.getOptions().colors[0],
+                    fontSize: '1rem'
                 }
             },
             labels: {
-                format: '{value} mg/l',
+                format: '{value}',
                 style: {
-                    color: Highcharts.getOptions().colors[0]
-                }
+                    color: Highcharts.getOptions().colors[0],
+                    fontSize: '1rem'
+                },
+                step: 2
             },
             lineColor: Highcharts.getOptions().colors[0],
             lineWidth: 5,
             opposite: true,
             showLastLabel: false,
             min: 0,
-            max: 16
+            max: 16,
+            startOnTick: false,
+            endOnTick: false,
+            gridLineWidth: 0
         }, {
             title: {
-                text: 'Specific Conductivity [uS/cm]',
+                text: 'Specific Conductivity [µS/cm]',
                 style: {
-                    color: Highcharts.getOptions().colors[5]
+                    color: Highcharts.getOptions().colors[5],
+                    fontSize: '1rem'
                 }
             },
             labels: {
-                format: '{value} uS/cm',
+                format: '{value}',
                 style: {
-                    color: Highcharts.getOptions().colors[5]
-                }
+                    color: Highcharts.getOptions().colors[5],
+                    fontSize: '1rem'
+                },
+                step: 2
             },
             lineColor: Highcharts.getOptions().colors[5],
             lineWidth: 5,
             showLastLabel: false,
-            min: 210,
-            max: 410
+            min: 180,
+            max: 410,
+            startOnTick: false,
+            endOnTick: false,
+            gridLineWidth: 0
         }, {
             title: {
                 text: 'Temperature [°C]',
                 style: {
-                    color: Highcharts.getOptions().colors[3]
+                    color: Highcharts.getOptions().colors[3],
+                    fontSize: '1rem'
                 }
             },
             labels: {
-                format: '{value} °C',
+                format: '{value}',
                 style: {
-                    color: Highcharts.getOptions().colors[3]
-                }
+                    color: Highcharts.getOptions().colors[3],
+                    fontSize: '1rem'
+                },
+                step: 2
             },
             lineColor: Highcharts.getOptions().colors[3],
             lineWidth: 5,
             showLastLabel: false,
-            min: 5,
-            max: 30
+            min: 4,
+            max: 28,
+            startOnTick: false,
+            endOnTick: false,
+            gridLineWidth: 0
         }, {
             title: {
                 text: 'Turbidity [FTU]',
                 style: {
-                    color: Highcharts.getOptions().colors[4]
+                    color: Highcharts.getOptions().colors[4],
+                    fontSize: '1rem'
                 }
             },
             labels: {
-                format: '{value} FTU',
+                format: '{value}',
                 style: {
-                    color: Highcharts.getOptions().colors[4]
-                }
+                    color: Highcharts.getOptions().colors[4],
+                    fontSize: '1rem'
+                },
+                step: 2
             },
             lineColor: Highcharts.getOptions().colors[4],
             lineWidth: 5,
             showLastLabel: false,
             min: 0,
-            max: 85 // 150?
+            max: 80, // 150?
+            startOnTick: false,
+            endOnTick: false,
+            gridLineWidth: 0
         }],
         tooltip: {
             formatter: function() {
                 let units = {
-                    "Chlorophyll": "ug/l",
+                    "Chlorophyll": "µg/l",
                     "Dissolved Oxygen": 'mg/l',
-                    "Specific Conductivity": 'uS/cm',
+                    "Specific Conductivity": 'µS/cm',
                     "Temperature": '°C',
                     "Turbidity": 'FTU'
                 }
@@ -167,7 +205,10 @@ export default function LakeCTD(props) {
                 }, '<b>' + this.x + ' m' + '</b>');
             },
             shared: true,
-            followPointer: true
+            followPointer: true.valueOf,
+            style: {
+                fontSize: '1rem'
+            }
         },
         series: [{
             name: 'Chlorophyll',
@@ -205,6 +246,12 @@ export default function LakeCTD(props) {
                 marker: {
                     enable: false
                 }
+            }
+        },
+        legend: {
+            verticalAlign: 'top',
+            itemStyle: {
+                fontSize: '1rem'
             }
         },
         updateTime: {
@@ -301,7 +348,7 @@ export default function LakeCTD(props) {
     // for the collapsible FAQ
     const header1 = "How to use the graphs and see the data below?";
     const content1 = [<ol>
-            <li>Select year, month, and date. Dates are in UTC.</li>
+            <li>Select year, month, and date. Profiles are normally measured between 9 AM and 2 PM, local time (UTC - 8 h)</li>
             <li>Click submit to update the graphs below.</li>
         </ol>];
 

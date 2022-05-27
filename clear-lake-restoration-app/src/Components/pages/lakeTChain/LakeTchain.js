@@ -12,6 +12,29 @@ require('highcharts/modules/heatmap')(Highcharts);
 require('highcharts/modules/boost')(Highcharts);
 
 export default function LakeTchain(props) {
+    var templabel;
+    var dolabel;
+    function createLegendLabels(x) {
+        // legend titles
+        templabel = x.renderer.text('Temperature [°C]', x.chartWidth-30, 145)
+        .attr({
+            rotation: 90
+        })
+        .css({
+            // color: '#4572A7',
+            fontSize: '1rem'
+        })
+        .add();
+        dolabel = x.renderer.text('Dissolved Oxygen [mg/L]', x.chartWidth-30, 450)
+        .attr({
+            rotation: 90
+        })
+        .css({
+            // color: '#4572A7',
+            fontSize: '1rem'
+        })
+        .add();
+    }
     const [chartProps, setChartProps] = useState({
         chart: {
             zoomType: 'x',
@@ -23,27 +46,12 @@ export default function LakeTchain(props) {
             events: {
                 load() {
                     this.showLoading();
+                    createLegendLabels(this);
                 },
                 render() {
-                    // legend titles
-                    this.renderer.text('Temperature [°C]', this.chartWidth-30, 145)
-                    .attr({
-                        rotation: 90
-                    })
-                    .css({
-                        // color: '#4572A7',
-                        fontSize: '1rem'
-                    })
-                    .add();
-                    this.renderer.text('Dissolved Oxygen [mg/L]', this.chartWidth-30, 450)
-                    .attr({
-                        rotation: 90
-                    })
-                    .css({
-                        // color: '#4572A7',
-                        fontSize: '1rem'
-                    })
-                    .add();
+                    templabel.destroy();
+                    dolabel.destroy();
+                    createLegendLabels(this);
                 }
             }
         },

@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
 import DataDisclaimer from '../../DataDisclaimer';
 import Chart from '../../Chart';
-import useFetch from 'react-fetch-hook';
+// import useFetch from 'react-fetch-hook';
 import { convertDate } from '../../utils';
 import DatePicker from 'react-datepicker';
 import CollapsibleItem from '../../CollapsibleItem';
 import '../../DateRangePicker.css';
+import useFetch from 'use-http';
 
 require('highcharts/modules/heatmap')(Highcharts);
 require('highcharts/modules/boost')(Highcharts);
@@ -17,12 +18,14 @@ export default function LakeTchain(props) {
             zoomType: 'x',
             type: 'heatmap',
             height: 700,
+            time: {
+                useUTC: false
+            },
             events: {
                 load() {
                     this.showLoading();
                 },
                 render() {
-                    console.log(this)
                     // legend titles
                     this.renderer.text('Temperature [°C]', this.chartWidth-30, 145)
                     .attr({
@@ -260,11 +263,15 @@ export default function LakeTchain(props) {
         }
     })
     var today = new Date();
-    var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
-    const [startDate, setStartDate] = useState(lastWeek);
+    var lastYear = new Date(today.getFullYear(), today.getMonth(), today.getDate()-365);
+    const [startDate, setStartDate] = useState(lastYear);
     const [endDate, setEndDate] = useState(today);
-    const [startGraphDate, setGraphStartDate] = useState(lastWeek);
+    const [startGraphDate, setGraphStartDate] = useState(lastYear);
     const [endGraphDate, setGraphEndDate] = useState(today);
+    const [oxygenDataArr,setOxygenDataArr] = useState([])
+    const [tempDataArr,setTempDataArr] = useState([])
+    const [isLoading,setIsLoading] = useState(true)
+
     function handleStartDateChange(e) {
         setStartDate(e);
     }
@@ -276,37 +283,33 @@ export default function LakeTchain(props) {
         setError(false);
         let latestDate = new Date(new Date(startDate).setDate(365));
         setGraphStartDate(startDate);
-        if (endDate > latestDate) {
-            setError(true);
-            setEndDate(latestDate);
-            setGraphEndDate(latestDate);
-        } else {
-            setGraphEndDate(endDate);
-        }
+        setGraphEndDate(endDate);
+        // }
     }
-    var oxy_url = new URL('https://f6axabo7w6.execute-api.us-west-2.amazonaws.com/default/clearlake-lakeoxygen');
-    var search_params_oxy = oxy_url.searchParams;
-    search_params_oxy.set('id',props.id);
-    search_params_oxy.set('start',convertDate(startGraphDate));
-    search_params_oxy.set('end',convertDate(endGraphDate));
-    oxy_url.search = search_params_oxy.toString();
+    const lakeOxygen = useFetch('https://f6axabo7w6.execute-api.us-west-2.amazonaws.com/default/clearlake-lakeoxygen')
+    // var oxy_url = new URL('https://f6axabo7w6.execute-api.us-west-2.amazonaws.com/default/clearlake-lakeoxygen');
+    // var search_params_oxy = oxy_url.searchParams;
+    // search_params_oxy.set('id',props.id);
+    // search_params_oxy.set('start',convertDate(startGraphDate));
+    // search_params_oxy.set('end',convertDate(endGraphDate));
+    // oxy_url.search = search_params_oxy.toString();
 
-    const oxyData = useFetch(oxy_url.toString());
-
-    var temp_url = new URL('https://18eduqff9f.execute-api.us-west-2.amazonaws.com/default/clearlake-laketemperature')
-    var search_params_temp = temp_url.searchParams;
-    search_params_temp.set('id',props.id);
-    search_params_temp.set('start',convertDate(startGraphDate));
-    search_params_temp.set('end',convertDate(endGraphDate));
-    temp_url.search = search_params_temp.toString();
+    // const oxyData = useFetch(oxy_url.toString());
+    const lakeTemp = useFetch('https://18eduqff9f.execute-api.us-west-2.amazonaws.com/default/clearlake-laketemperature')
+    // var temp_url = new URL('https://18eduqff9f.execute-api.us-west-2.amazonaws.com/default/clearlake-laketemperature')
+    // var search_params_temp = temp_url.searchParams;
+    // search_params_temp.set('id',props.id);
+    // search_params_temp.set('start',convertDate(startGraphDate));
+    // search_params_temp.set('end',convertDate(endGraphDate));
+    // temp_url.search = search_params_temp.toString();
     
-    const tempData = useFetch(temp_url.toString());
+    // const tempData = useFetch(temp_url.toString());
     function getFilteredData(data, dataType, isInstrument = false) {
         let m = []
         if (isInstrument && data.length != 0) {
             Object.keys(data[0]).forEach(key => {
                 let re = /^Height_([^m]*)m$/;
-                console.log(re.exec(key))
+                // console.log(re.exec(key))
                 if (re.exec(key) !== null) {
                     m.push([new Date(data[0].DateTime_UTC).getTime(),parseFloat(re.exec(key)[1])])
                 }
@@ -314,7 +317,6 @@ export default function LakeTchain(props) {
             if (dataType == "temp") {
                 m.push([new Date(data[0].DateTime_UTC).getTime(),parseFloat(data[0].Height_max)])
             }
-            console.log(m)
             return m
         }
         if (dataType == "depth") {
@@ -412,20 +414,72 @@ export default function LakeTchain(props) {
         return m
     }
     useEffect(() => {
-        if (!oxyData.isLoading && !tempData.isLoading) {
-            console.log(oxyData.data)
-            let oxyFiltered = getFilteredData(oxyData.data, "oxy");
-            console.log(oxyFiltered)
-            console.log(tempData.data)
-            let tempFiltered = getFilteredData(tempData.data, "temp");
+        setOxygenDataArr([])
+        setTempDataArr([])
+
+        // find difference between user picked dates
+        let diffTime = endGraphDate.getTime() - startGraphDate.getTime()
+        let diffDay = diffTime/(1000*3600*24)
+        console.log(diffDay)
+        let oxygenFetch =[]
+        let tempFetch = []
+        
+        let newDay = 0;
+        let compareDate = startGraphDate;
+
+        while (diffDay > 366) {
+            newDay = new Date(new Date(compareDate.getTime()).setDate(compareDate.getDate() + 366));
+
+            diffTime = endGraphDate.getTime() - newDay.getTime()
+            diffDay = diffTime/(1000*3600*24)
+
+            oxygenFetch.push(lakeOxygen.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(newDay)}`))
+            tempFetch.push(lakeTemp.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(newDay)}`))
+
+            // next query should be the last day +1 so no overlap with data
+            let newDayPlusOne = new Date(new Date(compareDate.getTime()).setDate(compareDate.getDate() + 366));
+            compareDate = newDayPlusOne
+
+        }
+
+        // query one extra day since data retrieved is in UTC
+        let endDayPlusOne = new Date(new Date(endGraphDate.getTime()).setDate(endGraphDate.getDate() + 1));
+
+        oxygenFetch.push(lakeOxygen.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(endDayPlusOne)}`))
+        tempFetch.push(lakeTemp.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(endDayPlusOne)}`))
+        setIsLoading(true); // Loading is true
+
+        async function fetchData() {
+            oxygenFetch = await Promise.all(oxygenFetch)
+            tempFetch = await Promise.all(tempFetch)
+
+            console.log("oxygen",oxygenFetch)
+            console.log("temp",tempFetch)
+            let combinedOxygenData = [].concat.apply([],oxygenFetch)
+            let combinedTempData = [].concat.apply([],tempFetch)
+
+            setOxygenDataArr(combinedOxygenData)
+            setTempDataArr(combinedTempData)
+            setIsLoading(false)
+        }
+        fetchData()
+
+    },[startGraphDate,endGraphDate])
+    useEffect(() => {
+        if (!isLoading) {
+            // console.log(oxygenDataArr)
+            let oxyFiltered = getFilteredData(oxygenDataArr, "oxy");
+            // console.log(oxyFiltered)
+            // console.log(tempDataArr)
+            let tempFiltered = getFilteredData(tempDataArr, "temp");
             if (oxyFiltered.length != 0) {
                 var minX = oxyFiltered[0][0];
                 var maxX = oxyFiltered[oxyFiltered.length-1][0]
             }
-            let depthFiltered = getFilteredData(oxyData.data, "depth");
-            console.log(depthFiltered)
-            let oxyInstrument = getFilteredData(oxyData.data, "oxy", true);
-            let tempInstrument = getFilteredData(tempData.data, 'temp', true)
+            let depthFiltered = getFilteredData(oxygenDataArr, "depth");
+            // console.log(depthFiltered)
+            let oxyInstrument = getFilteredData(oxygenDataArr, "oxy", true);
+            let tempInstrument = getFilteredData(tempDataArr, 'temp', true)
             setChartProps({...chartProps,
                 series: [{
                     data: tempFiltered
@@ -447,7 +501,7 @@ export default function LakeTchain(props) {
                 }]
             })
         }
-    },[startGraphDate, endGraphDate, oxyData.isLoading, tempData.isLoading])
+    },[isLoading])
 
     // for the collapsible FAQ
     const header1 = "How to use the graphs and see the data below?";
@@ -506,7 +560,7 @@ export default function LakeTchain(props) {
                 </div>
             </div>
             {error && <p className='error-message'>Selected date range was more than 365 days. End date was automatically changed.</p>}
-            <Chart chartProps={chartProps} isLoading={oxyData.isLoading || tempData.isLoading} />
+            <Chart chartProps={chartProps} isLoading={isLoading} />
         </div>
         
     )

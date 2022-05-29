@@ -1,38 +1,45 @@
 import React, { useState } from 'react';
-import {Navbar, Nav, Container, NavDropdown, Button, Modal} from 'react-bootstrap'
+import {Navbar, Nav, Container, NavDropdown} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Navigation.css';
 
+/**
+ * Component for showing the Navigation Bar.
+ * @returns {JSX.Element}
+ */
 const Navigation = () => {
+  // hide all dropdowns initially
   const [showStream, setShowStream] = useState(false);
   const [showMet, setShowMet] = useState(false);
   const [showLake, setShowLake] = useState(false);
   const [showLakeCTD, setShowLakeCTD] = useState(false);
-  const showStreamDropdown = (e)=>{
+
+  // callback functions that change the state of the dropdown depending on mouse events
+  const showStreamDropdown = () => {
       setShowStream(!showStream);
   }
-  const hideStreamDropdown = e => {
+  const hideStreamDropdown = () => {
       setShowStream(false);
   }
 
-  const showMetDropdown = (e)=>{
+  const showMetDropdown = () => {
     setShowMet(!showMet);
   }
-  const hideMetDropdown = e => {
+  const hideMetDropdown = () => {
     setShowMet(false);
   }
 
-  const showLakeDropdown = (e)=>{
+  const showLakeDropdown = () => {
     setShowLake(!showLake);
   }
-  const hideLakeDropdown = e => {
+  const hideLakeDropdown = () => {
     setShowLake(false);
   }
 
-  const showLakeCTDDropdown = (e)=>{
+  const showLakeCTDDropdown = () => {
     setShowLakeCTD(!showLakeCTD);
   }
-  const hideLakeCTDDropdown = e => {
+  const hideLakeCTDDropdown = () => {
     setShowLakeCTD(false);
   }
   return (

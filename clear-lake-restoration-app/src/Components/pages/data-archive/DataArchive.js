@@ -5,11 +5,15 @@ import 'react-tabs/style/react-tabs.css';
 import TChainData from './TChainData';
 import CTDData from './CTDData';
 import StreamData from './StreamData';
-import MeterologyData from './MeterologyData';
+import MeteorologyData from './MeteorologyData';
 import CollapsibleItem from '../../CollapsibleItem';
 
 import './DataArchive.css';
 
+/**
+ * Component for showing the Data Archive page.
+ * @returns {JSX.Element}
+ */
 function DataArchive() {
 
     // for the collapsible FAQ
@@ -81,13 +85,13 @@ function DataArchive() {
                         </TabList>
                         <TabPanel>
                             <center>Maximum 365 days at a time.</center>
-                            <MeterologyData id="Clean" 
+                            <MeteorologyData id="Clean" 
                                 url="https://4ery4fbt1i.execute-api.us-west-2.amazonaws.com/default/clearlake-met"
                                 variables={["Station_ID","DateTime_UTC","Air_Temp","Rel_Humidity","Wind_Speed","Wind_Dir","Atm_Pres","Rain","Solar_Rad"]}/>
                         </TabPanel>
                         <TabPanel>
                             <center>Maximum 150 days at a time.</center>
-                            <MeterologyData id="Real Time" 
+                            <MeteorologyData id="Real Time" 
                                 url="https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/metweatherlink"
                                 variables={["Station_ID","DateTime_UTC","Air_Temp","Hi_Air_Temp","Low_Air_Temp","Rel_Humidity","Dew_Point","Wind_Speed","Wind_Dir","Hi_Wind_Speed","Hi_Wind_Speed_Dir","Atm_Pres","Rain","Rain_Rate","Solar_Rad","Solar_Energy"]}/>
                         </TabPanel>

@@ -5,7 +5,14 @@ import DatePicker from 'react-datepicker';
 import { convertDate } from '../../utils';
 import Multiselect from 'multiselect-react-dropdown';
 
-function MeterologyData(props) {
+/**
+ * Component showing the Meteorology data download.
+ * @param {String} id 'clean' or 'real'
+ * @param {String} url url of the API without query parameters
+ * @param {Array} variables 
+ * @returns 
+ */
+function MeteorologyData(props) {
     const [error, setError] = useState(false);
     const [showButton, setShowButton] = useState(false);
     var today = new Date();
@@ -194,4 +201,4 @@ function MeterologyData(props) {
     )
 }
 
-export default MeterologyData;
+export default MeteorologyData;

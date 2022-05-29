@@ -2,6 +2,10 @@ import React from 'react';
 
 import Map from '../../Map.js'
 
+/**
+ * Component for showing the Lake Profile Overview page.
+ * @returns {JSX.Element}
+ */
 export default function LakeCTDHome() {
     return (
         <div>

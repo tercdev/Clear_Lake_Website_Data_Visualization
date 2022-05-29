@@ -1,6 +1,10 @@
 import React from 'react';
 import Map from '../../Map.js'
 
+/**
+ * Component for showing the Meteorology Overview page.
+ * @returns {JSX.Element}
+ */
 export default function MetHome() {
     return (
         <div>

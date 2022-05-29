@@ -1,5 +1,9 @@
 import React from 'react';
 
+/**
+ * Component for data disclaimer text.
+ * @returns {JSX.Element}
+ */
 function DataDisclaimer() {
     return (
         <div className='data-disclaimer'>
@@ -10,10 +14,6 @@ function DataDisclaimer() {
                 from TERC.</p>
             <p className='disclaimer2'>For all questions please contact Dr. Shohei Watanabe (swatanabe@ucdavis.edu) 
                 or Dr. Alicia Cortes (alicortes@ucdavis.edu)</p>
-        {/* <hr style={{
-            color: '#1d4776',
-            height: 5,
-        }}/> */}
         </div>
     );
 };

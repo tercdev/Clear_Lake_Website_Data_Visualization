@@ -1,5 +1,9 @@
 import React from 'react'
 
+/**
+ * Error Boundary Component  
+ * https://reactjs.org/docs/error-boundaries.html
+ */
 class ErrorBoundary extends React.Component {
     constructor(props) {
       super(props);
@@ -25,4 +29,5 @@ class ErrorBoundary extends React.Component {
       return this.props.children; 
     }
   }
+
 export default ErrorBoundary

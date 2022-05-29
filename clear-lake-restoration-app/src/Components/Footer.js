@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import CLO from '../images/sponsors/CLO.webp';
 import BVR from '../images/sponsors/bvr_logo.webp';
@@ -22,42 +22,44 @@ import CNRA from '../images/sponsors/CNRA-Logo_xA0_Image.png';
 import './Footer.css'
 import '../App.css'
 
-export default class Footer extends Component {
-  render() {
+/**
+ * Component for showing the footer with logos.
+ * @returns {JSX.Element}
+ */
+export default function Footer() {
     return (
-      <div className="footerContainer">
+        <div className="footerContainer">
             <div className="title-footer">
                 <p className="main-title">Clear Lake Data</p>
                 <p className="sub-title">Tahoe Environmental Research Center </p>
                 <div className="funding-container">
-                  <p>Funding Provided by</p>
-                  <img src={CNRA} alt="California Natural Resources Agency" />
+                    <p>Funding Provided by</p>
+                    <img src={CNRA} alt="California Natural Resources Agency" />
                 </div>
                 <div className="funding-container">
-                  <p>In Collaboration With</p>
-                  <p>(in progress)</p>
-                  <div className='image-row'>
-                    <img src={CLO} alt="Clearlake Oaks County Water District" />
-                    <img src={BVR} alt="Big valley Rancheria" />
-                    <img src={ELEM} alt="Elem Indian Colony" />
-                    <img src={CLSC} alt="Count of Lake State of California" />
-                    <img src={VectorControl} alt="Lake County Vector Control District" />
-                  </div>
-                  <div className='image-row'>
-                    <img src={WMWlogo} alt="Worldmark" />
-                    <img src={USGS} alt="USGS" />
-                    <img src={RivieraWest} alt="Riviera West" />
-                  </div> 
-                  <div className='image-row'>
-                    <img src={EPA_logo} alt="Environmental Protection Agency" />
-                    <img src={sponsor1} />
-                    <img src={SFEI} alt="SFEI" />
-                    <img src={NASA} alt="NASA" />
-                    <img src={WaterBoards} alt="California Water Boards" />
-                  </div> 
+                    <p>In Collaboration With</p>
+                    <p>(in progress)</p>
+                    <div className='image-row'>
+                        <img src={CLO} alt="Clearlake Oaks County Water District" />
+                        <img src={BVR} alt="Big valley Rancheria" />
+                        <img src={ELEM} alt="Elem Indian Colony" />
+                        <img src={CLSC} alt="Count of Lake State of California" />
+                        <img src={VectorControl} alt="Lake County Vector Control District" />
+                    </div>
+                    <div className='image-row'>
+                        <img src={WMWlogo} alt="Worldmark" />
+                        <img src={USGS} alt="USGS" />
+                        <img src={RivieraWest} alt="Riviera West" />
+                    </div> 
+                    <div className='image-row'>
+                        <img src={EPA_logo} alt="Environmental Protection Agency" />
+                        <img src={sponsor1} />
+                        <img src={SFEI} alt="SFEI" />
+                        <img src={NASA} alt="NASA" />
+                        <img src={WaterBoards} alt="California Water Boards" />
+                    </div> 
                 </div>
             </div>
-      </div>
+        </div>
     )
-  }
 }

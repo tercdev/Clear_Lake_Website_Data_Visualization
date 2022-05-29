@@ -12,7 +12,7 @@ require('highcharts/modules/heatmap')(Highcharts);
 require('highcharts/modules/boost')(Highcharts);
 
 /**
- * Component for showing one site's lake mooring page.
+ * Component for showing one site's lake mooring page.  
  * @param {number} id used in API call for a specific site
  * @param {String} name Title of the page
  * @returns {JSX.Element} 
@@ -59,7 +59,8 @@ export default function LakeTchain(props) {
         .add();
     }
     /**
-     * Initial state of all the chart properties.
+     * Initial state of all the chart properties.  
+     * https://www.highcharts.com/demo/heatmap-canvas
      */
     const [chartProps, setChartProps] = useState({
         chart: {
@@ -70,11 +71,11 @@ export default function LakeTchain(props) {
                 useUTC: false
             },
             events: {
-                load() {
+                load() { // show Loading... text and add legend labels
                     this.showLoading();
                     createLegendLabels(this, 150, 450);
                 },
-                render() {
+                render() { // rerender legend labels
                     createLegendLabels(this, 150, 450);
                 }
             }
@@ -529,18 +530,17 @@ export default function LakeTchain(props) {
     },[startGraphDate,endGraphDate])
     useEffect(() => {
         if (!isLoading) {
-            
+            // update chart properties with data
             let oxyFiltered = getFilteredData(oxygenDataArr, "oxy");
             let tempFiltered = getFilteredData(tempDataArr, "temp");
             
-            if (oxyFiltered.length != 0) {
+            if (oxyFiltered.length != 0) { // first and last date as min and max x axis values
                 var minX = oxyFiltered[0][0];
                 var maxX = oxyFiltered[oxyFiltered.length-1][0]
             }
             let depthFiltered = getFilteredData(oxygenDataArr, "depth");
             let oxyInstrument = getFilteredData(oxygenDataArr, "oxy", true);
             let tempInstrument = getFilteredData(tempDataArr, 'temp', true)
-            // update chart properties with data
             setChartProps({...chartProps,
                 series: [{
                     data: tempFiltered

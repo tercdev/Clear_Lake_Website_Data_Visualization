@@ -12,7 +12,7 @@ export default function Title() {
       <div className="titleContainer">
         <Link to='/' className='logoImage' >
           <img src={logo} alt="Logo" />
-          </Link>
+        </Link>
         <div className="title">
           <p className="main-title">Clear Lake Data</p>
           <p className="sub-title">Tahoe Environmental Research Center </p>

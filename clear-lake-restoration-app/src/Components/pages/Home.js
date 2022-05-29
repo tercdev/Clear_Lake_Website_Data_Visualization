@@ -2,6 +2,10 @@ import React from 'react';
 
 import Map from '../Map.js'
 
+/**
+ * Component showing the body of the home page with a hero banner, introduction, and map.
+ * @returns {JSX.Element}
+ */
 export default function Home() {
     return (
         <div>

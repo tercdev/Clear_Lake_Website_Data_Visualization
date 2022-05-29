@@ -148,7 +148,7 @@ export default function Map(props) {
                 description = "Clearlake Oaks"
             } else if (abbr === "jgb") {
                 description = "Jago Bay"
-                note = "<br/>(relocated to <a href='/Clear_Lake_Website_Data_Visualization/bek target='_top''>Beakbane Island</a> in June 2020)"
+                note = "<br/>(relocated to <a href='/Clear_Lake_Website_Data_Visualization/bek' target='_top'>Beakbane Island</a> in June 2020)"
                 contents = description + note
             } else {
                 description = "Beakbane Island"

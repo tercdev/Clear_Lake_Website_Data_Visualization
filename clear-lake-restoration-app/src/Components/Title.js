@@ -1,10 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../images/TERC_wave.png';
 import './Title.css'
 
-export default class TitleComponent extends Component {
-  render() {
+/**
+ * Component for showing the logo, title, and subtitle.
+ * @returns {JSX.Element}
+ */
+export default function Title() {
     return (
       <div className="titleContainer">
             <Link to='/' className='logoImage' >
@@ -16,5 +19,4 @@ export default class TitleComponent extends Component {
             </div>
       </div>
     )
-  }
 }

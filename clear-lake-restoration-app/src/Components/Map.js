@@ -11,13 +11,11 @@ import '@watergis/mapbox-gl-legend/css/styles.css';
 mapboxgl.accessToken = 'pk.eyJ1IjoiY2hlbmFsaSIsImEiOiJjbDBqY2V2bGowYjlrM2NtaXhjYzlyM2pxIn0.BxtrB0AyBeGd8lug5c6mUg';
 
 /**
- * Component for showing mapbox map.
- * 
+ * Component for showing mapbox map.  
+ * https://docs.mapbox.com/help/tutorials/use-mapbox-gl-js-with-react/
  * @component
  * @param {String} name type of map: "stream", "met", "lake", "all"
  * @returns {JSX.Element} Map Component template
- * 
- * https://docs.mapbox.com/help/tutorials/use-mapbox-gl-js-with-react/
  */
 export default function Map(props) {
     // set default state
@@ -28,10 +26,8 @@ export default function Map(props) {
     const [zoom, setZoom] = useState(10.5);
 
     /**
-     * Add Stream Markers onto the Map.
-     * 
-     * Geographic locations are formated as geoJSON files found in /public/data.
-     * 
+     * Add Stream Markers onto the Map.  
+     * Geographic locations are formated as geoJSON files found in /public/data.  
      * https://docs.mapbox.com/mapbox-gl-js/api/map/#map#addsource
      * https://docs.mapbox.com/mapbox-gl-js/api/map/#map#addlayer
      */
@@ -60,8 +56,7 @@ export default function Map(props) {
     }
 
     /**
-     * Add mouseenter, mouseleave, click events to the markers
-     * 
+     * Add mouseenter, mouseleave, click events to the markers  
      * @param {String} layerid Id of the layer in which the markers are on
      */
     function addEventsForMarkers(layerid) {
@@ -85,12 +80,10 @@ export default function Map(props) {
     }
 
     /**
-     * Create a popup and add to the map
-     * 
+     * Create a popup and add to the map.  
+     * https://docs.mapbox.com/mapbox-gl-js/example/popup-on-hover/
      * @param {*} e 
      * @param {String} layerid Id of the layer in which the markers are on
-     * 
-     * https://docs.mapbox.com/mapbox-gl-js/example/popup-on-hover/
      */
     function createPopUp(e, layerid) {
         if (e.features.length) {
@@ -111,8 +104,7 @@ export default function Map(props) {
     }
 
     /**
-     * Create HTML content that will populate the Pop up
-     * 
+     * Create HTML content that will populate the Pop up  
      * @param {String} layerid Id of the layer in which the markers are on
      * @param {String} abbr Abbreviation of the name of the location in geoJSON
      * @returns {String} String containing the HTML that will go in the Pop up
@@ -255,8 +247,7 @@ export default function Map(props) {
     useEffect(() => {
         if (map.current) return; // initialize map only once
         /**
-         * Initialize the Map
-         * 
+         * Initialize the Map  
          * https://docs.mapbox.com/mapbox-gl-js/api/map/
          */
         map.current = new mapboxgl.Map({
@@ -268,14 +259,11 @@ export default function Map(props) {
             maxBounds: [[-124.53, 36.94], [-120, 42.0]]
         });
         /**
-         * Elements that will be added to the legend.
-         * 
+         * Elements that will be added to the legend.  
          * `id_of_the_layer`: `name_to_appear_in_the_legend`
          */
         let targets = {}
-        /**
-         * Add markers to the map depending on the props.name parameter
-         */
+        // Add markers to the map depending on the props.name parameter
         if (props.name === "stream") {
             addStreamMarkers();
             targets.streams = "Stream Monitoring Sites"
@@ -299,8 +287,7 @@ export default function Map(props) {
             targets.bounds_line = "Watershed Boundary"
         }
         /**
-         * Legend for the map.
-         * 
+         * Legend for the map.  
          * https://github.com/watergis/mapbox-gl-legend
          */
         const legend = new MapboxLegendControl(targets, {accesstoken: mapboxgl.accessToken})
@@ -309,9 +296,7 @@ export default function Map(props) {
 
     useEffect(() => {
         if (!map.current) return; // wait for map to initialize
-        /**
-         * Update Longitude, Latitude, Zoom as the map gets moved around
-         */
+        // Update Longitude, Latitude, Zoom as the map gets moved around
         map.current.on('move', () => {
             setLng(map.current.getCenter().lng.toFixed(4));
             setLat(map.current.getCenter().lat.toFixed(4));

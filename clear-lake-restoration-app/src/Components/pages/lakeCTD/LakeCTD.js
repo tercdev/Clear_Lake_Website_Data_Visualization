@@ -11,7 +11,7 @@ import './LakeCTD.css';
 
 /**
  * Component for showing one site's lake profile page.
- * @param {number} id used in API call for a specific site
+ * @param {String} id used in API call for a specific site
  * @param {String} name Title of the page 
  * @returns {JSX.Element}
  */

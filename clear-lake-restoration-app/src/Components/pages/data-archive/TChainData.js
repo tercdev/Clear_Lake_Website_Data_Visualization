@@ -4,6 +4,10 @@ import useFetch from 'react-fetch-hook';
 import DatePicker from 'react-datepicker';
 import { convertDate } from '../../utils';
 
+/**
+ * Component showing the TChain data download.
+ * @returns {JSX.Element}
+ */
 function TChainData() {
     const [error, setError] = useState(false);
     const [showButton, setShowButton] = useState(false);

@@ -7,6 +7,13 @@ import Multiselect from 'multiselect-react-dropdown';
 
 import './DataArchive.css'
 
+/**
+ * Component showing the Stream data download.
+ * @param {String} id 'clean' or 'real'
+ * @param {String} url url of the API without query parameters
+ * @param {Array} variables in the dataset
+ * @returns {JSX.Element}
+ */
 function StreamData(props) {
     const [error, setError] = useState(false);
     const [showButton, setShowButton] = useState(false);

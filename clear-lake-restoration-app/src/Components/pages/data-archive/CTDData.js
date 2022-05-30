@@ -4,6 +4,10 @@ import useFetch from 'react-fetch-hook';
 import SpecificDateSelect from '../../SpecificDateSelect';
 import { convertDatetoUTC } from '../../utils';
 
+/**
+ * Component showing the CTD data download.
+ * @returns {JSX.Element}
+ */
 function CTDData() {
     const [showButton, setShowButton] = useState(false);
     var today = new Date();

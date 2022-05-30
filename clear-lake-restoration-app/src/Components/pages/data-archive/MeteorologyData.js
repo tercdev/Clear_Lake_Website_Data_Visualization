@@ -9,8 +9,8 @@ import Multiselect from 'multiselect-react-dropdown';
  * Component showing the Meteorology data download.
  * @param {String} id 'clean' or 'real'
  * @param {String} url url of the API without query parameters
- * @param {Array} variables 
- * @returns 
+ * @param {Array} variables in the dataset
+ * @returns {JSX.Element}
  */
 function MeteorologyData(props) {
     const [error, setError] = useState(false);

@@ -394,82 +394,143 @@ export default function LakeTchain(props) {
         } else if (dataType == "oxy") {
             data.forEach((element => {
                 let pstTime = convertGMTtoPSTTime(new Date(element.DateTime_UTC));
-                m.push([pstTime.getTime(),0.5, parseFloat(element["Height_0.5m"])]);
-                let val1m = (((1-0.5)/(2-0.5)) * (parseFloat(element["Height_2m"]) - parseFloat(element["Height_0.5m"])) + parseFloat(element["Height_0.5m"]));
-                m.push([pstTime.getTime(),1, val1m]);
-                m.push([pstTime.getTime(),2, parseFloat(element["Height_2m"])]);
-                let val3m = (((3-2)/(6-2)) * (parseFloat(element["Height_6m"]) - parseFloat(element["Height_2m"])) + parseFloat(element["Height_2m"]));
-                m.push([pstTime.getTime(),3, val3m]);
-                let val4m = (((4-2)/(6-2)) * (parseFloat(element["Height_6m"]) - parseFloat(element["Height_2m"])) + parseFloat(element["Height_2m"]));
-                m.push([pstTime.getTime(),4, val4m]);
-                let val5m = (((5-2)/(6-2)) * (parseFloat(element["Height_6m"]) - parseFloat(element["Height_2m"])) + parseFloat(element["Height_2m"]));
-                m.push([pstTime.getTime(),5, val5m]);
-                m.push([pstTime.getTime(),6, parseFloat(element["Height_6m"])]);
+                //start data
+                let s = 0.5;
+
+                let i = s;
+
+                //end data
+                let e = -1;
+
+                let stri = "Height_0.5m";
+                m.push([pstTime.getTime(),s, parseFloat(element["Height_0.5m"])]);
+                while (i <= 15.00) {
+                    e = -1;
+                    let val = Math.round(i*100)/100;
+                    let strings = "Height_" + val + "m";
+                    
+                    //finds end height by increment every 0.01m
+                    if (element[strings] != null) {
+                    
+                        e = val;
+                        //ending height
+                        let ending = "Height_" + e + "m";
+                        let h = Math.ceil(s);
+                        let end = Math.ceil(e);
+
+                        let init = -1;
+                        let v = -1;
+                        if (s%1 == 0) {
+                            init = h+1;
+                            v = h;
+                        } else {
+                            init = h;
+                            v = h-1;
+                        }
+                        
+
+                        for (let j = init; j < end && e-s != -1; j++) {
+                            //retrieves the dissolved oxygen at the lake surface and the dissolved oxygen at height h-1 meters and using those values to predict the dissolved oxygen at height j meters
+                            let strVal = "Height_" + h + "m";
+                            let values =  (((j-(v))/(e-(v))) * (parseFloat(element[ending]) - parseFloat(element[stri])) + parseFloat(element[stri]));
+                            let val = Math.round(j*100)/100;
+                            m.push([pstTime.getTime(),val, Math.round(values*100)/100]);
+                        }
+                        m.push([pstTime.getTime(),Math.round(e*100)/100, parseFloat(element[ending])]);
+                        stri = ending;
+                        s = e;
+                        e = -1;
+                    }
+                    i += 0.01;
+                }
+
             }))
         } else if (dataType == "temp") {
             data.forEach((element => {
                 let pstTime = convertGMTtoPSTTime(new Date(element.DateTime_UTC));
-                let h = -1;
-                m.push([pstTime.getTime(),0.5,parseFloat(element["Height_0.5m"])]);
-                m.push([pstTime.getTime(),1,parseFloat(element["Height_1m"])]);
-                m.push([pstTime.getTime(),2,parseFloat(element["Height_2m"])]);
-                m.push([pstTime.getTime(),3,parseFloat(element["Height_3m"])]);
-                m.push([pstTime.getTime(),4,parseFloat(element["Height_4m"])]);
-                if (element["Height_5m"] == null) {
-                    h = 5;
-                } else if (element["Height_6m"] == null) {
-                    h = 6;
-                    m.push([pstTime.getTime(),5,parseFloat(element["Height_5m"])]);
-                } else if (element["Height_7m"] == null) {
-                    h = 7;
-                    m.push([pstTime.getTime(),5,parseFloat(element["Height_5m"])]);
-                    m.push([pstTime.getTime(),6,parseFloat(element["Height_6m"])]);
-                } else if (element["Height_8m"] == null) {
-                    h = 8;
-                    m.push([pstTime.getTime(),5,parseFloat(element["Height_5m"])]);
-                    m.push([pstTime.getTime(),6,parseFloat(element["Height_6m"])]);
-                    m.push([pstTime.getTime(),7,parseFloat(element["Height_7m"])]);
-                } else if (element["Height_9m"] == null) {
-                    h = 9;
-                    m.push([pstTime.getTime(),5,parseFloat(element["Height_5m"])]);
-                    m.push([pstTime.getTime(),6,parseFloat(element["Height_6m"])]);
-                    m.push([pstTime.getTime(),7,parseFloat(element["Height_7m"])]);
-                    m.push([pstTime.getTime(),8,parseFloat(element["Height_8m"])]);
-                } else if (element["Height_10m"] == null) {
-                    h = 10;
-                    m.push([pstTime.getTime(),5,parseFloat(element["Height_5m"])]);
-                    m.push([pstTime.getTime(),6,parseFloat(element["Height_6m"])]);
-                    m.push([pstTime.getTime(),7,parseFloat(element["Height_7m"])]);
-                    m.push([pstTime.getTime(),8,parseFloat(element["Height_8m"])]);
-                    m.push([pstTime.getTime(),9,parseFloat(element["Height_9m"])]);
-                } else if (element["Height_11m"] == null) {
-                    h = 11;
-                    m.push([pstTime.getTime(),5,parseFloat(element["Height_5m"])]);
-                    m.push([pstTime.getTime(),6,parseFloat(element["Height_6m"])]);
-                    m.push([pstTime.getTime(),7,parseFloat(element["Height_7m"])]);
-                    m.push([pstTime.getTime(),8,parseFloat(element["Height_8m"])]);
-                    m.push([pstTime.getTime(),9,parseFloat(element["Height_9m"])]);
-                    m.push([pstTime.getTime(),10,parseFloat(element["Height_10m"])]);
+                //start data
+                let s = 0.5;
+
+                let i = s;
+
+                //end data
+                let e = -1;
+
+                let stri = "Height_0.5m";
+                //initial height 0.5m given
+                let heightMax = parseFloat(element["Height_max"]);
+                while (i <= heightMax) {
+                    e = -1;
+                    let val = Math.round(i*100)/100;
+                    let strings = "Height_" + val + "m";
+
+                    //finds end height by increment every 0.01m
+                    if (element[strings] != null) {
+                        
+                        //adds start data to m
+                        m.push([pstTime.getTime(),s,parseFloat(element[stri])]);
+
+                        //end height set to value of i
+                        e = val;
+
+
+                        let ending = "Height_" + e + "m";
+
+                        //start height for interpolate
+                        let h = Math.ceil(s);
+
+                        //end height - 1 for interpolate
+                        let end = Math.ceil(e);
+
+                        console.log("Start: " + s);
+                        console.log("End: " + e);
+                        let init = -1;
+                        let v = -1;
+                        if (s%1 == 0) {
+                            init = h+1;
+                            v = h;
+                        } else {
+                            init = h;
+                            v = h-1;
+                        }
+
+                        //don't do interpolation if end and start are exactly 1 apart
+                        for (let j = init; j < end && e-s != 1; j++) {
+                            //retrieves the temp at the lake surface and the temp at height h-1 meters and using those values to predict the temp at height j meters
+                            let strVal = "Height_" + h + "m";
+                            let values =  (((j-(v))/(e-(v))) * (parseFloat(element[ending]) - parseFloat(element[stri])) + parseFloat(element[strVal]));
+                            m.push([pstTime.getTime(),Math.round(j*100)/100, Math.round(values*100)/100]);
+                        }
+                        s = e;
+                        stri = ending;
+                        e = -1;
+
+                    }
+                    i += 0.01;
+                }
+                m.push([pstTime.getTime(),s,parseFloat(element[stri])]);
+                //end height set to value of i
+                e = heightMax;
+                //start height for interpolate
+                let h = Math.ceil(s);
+
+                let init = -1;
+                let v = -1;
+                if (s%1 == 0) {
+                    init = h+1;
+                    v = h;
                 } else {
-                    h = 12;
-                    m.push([pstTime.getTime(),5,parseFloat(element["Height_5m"])]);
-                    m.push([pstTime.getTime(),6,parseFloat(element["Height_6m"])]);
-                    m.push([pstTime.getTime(),7,parseFloat(element["Height_7m"])]);
-                    m.push([pstTime.getTime(),8,parseFloat(element["Height_8m"])]);
-                    m.push([pstTime.getTime(),9,parseFloat(element["Height_9m"])]);
-                    m.push([pstTime.getTime(),10,parseFloat(element["Height_10m"])]);
-                    m.push([pstTime.getTime(),11,parseFloat(element["Height_11m"])]);
+                    init = h;
+                    v = h-1;
                 }
 
-                let heightM = parseFloat(element["Height_max"]);
-                let heightMWhole = Math.floor(parseFloat(element["Height_max"]));
-                for (let j = h; j <= heightMWhole; j++) {
-                    let strVal = "Height_" + (h-1) + "m";
-                    let values =  (((j-(h-1))/(heightM-(h-1))) * (parseFloat(element["Height_surface"]) - parseFloat(element[strVal])) + parseFloat(element[strVal]));
-                    m.push([pstTime.getTime(),j,values]);
+                //don't do interpolation if end and start are exactly 1 apart
+                for (let j = init; j < heightMax && e-s != 1; j++) {
+                    //retrieves the temp at the lake surface and the temp at height h-1 meters and using those values to predict the temp at height j meters
+                    let values =  (((j-(v))/(e-(v))) * (parseFloat(element["Height_surface"]) - parseFloat(element[stri])) + parseFloat(element[stri]));
+                    m.push([pstTime.getTime(),Math.round(j*100)/100, Math.round(values*100)/100]);
                 }
-                m.push([pstTime.getTime(),parseFloat(element["Height_max"]),parseFloat(element["Height_surface"])]);
-                h = -1;
+                m.push([pstTime.getTime(),heightMax,parseFloat(element["Height_surface"])]);
             }))
         }
         // sort by date
@@ -625,3 +686,5 @@ export default function LakeTchain(props) {
         
     )
 }
+
+

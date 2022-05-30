@@ -9,46 +9,81 @@ import { convertDatetoUTC } from '../../utils';
  * @returns {JSX.Element}
  */
 function CTDData() {
+    // for the download button
     const [showButton, setShowButton] = useState(false);
+    // set all initial dates to today
     var today = new Date();
     const [startDate, setStartDate] = useState(today);
     const [startGraphDate, setGraphStartDate] = useState(today);
     const [endGraphDate, setGraphEndDate] = useState(today);
+    /**
+     * Set the start date and hide the button.
+     * @param {Date} e 
+     */
     function handleStartDateChange(e) {
         setStartDate(e);
         setShowButton(false)
     }
+    /**
+     * Set the graph start and end dates and id which are the query parameters for the API call.
+     */
     function setGraphDates() {
-        console.log(startDate);
         setGraphStartDate(startDate);
         setGraphEndDate(startDate);
         setId(idTemp);
     }
+    // initial id = 1
     const [idTemp, setIdTemp] = useState(1);
     const [id, setId] = useState(1);
-
+    /**
+     * API endpoint for clean profile data
+     */
     var url = new URL('https://3kgpak926a.execute-api.us-west-2.amazonaws.com/default/clearlake-profiledata')
+    /**
+     * query parameters: 
+     * - `id`: of the site
+     * - `start`: date string YYYYMMDD
+     * - `end`: date string YYYYMMDD
+     */
     var search_params = url.searchParams;
     search_params.set('id',id);
     search_params.set('start',convertDatetoUTC(startGraphDate));
     search_params.set('end',convertDatetoUTC(endGraphDate));
     url.search = search_params.toString();
-    
+    /**
+     * `profileData.isLoading` tells whether data is still being fetched or not    
+     * `profileData.data` contains the data  
+     * `profileData.error` contains any error message
+     */
     const profileData = useFetch(url.toString());
-
+    // data that will be in the downloadable csv
     const [profilecsv, setprofilecsv] = useState([])
 
     useEffect(()=> {
-        if (!profileData.isLoading){
+        if (!profileData.isLoading){ // data is ready
             setprofilecsv(profileData.data);   
             setShowButton(true)               
         }
     },[profileData.isLoading])
+
+    /**
+     * API endpoint for the distinct dates where the site has profile data
+     */
     var dates_url = new URL('https://v35v56rdp6.execute-api.us-west-2.amazonaws.com/default/clearlake-profiledata-sitedates');
+    /**
+     * query parameters:
+     * - `id`: of the site
+     */
     var dates_search_params = dates_url.searchParams;
     dates_search_params.set('id', id);
     dates_url.search = dates_search_params.toString();
+    /**
+     * `includedDates.isLoading` tells whether data is still being fetched or not  
+     * `includedDates.data` contains the data  
+     * `includedDates.error` contains the error message
+     */
     const includedDates = useFetch(dates_url.toString());
+
     return (
         <>
         <center>

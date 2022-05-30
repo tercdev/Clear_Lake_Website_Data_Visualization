@@ -297,7 +297,7 @@ export default function LakeCTD(props) {
     const [endGraphDate, setGraphEndDate] = useState(today);
 
     /**
-     * set the start date.
+     * Set the start date.
      * @param {Date} e 
      */
     function handleStartDateChange(e) {
@@ -305,7 +305,7 @@ export default function LakeCTD(props) {
     }
 
     /**
-     * set the graph start and end dates.
+     * Set the graph start and end dates which are query parameters for the API call.
      */
     function setGraphDates() {
         setGraphStartDate(startDate);

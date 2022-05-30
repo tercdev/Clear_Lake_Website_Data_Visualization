@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import useFetch from 'react-fetch-hook';
 import Highcharts from 'highcharts';
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -17,19 +16,36 @@ import {
         removeExcess
      } from '../../utils.js';
 
-let TIMEZONE_OFFSET = 7;
+/**
+ * difference in hours between GMT and PST
+ */
+const TIMEZONE_OFFSET = 7;
+
+/**
+ * Component for showing one site's meteorology page.
+ * @param {String} id used in API call for a specific site
+ * @param {String} name Title of the page
+ * @returns {JSX.Element}
+ */
 export default function Met(props) {
+    // fahrenheit by default
     const [unit, setUnit] = useState('f'); 
     const [graphUnit, setGraphUnit] = useState('f');
-    
-    function handleF(e) {
+    // set to fahrenheit
+    function handleF() {
         setUnit('f')
     }
-    function handleC(e) {
+    // set to celcius
+    function handleC() {
         setUnit('c')
     }
     
-    // get data based on graph type
+    /**
+     * Given a data array, return an array of [time, y] to be used for graphing
+     * @param {Array} data 
+     * @param {String} dataType "Rel_Humidity", "Air_Temp", "Atm_Pres", "Wind_Speed", "Wind_Dir", "Solar_Rad" 
+     * @returns {Array} Array of arrays for graphing
+     */
     function getFilteredData(data, dataType) {
         let m = [];
         data.forEach((element => {
@@ -37,28 +53,37 @@ export default function Met(props) {
             if (dataType === "Wind_Dir") {
                 m.push([pstTime.getTime(), cardinalToDeg(element[dataType])]);
             } else if (dataType === "Air_Temp") {
-                if (graphUnit === 'f') {
-                    const fToCel= temp => Math.round( (temp *1.8 )+32 );
-                    m.push([pstTime.getTime(), fToCel(parseFloat(element[dataType]))]);
-                } else {
+                if (graphUnit === 'f') { // fahrenheit
+                    /**
+                     * convert celcius to fahrenheit
+                     * @param {number} temp temperature in celcius
+                     * @returns {number} temperature in fahrenheit
+                     */
+                    const celToF = temp => Math.round((temp * 1.8) + 32);
+                    m.push([pstTime.getTime(), celToF(parseFloat(element[dataType]))]);
+                } else { // celcius by default
                     m.push([pstTime.getTime(), parseFloat(element[dataType])]);
                 }
             } else {
                 m.push([pstTime.getTime(), parseFloat(element[dataType])]);
             }
         }));
-
+        // sort by date
         m.sort(function(a,b) {
             return (a[0], b[0])
         })
         return m.reverse();
     }
+
+    /**
+     * Initial state of all the chart properties.  
+     */
     const [chartProps, setChartProps] = useState({
         chart: {
             zoomType: 'x',
             height: 1500,
             events: {
-                load() {
+                load() { // show Loading... text
                     this.showLoading();
                 }
             }
@@ -78,14 +103,14 @@ export default function Met(props) {
                 fontSize: '1rem'
             }
         },
-        xAxis: [{
+        xAxis: [{ // for solar radiation (bottom chart)
             type: 'datetime',
             labels: {
                 style: {
                     fontSize: '1rem'
                 }
             }
-        }, {
+        }, { // for wind chart (third chart)
             type: 'datetime',
             offset: 0,
             top: '-77%',
@@ -94,7 +119,7 @@ export default function Met(props) {
                     fontSize: '1rem'
                 }
             }
-        }, {
+        }, { // for atm pres chart (second chart)
             type: 'datetime',
             offset: 0,
             top: '-51.5%',
@@ -103,7 +128,7 @@ export default function Met(props) {
                     fontSize: '1rem'
                 }
             }
-        }, {
+        }, { // for rel humidity and air temp chart (top chart)
             type: 'datetime',
             offset: 0,
             top: '-26%',
@@ -114,14 +139,7 @@ export default function Met(props) {
             }
         }],
         yAxis: 
-        [{ // Primary yAxis
-            labels: {
-                format: '{value}°F',
-                style: {
-                    color: Highcharts.getOptions().colors[3],
-                    fontSize: '1rem'
-                }
-            },
+        [{ // for the top chart
             title: {
                 text: 'Air Temperature [°F]',
                 style: {
@@ -129,12 +147,19 @@ export default function Met(props) {
                     fontSize: '1rem'
                 }
             },
-            opposite: true,
+            labels: {
+                format: '{value}°F',
+                style: {
+                    color: Highcharts.getOptions().colors[3],
+                    fontSize: '1rem'
+                }
+            },
+            opposite: true, // on the right side
             height: '22.5%',
             offset: 0,
             lineColor: Highcharts.getOptions().colors[3],
             lineWidth: 5,
-        }, { // Secondary yAxis
+        }, { // for the top chart
             title: {
                 text: 'Relative Humidity [%]',
                 style: {
@@ -150,21 +175,20 @@ export default function Met(props) {
                 }
             },
             height: '22.5%',
-            offset: true,
+            offset: 0,
             lineColor: Highcharts.getOptions().colors[0],
             lineWidth: 5,
-            // min: 0,
-            max: 100
-        }, {
-            labels: {
-                format: '{value} kPa',
+            max: 100 // max humidity
+        }, { // for the second chart
+            title: {
+                text: 'Atmospheric Pressure [kPa]',
                 style: {
                     color: Highcharts.getOptions().colors[4],
                     fontSize: '1rem'
                 }
             },
-            title: {
-                text: 'Atmospheric Pressure [kPa]',
+            labels: {
+                format: '{value} kPa',
                 style: {
                     color: Highcharts.getOptions().colors[4],
                     fontSize: '1rem'
@@ -175,7 +199,7 @@ export default function Met(props) {
             height: '22.5%',
             offset: 0,
             top: '25.5%'
-        }, { 
+        }, {  // for the third chart
             title: {
                 text: 'Wind Direction [degrees]',
                 style: {
@@ -193,7 +217,7 @@ export default function Met(props) {
                         270: 'West',
                         360: 'North'
                     }
-                return (obj[this.value])
+                    return (obj[this.value])
                 },
                 style: {
                     fontSize: '1rem'
@@ -204,16 +228,9 @@ export default function Met(props) {
             offset: 0,
             lineColor: Highcharts.getOptions().colors[7],
             lineWidth: 5,
-            max: 360,
+            max: 360, // max degrees
             tickInterval: 90
-        }, { 
-            labels: {
-                format: '{value} m/s',
-                style: {
-                    color: Highcharts.getOptions().colors[5],
-                    fontSize: '1rem'
-                }
-            },
+        }, {  // for the third chart
             title: {
                 text: 'Wind Speed [m/s]',
                 style: {
@@ -221,23 +238,30 @@ export default function Met(props) {
                     fontSize: '1rem'
                 }
             },
-            opposite: true,
+            labels: {
+                format: '{value} m/s',
+                style: {
+                    color: Highcharts.getOptions().colors[5],
+                    fontSize: '1rem'
+                }
+            },
+            opposite: true, // on the right side
             lineColor: Highcharts.getOptions().colors[5],
             lineWidth: 5,
-            gridLineWidth: 0,
+            gridLineWidth: 0, // hide grid line
             height: '22.5%',
             offset: 0,
             top: '51%'
-        }, {
-            labels: {
-                format: '{value}',
+        }, { // for the bottom chart
+            title: {
+                text: 'Solar Radiation [W/m2]',
                 style: {
                     color: Highcharts.getOptions().colors[6],
                     fontSize: '1rem'
                 }
             },
-            title: {
-                text: 'Solar Radiation [W/m2]',
+            labels: {
+                format: '{value}',
                 style: {
                     color: Highcharts.getOptions().colors[6],
                     fontSize: '1rem'
@@ -251,12 +275,35 @@ export default function Met(props) {
         }],
         tooltip: {
             formatter: function() {
+                /**
+                 * date as a number 1-31
+                 */
                 const DayOfMonth = new Date(this.x).getDate();
-                const Month = new Date(this.x).getMonth(); // Be careful! January is 0, not 1
+                /**
+                 * month as a number between 0 and 11
+                 */
+                const Month = new Date(this.x).getMonth();
+                /**
+                 * full year as a number in the format YYYY
+                 */
                 const Year = new Date(this.x).getFullYear();
+                /**
+                 * hour in a date as a number
+                 */
                 const TimeHrs = new Date(this.x).getHours();
+                /**
+                 * minutes in a date as a number
+                 */
                 const TimeMins = new Date(this.x).getMinutes();
-                const dateString = (Month + 1) + "-" + DayOfMonth + "-" + Year + "  " + (TimeHrs<10?'0':'') + TimeHrs + ":" + (TimeMins<10?'0':'')+TimeMins;
+                /**
+                 * date as string in format M-D-YYYY HH:MM
+                 */
+                const dateString = (Month + 1) + "-" + DayOfMonth + "-" + Year + "  " + (TimeHrs < 10 ? '0' : '')
+                     + TimeHrs + ":" + (TimeMins < 10 ? '0' : '') + TimeMins;
+                /**
+                 * Object that assigns each series a corresponding unit to be shown in the tooltip.  
+                 * `series_name`: `unit`
+                 */
                 let units = {
                     "Air Temperature in °F": "°F",
                     "Air Temperature in °C": "°C",
@@ -277,7 +324,6 @@ export default function Met(props) {
                 fontSize:'1rem'
             }
         },
-
         series: [
             {
                 name: 'Air Temperature',
@@ -307,20 +353,20 @@ export default function Met(props) {
                 color: Highcharts.getOptions().colors[7],
                 type: 'spline',
                 "lineWidth": 0,
-                        "marker": {
-                            "enabled": "true",
-                            "states": {
-                                "hover": {
-                                "enabled": "true"
-                                }
-                            },
-                            "radius": 3
-                            },
-                        "states": {
-                            "hover": {
-                            "lineWidthPlus": 0
-                            }
-                        },
+                "marker": {
+                    "enabled": "true",
+                    "states": {
+                        "hover": {
+                        "enabled": "true"
+                        }
+                    },
+                    "radius": 3
+                    },
+                "states": {
+                    "hover": {
+                    "lineWidthPlus": 0
+                    }
+                },
             },
             {
                 name: 'Wind Speed',
@@ -338,7 +384,7 @@ export default function Met(props) {
             },           
         ],
         legend: {
-            verticalAlign: 'top',
+            verticalAlign: 'top', // legend at the top
             itemStyle: {
                 fontSize: '1rem'
             }
@@ -349,28 +395,39 @@ export default function Met(props) {
         },
     });
 
+    // set start date as a week ago and end date as today
     var today = new Date();
     var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
     const [startDate, setStartDate] = useState(lastWeek);
     const [endDate, setEndDate] = useState(today);
     const [startGraphDate, setGraphStartDate] = useState(lastWeek);
     const [endGraphDate, setGraphEndDate] = useState(today);
-    const [error, setError] = useState(false);
+
     const [isLoading, setIsLoading] = useState(true);
     const [realTime_arr,setRealTimeArr] = useState([])
     const [cleanMet_arr,setCleanMetArr] = useState([])
 
+    /**
+     * set start date
+     * @param {Date} e 
+     */
     function handleStartDateChange(e) {
         setStartDate(e);
     }
-    
+
+    /**
+     * set end date
+     * @param {Date} e 
+     */
     function handleEndDateChange(e) {
         setEndDate(e);
     }
-   
+
+    /**
+     * set unit, start date, end date for the chart
+     */
     function setGraphDates() {
         setGraphUnit(unit);
-        setError(false);
         setGraphStartDate(startDate);
         setGraphEndDate(endDate);
     }
@@ -494,17 +551,20 @@ export default function Met(props) {
     
                 let realTimeRelHumidityData = getFilteredData(realTimeData,"Rel_Humidity");
                 let realTimeAirTempData = getFilteredData(realTimeData,"Air_Temp");
-                let realTimeAtmPresData = getFilteredData(realTimeData, "Atm_Pres"); // start from lastdate
+                let realTimeAtmPresData = getFilteredData(realTimeData, "Atm_Pres");
                 let realTimeWindSpeedData = getFilteredData(realTimeData,"Wind_Speed");
                 let realTimeWindDirData = getFilteredData(realTimeData,"Wind_Dir");            
-                let realTimeSolarRadData = getFilteredData(realTimeData, "Solar_Rad"); // start from lastdate
+                let realTimeSolarRadData = getFilteredData(realTimeData, "Solar_Rad");
     
                 if (atmPresData.length !== 0 && realTimeAtmPresData.length !== 0) {
                     var lastdate = atmPresData[0][0];
                     let dataLastDate = new Date(atmPresData[0][0]);
                     let realDataLastDate = new Date(realTimeAtmPresData[0][0]);
     
-                    if (dataLastDate.getFullYear() === realDataLastDate.getFullYear() && dataLastDate.getMonth() === realDataLastDate.getMonth() && dataLastDate.getDay() === realDataLastDate.getDay()) {
+                    if (dataLastDate.getFullYear() === realDataLastDate.getFullYear() && 
+                        dataLastDate.getMonth() === realDataLastDate.getMonth() && 
+                        dataLastDate.getDay() === realDataLastDate.getDay()) {
+                        // don't need to use real time data
                         realTimeAtmPresData = []
                         realTimeRelHumidityData = []
                         realTimeAirTempData = []
@@ -513,6 +573,7 @@ export default function Met(props) {
                         realTimeSolarRadData = []
                         lastdate = undefined
                     }
+                    // remove all the data before lastdate
                     realTimeAtmPresData = removePast(realTimeAtmPresData, lastdate);
                     realTimeRelHumidityData = removePast(realTimeRelHumidityData, lastdate);
                     realTimeAirTempData = removePast(realTimeAirTempData, lastdate);
@@ -521,11 +582,11 @@ export default function Met(props) {
                     realTimeSolarRadData = removePast(realTimeSolarRadData, lastdate);
                 }
                 
+                // sort by date
                 let combinedAtmPresData = atmPresData.concat(realTimeAtmPresData);
                 combinedAtmPresData.sort(function(a,b) {
                     return (a[0]-b[0])
                 })
-    
                 let combinedRelHumidityData = relHumidityData.concat(realTimeRelHumidityData);
                 combinedRelHumidityData.sort(function(a,b) {
                     return (a[0]-b[0])
@@ -547,20 +608,43 @@ export default function Met(props) {
                     return (a[0]-b[0])
                 })
     
+                /**
+                 * define where the dashed line starts  
+                 * https://api.highcharts.com/highcharts/plotOptions.series.zones.dashStyle
+                 */
                 let zoneProps = [];
                 if (lastdate === undefined && realTimeAtmPresData.length !== 0) {
                     zoneProps = [{value: realTimeAtmPresData[0][0]},{dashStyle: 'dash'}]
                 } else {
                     zoneProps = [{value: lastdate}, {dashStyle: 'dash'}]
                 }
-    
+
+                /**
+                 * latest time
+                 */
                 let maxX = combinedAtmPresData[combinedAtmPresData.length-1][0];
+                /**
+                 * oldest time
+                 */
                 let minX = combinedAtmPresData[0][0];
+
+                /**
+                 * title of the y axis
+                 */
                 let ylabel = ''
+                /**
+                 * format of the y axis labels
+                 */
                 let yformat = ''
+                /**
+                 * name of the series
+                 */
                 let yseries = ''
+                /**
+                 * maximum temperature
+                 */
                 let maxTemp = 0;
-    
+                // set the variables depending on fahrenheit or celcius option 
                 if (graphUnit === 'f') {
                     ylabel = 'Air Temperature [°F]'
                     yformat = '{value} °F'
@@ -573,6 +657,7 @@ export default function Met(props) {
                     maxTemp = 40;
                 }
     
+                // update chart properties with data
                 setChartProps({...chartProps,
                     series: [
                     {
@@ -637,6 +722,7 @@ export default function Met(props) {
         }
     },[isLoading,graphUnit])
 
+    // for collapsible FAQs
     const header1 = "How to use the graphs and see the data below?";
     const content1 = [<ol>
             <li>Select start and end dates with maximum 365-day period. Time is in local pacific time.</li>
@@ -669,7 +755,7 @@ export default function Met(props) {
                 handleC={handleC}
                 unit={unit}
             />
-            {error && <p className='error-message'>Selected date range was more than 365 days. End date was automatically changed.</p>}
+
             <Chart 
                 chartProps={chartProps}
                 isLoading={isLoading}

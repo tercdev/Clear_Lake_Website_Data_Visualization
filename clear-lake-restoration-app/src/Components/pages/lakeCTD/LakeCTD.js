@@ -9,20 +9,40 @@ import CollapsibleItem from '../../CollapsibleItem';
 
 import './LakeCTD.css';
 
+/**
+ * Component for showing one site's lake profile page.
+ * @param {number} id used in API call for a specific site
+ * @param {String} name Title of the page 
+ * @returns {JSX.Element}
+ */
 export default function LakeCTD(props) {
-
-    // get data based on graph type
+    /**
+     * Given a data array, return an array of [depth, y] to be used for graphing
+     * @param {Array} data 
+     * @param {String} dataType 'Chla', 'SpeCond', 'Temp', 'Turb', 'DO'
+     * @returns {Array} Array of arrays for graphing
+     */
     function getFilteredData(data, dataType) {
         let m = []
         data.forEach((element => {
-            if (parseFloat(element[dataType]) >= 0) {
+            if (parseFloat(element[dataType]) >= 0) { // remove negative values
                 m.push([parseFloat(element.Depth), parseFloat(element[dataType])]);
             }
         }))
+
+        // sort by date
         m.sort(function(a,b) {
             return (a[0]-b[0])
         })
+
+        // remove duplicate entries in m
+        /**
+         * Array of unique entries depth,y as strings
+         */
         let uniq = []
+        /**
+         * Array of arrays [depth, y] where each entry is unique
+         */
         let b = m.filter(function (v) {
             if (uniq.indexOf(v.toString()) < 0) {
                 uniq.push(v.toString())
@@ -31,11 +51,16 @@ export default function LakeCTD(props) {
         })
         return b
     }
+
+    /**
+     * Initial state of all the chart properties.  
+     * Note: x axis is the vertical axis and y axes are the horizontal axes
+     */
     const [chartProps, setChartProps] = useState({
         chart: {
             zoomType: 'x',
-            type: 'spline',
-            inverted: true,
+            type: 'spline', // for smooth lines
+            inverted: true, // swap x and y axis
             height: 1200
         },
         title: {
@@ -66,7 +91,7 @@ export default function LakeCTD(props) {
                 }
             },
             max: 0,
-            gridLineWidth: 1
+            gridLineWidth: 1 // show horizontal grid lines
         }],
         yAxis: [{
             title: {
@@ -82,16 +107,16 @@ export default function LakeCTD(props) {
                     color: Highcharts.getOptions().colors[7],
                     fontSize: '1rem'
                 },
-                step: 2
+                step: 2 // every other grid line has a label
             },
             lineColor: Highcharts.getOptions().colors[7],
             lineWidth: 5,
-            opposite: true,
-            showLastLabel: false,
-            min: 0,
-            max: 32,
-            startOnTick: false,
-            endOnTick: false,
+            opposite: true, // axis on top
+            showLastLabel: true,
+            min: 0, // min chlorophyll
+            max: 32, // max chlorophyll
+            startOnTick: false, // start from specified min
+            endOnTick: false, // end at specified max
         }, {
             title: {
                 text: 'Dissolved Oxygen [mg/l]',
@@ -106,17 +131,17 @@ export default function LakeCTD(props) {
                     color: Highcharts.getOptions().colors[0],
                     fontSize: '1rem'
                 },
-                step: 2
+                step: 2 // every other grid line has a label
             },
             lineColor: Highcharts.getOptions().colors[0],
             lineWidth: 5,
-            opposite: true,
-            showLastLabel: false,
-            min: 0,
-            max: 16,
-            startOnTick: false,
-            endOnTick: false,
-            gridLineWidth: 0
+            opposite: true, // axis on top
+            showLastLabel: true,
+            min: 0, // min dissolved oxygen
+            max: 16, // max dissolved oxygen
+            startOnTick: false, // start from specified min
+            endOnTick: false, // end at specified max
+            gridLineWidth: 0 // hide grid line
         }, {
             title: {
                 text: 'Specific Conductivity [µS/cm]',
@@ -131,16 +156,16 @@ export default function LakeCTD(props) {
                     color: Highcharts.getOptions().colors[5],
                     fontSize: '1rem'
                 },
-                step: 2
+                step: 2 // every other grid line has a label
             },
             lineColor: Highcharts.getOptions().colors[5],
             lineWidth: 5,
-            showLastLabel: false,
-            min: 180,
-            max: 410,
-            startOnTick: false,
-            endOnTick: false,
-            gridLineWidth: 0
+            showLastLabel: true,
+            min: 180, // min specific conductivity
+            max: 410, // max specific conductivity
+            startOnTick: false, // start from specified min
+            endOnTick: false, // end at specified max
+            gridLineWidth: 0 // hide grid line
         }, {
             title: {
                 text: 'Temperature [°C]',
@@ -155,16 +180,16 @@ export default function LakeCTD(props) {
                     color: Highcharts.getOptions().colors[3],
                     fontSize: '1rem'
                 },
-                step: 2
+                step: 2 // every other grid line has a label
             },
             lineColor: Highcharts.getOptions().colors[3],
             lineWidth: 5,
-            showLastLabel: false,
-            min: 4,
-            max: 28,
-            startOnTick: false,
-            endOnTick: false,
-            gridLineWidth: 0
+            showLastLabel: true,
+            min: 4, // min temperature
+            max: 28, // max temperature
+            startOnTick: false, // start from specified min
+            endOnTick: false, // end at specified max
+            gridLineWidth: 0 // hide grid line
         }, {
             title: {
                 text: 'Turbidity [FTU]',
@@ -179,19 +204,23 @@ export default function LakeCTD(props) {
                     color: Highcharts.getOptions().colors[4],
                     fontSize: '1rem'
                 },
-                step: 2
+                step: 2 // every other grid line has a label
             },
             lineColor: Highcharts.getOptions().colors[4],
             lineWidth: 5,
-            showLastLabel: false,
-            min: 0,
-            max: 80, // 150?
-            startOnTick: false,
-            endOnTick: false,
-            gridLineWidth: 0
+            showLastLabel: true,
+            min: 0, // min turbidity
+            max: 80, // max turbidity
+            startOnTick: false, // start from specified min
+            endOnTick: false, // end at specified max
+            gridLineWidth: 0 // hide grid line
         }],
         tooltip: {
             formatter: function() {
+                /**
+                 * Object that assigns each series a corresponding unit to be shown in the tooltip.  
+                 * `series_name`: `unit`
+                 */
                 let units = {
                     "Chlorophyll": "µg/l",
                     "Dissolved Oxygen": 'mg/l',
@@ -205,7 +234,7 @@ export default function LakeCTD(props) {
                 }, '<b>' + this.x + ' m' + '</b>');
             },
             shared: true,
-            followPointer: true.valueOf,
+            followPointer: true,
             style: {
                 fontSize: '1rem'
             }
@@ -244,12 +273,12 @@ export default function LakeCTD(props) {
         plotOptions: {
             spline: {
                 marker: {
-                    enable: false
+                    enable: false // hides markers (only shown on hover)
                 }
             }
         },
         legend: {
-            verticalAlign: 'top',
+            verticalAlign: 'top', // puts legend at the top
             itemStyle: {
                 fontSize: '1rem'
             }
@@ -260,22 +289,33 @@ export default function LakeCTD(props) {
         }
     })
     
+    // set all initial dates to today
     var today = new Date();
     const [startDate, setStartDate] = useState(today);
     const [startGraphDate, setGraphStartDate] = useState(today);
     const [endGraphDate, setGraphEndDate] = useState(today);
-    
+
+    /**
+     * Function that sets the start date.
+     * @param {Date} e 
+     */
     function handleStartDateChange(e) {
-        console.log(e)
         setStartDate(e)
     }
-    
+
+    /**
+     * Function that sets the graph start and end dates.
+     */
     function setGraphDates() {
-        console.log(startDate)
         setGraphStartDate(startDate);
         setGraphEndDate(startDate);
     }
-    
+
+    /**
+     * Converts a Date object into a string of the format YYYYMMDD in UTC
+     * @param {Date} date 
+     * @returns {String}
+     */
     function convertDatetoUTC(date) {
         let year = date.getUTCFullYear().toString();
         let month = (date.getUTCMonth()+1).toString();
@@ -289,18 +329,31 @@ export default function LakeCTD(props) {
         return year+month+day;
     }
     
-    // Endpoint URL to get clean profile data
+    /**
+     * API endpoint for clean profile data
+     */
     var url = new URL('https://3kgpak926a.execute-api.us-west-2.amazonaws.com/default/clearlake-profiledata');
+    /**
+     * query parameters: 
+     * - `id`: of the site
+     * - `start`: date string YYYYMMDD
+     * - `end`: date string YYYYMMDD
+     */
     var search_params = url.searchParams;
     search_params.set('id',props.id);
     search_params.set('start',convertDatetoUTC(startGraphDate));
     search_params.set('end',convertDatetoUTC(endGraphDate));
     url.search = search_params.toString();
+    /**
+     * `profileData.isLoading` tells whether data is still being fetched or not    
+     * `profileData.data` contains the data  
+     * `profileData.error` contains any error message
+     */
     const profileData = useFetch(url.toString());
     
     useEffect(() => {
         if (!profileData.isLoading) {
-            console.log(profileData.data)
+            // update chart properties with data
             let chlaData = getFilteredData(profileData.data, "Chla");
             let doData = getFilteredData(profileData.data, "DO");
             let speCondData = getFilteredData(profileData.data, "SpeCond");
@@ -324,26 +377,24 @@ export default function LakeCTD(props) {
         }
     },[profileData.isLoading,startGraphDate])
 
-    // Endpoint URL to distinct/unique dates for each site of profile data
-    // Why? We want to dropdown to show dates that have data
+
+    /**
+     * API endpoint for the distinct dates where the site has profile data
+     */
     var dates_url = new URL('https://v35v56rdp6.execute-api.us-west-2.amazonaws.com/default/clearlake-profiledata-sitedates');
+    /**
+     * query parameters:
+     * - `id`: of the site
+     */
     var dates_search_params = dates_url.searchParams;
     dates_search_params.set('id', props.id);
     dates_url.search = dates_search_params.toString();
+    /**
+     * `includedDates.isLoading` tells whether data is still being fetched or not  
+     * `includedDates.data` contains the data  
+     * `includedDates.error` contains the error message
+     */
     const includedDates = useFetch(dates_url.toString());
-
-    const [dates, setDates] = useState([]);
-    useEffect(() => {
-        if (!includedDates.isLoading) {
-            let m = [];
-            includedDates.data.forEach((element => {
-                m.push(new Date(element["DateTime_UTC"]));
-            }))
-            setDates(m);
-            console.log(m)
-            console.log(includedDates.data)
-        }
-    },[includedDates.isLoading])
 
     // for the collapsible FAQ
     const header1 = "How to use the graphs and see the data below?";

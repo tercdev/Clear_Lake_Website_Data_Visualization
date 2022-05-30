@@ -11,7 +11,57 @@ import useFetch from 'use-http';
 require('highcharts/modules/heatmap')(Highcharts);
 require('highcharts/modules/boost')(Highcharts);
 
+/**
+ * Component for showing one site's lake mooring page.  
+ * @param {String} id used in API call for a specific site
+ * @param {String} name Title of the page
+ * @returns {JSX.Element} 
+ */
 export default function LakeTchain(props) {
+    /**
+     * Temperature color axis label text
+     */
+    var templabel;
+    /**
+     * Dissolved oxygen color axis label text
+     */
+    var dolabel;
+    /**
+     * Add Color Axis Legend Labels
+     * @param {Object} chart
+     * @param {number} top number of pixels down from the top of the chart for the temperature label (top color axis)
+     * @param {number} bottom number of pixels down from the top of the chart for the dissolved oxygen label (bottom color axis)
+     */
+    function createLegendLabels(chart, top, bottom) {
+        // destroy previous labels
+        if (typeof templabel !== 'undefined') {
+            templabel.destroy();
+            templabel = undefined
+            dolabel.destroy();
+            dolabel = undefined
+        }
+        // add new labels to the chart
+        templabel = chart.renderer.text('Temperature [°C]', chart.chartWidth-30, top)
+        .attr({
+            rotation: 90
+        })
+        .css({
+            fontSize: '1rem'
+        })
+        .add();
+        dolabel = chart.renderer.text('Dissolved Oxygen [mg/L]', chart.chartWidth-30, bottom)
+        .attr({
+            rotation: 90
+        })
+        .css({
+            fontSize: '1rem'
+        })
+        .add();
+    }
+    /**
+     * Initial state of all the chart properties.  
+     * https://www.highcharts.com/demo/heatmap-canvas
+     */
     const [chartProps, setChartProps] = useState({
         chart: {
             zoomType: 'x',
@@ -21,29 +71,12 @@ export default function LakeTchain(props) {
                 useUTC: false
             },
             events: {
-                load() {
+                load() { // show Loading... text and add legend labels
                     this.showLoading();
+                    createLegendLabels(this, 150, 450);
                 },
-                render() {
-                    // legend titles
-                    this.renderer.text('Temperature [°C]', this.chartWidth-30, 145)
-                    .attr({
-                        rotation: 90
-                    })
-                    .css({
-                        // color: '#4572A7',
-                        fontSize: '1rem'
-                    })
-                    .add();
-                    this.renderer.text('Dissolved Oxygen [mg/L]', this.chartWidth-30, 450)
-                    .attr({
-                        rotation: 90
-                    })
-                    .css({
-                        // color: '#4572A7',
-                        fontSize: '1rem'
-                    })
-                    .add();
+                render() { // rerender legend labels
+                    createLegendLabels(this, 150, 450);
                 }
             }
         },
@@ -59,27 +92,27 @@ export default function LakeTchain(props) {
         credits: {
             enabled: false
         },
-        boost: { //??
+        boost: {
             useGPUTranslations: true
         },
-        xAxis: [{
+        xAxis: [{ // for dissolved oxygen (bottom) chart
             type: 'datetime',
             labels: {
                 style: {
                     fontSize: '1rem'
                 }
             }
-        }, {
+        }, { // for temperature (top) chart
             type: 'datetime',
             offset: 0,
-            top: '-57%',
+            top: '-57%', // moves entire x axis up and down
             labels: {
                 style: {
                     fontSize: '1rem'
                 }
             }
         }],
-        yAxis: [{
+        yAxis: [{ // for temperature (top) chart
             title: {
                 text: 'Height above bottom [m]',
                 style: {
@@ -93,11 +126,11 @@ export default function LakeTchain(props) {
                 }
             },
             reversed: false,
-            min: 0,
-            max: 15,
-            height: '45%',
+            min: 0, // min y value
+            max: 15, // max y value
+            height: '45%', // height of the y axis
             offset: 0,
-        }, {
+        }, { // for dissolved oxygen (bottom) chart
             title: {
                 text: 'Height above bottom [m]',
                 style: {
@@ -111,25 +144,24 @@ export default function LakeTchain(props) {
                 }
             },
             reversed: false,
-            min: 0,
-            max: 15,
-            height: '45%',
+            min: 0, // min y value
+            max: 15, // max y value
+            height: '45%', // heiht of the y axis
             offset: 0,
-            top: '57%',
-            
+            top: '57%', // moves the entire y axis up and down
         }],
         colorAxis: [{ // temperature
             stops: [
                 [0, '#183067'], // darker blue
-                [0.1, '#3060cf'],
+                [0.1, '#3060cf'], // blue
                 [0.5, '#fffbbc'], // yellow
-                [0.9, '#c4463a'],
+                [0.9, '#c4463a'], // red
                 [1, '#62231d'] // darker red
             ],
-            min: 7,
-            max: 28,
-            startOnTick: false,
-            endOnTick: false,
+            min: 7, // min temperature
+            max: 28, // max temperature
+            startOnTick: false, // start from specified min
+            endOnTick: false, // end at specified max
             layout: 'vertical',
             labels: {
                 format: '{value}°C',
@@ -145,8 +177,8 @@ export default function LakeTchain(props) {
                 [0.5, '#fffbbc'],
                 [1, '#3060cf']
             ],
-            min: 0,
-            max: 12,
+            min: 0, // min dissolved oxygen
+            max: 12, // max dissolved oxygen
             layout: 'vertical',
             labels: {
                 format: '{value} mg/L',
@@ -160,28 +192,66 @@ export default function LakeTchain(props) {
             layout: 'vertical',
             verticalAlign: 'middle',
             align: 'right',
-            // padding: 20,
-            itemMarginTop: 35, // increase moves bottom one down
-            itemMarginBottom: 40, // increase moves top one up
+            itemMarginTop: 39, // increase moves bottom color axis down
+            itemMarginBottom: 37, // increase moves top color axis up
             width: 110,
-            // itemWidth: 100,
-            y: 30,
-            // symbolHeight: 275,
-            symbolHeight: 250,
-            // maxHeight: 700
+            y: 30, // number of pixels down from the top
+            symbolHeight: 240, // height of color axis
             navigation: {
-                enabled: false
+                enabled: false // removes pagination
             }
+        },
+        responsive: { // change the color axis size and location, location of the labels as the size of the window changes
+            rules: [{
+                condition: {
+                    maxWidth: 600
+                },
+                chartOptions: {
+                    legend: {
+                        symbolHeight: 220,
+                        y: 50,
+                        itemMarginBottom: 35,
+                        itemMarginTop: 40
+                    },
+                    chart: {
+                        events: {
+                            render() {
+                                createLegendLabels(this, 180, 455)
+                            }
+                        }
+                    }
+                }
+            }, {
+                condition: {
+                    maxWidth: 375
+                },
+                chartOptions: {
+                    legend: {
+                        symbolHeight: 200,
+                        y: 60,
+                        itemMarginBottom: 15,
+                        itemMarginTop: 50
+                    },
+                    chart: {
+                        events: {
+                            render() {
+                                createLegendLabels(this, 215, 465)
+                            }
+                        }
+                    }
+                }
+            }, ]
         },
         series: [{
             name: 'Temperature',
             data: [],
             type: 'heatmap',
-            boostThreshold: 100, // ?
-            borderWidth: 0, // ?
+            boostThreshold: 100,
+            borderWidth: 0,
             nullColor: '#EFEFEF',
             colsize: 36e5, // 1 hour
             tooltip: {
+                valueDecimals: 2,
                 headerFormat:'<b style="font-size: 1rem">Temperature</b><br/>',
                 pointFormat: '<span style="font-size: 1rem">{point.x:%Y-%m-%d %H:%M}, {point.y}m, {point.value}°C</span>'
             },
@@ -189,11 +259,12 @@ export default function LakeTchain(props) {
             name: 'Dissolved Oxygen',
             data: [],
             type: 'heatmap',
-            boostThreshold: 100, // ?
-            borderWidth: 0, // ?
+            boostThreshold: 100,
+            borderWidth: 0,
             nullColor: '#EFEFEF',
             colsize: 36e5, // 1 hour
             tooltip: {
+                valueDecimals: 2,
                 headerFormat:'<b style="font-size: 1rem">Dissolved Oxygen</b><br/>',
                 pointFormat: '<span style="font-size: 1rem">{point.x:%Y-%m-%d %H:%M}, {point.y}m, {point.value}mg/L</span>'
             },
@@ -203,7 +274,7 @@ export default function LakeTchain(props) {
             name: 'Maximum Depth',
             data: [],
             type: 'line',
-            yAxis: 1,
+            yAxis: 1, // goes on the dissolved oxygen chart
             colorAxis: 1, // always gets associated with a color axis
             color: Highcharts.getOptions().colors[1],
             lineWidth: 2,
@@ -221,13 +292,11 @@ export default function LakeTchain(props) {
             name: 'Instrument Location for Temperature',
             data: [],
             type: 'scatter',
-            yAxis: 0,
+            yAxis: 0, // goes on the temperature chart
             colorAxis: 0,
             color: Highcharts.getOptions().colors[0],
             marker: {
-                // lineWidth: 5,
-                // lineColor: Highcharts.getOptions().colors[0],
-                fillColor: '#fff',
+                fillColor: '#fff', // white
                 lineColor: 'black',
                 lineWidth: 1,
                 symbol: 'circle',
@@ -240,13 +309,11 @@ export default function LakeTchain(props) {
             name: 'Instrument Location for Dissolved Oxygen',
             data: [],
             type: 'scatter',
-            yAxis: 1,
+            yAxis: 1, // goes on the dissolved oxygen chart
             colorAxis: 1,
             color: Highcharts.getOptions().colors[0],
             marker: {
-                // lineWidth: 5,
-                // lineColor: Highcharts.getOptions().colors[0],
-                fillColor: '#fff',
+                fillColor: '#fff', // white
                 lineColor: 'black',
                 lineWidth: 1,
                 symbol: 'circle',
@@ -261,16 +328,22 @@ export default function LakeTchain(props) {
             endTime: 0
         }
     })
+
+    // for the date range picker and dates displayed on the graph
+    // initial start date is 1 year ago 
+    // initial end date is today
     var today = new Date();
     var lastYear = new Date(today.getFullYear(), today.getMonth(), today.getDate()-365);
     const [startDate, setStartDate] = useState(lastYear);
     const [endDate, setEndDate] = useState(today);
     const [startGraphDate, setGraphStartDate] = useState(lastYear);
     const [endGraphDate, setGraphEndDate] = useState(today);
+
     const [oxygenDataArr,setOxygenDataArr] = useState([])
     const [tempDataArr,setTempDataArr] = useState([])
     const [isLoading,setIsLoading] = useState(true)
 
+    // when the user changes the date, the date selector updates the date
     function handleStartDateChange(e) {
         setStartDate(e);
     }
@@ -278,32 +351,42 @@ export default function LakeTchain(props) {
         setEndDate(e);
     }
 
+    // set the graph's start and end date
     function setGraphDates() {
         setGraphStartDate(startDate);
         setGraphEndDate(endDate);
     }
+
     const lakeOxygen = useFetch('https://f6axabo7w6.execute-api.us-west-2.amazonaws.com/default/clearlake-lakeoxygen')
 
     const lakeTemp = useFetch('https://18eduqff9f.execute-api.us-west-2.amazonaws.com/default/clearlake-laketemperature')
     
+    /**
+     * Given a data array, return an array of [time, y, value] or [time, y] to be used for graphing
+     * @param {Array} data 
+     * @param {String} dataType "temp", "oxy", "depth"
+     * @param {boolean} isInstrument whether to return the instrument locations or not; false by default
+     * @returns {Array} Array of arrays for graphing
+     */
     function getFilteredData(data, dataType, isInstrument = false) {
         let m = []
-        if (isInstrument && data.length != 0) {
+        if (isInstrument && data.length != 0) { // return instrument location for the leftmost x value (oldest time)
+            // Use regex to extract the depth of the instrument from the keys which look like Height_0.5m, Height_1m, etc
+            // then add the depth to the array
             Object.keys(data[0]).forEach(key => {
                 let pstTime = convertGMTtoPSTTime(new Date(data[0].DateTime_UTC));
                 let re = /^Height_([^m]*)m$/;
-                // console.log(re.exec(key))
                 if (re.exec(key) !== null) {
                     m.push([pstTime.getTime(),parseFloat(re.exec(key)[1])])
                 }
             })
-            if (dataType == "temp") {
+            if (dataType == "temp") { // add the instrument at the surface
                 let pstTime = convertGMTtoPSTTime(new Date(data[0].DateTime_UTC));
                 m.push([pstTime.getTime(),parseFloat(data[0].Height_max)])
             }
             return m
         }
-        if (dataType == "depth") {
+        if (dataType == "depth") { // return the maximum height of the water column at each time
             data.forEach((element => {
                 let pstTime = convertGMTtoPSTTime(new Date(element.DateTime_UTC));
                 m.push([pstTime.getTime(), parseFloat(element["Height_max"])])
@@ -389,7 +472,7 @@ export default function LakeTchain(props) {
                 h = -1;
             }))
         }
-        
+        // sort by date
         m.sort(function(a,b) {
             return (a[0]-b[0])
         })
@@ -447,11 +530,11 @@ export default function LakeTchain(props) {
     },[startGraphDate,endGraphDate])
     useEffect(() => {
         if (!isLoading) {
-            
+            // update chart properties with data
             let oxyFiltered = getFilteredData(oxygenDataArr, "oxy");
             let tempFiltered = getFilteredData(tempDataArr, "temp");
             
-            if (oxyFiltered.length != 0) {
+            if (oxyFiltered.length != 0) { // first and last date as min and max x axis values
                 var minX = oxyFiltered[0][0];
                 var maxX = oxyFiltered[oxyFiltered.length-1][0]
             }

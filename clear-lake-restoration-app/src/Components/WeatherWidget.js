@@ -2,6 +2,14 @@ import React from 'react';
 import ReactWeather from 'react-open-weather';
 import './Weather.css';
 
+/**
+ * Component for showing a large weather widget including current weather conditions and a 4 day forecast.  
+ * https://www.npmjs.com/package/react-open-weather
+ * @param {boolean} isLoading 
+ * @param {String} errorMessage 
+ * @param {*} data
+ * @returns {JSX.Element}
+ */
 const WeatherWidget = (props) => {
     const customStyles = {
         fontFamily:  'Helvetica, sans-serif',

@@ -3,6 +3,10 @@
     margin: auto;
 }
   
+.body .map-container {
+    height: 75vh;
+}
+
 .map-container {
     height: 70vh;
 }

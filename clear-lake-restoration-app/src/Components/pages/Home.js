@@ -4,7 +4,7 @@ import Map from '../Map.js'
 
 export default function Home() {
     return (
-        <div>
+        <div className='body'>
             <h1 className='home'>Clear Lake Data</h1>
             <div className='mission-container'>
                 <h3 className="info-header">TERC Clear Lake Mission</h3>

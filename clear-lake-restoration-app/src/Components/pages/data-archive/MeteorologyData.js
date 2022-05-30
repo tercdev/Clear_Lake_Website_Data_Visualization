@@ -60,13 +60,7 @@ function MeteorologyData(props) {
         met_params.set('start', convertDate(startGraphDate));
         met_params.set('end', convertDate(endGraphDate));
     } else {
-        // let oldestDate = new Date(new Date().setDate(endGraphDate.getDate() - 150));
-        // if (startGraphDate < oldestDate) {
-        //     met_params.set('rptdate', convertDate(oldestDate));
-        // } else {
-        //     met_params.set('rptdate', convertDate(startGraphDate)); // at most 180 days away from endDate
-        // }
-        met_params.set('rptdate', convertDate(startGraphDate)); // at most 150 days away from endDate
+        met_params.set('rptdate', convertDate(startGraphDate));
         met_params.set('rptend', convertDate(endGraphDate));
     }
 
@@ -84,13 +78,6 @@ function MeteorologyData(props) {
     const [selectedVariables, setSelectedVariables] = useState(
         new Array(props.variables.length).fill(true)
     );
-    // const handleCheckBoxOnChange = (position) => {
-    //     const updatedCheckedState = checkedState.map((item, index) =>
-    //         index === position ? !item : item
-    //     );
-    //     setCheckedState(updatedCheckedState);
-    //     setShowButton(false);
-    // }
     useEffect(()=> {
         if (!realTime.isLoading) {
             // select variables
@@ -118,13 +105,13 @@ function MeteorologyData(props) {
         }
     },[realTime.isLoading,selectedVariables])
     const options = props.variables.map((x,index) => {return {name: x, id: index}})
-    function onSelect(selectedList, selectedItem) {
+    function onSelect(_selectedList, selectedItem) {
         let temp = checkedState;
         temp[selectedItem.id] = true
         setCheckedState(temp)
         setShowButton(false)
     }
-    function onRemove(selectedList, selectedItem) {
+    function onRemove(_selectedList, selectedItem) {
         let temp = checkedState
         temp[selectedItem.id] = false
         setCheckedState(temp)

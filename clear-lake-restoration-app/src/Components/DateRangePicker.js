@@ -1,9 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "./DateRangePicker.css"
 
+/**
+ * Component for showing the date picker with start date, end date, temperature unit toggle, and submit button.
+ * @param {Date} startDate date of first date picker
+ * @param {Date} endDate date of second date picker
+ * @param {function(Date)} handleStartDateChange function that handles the event that the user changes the start date
+ * @param {function(Date)} handleEndDateChange function that handles the event that the user changes the end date
+ * @param {String} unit 'f' or 'c'
+ * @param {function()} handleF function that handles the event that the user selects radio input for Fahrenheit
+ * @param {function()} handleC function that handles the event that the user selects radio input for Celcius
+ * @param {function()} setGraphDates function that handles the event that the user clicks the submit button
+ * @returns {JSX.Element}
+ */
 function DateRangePicker(props) {
     const today = new Date();
     return (
@@ -16,13 +28,9 @@ function DateRangePicker(props) {
                 selectsStart
                 startDate={props.startDate}
                 endDate={props.endDate}
-                // minDate={subDays(props.endDate, props.maxDays)}
                 maxDate={props.endDate}
-                // includeDateIntervals
-                // date range using input w clear button
                 showMonthDropdown
                 showYearDropdown
-                // yearDropdownItemNumber={today.getFullYear()-2019}
                 dropdownMode="select"
                 minDate={new Date("2018-10-02")}
             />
@@ -36,11 +44,9 @@ function DateRangePicker(props) {
                 startDate={props.startDate}
                 endDate={props.endDate}
                 minDate={props.startDate}
-                // maxDate={addDays(props.startDate, props.maxDays, today)}
                 maxDate={today}
                 showMonthDropdown
                 showYearDropdown
-                // yearDropdownItemNumber={today.getFullYear()-2019}
                 dropdownMode="select"
             />
             </div>

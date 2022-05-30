@@ -4,7 +4,12 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-
+/**
+ * Component for showing a single collapsible item.
+ * @param {String} header 
+ * @param {*} content 
+ * @returns {JSX.Element}
+ */
 export default function CollapsibleItem(props) {
   return (
     <div className='collapsible-item' >

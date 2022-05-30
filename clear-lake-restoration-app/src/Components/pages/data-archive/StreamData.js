@@ -2,11 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { CSVLink } from 'react-csv';
 import useFetch from 'react-fetch-hook';
 import DatePicker from 'react-datepicker';
-import { convertDate, addDays, subDays } from '../../utils';
+import { convertDate } from '../../utils';
 import Multiselect from 'multiselect-react-dropdown';
 
 import './DataArchive.css'
 
+/**
+ * Component showing the Stream data download.
+ * @param {String} id 'clean' or 'real'
+ * @param {String} url url of the API without query parameters
+ * @param {Array} variables in the dataset
+ * @returns {JSX.Element}
+ */
 function StreamData(props) {
     const [error, setError] = useState(false);
     const [showButton, setShowButton] = useState(false);
@@ -54,12 +61,6 @@ function StreamData(props) {
         search_params.set('start', convertDate(startGraphDate));
         search_params.set('end', convertDate(endGraphDate));
     } else {
-        // let oldestDate = new Date(new Date().setDate(endGraphDate.getDate() - 180));
-        // if (startGraphDate < oldestDate) {
-        //     search_params.set('rptdate', convertDate(oldestDate));
-        // } else {
-        //     search_params.set('rptdate', convertDate(startGraphDate)); // at most 180 days away from endDate
-        // }
         search_params.set('rptdate', convertDate(startGraphDate));
         search_params.set('rptend',convertDate(endGraphDate));
     }
@@ -70,7 +71,6 @@ function StreamData(props) {
 
     const [creekcsv, setcreekcsv] = useState([])
     
-    // const variables = ["Creek","TmStamp","RecNum","Turb_BES","Turb_Mean","Turb_Median","Turb_Var","Turb_Min","Turb_Max","Turb_Temp"];
     const [headers, setHeaders] = useState([])
     const [checkedState, setCheckedState] = useState(
         new Array(props.variables.length).fill(true)
@@ -78,13 +78,6 @@ function StreamData(props) {
     const [selectedVariables, setSelectedVariables] = useState(
         new Array(props.variables.length).fill(true)
     );
-    const handleCheckBoxOnChange = (position) => {
-        const updatedCheckedState = checkedState.map((item, index) =>
-            index === position ? !item : item
-        );
-        setCheckedState(updatedCheckedState);
-        setShowButton(false)
-    }
     useEffect(()=> {
         if (!creekData.isLoading) {
             let h = [];
@@ -109,13 +102,13 @@ function StreamData(props) {
         }
     },[creekData.isLoading,selectedVariables])
     const options = props.variables.map((x,index) => {return {name: x, id: index}})
-    function onSelect(selectedList, selectedItem) {
+    function onSelect(_selectedList, selectedItem) {
         let temp = checkedState;
         temp[selectedItem.id] = true
         setCheckedState(temp)
         setShowButton(false)
     }
-    function onRemove(selectedList, selectedItem) {
+    function onRemove(_selectedList, selectedItem) {
         let temp = checkedState
         temp[selectedItem.id] = false
         setCheckedState(temp)
@@ -153,7 +146,6 @@ function StreamData(props) {
                     endDate={endDate}
                     maxDate={endDate}
                     minDate={new Date("2019/01/01")}
-                    // minDate={subDays(endDate, 180)}
                     showMonthDropdown
                     showYearDropdown
                     dropdownMode='select'
@@ -168,7 +160,6 @@ function StreamData(props) {
                     startDate={startDate}
                     endDate={endDate}
                     minDate={startDate}
-                    // maxDate={addDays(startDate, 180, today)}
                     maxDate={today}
                     showMonthDropdown
                     showYearDropdown

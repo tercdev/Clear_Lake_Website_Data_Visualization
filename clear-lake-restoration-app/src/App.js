@@ -1,23 +1,29 @@
-import React, { useRef, useEffect, useState } from 'react';
-import './App.css';
-import FullHeader from './Components/FullHeader'
-import Navigation from './Components/Navigation';
-import Footer from './Components/Footer';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
+import FullHeader from './Components/FullHeader.js';
+import Navigation from './Components/Navigation.js';
 import Home from './Components/pages/Home.js';
-import Stream from './Components/pages/streams/Stream.js';
 import StreamHome from './Components/pages/streams/StreamHome.js';
-import LoginPage from './Components/pages/upload-csv/LoginPage';
+import Stream from './Components/pages/streams/Stream.js';
 import MetHome from './Components/pages/met/MetHome.js';
 import Met from './Components/pages/met/Met.js';
 import LakeTchainHome from './Components/pages/lakeTChain/LakeTchainHome.js';
 import LakeTchain from './Components/pages/lakeTChain/LakeTchain';
 import LakeCTDHome from './Components/pages/lakeCTD/LakeCTDHome.js';
 import LakeCTD from './Components/pages/lakeCTD/LakeCTD.js';
-import DataArchive from './Components/pages/data-archive/DataArchive';
+import LoginPage from './Components/pages/upload-csv/LoginPage';
+import DataArchive from './Components/pages/data-archive/DataArchive.js';
 import Map from './Components/Map.js';
+import Footer from './Components/Footer.js';
 
+import './App.css';
+
+/**
+ * Component for setting up all the routes in this React app.  
+ * Header and Footer for every page except '/map'.
+ * @returns {JSX.Element}
+ */
 function App() {
   return (
     <Router basename='/Clear_Lake_Website_Data_Visualization/'>

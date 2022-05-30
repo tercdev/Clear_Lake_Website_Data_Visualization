@@ -1,3 +1,8 @@
+/**
+ * Converts a Date object into a string of the format YYYYMMDD
+ * @param {Date} date 
+ * @returns {String}
+ */
 export function convertDate(date) {
     let year = date.getFullYear().toString();
     let month = (date.getMonth()+1).toString();
@@ -11,18 +16,11 @@ export function convertDate(date) {
     return year+month+day;
 }
 
-export function subDays(date, num) {
-    return new Date(new Date().setDate(date.getDate() - num));
-}
-
-export function addDays(date, num, compareDate) {
-    let x = new Date(new Date().setDate(date.getDate() + num));
-    if (compareDate < x) {
-        return compareDate
-    } else {
-        return x
-    }
-}
+/**
+ * Converts a date from GMT to PST
+ * @param {Date} date in GMT
+ * @returns {Date} in PST
+ */
 export function convertGMTtoPSTTime (date) {
     // reference: https://stackoverflow.com/questions/22493924/get-user-time-and-convert-them-to-pst
     // var offset = 420; 
@@ -34,13 +32,36 @@ export function convertGMTtoPSTTime (date) {
     // var pst = millis - offsetMillis; 
     return new Date(today.getTime() - timeZoneOffset);
 }
-//conversion from API cardinal to prgm degree
+
+/**
+ * Converts a Date object into a string of the format YYYYMMDD in UTC
+ * @param {Date} date 
+ * @returns {String}
+ */
+export function convertDatetoUTC(date) {
+    let year = date.getUTCFullYear().toString();
+    let month = (date.getUTCMonth()+1).toString();
+    let day = date.getUTCDate().toString();
+    if (month.length < 2) {
+        month = '0' + month;
+    }
+    if (day.length < 2) {
+        day = '0' + day;
+    }
+    return year+month+day;
+}
+
+/**
+ * Conversion from direction to a number
+ * @param {*} direction 
+ * @returns {number} wind direction in degrees
+ */
 export function cardinalToDeg(direction) {
     if (!isNaN(parseFloat(direction))) {
         return parseFloat(direction)
     }
     if (direction === 'N') {
-        return 0
+        return 360
     };
     if (direction === 'NNE') {
         return 22.5
@@ -88,10 +109,15 @@ export function cardinalToDeg(direction) {
         return 337.5
     };
 
-    return 0
-    // direction == ---
+    return 0 // direction == '---'
 }
 
+/**
+ * remove all the data where the time is before `date`
+ * @param {Array} data 
+ * @param {number} date time in milliseconds
+ * @returns {Array}
+ */
 export function removePast(data, date) {
     if (date === undefined) {
         return data;
@@ -103,13 +129,19 @@ export function removePast(data, date) {
     return data;
 }
 
+/**
+ * remove all the data where the time is after `lastDate`
+ * @param {Array} data 
+ * @param {number} lastDate time in milliseconds
+ * @returns {Array}
+ */
 export function removeExcess(data, lastDate) {
     if (lastDate === undefined) {
         return data;
     }
 
-    for (let i = data.length -1; i >= 0;i--){
-        for (let j = data[i].length-2; j >=0;j--) {
+    for (let i = data.length - 1; i >= 0; i--){
+        for (let j = data[i].length - 2; j >= 0; j--) {
             if (new Date(data[i][j]["DateTime_UTC"]).getTime() > lastDate) {
                 data[i].splice(j,1)
             }

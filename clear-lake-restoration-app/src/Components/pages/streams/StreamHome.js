@@ -1,6 +1,10 @@
 import React from 'react';
 import Map from '../../Map.js'
 
+/**
+ * Component for showing the Stream Overview page which has a title, description, map.
+ * @returns {JSX.Element}
+ */
 export default function StreamHome() {
     return (
         <div>

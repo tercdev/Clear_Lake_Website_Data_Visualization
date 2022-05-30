@@ -49,7 +49,7 @@ const Navigation = () => {
               <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/middle">Middle</NavDropdown.Item>
               <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/scotts">Scotts</NavDropdown.Item>
             </NavDropdown>
-            <NavDropdown title="Meterology" id="collasible-nav-dropdown" show={showMet} onMouseEnter={showMetDropdown} onMouseLeave={hideMetDropdown}>
+            <NavDropdown title="Meteorology" id="collasible-nav-dropdown" show={showMet} onMouseEnter={showMetDropdown} onMouseLeave={hideMetDropdown}>
               <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/met">Overview</NavDropdown.Item>
               <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/nic">Nice</NavDropdown.Item>
               <NavDropdown.Item href="/Clear_Lake_Website_Data_Visualization/nlp">North Lakeport</NavDropdown.Item>
@@ -81,7 +81,7 @@ const Navigation = () => {
             </NavDropdown>            
             <Nav.Link href='https://tahoe.ucdavis.edu/clear-lake-wind-maps'>Wind Animations</Nav.Link>
             <Nav.Link href='/Clear_Lake_Website_Data_Visualization/data-archive'>Data Archive</Nav.Link>
-            <Nav.Link href='https://clearlakerestoration.sf.ucdavis.edu/'>Main Clear Lake Site</Nav.Link>
+            <Nav.Link href='https://clearlakerehabilitation.ucdavis.edu/'>Main Clear Lake Site</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

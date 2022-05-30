@@ -8,6 +8,13 @@ import '@watergis/mapbox-gl-legend/css/styles.css';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiY2hlbmFsaSIsImEiOiJjbDBqY2V2bGowYjlrM2NtaXhjYzlyM2pxIn0.BxtrB0AyBeGd8lug5c6mUg';
 
+/**
+ * Component for showing mapbox map.
+ * 
+ * @component
+ * @param {String} name type of map: "stream", "met", "lake", "all"
+ * @returns {JSX.Element} Map Component template
+ */
 export default function Map(props) {
     const mapContainer = useRef(null);
     const map = useRef(null);
@@ -26,7 +33,7 @@ export default function Map(props) {
                 source: 'streams',
                 type: 'circle',
                 paint: {
-                    'circle-color': '#009E73',
+                    'circle-color': '#FF7F50',
                     'circle-radius': 8,
                     'circle-stroke-width': 2,
                     'circle-stroke-color': '#ffffff',
@@ -39,16 +46,21 @@ export default function Map(props) {
                 if (e.features.length) {
                     map.current.getCanvas().style.cursor = "pointer";
                 }
-                streamPopUp(map,e);
+                // streamPopUp(map,e);
             });
             map.current.on("mouseleave", "streams", () => {
                 map.current.getCanvas().style.cursor = "";
-                closePopUp();
+                // closePopUp();
             });
             map.current.on("click", "streams", e => {
                 console.log(e.features[0].properties.name);
-                window.location.href='/Clear_Lake_Website_Data_Visualization/'+e.features[0].properties.name;
-                // streamPopUp(map, e);
+                // window.top.location.href='/Clear_Lake_Website_Data_Visualization/'+e.features[0].properties.name;
+                streamPopUp(map, e);
+                map.current.flyTo({
+                    center: e.features[0].geometry.coordinates,
+                    speed: 0.2,
+                    curve: 1,
+                });
             });
         });
     }
@@ -66,8 +78,8 @@ export default function Map(props) {
                 coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
             }
             const description = e.features[0].properties.name.charAt(0).toUpperCase() + e.features[0].properties.name.slice(1) + " Creek"
-            const contents = "<a href='/Clear_Lake_Website_Data_Visualization/" + e.features[0].properties.name + "'>" + description + "</a>"                    
-            new mapboxgl.Popup({focusAfterOpen: false, closeButton: false}).setLngLat(coordinates).setHTML(description).addTo(map.current)
+            const link = "<a href='/Clear_Lake_Website_Data_Visualization/" + e.features[0].properties.name + "' target='_top'>" + description + "</a>"                    
+            new mapboxgl.Popup({focusAfterOpen: false, closeButton: true, closeOnMove: false, closeOnClick: true}).setLngLat(coordinates).setHTML(link).addTo(map.current)
         }
     }
     function addMetMarkers() {
@@ -81,7 +93,7 @@ export default function Map(props) {
                 source: 'met',
                 type: 'circle',
                 paint: {
-                    'circle-color': '#999999',
+                    'circle-color': '#FF4162',
                     'circle-radius': 8,
                     'circle-stroke-width': 2,
                     'circle-stroke-color': '#ffffff',
@@ -94,22 +106,27 @@ export default function Map(props) {
                 if (e.features.length) {
                     map.current.getCanvas().style.cursor = "pointer";
                 }
-                metPopUp(map,e);
+                // metPopUp(map,e);
             });
             map.current.on("mouseleave", "met", () => {
                 map.current.getCanvas().style.cursor = "";
-                closePopUp();
+                // closePopUp();
             });
             map.current.on("click", "met", e => {
                 console.log(e.features[0].properties.name);
-                if (e.features[0].properties.name != "jgb") {
-                    window.location.href='/Clear_Lake_Website_Data_Visualization/'+e.features[0].properties.name;
-                } else {
-                    window.location.href='/Clear_Lake_Website_Data_Visualization/bbi';
-                }
+                // if (e.features[0].properties.name != "jgb") {
+                //     window.top.location.href='/Clear_Lake_Website_Data_Visualization/'+e.features[0].properties.name;
+                // } else {
+                //     window.top.location.href='/Clear_Lake_Website_Data_Visualization/bek';
+                // }
                 // const link = "/" + e.features[0].properties.name
                 // return <Link to={link}></Link>
                 metPopUp(map,e);
+                map.current.flyTo({
+                    center: e.features[0].geometry.coordinates,
+                    speed: 0.2,
+                    curve: 1,
+                });
             });
         });
     }
@@ -121,6 +138,9 @@ export default function Map(props) {
                 coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
             }
             let description = ""
+            let url = e.features[0].properties.name
+            let note = ""
+            let link = ""
             if (e.features[0].properties.name == "bkp") {
                 description = "Buckingham Point";
             } else if (e.features[0].properties.name == "nic") {
@@ -134,13 +154,18 @@ export default function Map(props) {
             } else if (e.features[0].properties.name == "clo") {
                 description = "Clearlake Oaks"
             } else if (e.features[0].properties.name == "jgb") {
-                description = "Jago Bay<br/>(relocated to Beakbane Island in June 2020)"
+                description = "Jago Bay"
+                note = "<br/>(relocated to <a href='/Clear_Lake_Website_Data_Visualization/bek target='_top''>Beakbane Island</a> in June 2020)"
+                url = "bek"
             } else {
                 description = "Beakbane Island"
             }
             // description = "<h1>" + description + "<h1/>"
-            const link = "<a href='/Clear_Lake_Website_Data_Visualization/" + e.features[0].properties.name + "'>" + description + "</a>"
-            new mapboxgl.Popup({focusAfterOpen: false, closeButton: false}).setLngLat(coordinates).setHTML(description).addTo(map.current)
+            link = "<a href='/Clear_Lake_Website_Data_Visualization/" + url + "' target='_top'>" + description + "</a>" + note
+            if (e.features[0].properties.name == "jgb") {
+                link = description + note
+            }
+            new mapboxgl.Popup({focusAfterOpen: false, closeButton: true, closeOnMove: false, closeOnClick: true}).setLngLat(coordinates).setHTML(link).addTo(map.current)
         }
     }
     function addLakeMarkers() {
@@ -154,7 +179,7 @@ export default function Map(props) {
                 source: 'lake',
                 type: 'circle',
                 paint: {
-                    'circle-color': '#E69F00',
+                    'circle-color': '#F2E50B',
                     'circle-radius': 8,
                     'circle-stroke-width': 2,
                     'circle-stroke-color': '#ffffff',
@@ -167,19 +192,21 @@ export default function Map(props) {
                 if (e.features.length) {
                     map.current.getCanvas().style.cursor = "pointer";
                 }
-                lakePopUp(map,e);
+                // lakePopUp(map,e);
             });
             map.current.on("mouseleave", "lake", () => {
                 map.current.getCanvas().style.cursor = "";
-                closePopUp();
+                // closePopUp();
             });
             map.current.on("click", "lake", e => {
                 console.log(e.features[0].properties.name);
-                window.location.href='/Clear_Lake_Website_Data_Visualization/'+e.features[0].properties.name;
+                // window.top.location.href='/Clear_Lake_Website_Data_Visualization/'+e.features[0].properties.name;
                 lakePopUp(map,e);
-                // map.flyTo({
-                //     center: e.features[0].geometry.coordinates
-                // });
+                map.current.flyTo({
+                    center: e.features[0].geometry.coordinates,
+                    speed: 0.2,
+                    curve: 1,
+                });
             });
         });
     }
@@ -190,61 +217,13 @@ export default function Map(props) {
             while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
                 coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
             }
-            const description = e.features[0].properties.name.slice(0,2).toUpperCase() + e.features[0].properties.name.slice(2).toUpperCase()
-            const link = "<a href='/Clear_Lake_Website_Data_Visualization/" + e.features[0].properties.name + "'>" + description + "</a>"
-            new mapboxgl.Popup({focusAfterOpen: false, closeButton: false}).setLngLat(coordinates).setHTML(description).addTo(map.current)
-        }
-    }
-    function addProfileMarkers() {
-        map.current.on('load', () => {
-            map.current.addSource('profile', {
-                type: 'geojson',
-                data: '/Clear_Lake_Website_Data_Visualization/data/lakemarkers.geojson',
-            });
-            map.current.addLayer({
-                id: 'profile',
-                source: 'profile',
-                type: 'circle',
-                paint: {
-                    'circle-color': '#A020F0',
-                    'circle-radius': 8,
-                    'circle-stroke-width': 2,
-                    'circle-stroke-color': '#ffffff',
-                },
-                metadata: {
-                    "name": "Lake Profile Sites",
-                }
-            });
-            map.current.on("mouseenter", "profile", e => {
-                if (e.features.length) {
-                    map.current.getCanvas().style.cursor = "pointer";
-                }
-                profilePopUp(map,e);
-            });
-            map.current.on("mouseleave", "profile", () => {
-                map.current.getCanvas().style.cursor = "";
-                closePopUp();
-            });
-            map.current.on("click", "profile", e => {
-                console.log(e.features[0].properties.name);
-                window.location.href='/Clear_Lake_Website_Data_Visualization/'+e.features[0].properties.name+'-profile';
-                profilePopUp(map,e);
-                // map.flyTo({
-                //     center: e.features[0].geometry.coordinates
-                // });
-            });
-        });
-    }
-    function profilePopUp(map,e) {
-        if (e.features.length) {
-            map.current.getCanvas().style.cursor = "pointer";
-            const coordinates = e.features[0].geometry.coordinates.slice();
-            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+            const description = e.features[0].properties.name.slice(0,2).toUpperCase() + '-' + e.features[0].properties.name.slice(2).toUpperCase()
+            let note = ""
+            if (e.features[0].properties.name == "ua07") {
+                note = " (discontinued on 6/15/2020)"
             }
-            const description = e.features[0].properties.name.slice(0,2).toUpperCase() + e.features[0].properties.name.slice(2).toUpperCase()
-            const link = "<a href='/Clear_Lake_Website_Data_Visualization/" + e.features[0].properties.name + "-profile'>" + description + "</a>"
-            new mapboxgl.Popup({focusAfterOpen: false, closeButton: false}).setLngLat(coordinates).setHTML(description).addTo(map.current)
+            let link = "<b>"+description+"</b><br/><a href='/Clear_Lake_Website_Data_Visualization/" + e.features[0].properties.name + "' target='_top'> Lake Mooring</a>"+ note +"<br/><a href='/Clear_Lake_Website_Data_Visualization/"+e.features[0].properties.name+"-profile' target='_top'>Lake Profile</a>"
+            new mapboxgl.Popup({focusAfterOpen: false, closeButton: true, closeOnMove: false, closeOnClick: true}).setLngLat(coordinates).setHTML(link).addTo(map.current)
         }
     }
     function addBoundary() {
@@ -282,26 +261,20 @@ export default function Map(props) {
         }
         if (props.name == "met") {
             addMetMarkers();
-            targets.met = "Meterological Stations"
+            targets.met = "Meteorological Stations"
         }
         if (props.name == "lake") {
             addLakeMarkers();
             targets.lake = "Lake Monitoring Sites"
         }
-        if (props.name == "profile") {
-            addProfileMarkers();
-            targets.profile = "Lake Profile Sites"
-        }
         if (props.name == "all") {
             addStreamMarkers();
             addMetMarkers();
             addLakeMarkers();
-            addProfileMarkers();
             addBoundary();
             targets.streams = "Stream Monitoring Sites"
-            targets.met = "Meterological Stations"
+            targets.met = "Meteorological Stations"
             targets.lake = "Lake Monitoring Sites"
-            targets.profile = "Lake Profile Sites"
             targets.bounds_line = "Watershed Boundary"
         }
         // const legend = new LegendControl({toggler: true, collapsed: true});
@@ -320,7 +293,7 @@ export default function Map(props) {
 
     return (
     <div className="map">
-        <p className='map-caption'>Hover over markers to see the name of the location. Click on the marker to be redirected to a page with the corresponding visualizations.</p>
+        <p className='map-caption'>Click on the markers to see the name of the location. Click on the link in the pop up to be go to a page with the corresponding visualizations.</p>
         
         <div ref={mapContainer} className="map-container" />
         <div className="sidebar">

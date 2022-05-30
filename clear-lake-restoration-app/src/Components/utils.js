@@ -34,6 +34,24 @@ export function convertGMTtoPSTTime (date) {
 }
 
 /**
+ * Converts a Date object into a string of the format YYYYMMDD in UTC
+ * @param {Date} date 
+ * @returns {String}
+ */
+export function convertDatetoUTC(date) {
+    let year = date.getUTCFullYear().toString();
+    let month = (date.getUTCMonth()+1).toString();
+    let day = date.getUTCDate().toString();
+    if (month.length < 2) {
+        month = '0' + month;
+    }
+    if (day.length < 2) {
+        day = '0' + day;
+    }
+    return year+month+day;
+}
+
+/**
  * Conversion from direction to a number
  * @param {*} direction 
  * @returns {number} wind direction in degrees

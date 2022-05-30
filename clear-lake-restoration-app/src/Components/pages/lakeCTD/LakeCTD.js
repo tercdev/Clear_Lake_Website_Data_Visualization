@@ -6,6 +6,7 @@ import Chart from '../../Chart';
 import DataDisclaimer from '../../DataDisclaimer';
 import SpecificDateSelect from '../../SpecificDateSelect';
 import CollapsibleItem from '../../CollapsibleItem';
+import { convertDatetoUTC } from '../../utils';
 
 import './LakeCTD.css';
 
@@ -309,24 +310,6 @@ export default function LakeCTD(props) {
     function setGraphDates() {
         setGraphStartDate(startDate);
         setGraphEndDate(startDate);
-    }
-
-    /**
-     * Converts a Date object into a string of the format YYYYMMDD in UTC
-     * @param {Date} date 
-     * @returns {String}
-     */
-    function convertDatetoUTC(date) {
-        let year = date.getUTCFullYear().toString();
-        let month = (date.getUTCMonth()+1).toString();
-        let day = date.getUTCDate().toString();
-        if (month.length < 2) {
-            month = '0' + month;
-        }
-        if (day.length < 2) {
-            day = '0' + day;
-        }
-        return year+month+day;
     }
     
     /**

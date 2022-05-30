@@ -11,7 +11,8 @@ import './Weather.css';
  */
 const Weather = (props) => {
     if (props.data) {
-        const { forecast, current } = props.data;
+        const current = props.data.current;
+
         if (props.isLoading) {
             return <div>Loading...</div>;
         }
@@ -23,7 +24,7 @@ const Weather = (props) => {
          * icon indicating up or down
          */
         let icon_name = "";
-        {props.show ? icon_name = "fa-solid fa-angle-up" : icon_name = "fa-solid fa-angle-down"}
+        props.show ? icon_name = "fa-solid fa-angle-up" : icon_name = "fa-solid fa-angle-down"
     
         return (
             <div className="inner-container">

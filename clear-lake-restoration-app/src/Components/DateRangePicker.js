@@ -52,11 +52,11 @@ function DateRangePicker(props) {
             </div>
             <div className='one-date-container'>
                 <div className='radio-button'>
-                    <input type="radio" value="f" id="f" onChange={props.handleF} name="unit" checked={props.unit=='f'}/>
+                    <input type="radio" value="f" id="f" onChange={props.handleF} name="unit" checked={props.unit==='f'}/>
                     <label htmlFor="f">°F</label>
                 </div>
                 <div className='radio-button'>
-                    <input type="radio" value="c" id="c" onChange={props.handleC} name="unit" checked={props.unit=='c'}/>
+                    <input type="radio" value="c" id="c" onChange={props.handleC} name="unit" checked={props.unit==='c'}/>
                     <label htmlFor="c">°C</label>
                 </div>
             </div>

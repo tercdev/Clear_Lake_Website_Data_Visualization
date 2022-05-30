@@ -140,7 +140,7 @@ function SpecificDateSelect(props) {
         let m = []
         allDates.forEach((element) => {
             let name = element.toLocaleString("en-US", { month: "long" })
-            if (name == e[0]) {
+            if (name === e[0]) {
                 m.push(element.getUTCDate())
                 // user selected the month
                 setSelectedMonth(element.getUTCMonth())

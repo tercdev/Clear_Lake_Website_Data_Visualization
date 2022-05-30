@@ -53,7 +53,7 @@ export default function Footer() {
                     </div> 
                     <div className='image-row'>
                         <img src={EPA_logo} alt="Environmental Protection Agency" />
-                        <img src={sponsor1} />
+                        <img src={sponsor1} alt="" />
                         <img src={SFEI} alt="SFEI" />
                         <img src={NASA} alt="NASA" />
                         <img src={WaterBoards} alt="California Water Boards" />

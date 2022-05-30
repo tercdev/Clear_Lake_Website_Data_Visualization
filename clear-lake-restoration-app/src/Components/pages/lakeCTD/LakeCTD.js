@@ -231,7 +231,7 @@ export default function LakeCTD(props) {
                 return this.points.reduce(function (s, point) {
                     return s + '<br/>' + point.series.name + ': ' +
                         point.y + ' ' + units[point.series.name];
-                }, '<b>' + this.x + ' m' + '</b>');
+                }, '<b>' + this.x + ' m</b>');
             },
             shared: true,
             followPointer: true,

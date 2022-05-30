@@ -18,8 +18,8 @@ export default function Chart({
 }) {
 
     const chartComponent = useRef(null); 
-    const chart = chartComponent.current?.chart;
     useEffect(()=> {
+      const chart = chartComponent.current?.chart;
       if (chart) { // show and hide Loading... text
           chart.showLoading();
           if (!isLoading) {

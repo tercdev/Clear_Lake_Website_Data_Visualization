@@ -15,10 +15,10 @@ import './DataArchive.css'
  * @returns {JSX.Element}
  */
 function StreamData(props) {
-    const [error, setError] = useState(false);
-    const [showButton, setShowButton] = useState(false);
     var today = new Date();
     var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
+
+    // State Variables
     const [startDate, setStartDate] = useState(lastWeek);
     const [endDate, setEndDate] = useState(today);
     const [startGraphDate, setGraphStartDate] = useState(lastWeek);
@@ -27,24 +27,20 @@ function StreamData(props) {
     const [isLoading, setIsLoading] = useState(true);
     const [siteName, setSiteName] = useState("")
     const [isEmpty, setIsEmpty] = useState(true)
+    const [showButton, setShowButton] = useState(false);
 
     function handleStartDateChange(e) {
         setStartDate(e);
         setShowButton(false)
     }
+
     function handleEndDateChange(e) {
         setEndDate(e);
         setShowButton(false)
     }
-    function setGraphDates() {
-        setError(false);
-        if (props.id == "Clean") {
-            var latestDate = new Date(new Date(startDate).setDate(365));
-        } else{
-            var latestDate = new Date(new Date(startDate).setDate(180));
-        } 
-        setGraphStartDate(startDate);
 
+    function setGraphDates() {
+        setGraphStartDate(startDate);
         setGraphEndDate(endDate);
 
         setId(idTemp);
@@ -52,6 +48,7 @@ function StreamData(props) {
         checkedState.forEach(x => newArr.push(x));
         setSelectedVariables(newArr);
     }
+
     const [idTemp, setIdTemp] = useState(1);
     const [id, setId] = useState(1);
 
@@ -104,6 +101,7 @@ function StreamData(props) {
         async function fetchData() {
             creekDataFetch = await Promise.all(creekDataFetch)
 
+            // check if all returned arrays are empty
             isAllEmpty(creekDataFetch) ? setIsEmpty(true) : setIsEmpty(false)
 
             // combine all fetched arrays of data

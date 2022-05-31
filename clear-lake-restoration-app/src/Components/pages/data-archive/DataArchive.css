@@ -122,8 +122,7 @@ center > * {
 }
 
 .chip {
-    background: #022851;
-    color: #fff;
+    background: #022851 !important;
 }
 
 .date-container1 {

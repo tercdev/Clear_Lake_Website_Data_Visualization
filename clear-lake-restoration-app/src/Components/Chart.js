@@ -9,7 +9,8 @@ require('highcharts/modules/export-data')(Highcharts);
 /**
  * Component for showing Highcharts chart
  * @param {Object} chartProps chart properties object
- * @param {boolean} isLoading, isEmpty whether data is still being fetched or not
+ * @param {boolean} isLoading whether data is still being fetched or not
+ * @param {boolean} isEmpty whether there is or no data available
  * @returns {JSX.Element}
  */
 export default function Chart({

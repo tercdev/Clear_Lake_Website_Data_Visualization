@@ -18,13 +18,15 @@ This folder contains clean data in which the client has given to the team.
 
 **Data Visualization Code**
 
-- Meteorology
-- Stream
-- LakeTemperatureVis
+This is the previous version of the data visualization graphs. All these graphs are no longer being used on the React Data Visualization Site. To view this version, click here: https://chenalison.github.io/.
+
 
 **clear-lake-restoration-app**
 
-- React app
-- `npm run deploy` on main branch to update the website: https://tercdev.github.io/Clear_Lake_Website_Data_Visualization/
+This is the current version of the data visualization graph and website. This is the frontend code for the React website. To access the backend code, please contact Alicia Cortes at alicortes@ucdavis.edu. To read more about this project, please visit the README.md in this folder. You can also visit the "Documentation" folder to view the User Guide.
+
+To view this website, click here: https://tercdev.github.io/Clear_Lake_Website_Data_Visualization/
+
+- `npm run deploy` on main branch to update the website
 
 

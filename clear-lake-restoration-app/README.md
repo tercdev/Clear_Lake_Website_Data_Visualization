@@ -5,9 +5,35 @@
 
 ## Background 
 
-Clear Lake, the largest lake in California and one of the oldest lakes in North America, is subject to eutrophication as a consequence of the high concentrations of nutrients. These nutrients stimulate high concentrations of algae and cyanobacteria and consequently present severe challenges to Lake County, the lake users, and stakeholders. UC Davis is engaged in a multi-year research study to understand the dominant processes in the Clear Lake watershed and in the lake itself that are negatively impacting the restoration of the lake water quality and the ecosystem health. We are currently collecting a wide variety of data to form the basis of a long-term monitoring strategy to measure the status and trends in the future in Clear Lake. 
+The UC Davis Tahoe Environmental Research Center (TERC) team currently owns a non-official UC Davis Wix website to share their blogs, data, data visualization, and publications. This brings several concerns, one being the static use of data in the current data visualization of their website. Additionally, the big danger in this static data is the location in which the data is currently stored, which is a former web developer’s personal Github repository and being called for in the data visualizations. This brings instability and insecurity, as the data is controlled and managed by a single former employee.
+
+Moreover, the TERC team is looking to have more interactive and dynamic data visualizations, allowing lake users and stakeholders to view specific time windows of data, generate CSV files to their local computer, and filter different lake and stream variables within a specific data chart. We are innovating this problem to create more visually appealing and user-friendly data visualizations. We plan to increase the user journey and experience through this new site, which will encourage more lake holders and stakeholders to be part of the research and the findings of the TERC team.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Features
+
+Dynamic and interactive data visualizations for Streams, Meteorology, Lake Profile, and Lake Mooring
+- Allow users to query graphs on different variables and time intervals
+- Allows zooming features, tooltips for data point information, variable toggling to view trends between different variables
+- Frequently Asked Questions for any user concerns, such as the link to metadata and how to use the graphs
+
+Map of the Clear Lake Watershed Boundary and data collection locations
+
+Provide a weather widget to show current and forecasted weather at Clear Lake
+- Includes a brief description of the weather, wind, and humidity, and icons to illustrate the weather
+
+Downloadable CSV feature for users to download clean and real-time data
+- Allows users to query different variables and time frames to download
+- Allows other downloadable types, such as an image of the chart in PNG, JPEG, PDF, SVG forms
+
+Uploadable CSV feature for client to upload clean data
+- Connect any uploaded data to MySQL with the data visualization graphs and automatically update them
+
+Easy to manage the site for clients to update blogs, news, photos, and more
+- Used SiteFarm as it is easy to learn to use and has many training videos and UC Davis SiteFarm managers for more complex guidance
+- Link to the Main Clear Lake site is https://clearlakerehabilitation.ucdavis.edu/
+
 
 ## Available Scripts
 

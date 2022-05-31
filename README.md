@@ -35,7 +35,7 @@ This is the previous version of the data visualization graphs. *All these graphs
 ![Screen Shot 2022-05-30 at 6 48 48 PM](https://user-images.githubusercontent.com/45191572/171076928-643b990f-a08a-46e0-8b1e-ca91048f216d.png)
 
 
-This is the current version of the data visualization graph and website. This is the frontend code for the React website. To access the backend code, please contact Alicia Cortes at alicortes@ucdavis.edu. To read more about this project, please visit the [README.md](https://github.com/tercdev/Clear_Lake_Website_Data_Visualization/blob/main/clear-lake-restoration-app/README.md) in this folder. You can also visit the [Documentation]([url](https://github.com/tercdev/Clear_Lake_Website_Data_Visualization/tree/main/Documentation)) folder to view the User Guide.
+This is the current version of the data visualization graph and website. This is the frontend code for the React website. To access the backend code, please contact Alicia Cortes at alicortes@ucdavis.edu. To read more about this project, please visit the [README.md](https://github.com/tercdev/Clear_Lake_Website_Data_Visualization/blob/main/clear-lake-restoration-app/README.md) in this folder. You can also visit the [Documentation](https://github.com/tercdev/Clear_Lake_Website_Data_Visualization/tree/main/Documentation) folder to view the User Guide.
 
 To view this website, click here: https://tercdev.github.io/Clear_Lake_Website_Data_Visualization/
 

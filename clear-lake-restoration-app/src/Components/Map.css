@@ -40,6 +40,19 @@
     font-size: 1rem;
 }
 
+.mapboxgl-popup-close-button {
+    padding-right: 10px;
+}
+
+.mapboxgl-popup-close-button:hover {
+    padding-left: 10px;
+}
+
+.mapboxgl-popup-content {
+    padding: 10px !important;
+    padding-top: 20px !important;
+}
+
 
 @media only screen and (max-width: 600px) {
     .map-caption {

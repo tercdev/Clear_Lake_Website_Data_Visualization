@@ -37,6 +37,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - Used SiteFarm as it is easy to learn to use and has many training videos and UC Davis SiteFarm managers for more complex guidance
 - Link to the Main Clear Lake site is https://clearlakerehabilitation.ucdavis.edu/
 
+## Packages Used:
+
+
 
 ## Available Scripts
 
@@ -50,7 +53,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
-## `npm run deploy`
+### `npm run deploy`
 
 Deploys new changes made on the main branch onto the hosted website using GitHub Pages
 The hosted site is [https://tercdev.github.io/Clear_Lake_Website_Data_Visualization/](https://tercdev.github.io/Clear_Lake_Website_Data_Visualization/)

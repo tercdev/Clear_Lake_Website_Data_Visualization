@@ -385,7 +385,7 @@ export default function LakeCTD(props) {
             id: "1",
             header: "How to use the graphs and see the data below?",
             content: <ol>
-                <li>Select year, month, and date. Profiles are normally measured between 9 AM and 2 PM, local time (UTC - 8 h)</li>
+                <li>Select year, month, and date. Profiles are normally measured between 9 AM and 2 PM, local time (UTC - 8 h).</li>
                 <li>Click submit to update the graphs below.</li>
             </ol>
         }

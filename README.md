@@ -27,7 +27,7 @@ This folder contains clean data in which the client has given to the team.
 ![Screen Shot 2022-05-30 at 6 49 58 PM](https://user-images.githubusercontent.com/45191572/171077046-10e8764c-470d-43d8-b2f9-036216de14e0.png)
 
 
-This is the previous version of the data visualization graphs. *All these graphs are no longer being used.* To view this version, click here: https://chenalison.github.io/.
+This is the previous version of the data visualization graphs. *All these graphs are no longer being used.* To view this version, click here: [https://chenalison.github.io/](https://chenalison.github.io/clear-lake/)
 
 
 ## clear-lake-restoration-app [current site]

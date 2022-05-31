@@ -4,8 +4,8 @@
 
 This folder contains clean data in which the client has given to the team. 
 - CTD
-    - [(old)ClearLake_ProfileData_2019_2021.csv](url) contains other CTD monitoring stations that are not included on the Clear Data website, such as LA03_SB25 and UA01_SB25
-    - [ClearLake_ProfileData_2019_2021.csv](url) contains merged CTD monitoring stations
+    - [(old)ClearLake_ProfileData_2019_2021.csv](https://github.com/tercdev/Clear_Lake_Website_Data_Visualization/blob/main/Clean%20Data/CTD/(old)ClearLake_ProfileData_2019_2021.csv) contains other CTD monitoring stations that are not included on the Clear Data website, such as LA03_SB25 and UA01_SB25
+    - [ClearLake_ProfileData_2019_2021.csv](https://github.com/tercdev/Clear_Lake_Website_Data_Visualization/blob/main/Clean%20Data/CTD/ClearLake_ProfileData_2019_2021.csv) contains merged CTD monitoring stations
 - Meteorological
 - Stream
     - the flow and rain data files were gathered from this github repo: https://github.com/micahswann/CL_wix

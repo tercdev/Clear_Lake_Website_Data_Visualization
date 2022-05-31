@@ -17,17 +17,23 @@ import './DataArchive.css';
 function DataArchive() {
 
     // for the collapsible FAQ
-    const header1 = "How to download data?";
-    const content1 = [<ol>
-            <li>Select location, start date, end date, and desired variables.</li>
-            <li>Click submit.</li>
-            <li>Wait for data to be fetched.</li>
-            <li>Buttons will then appear, allowing data downloads to your computer. Metadata README files are also available for further explanation on data variables.</li>
-        </ol>];
-
-    const header2 = "What is the difference between clean and real-time data?";
-    const content2 = [<p>Clean data has been reviewed by the TERC team. Real-time data is information that is delivered immediately after the data collection process. 
-            There may be spikes or inconsistent data, as real-time data has not been reviewed by the TERC team. For more information regarding data, please visit the <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">Metadata Explanation page</a>.</p>];
+    const content = [
+        {   
+            id: "1",
+            header: "How to download data?",
+            content: <ol>
+                <li>Select location, start date, end date, and desired variables.</li>
+                <li>Click submit.</li>
+                <li>Wait for data to be fetched.</li>
+                <li>Buttons will then appear, allowing data downloads to your computer. Metadata README files are also available for further explanation on data variables.</li>
+            </ol>
+        }, {
+            id: "2",
+            header: "What is the difference between clean and real-time data?",
+            content: <p>Clean data has been reviewed by the TERC team. Real-time data is information that is delivered immediately after the data collection process. 
+            There may be spikes or inconsistent data, as real-time data has not been reviewed by the TERC team. For more information regarding data, please visit the <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">Metadata Explanation page</a>.</p>
+        }
+    ]
 
     return(
         <>
@@ -44,8 +50,8 @@ function DataArchive() {
                     or Dr. Alicia Cortes (alicortes@ucdavis.edu)</p>
             </div>
             <div className="collapsible-container">
-                <CollapsibleItem header={header1} content={content1}/>
-                <CollapsibleItem header={header2} content={content2}/>
+                <CollapsibleItem header={content[0].header} content={content[0].content}/>
+                <CollapsibleItem header={content[1].header} content={content[1].content}/>
             </div>
          
             <Tabs className="outer-tab-container">

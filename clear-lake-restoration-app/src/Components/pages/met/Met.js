@@ -743,12 +743,6 @@ export default function Met(props) {
             content: "<p>If there is no data, please refer <a href='https://clearlakerestoration.sf.ucdavis.edu/metadata'>here</a> to read more about the metadata.</p>"
         }
     ]
-    // const header1 = "Why is no data showing up on my plots?";
-    // const content1 = [];
-
-    // const header2 = "Why is no data showing up on my plots?";
-    // const content2 = [<p>If there is no data, please refer <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">here</a> to read more about the metadata.</p>];
-
 
     return (
         <div>
@@ -756,12 +750,11 @@ export default function Met(props) {
                 <h1 className='station-page-title'>{props.name}</h1>
             </div>
             <DataDisclaimer/>
-            <React.Fragment key={content.id}>
-                <div className="collapsible-container" key={1}>
-                    <CollapsibleItem header={content[0].header} content={content[0].content}/>
-                    <CollapsibleItem header={content[1].header} content={content[1].content}/>
-                </div>
-            </React.Fragment>
+            
+            <div className="collapsible-container">
+                <CollapsibleItem header={content[0].header} content={content[0].content}/>
+                <CollapsibleItem header={content[1].header} content={content[1].content}/>
+            </div>
 
             <DateRangePicker 
                 startDate={startDate} 

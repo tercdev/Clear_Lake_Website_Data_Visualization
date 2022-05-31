@@ -55,22 +55,17 @@ function StreamData(props) {
     const [idTemp, setIdTemp] = useState(1);
     const [id, setId] = useState(1);
 
-
-    // var url = new URL(props.url);
-    
-    // var search_params = url.searchParams;
-    // search_params.set('id',id);
     let  start = ""
     let end = ""
-        const creekDataURL = useFetch(props.url);
+    const creekDataURL = useFetch(props.url);
 
-        if (props.id == "Clean") {
-            start = "start"
-            end = "end"
-        } else if (props.id === "Real Time") {
-            start = "rptdate"
-            end = "rptend"
-        } 
+    if (props.id == "Clean") {
+        start = "start"
+        end = "end"
+    } else if (props.id === "Real Time") {
+        start = "rptdate"
+        end = "rptend"
+    } 
     
     // fetches data every time graphDates change
     useEffect(()=> {
@@ -119,7 +114,7 @@ function StreamData(props) {
         }
         fetchData()
 
-    },[startGraphDate,endGraphDate] )
+    },[startGraphDate,endGraphDate])
 
     const [creekcsv, setcreekcsv] = useState([])
     

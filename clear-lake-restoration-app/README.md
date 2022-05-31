@@ -11,26 +11,29 @@ Moreover, the TERC team is looking to have more interactive and dynamic data vis
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Features
+## Main Features
 
-Dynamic and interactive data visualizations for Streams, Meteorology, Lake Profile, and Lake Mooring
+**Dynamic and interactive data visualizations for Streams, Meteorology, Lake Profile, and Lake Mooring**
 - Allow users to query graphs on different variables and time intervals
 - Allows zooming features, tooltips for data point information, variable toggling to view trends between different variables
 - Frequently Asked Questions for any user concerns, such as the link to metadata and how to use the graphs
+- Download data displayed in charts in various formats
+- Date pickers for users to select desired time frames.
+- Click on the name of the series in the legend to toggle graph lines.
 
-Map of the Clear Lake Watershed Boundary and data collection locations
+**Map of the Clear Lake Watershed Boundary and data collection locations**
 
-Provide a weather widget to show current and forecasted weather at Clear Lake
+**Provide a weather widget to show current and forecasted weather at Clear Lake**
 - Includes a brief description of the weather, wind, and humidity, and icons to illustrate the weather
 
-Downloadable CSV feature for users to download clean and real-time data
+**Downloadable CSV feature for users to download clean and real-time data**
 - Allows users to query different variables and time frames to download
 - Allows other downloadable types, such as an image of the chart in PNG, JPEG, PDF, SVG forms
 
-Uploadable CSV feature for client to upload clean data
+**Uploadable CSV feature for client to upload clean data**
 - Connect any uploaded data to MySQL with the data visualization graphs and automatically update them
 
-Easy to manage the site for clients to update blogs, news, photos, and more
+**Easy to manage the site for clients to update blogs, news, photos, and more**
 - Used SiteFarm as it is easy to learn to use and has many training videos and UC Davis SiteFarm managers for more complex guidance
 - Link to the Main Clear Lake site is https://clearlakerehabilitation.ucdavis.edu/
 

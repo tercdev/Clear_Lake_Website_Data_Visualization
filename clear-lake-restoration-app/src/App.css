@@ -125,7 +125,18 @@
   font-size: 18px;
 }
 
+.no-data-disclaimer {
+  text-align: center;
+  color: rgb(221, 73, 73);
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  font-size: 18px;
+}
 
+.highcharts-loading-inner {
+  font-size: 20px;
+}
 
 @media only screen and (max-width: 600px) {
   .mission-container{

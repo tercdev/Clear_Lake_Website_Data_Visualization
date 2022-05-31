@@ -2,11 +2,15 @@ import React, { useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
 import DataDisclaimer from '../../DataDisclaimer';
 import Chart from '../../Chart';
-import { convertDate,convertGMTtoPSTTime } from '../../utils';
 import DatePicker from 'react-datepicker';
 import CollapsibleItem from '../../CollapsibleItem';
 import '../../DateRangePicker.css';
 import useFetch from 'use-http';
+import { 
+    convertDate,
+    convertGMTtoPSTTime, 
+    isAllEmpty 
+} from '../../utils';
 
 require('highcharts/modules/heatmap')(Highcharts);
 require('highcharts/modules/boost')(Highcharts);
@@ -26,6 +30,7 @@ export default function LakeTchain(props) {
      * Dissolved oxygen color axis label text
      */
     var dolabel;
+
     /**
      * Add Color Axis Legend Labels
      * @param {Object} chart
@@ -339,9 +344,15 @@ export default function LakeTchain(props) {
     const [startGraphDate, setGraphStartDate] = useState(lastYear);
     const [endGraphDate, setGraphEndDate] = useState(today);
 
-    const [oxygenDataArr,setOxygenDataArr] = useState([])
-    const [tempDataArr,setTempDataArr] = useState([])
-    const [isLoading,setIsLoading] = useState(true)
+    // hooks for data array changes
+    const [oxygenDataArr,setOxygenDataArr] = useState([]);
+    const [tempDataArr,setTempDataArr] = useState([]);
+
+    // hooks for if graph is loading
+    const [isLoading,setIsLoading] = useState(true);
+
+    // hooks for if data is empty
+    const [isEmpty,setIsEmpty] = useState(true);
 
     // when the user changes the date, the date selector updates the date
     function handleStartDateChange(e) {
@@ -357,9 +368,9 @@ export default function LakeTchain(props) {
         setGraphEndDate(endDate);
     }
 
-    const lakeOxygen = useFetch('https://f6axabo7w6.execute-api.us-west-2.amazonaws.com/default/clearlake-lakeoxygen')
-
-    const lakeTemp = useFetch('https://18eduqff9f.execute-api.us-west-2.amazonaws.com/default/clearlake-laketemperature')
+    // fetching data using API endpoints
+    const lakeOxygen = useFetch('https://f6axabo7w6.execute-api.us-west-2.amazonaws.com/default/clearlake-lakeoxygen');
+    const lakeTemp = useFetch('https://18eduqff9f.execute-api.us-west-2.amazonaws.com/default/clearlake-laketemperature');
     
     /**
      * Given a data array, return an array of [time, y, value] or [time, y] to be used for graphing
@@ -369,7 +380,8 @@ export default function LakeTchain(props) {
      * @returns {Array} Array of arrays for graphing
      */
     function getFilteredData(data, dataType, isInstrument = false) {
-        let m = []
+        let m = [];
+
         if (isInstrument && data.length != 0) { // return instrument location for the leftmost x value (oldest time)
             // Use regex to extract the depth of the instrument from the keys which look like Height_0.5m, Height_1m, etc
             // then add the depth to the array
@@ -377,19 +389,20 @@ export default function LakeTchain(props) {
                 let pstTime = convertGMTtoPSTTime(new Date(data[0].DateTime_UTC));
                 let re = /^Height_([^m]*)m$/;
                 if (re.exec(key) !== null) {
-                    m.push([pstTime.getTime(),parseFloat(re.exec(key)[1])])
+                    m.push([pstTime.getTime(),parseFloat(re.exec(key)[1])]);
                 }
             })
             if (dataType == "temp") { // add the instrument at the surface
                 let pstTime = convertGMTtoPSTTime(new Date(data[0].DateTime_UTC));
-                m.push([pstTime.getTime(),parseFloat(data[0].Height_max)])
+                m.push([pstTime.getTime(),parseFloat(data[0].Height_max)]);
             }
-            return m
+            return m;
         }
+
         if (dataType == "depth") { // return the maximum height of the water column at each time
             data.forEach((element => {
                 let pstTime = convertGMTtoPSTTime(new Date(element.DateTime_UTC));
-                m.push([pstTime.getTime(), parseFloat(element["Height_max"])])
+                m.push([pstTime.getTime(), parseFloat(element["Height_max"])]);
             }))
         } else if (dataType == "oxy") {
             data.forEach((element => {
@@ -482,8 +495,8 @@ export default function LakeTchain(props) {
                         //end height - 1 for interpolate
                         let end = Math.ceil(e);
 
-                        console.log("Start: " + s);
-                        console.log("End: " + e);
+                        // console.log("Start: " + s);
+                        // console.log("End: " + e);
                         let init = -1;
                         let v = -1;
                         if (s%1 == 0) {
@@ -539,6 +552,7 @@ export default function LakeTchain(props) {
         })
         return m
     }
+
     useEffect(() => {
         setOxygenDataArr([])
         setTempDataArr([])
@@ -556,39 +570,46 @@ export default function LakeTchain(props) {
         while (diffDay > 366) {
             newDay = new Date(new Date(compareDate.getTime()).setDate(compareDate.getDate() + 366));
 
-            diffTime = endGraphDate.getTime() - newDay.getTime()
-            diffDay = diffTime/(1000*3600*24)
+            diffTime = endGraphDate.getTime() - newDay.getTime();
+            diffDay = diffTime/(1000*3600*24);
 
-            oxygenFetch.push(lakeOxygen.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(newDay)}`))
-            tempFetch.push(lakeTemp.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(newDay)}`))
+            oxygenFetch.push(lakeOxygen.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(newDay)}`));
+            tempFetch.push(lakeTemp.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(newDay)}`));
 
             // next query should be the last day +1 so no overlap with data
             let newDayPlusOne = new Date(new Date(compareDate.getTime()).setDate(compareDate.getDate() + 366));
-            compareDate = newDayPlusOne
+            compareDate = newDayPlusOne;
 
         }
 
         // query one extra day since data retrieved is in UTC
         let endDayPlusOne = new Date(new Date(endGraphDate.getTime()).setDate(endGraphDate.getDate() + 1));
 
-        oxygenFetch.push(lakeOxygen.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(endDayPlusOne)}`))
-        tempFetch.push(lakeTemp.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(endDayPlusOne)}`))
+        oxygenFetch.push(lakeOxygen.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(endDayPlusOne)}`));
+        tempFetch.push(lakeTemp.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(endDayPlusOne)}`));
         setIsLoading(true); // Loading is true
 
         async function fetchData() {
-            oxygenFetch = await Promise.all(oxygenFetch)
-            tempFetch = await Promise.all(tempFetch)
+            oxygenFetch = await Promise.all(oxygenFetch);
+            tempFetch = await Promise.all(tempFetch);
+            if (isAllEmpty(oxygenFetch) && isAllEmpty(tempFetch)) {
+                setIsEmpty(true);
+            } else {
+                setIsEmpty(false);
+            }
 
-            let combinedOxygenData = [].concat.apply([],oxygenFetch)
-            let combinedTempData = [].concat.apply([],tempFetch)
-
-            setOxygenDataArr(combinedOxygenData)
-            setTempDataArr(combinedTempData)
-            setIsLoading(false)
+            let combinedOxygenData = [].concat.apply([],oxygenFetch);
+            let combinedTempData = [].concat.apply([],tempFetch);
+            
+            
+            setOxygenDataArr(combinedOxygenData);
+            setTempDataArr(combinedTempData);
+            setIsLoading(false);
         }
         fetchData()
 
-    },[startGraphDate,endGraphDate])
+    },[startGraphDate,endGraphDate]);
+
     useEffect(() => {
         if (!isLoading) {
             // update chart properties with data
@@ -601,7 +622,7 @@ export default function LakeTchain(props) {
             }
             let depthFiltered = getFilteredData(oxygenDataArr, "depth");
             let oxyInstrument = getFilteredData(oxygenDataArr, "oxy", true);
-            let tempInstrument = getFilteredData(tempDataArr, 'temp', true)
+            let tempInstrument = getFilteredData(tempDataArr, 'temp', true);
             setChartProps({...chartProps,
                 series: [{
                     data: tempFiltered
@@ -626,16 +647,22 @@ export default function LakeTchain(props) {
     },[isLoading])
 
     // for the collapsible FAQ
-    const header1 = "How to use the graphs and see the data below?";
-    const content1 = [<ol>
-            <li>Select start and end dates with maximum 365-day period. Local time is in PST.</li>
-            <li>Click submit to update the graphs below.</li>
-            <li>Graph and data loading will depend on the length of the selected time period. For example, longer time periods will result to longer loading times.</li>
-            *Note: The white dots on the left side of the charts represent depth of the loggers. The black line on the Dissolved Oxygen graph represents the depth of the water column.
-        </ol>];
-
-    const header2 = "Why is no data showing up on my plots?";
-    const content2 = [<p>If there is no data, check <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">here</a> to read more about the metadata.</p>];
+    const content = [
+        {   
+            id: "1",
+            header: "How to use the graphs and see the data below?",
+            content: <ol>
+                <li>Select start and end dates. Local time is in PST.</li>
+                <li>Click submit to update the graphs below.</li>
+                <li>Graph and data loading will depend on the length of the selected time period. For example, longer time periods will result to longer loading times.</li>
+                <p>*Note: The white dots on the left side of the charts represent depth of the loggers. The black line on the Dissolved Oxygen graph represents the depth of the water column.</p>
+            </ol>
+        }, {
+            id: "2",
+            header: "Why is no data showing up on my plots?",
+            content: <p>If there is no data, check <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">here</a> to read more about the metadata.</p>
+        }
+    ]
 
     return (
         <div>
@@ -644,9 +671,10 @@ export default function LakeTchain(props) {
             </div>
             <DataDisclaimer/>
             <div className="collapsible-container">
-                <CollapsibleItem header={header1} content={content1}/>
-                <CollapsibleItem header={header2} content={content2}/>
+                <CollapsibleItem header={content[0].header} content={content[0].content}/>
+                <CollapsibleItem header={content[1].header} content={content[1].content}/>
             </div>
+
             <div className='date-container'>
                 <div className='one-date-container'>
                 <p className='date-label'>Start Date</p>
@@ -682,9 +710,8 @@ export default function LakeTchain(props) {
                 <button className="submitButton" onClick={setGraphDates}>Submit</button>
                 </div>
             </div>
-            <Chart chartProps={chartProps} isLoading={isLoading} />
+            <Chart chartProps={chartProps} isLoading={isLoading} isEmpty={isEmpty}/>
         </div>
-        
     )
 }
 

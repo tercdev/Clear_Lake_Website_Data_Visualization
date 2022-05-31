@@ -132,3 +132,17 @@ center > * {
     width: fit-content;
     align-items: center;
 }
+
+@media only screen and (max-width: 600px) {
+    .date-container1 {
+        flex-direction: column;
+    }
+
+    .select-drop {
+        width: 100%;
+    }
+
+    .outer-tab-container {
+        margin: 10px;
+    }
+}

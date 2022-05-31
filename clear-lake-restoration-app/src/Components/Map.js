@@ -42,7 +42,7 @@ export default function Map(props) {
                 source: 'streams',
                 type: 'circle',
                 paint: {
-                    'circle-color': '#FF7F50',
+                    'circle-color': '#5053ff',
                     'circle-radius': 8,
                     'circle-stroke-width': 2,
                     'circle-stroke-color': '#ffffff',

@@ -125,7 +125,6 @@ function SpecificDateSelect(props) {
         let datesByYear = {}
         // group dates by year
         dates.forEach((element) => {
-            console.log(element);
             if (!(element.getFullYear() in datesByYear)) {
                 datesByYear[element.getFullYear()] = [];
             }

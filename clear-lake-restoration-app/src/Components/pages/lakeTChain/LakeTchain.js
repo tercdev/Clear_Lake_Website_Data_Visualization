@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
 import DataDisclaimer from '../../DataDisclaimer';
 import Chart from '../../Chart';
-import { convertDate,convertGMTtoPSTTime } from '../../utils';
+import { convertDate,convertGMTtoPSTTime, isAllEmpty } from '../../utils';
 import DatePicker from 'react-datepicker';
 import CollapsibleItem from '../../CollapsibleItem';
 import '../../DateRangePicker.css';
 import useFetch from 'use-http';
+// import {NoDataToDisplay} from 'react-highcharts-no-data-to-display';
 
+// NoDataToDisplay(Highcharts);
 require('highcharts/modules/heatmap')(Highcharts);
 require('highcharts/modules/boost')(Highcharts);
 
@@ -83,6 +85,22 @@ export default function LakeTchain(props) {
         title: {
             text: ''
         },
+        // lang:{
+        //     noData: 'No data to display! Check FAQ for more information.', //the text to be displayed
+        // },
+        // noData: {
+        //     style: {
+        //         fontWeight: 'bold',
+        //         fontSize: '20px',
+        //         color: 'rgb(221,73,73)',
+        //     },
+        //     position: {
+        //         "x": 0,
+        //         "y": 0,
+        //         "align": "center",
+        //         "verticalAlign": "middle"
+        //     }
+        // },
         subtitle: {
             text: 'Click and drag in the plot area to zoom in.<br/>Use three-line icon on top right to download the data displayed in the graph.<br/>White Dots represent depth of the loggers. Black line is the depth of the water column.',
             style: {
@@ -339,9 +357,10 @@ export default function LakeTchain(props) {
     const [startGraphDate, setGraphStartDate] = useState(lastYear);
     const [endGraphDate, setGraphEndDate] = useState(today);
 
-    const [oxygenDataArr,setOxygenDataArr] = useState([])
-    const [tempDataArr,setTempDataArr] = useState([])
-    const [isLoading,setIsLoading] = useState(true)
+    const [oxygenDataArr,setOxygenDataArr] = useState([]);
+    const [tempDataArr,setTempDataArr] = useState([]);
+    const [isLoading,setIsLoading] = useState(true);
+    const [isEmpty,setIsEmpty] = useState(true);
 
     // when the user changes the date, the date selector updates the date
     function handleStartDateChange(e) {
@@ -482,8 +501,8 @@ export default function LakeTchain(props) {
                         //end height - 1 for interpolate
                         let end = Math.ceil(e);
 
-                        console.log("Start: " + s);
-                        console.log("End: " + e);
+                        // console.log("Start: " + s);
+                        // console.log("End: " + e);
                         let init = -1;
                         let v = -1;
                         if (s%1 == 0) {
@@ -578,10 +597,18 @@ export default function LakeTchain(props) {
         async function fetchData() {
             oxygenFetch = await Promise.all(oxygenFetch)
             tempFetch = await Promise.all(tempFetch)
+            if (isAllEmpty(oxygenFetch) && isAllEmpty(tempFetch)) {
+                setIsEmpty(true);
+            } else {
+                setIsEmpty(false);
+            }
+            console.log("oxygenFetch", oxygenFetch);
+            console.log("tempFetch", tempFetch);
 
             let combinedOxygenData = [].concat.apply([],oxygenFetch)
             let combinedTempData = [].concat.apply([],tempFetch)
-
+            
+            
             setOxygenDataArr(combinedOxygenData)
             setTempDataArr(combinedTempData)
             setIsLoading(false)
@@ -682,7 +709,7 @@ export default function LakeTchain(props) {
                 <button className="submitButton" onClick={setGraphDates}>Submit</button>
                 </div>
             </div>
-            <Chart chartProps={chartProps} isLoading={isLoading} />
+            <Chart chartProps={chartProps} isLoading={isLoading} isEmpty={isEmpty}/>
         </div>
         
     )

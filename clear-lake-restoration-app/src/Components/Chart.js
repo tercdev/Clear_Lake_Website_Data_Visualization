@@ -9,14 +9,14 @@ require('highcharts/modules/export-data')(Highcharts);
 /**
  * Component for showing Highcharts chart
  * @param {Object} chartProps chart properties object
- * @param {boolean} isLoading whether data is still being fetched or not
+ * @param {boolean} isLoading, isEmpty whether data is still being fetched or not
  * @returns {JSX.Element}
  */
 export default function Chart({
     chartProps,
-    isLoading
+    isLoading,
+    isEmpty
 }) {
-
     const chartComponent = useRef(null); 
     useEffect(()=> {
       const chart = chartComponent.current?.chart;
@@ -30,11 +30,14 @@ export default function Chart({
 
   return (
     <div>
+        {isEmpty && !isLoading ? 
+        <h3 className='no-data-disclaimer'>No data to show, please select a different period</h3>:<></>}
         <HighchartsReact 
-            highcharts={Highcharts}
-            ref={chartComponent}
-            allowChartUpdate={true}
-            options={chartProps}  />
+        highcharts={Highcharts}
+        ref={chartComponent}
+        allowChartUpdate={true}
+        options={chartProps}  />
+        
     </div>
   )
 }

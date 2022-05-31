@@ -58,14 +58,19 @@ export default function Stream(props) {
                  */
                 const celToF = temp => Math.round((temp * 1.8) + 32);
                 if (element.hasOwnProperty('TmStamp')) {
-                    let pstTime = convertGMTtoPSTTime(new Date(element.TmStamp));
+                    let split = element.TmStamp.split(/[^0-9]/);
+                    let newDate = new Date(...split);
+                    let pstTime = convertGMTtoPSTTime(newDate);
                     if (graphUnit === 'f') {
                         m.push([pstTime.getTime(), celToF(parseFloat(element[dataType]))]);
                     } else {
                         m.push([pstTime.getTime(), parseFloat(element[dataType])]);
                     }
                 } else {
-                    let pstTime = convertGMTtoPSTTime(new Date(element.DateTime_UTC));
+                    let split = element.DateTime_UTC.split(/[^0-9]/)
+                    let newDate = new Date(...split);
+                    let pstTime = convertGMTtoPSTTime(newDate);
+
                     if (graphUnit === 'f') {
                         m.push([pstTime.getTime(), celToF(parseFloat(element[dataType]))]);
                     } else {
@@ -76,13 +81,21 @@ export default function Stream(props) {
         } else {
             data.forEach((element => {
                 if (element.hasOwnProperty('TmStamp')) {
-                    let pstTime = convertGMTtoPSTTime(new Date(element.TmStamp));
+                    let split = element.TmStamp.split(/[^0-9]/);
+                    let newDate = new Date(...split);
+                    let pstTime = convertGMTtoPSTTime(newDate);
                     m.push([pstTime.getTime(), parseFloat(element[dataType])]);
-                } else if (element.hasOwnProperty('DateTime_UTC')) {
-                    let pstTime = convertGMTtoPSTTime(new Date(element.DateTime_UTC));
+                } 
+                else if (element.hasOwnProperty('DateTime_UTC')) {
+                    let split = element.DateTime_UTC.split(/[^0-9]/);
+                    let newDate = new Date(...split);
+                    let pstTime = convertGMTtoPSTTime(newDate);
                     m.push([pstTime.getTime(), parseFloat(element[dataType])]);
-                } else if (element.hasOwnProperty('DateTime_PST')) {
-                    m.push([new Date(element.DateTime_PST).getTime(), parseFloat(element[dataType])]);
+                } 
+                else if (element.hasOwnProperty('DateTime_PST')) {
+                    let split = element.DateTime_PST.split(/[^0-9]/);
+                    let newDate = new Date(...split);
+                    m.push([newDate.getTime(), parseFloat(element[dataType])]);
                 }
             }))
         }

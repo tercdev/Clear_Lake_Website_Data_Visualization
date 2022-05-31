@@ -134,6 +134,10 @@
   font-size: 18px;
 }
 
+.highcharts-loading-inner {
+  font-size: 20px;
+}
+
 @media only screen and (max-width: 600px) {
   .mission-container{
     margin: 50px;

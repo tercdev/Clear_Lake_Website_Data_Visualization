@@ -32,7 +32,7 @@ export default function Chart({
   return (
     <div>
         {isEmpty && !isLoading ? 
-        <p className='no-data-disclaimer'>No data to show, please select a different period</p>:<></>}
+        <p className='no-data-disclaimer'>No data to show. Please select a different period.</p>:<></>}
         <HighchartsReact 
         highcharts={Highcharts}
         ref={chartComponent}

@@ -35,6 +35,8 @@ function CTDData() {
     // initial id = 1
     const [idTemp, setIdTemp] = useState(1);
     const [id, setId] = useState(1);
+    // for name of csv file
+    const [siteName, setSiteName] = useState("");
     /**
      * API endpoint for clean profile data
      */
@@ -62,7 +64,11 @@ function CTDData() {
     useEffect(()=> {
         if (!profileData.isLoading){ // data is ready
             setprofilecsv(profileData.data);   
-            setShowButton(true)               
+            setShowButton(true);
+            if (profileData.data.length > 0) {
+                setSiteName(profileData.data[0].Site);
+            }
+                       
         }
     },[profileData.isLoading])
 
@@ -75,7 +81,7 @@ function CTDData() {
      * - `id`: of the site
      */
     var dates_search_params = dates_url.searchParams;
-    dates_search_params.set('id', id);
+    dates_search_params.set('id', idTemp);
     dates_url.search = dates_search_params.toString();
     /**
      * `includedDates.isLoading` tells whether data is still being fetched or not  
@@ -108,7 +114,7 @@ function CTDData() {
                 <button className="submitButton" onClick={setGraphDates}>Submit</button>
             </div>
         {profileData.isLoading && <center>Fetching Data...</center>}
-        {!profileData.isLoading && profileData.data.length != 0 && showButton && <CSVLink data={profilecsv} className="csv-link" target="_blank">Download Profile Data</CSVLink>}
+        {!profileData.isLoading && profileData.data.length != 0 && showButton && <CSVLink filename={siteName+"_"+startGraphDate.toISOString().slice(0,10)} data={profilecsv} className="csv-link" target="_blank">Download Profile Data</CSVLink>}
         {!profileData.isLoading && profileData.data.length != 0 && showButton && <a href={require("../../../Metadata/README_ctd.txt")} download="README_ctd">Download Profile Data Metadata README</a>}
         </center>
     </>

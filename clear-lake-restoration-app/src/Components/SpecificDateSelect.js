@@ -63,6 +63,9 @@ function SpecificDateSelect(props) {
             })
             // set year dropdown values
             setYear(Object.keys(datesByYear));
+            resetValues(yearRef);
+            resetValues(monthRef);
+            resetValues(dayRef);
         }
     },[props.isLoading])
     
@@ -122,7 +125,6 @@ function SpecificDateSelect(props) {
         let datesByYear = {}
         // group dates by year
         dates.forEach((element) => {
-            console.log(element);
             if (!(element.getFullYear() in datesByYear)) {
                 datesByYear[element.getFullYear()] = [];
             }

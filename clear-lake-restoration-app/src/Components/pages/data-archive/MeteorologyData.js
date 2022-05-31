@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { CSVLink } from 'react-csv';
-import useFetch from 'react-fetch-hook';
+import useFetch from 'use-http';
 import DatePicker from 'react-datepicker';
-import { convertDate } from '../../utils';
+import { convertDate,isAllEmpty } from '../../utils';
 import Multiselect from 'multiselect-react-dropdown';
 
 /**
@@ -13,7 +13,6 @@ import Multiselect from 'multiselect-react-dropdown';
  * @returns {JSX.Element}
  */
 function MeteorologyData(props) {
-    const [error, setError] = useState(false);
     const [showButton, setShowButton] = useState(false);
     var today = new Date();
     var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
@@ -21,29 +20,24 @@ function MeteorologyData(props) {
     const [endDate, setEndDate] = useState(today);
     const [startGraphDate, setGraphStartDate] = useState(lastWeek);
     const [endGraphDate, setGraphEndDate] = useState(today);
+
+    const [isLoading, setIsLoading] = useState(true);
+    const [metData,setMetData] = useState([]);
+    const [siteName, setSiteName] = useState("");
+    const [isEmpty, setIsEmpty] = useState(true);
+
     function handleStartDateChange(e) {
         setStartDate(e);
-        setShowButton(false)
+        setShowButton(false);
     }
     function handleEndDateChange(e) {
         setEndDate(e);
-        setShowButton(false)
+        setShowButton(false);
     }
     function setGraphDates() {
-        setError(false);
-        if (props.id == "Clean") {
-            var latestDate = new Date(new Date(startDate).setDate(365));
-        } else{
-            var latestDate = new Date(new Date(startDate).setDate(150));
-        } 
         setGraphStartDate(startDate);
-        if (endDate > latestDate) {
-            setError(true);
-            setEndDate(latestDate);
-            setGraphEndDate(latestDate);
-        } else {
-            setGraphEndDate(endDate);
-        }
+        setGraphEndDate(endDate);
+
         setId(idTemp);
         let newArr = [];
         checkedState.forEach(x => newArr.push(x));
@@ -51,23 +45,69 @@ function MeteorologyData(props) {
     }
     const [idTemp, setIdTemp] = useState(1);
     const [id, setId] = useState(1);
-    var met_url = new URL(props.url);
-    console.log(met_url);
-    let met_params = met_url.searchParams;
-    met_params.set('id',id);
+
+    let  start = "";
+    let end = "";
 
     if (props.id == "Clean") {
-        met_params.set('start', convertDate(startGraphDate));
-        met_params.set('end', convertDate(endGraphDate));
+        start = "start";
+        end = "end";
     } else {
-        met_params.set('rptdate', convertDate(startGraphDate));
-        met_params.set('rptend', convertDate(endGraphDate));
+        start = "rptdate";
+        end = "rptend";
     }
 
-    met_url.search = met_params.toString();
+
+    const metDataURL = useFetch(props.url);
+
+    // fetches data every time graphDates change
+    useEffect(()=> {
+        // make sure data is set to empty
+        setMetData([]);
+
+        // find difference between user picked dates
+        let diffTime = endGraphDate.getTime() - startGraphDate.getTime();
+        let diffDay = diffTime/(1000*3600*24);
+
+        let metDataFetch = [];
+
+        let newDay = 0;
+        let compareDate = startGraphDate;
+
+        while (diffDay > 150) {
+            newDay = new Date(new Date(compareDate.getTime()).setDate(compareDate.getDate() + 150));
+
+            diffTime = endGraphDate.getTime() - newDay.getTime();
+            diffDay = diffTime/(1000*3600*24);
+
+            metDataFetch.push(metDataURL.get(`?id=${id}&${start}=${convertDate(compareDate)}&${end}=${convertDate(newDay)}`));
 
 
-    const realTime = useFetch(met_url.toString());
+            // next query should be the last day +1 so no overlap with data
+            let newDayPlusOne = new Date(new Date(compareDate.getTime()).setDate(compareDate.getDate() + 151));
+            compareDate = newDayPlusOne;
+
+        }
+        // query one extra day since data retrieved is in UTC
+        let endDayPlusOne = new Date(new Date(endGraphDate.getTime()).setDate(endGraphDate.getDate() + 1));
+
+        metDataFetch.push(metDataURL.get(`?id=${id}&${start}=${convertDate(compareDate)}&${end}=${convertDate(endDayPlusOne)}`));
+        setIsLoading(true); // Loading is true
+        async function fetchData() {
+            metDataFetch = await Promise.all(metDataFetch);
+
+            isAllEmpty(metDataFetch) ? setIsEmpty(true) : setIsEmpty(false)
+
+            // combine all fetched arrays of data
+            let metDataComb = [].concat.apply([],metDataFetch);
+
+            setMetData(metDataComb);
+            setIsLoading(false);
+        }
+
+        fetchData();
+
+    },[startGraphDate,endGraphDate])
 
     const [realTimeData, setRealTimeData] = useState([])
     
@@ -78,8 +118,9 @@ function MeteorologyData(props) {
     const [selectedVariables, setSelectedVariables] = useState(
         new Array(props.variables.length).fill(true)
     );
+    
     useEffect(()=> {
-        if (!realTime.isLoading) {
+        if (!isLoading && !isEmpty) {
             // select variables
             let h = [];
             selectedVariables.map((x,index) => {
@@ -90,7 +131,7 @@ function MeteorologyData(props) {
             setHeaders(h);
             let selectedRealTimeData = [];
             
-            realTime.data.forEach((element => {
+            metData.forEach((element => {
                 let oneRow = [];
                 selectedVariables.map((x,index) => {
                     if (x) {
@@ -99,24 +140,28 @@ function MeteorologyData(props) {
                 })
                 selectedRealTimeData.push(oneRow);
             }));
-            console.log(selectedRealTimeData)
+
             setRealTimeData(selectedRealTimeData);
+            setSiteName(metData[0].Station_ID)
             setShowButton(true);
         }
-    },[realTime.isLoading,selectedVariables])
+    },[isLoading,selectedVariables])
+
     const options = props.variables.map((x,index) => {return {name: x, id: index}})
     function onSelect(_selectedList, selectedItem) {
         let temp = checkedState;
-        temp[selectedItem.id] = true
-        setCheckedState(temp)
-        setShowButton(false)
+        temp[selectedItem.id] = true;
+        setCheckedState(temp);
+        setShowButton(false);
     }
+
     function onRemove(_selectedList, selectedItem) {
-        let temp = checkedState
-        temp[selectedItem.id] = false
-        setCheckedState(temp)
-        setShowButton(false)
+        let temp = checkedState;
+        temp[selectedItem.id] = false;
+        setCheckedState(temp);
+        setShowButton(false);
     }
+
     return (
     <>
         <center>
@@ -141,6 +186,7 @@ function MeteorologyData(props) {
                 onSelect={onSelect}
                 selectedValues={options}
                 className="multi-select"
+                avoidHighlightFirstOption={true}
             />
             <div className='date-container1'>
                 <div className='one-date-container'>
@@ -175,14 +221,25 @@ function MeteorologyData(props) {
                 </div>
             </div>
             <button className="submitButton" onClick={setGraphDates}>Submit</button>
-            {error && <p className='error-message'>Selected date range was more than {props.id == "Clean" ? 365 : 150} days. End date was automatically changed.</p>}
-        {realTime.isLoading && <center>Fetching Data...</center>}
-        {!realTime.isLoading && realTimeData.length != 0 && showButton && <><CSVLink data={realTimeData} className="csv-link" target="_blank" headers={headers}>Download {props.id} Met Data</CSVLink></>}
+            
+        {isLoading && <center>Fetching Data...</center>}
+
+        {!isLoading && !isEmpty && showButton && <>
+        <CSVLink 
+            data={realTimeData}
+            className="csv-link"
+            target="_blank" 
+            headers={headers}
+            filename={siteName+"_"+startGraphDate.toISOString().slice(0,10)+"_"+endGraphDate.toISOString().slice(0,10)}
+            >
+                Download {props.id} Met Data
+        </CSVLink></>}
+
         {props.id == "Real Time" ? 
-            !realTime.isLoading && realTimeData.length != 0 && showButton && <a href={require("../../../Metadata/README_realtime_met.txt")} download="README_realtime_met">Download {props.id} Meteorology Metadata README</a>
-            : !realTime.isLoading && realTimeData.length != 0 && showButton && <a href={require("../../../Metadata/README_clean_met.txt")} download="README_clean_met">Download {props.id} Meteorology Metadata README</a>}
+            !isLoading && !isEmpty && showButton && <a href={require("../../../Metadata/README_realtime_met.txt")} download="README_realtime_met">Download {props.id} Meteorology Metadata README</a>
+            : !isLoading && !isEmpty && showButton && <a href={require("../../../Metadata/README_clean_met.txt")} download="README_clean_met">Download {props.id} Meteorology Metadata README</a>}
         
-        {!realTime.isLoading && realTimeData.length == 0 && <p>There is no {props.id.toLowerCase()} meterology data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}
+        {!isLoading && isEmpty && <p>There is no {props.id.toLowerCase()} meterology data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}
         </center>
     </>
     )

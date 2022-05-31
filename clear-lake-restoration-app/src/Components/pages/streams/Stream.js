@@ -611,15 +611,20 @@ export default function Stream(props) {
         {   
             id: "1",
             header: "How to use the graphs and see the data below?",
-            content: "<ol><li>Select start and end dates with maximum 365-day period. Local time is in PST.</li><li>Click submit to update the graphs below.</li><li>Graph and data loading will depend on the length of the selected time period. For example, longer time periods will result to longer loading times.</li><p>*Note: Clean data is plotted on solid line. Provisional data is plotted on dashed line.</p></ol>"
+            content: <ol>
+                <li>Select start and end dates with maximum 365-day period. Local time is in PST.</li>
+                <li>Click submit to update the graphs below.</li>
+                <li>Graph and data loading will depend on the length of the selected time period. For example, longer time periods will result to longer loading times.</li>
+                <p>*Note: Clean data is plotted on solid line. Provisional data is plotted on dashed line.</p>
+            </ol>
         }, {
             id: "2",
             header: "Why is no data showing up on my plots?",
-            content: "<p>If there is no data, the sensors might not be submerged in the water. Check <a href='https://clearlakerestoration.sf.ucdavis.edu/metadata'>here</a> to read more about the metadata.</p>"
+            content: <p>If there is no data, the sensors might not be submerged in the water. Check <a href='https://clearlakerestoration.sf.ucdavis.edu/metadata'>here</a> to read more about the metadata.</p>
         }, {
             id: "3",
             header: "Where is the data collected?",
-            content: '<p>Stream turbidity and temperature are measured by UC Davis sensors that are co-located with existing California Department of Water Resources gauging stations. However, river flow data and precipitation data are externally scraped from <a href="https://cdec.water.ca.gov/">California Department of Water Resources</a>.</p>'
+            content: <p>Stream turbidity and temperature are measured by UC Davis sensors that are co-located with existing California Department of Water Resources gauging stations. However, river flow data and precipitation data are externally scraped from <a href="https://cdec.water.ca.gov/">California Department of Water Resources</a>.</p>
         }
     ]
 

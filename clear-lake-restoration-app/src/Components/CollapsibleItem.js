@@ -6,7 +6,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 /**
  * Component for showing a single collapsible item.
- * @param {String} header is the question
+ * @param {String} header is the question for the FAQ
  * @param {*} content is the answer or information when the question is pressed on
  * @returns {JSX.Element}
  */

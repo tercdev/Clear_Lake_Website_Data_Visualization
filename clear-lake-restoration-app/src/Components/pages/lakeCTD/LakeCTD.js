@@ -380,11 +380,16 @@ export default function LakeCTD(props) {
     const includedDates = useFetch(dates_url.toString());
 
     // for the collapsible FAQ
-    const header1 = "How to use the graphs and see the data below?";
-    const content1 = [<ol>
-            <li>Select year, month, and date. Profiles are normally measured between 9 AM and 2 PM, local time (UTC - 8 h)</li>
-            <li>Click submit to update the graphs below.</li>
-        </ol>];
+    const content = [
+        {   
+            id: "1",
+            header: "How to use the graphs and see the data below?",
+            content: <ol>
+                <li>Select year, month, and date. Profiles are normally measured between 9 AM and 2 PM, local time (UTC - 8 h)</li>
+                <li>Click submit to update the graphs below.</li>
+            </ol>
+        }
+    ]
 
     return (
         <div>
@@ -394,7 +399,7 @@ export default function LakeCTD(props) {
             <DataDisclaimer />
 
             <div className="collapsible-container">
-                <CollapsibleItem header={header1} content={content1}/>
+                <CollapsibleItem header={content[0].header} content={content[0].content}/>
             </div>
 
             <div className='date-container profile-graph'>

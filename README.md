@@ -18,6 +18,10 @@ This folder contains clean data in which the client has given to the team.
 
 ## Data Visualization Code [former site]
 
+![Screen Shot 2022-05-30 at 6 50 46 PM](https://user-images.githubusercontent.com/45191572/171077090-756ac0c7-a830-4b3e-a7af-0859848126e9.png)
+![Screen Shot 2022-05-30 at 6 49 58 PM](https://user-images.githubusercontent.com/45191572/171077046-10e8764c-470d-43d8-b2f9-036216de14e0.png)
+
+
 This is the previous version of the data visualization graphs. *All these graphs are no longer being used.* To view this version, click here: https://chenalison.github.io/.
 
 

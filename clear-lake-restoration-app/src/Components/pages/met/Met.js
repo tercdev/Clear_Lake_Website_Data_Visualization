@@ -732,16 +732,22 @@ export default function Met(props) {
     },[isLoading,graphUnit])
 
     // for collapsible FAQs
-    const header1 = "How to use the graphs and see the data below?";
-    const content1 = [<ol>
-            <li>Select start and end dates with maximum 365-day period. Local time is in PST.</li>
-            <li>Click submit to update the graphs below.</li>
-            <li>Graph and data loading will depend on the length of the selected time period. For example, longer time periods will result to longer loading times.</li>
-            <p>*Note: Clean data is plotted on solid line. Provisional data is plotted on dashed line.</p>
-        </ol> ];
+    const content = [
+        {   
+            id: "1",
+            header: "How to use the graphs and see the data below?",
+            content: "<ol><li>Select start and end dates with maximum 365-day period. Local time is in PST.</li><li>Click submit to update the graphs below.</li><li>Graph and data loading will depend on the length of the selected time period. For example, longer time periods will result to longer loading times.</li><p>*Note: Clean data is plotted on solid line. Provisional data is plotted on dashed line.</p></ol> "
+        }, {
+            id: "2",
+            header: "Why is no data showing up on my plots?",
+            content: "<p>If there is no data, please refer <a href='https://clearlakerestoration.sf.ucdavis.edu/metadata'>here</a> to read more about the metadata.</p>"
+        }
+    ]
+    // const header1 = "Why is no data showing up on my plots?";
+    // const content1 = [];
 
-    const header2 = "Why is no data showing up on my plots?";
-    const content2 = [<p>If there is no data, please refer <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">here</a> to read more about the metadata.</p>];
+    // const header2 = "Why is no data showing up on my plots?";
+    // const content2 = [<p>If there is no data, please refer <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">here</a> to read more about the metadata.</p>];
 
 
     return (
@@ -750,10 +756,12 @@ export default function Met(props) {
                 <h1 className='station-page-title'>{props.name}</h1>
             </div>
             <DataDisclaimer/>
-            <div className="collapsible-container">
-                <CollapsibleItem header={header1} content={content1}/>
-                <CollapsibleItem header={header2} content={content2}/>
-            </div>
+            <React.Fragment key={content.id}>
+                <div className="collapsible-container" key={1}>
+                    <CollapsibleItem header={content[0].header} content={content[0].content}/>
+                    <CollapsibleItem header={content[1].header} content={content[1].content}/>
+                </div>
+            </React.Fragment>
 
             <DateRangePicker 
                 startDate={startDate} 

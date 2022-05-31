@@ -6,8 +6,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 /**
  * Component for showing a single collapsible item.
- * @param {String} header 
- * @param {*} content 
+ * @param {String} header is the question
+ * @param {*} content is the answer or information when the question is pressed on
  * @returns {JSX.Element}
  */
 export default function CollapsibleItem(props) {
@@ -19,11 +19,9 @@ export default function CollapsibleItem(props) {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-        <h3 className="data-desc">{props.header}</h3>
+        <h3 className="data-desc" dangerouslySetInnerHTML={{__html: props.header}} />
         </AccordionSummary>
-        <AccordionDetails>
-            {props.content}
-        </AccordionDetails>
+        <AccordionDetails  dangerouslySetInnerHTML={{__html: props.content}}/>
       </Accordion>
     </div>
   );

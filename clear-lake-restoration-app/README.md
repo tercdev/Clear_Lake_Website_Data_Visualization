@@ -1,6 +1,7 @@
 # Clear Lake Data Visualization and Monitoring React App
 
-![Clear Lake image](https://clearlakerehabilitation.ucdavis.edu/sites/g/files/dgvnsk12236/files/styles/sf_gallery_full/public/media/images/Clear%20Lake%20before%20sunset.png?itok=427_f7mg)
+![Screen Shot 2022-05-30 at 6 48 48 PM](https://user-images.githubusercontent.com/45191572/171077195-d74f9c90-645d-4c18-bc26-cc7953652e77.png)
+
 
 ## Background 
 

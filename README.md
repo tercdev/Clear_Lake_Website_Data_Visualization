@@ -18,7 +18,7 @@ This folder contains clean data in which the client has given to the team.
 
 ## Data Visualization Code [former site]
 
-This is the previous version of the data visualization graphs. All these graphs are no longer being used on the React Data Visualization Site. To view this version, click here: https://chenalison.github.io/.
+This is the previous version of the data visualization graphs. *All these graphs are no longer being used.* To view this version, click here: https://chenalison.github.io/.
 
 
 ## clear-lake-restoration-app [current site]

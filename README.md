@@ -2,6 +2,9 @@
 
 ![Clear Lake image](https://clearlakerehabilitation.ucdavis.edu/sites/g/files/dgvnsk12236/files/styles/sf_gallery_full/public/media/images/Clear%20Lake%20before%20sunset.png?itok=427_f7mg)
 
+Clear Lake, the largest lake in California and one of the oldest lakes in North America, is subject to eutrophication as a consequence of the high concentrations of nutrients. These nutrients stimulate high concentrations of algae and cyanobacteria and consequently present severe challenges to Lake County, the lake users, and stakeholders. UC Davis is engaged in a multi-year research study to understand the dominant processes in the Clear Lake watershed and in the lake itself that are negatively impacting the restoration of the lake water quality and the ecosystem health. We are currently collecting a wide variety of data to form the basis of a long-term monitoring strategy to measure the status and trends in the future in Clear Lake. 
+
+
 ## Clean Data
 
 This folder contains clean data in which the client has given to the team. 

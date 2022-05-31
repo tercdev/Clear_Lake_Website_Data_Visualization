@@ -1,7 +1,12 @@
 import React, {useState} from 'react';
 import "./LoginForm.css";
 
-
+/**
+ * Component showing the Login form.
+ * @param {*} Login
+ * @param {*} error 
+ * @returns {JSX.Element}
+ */
 function LoginForm({Login, error}) {
     const [details, setDetails] = useState({name:"", email:"", password:""});
 

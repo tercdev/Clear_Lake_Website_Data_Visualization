@@ -3,7 +3,10 @@ import Uploader from './Uploader.js';
 import LoginForm from './LoginForm';
 import './LoginPage.css';
 
-
+/**
+ * Component for showing the login page.
+ * @return {JSX.Element}
+ */
 export default function LoginPage() {
     const adminUser = {
         email: "admin@admin.com",

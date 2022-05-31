@@ -1,14 +1,19 @@
-//useFetch.js
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+/**
+ * Fetch data given API endpoint  
+ * https://dev.to/techcheck/custom-react-hook-usefetch-eid
+ * @param {String} url API endpoint
+ * @returns {*} data, loading, error
+ */
 function useFetch(url) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-      setLoading(true)
+      setLoading(true);
       setData(null);
       setError(null);
       const source = axios.CancelToken.source();

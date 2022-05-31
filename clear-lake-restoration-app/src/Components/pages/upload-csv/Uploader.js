@@ -6,6 +6,10 @@ import './Uploader.css';
 
 // API endpoint : https://ckxm4p1ddg.execute-api.us-west-2.amazonaws.com/clearlake-getPresignedUrlTest
 
+/**
+ * Component for showing the upload area.
+ * @returns {JSX.Element}
+ */
 const Uploader = () => {
     const API_ENDPOINT = "https://ckxm4p1ddg.execute-api.us-west-2.amazonaws.com/clearlake-getPresignedUrlTest";
     const axios = require('axios').default;

@@ -7,48 +7,71 @@ import Multiselect from 'multiselect-react-dropdown';
 
 /**
  * Component showing the Meteorology data download.
- * @param {String} id 'clean' or 'real'
+ * @param {String} id 'Clean' or 'Real Time'
  * @param {String} url url of the API without query parameters
  * @param {Array} variables in the dataset
  * @returns {JSX.Element}
  */
 function MeteorologyData(props) {
+    // for the download button
     const [showButton, setShowButton] = useState(false);
+    // set start date as a week ago and end date as today
     var today = new Date();
     var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
     const [startDate, setStartDate] = useState(lastWeek);
     const [endDate, setEndDate] = useState(today);
     const [startGraphDate, setGraphStartDate] = useState(lastWeek);
     const [endGraphDate, setGraphEndDate] = useState(today);
-
+    // if data is still being fetched or not
     const [isLoading, setIsLoading] = useState(true);
+    // data from API call
     const [metData,setMetData] = useState([]);
+    // name in the csv
     const [siteName, setSiteName] = useState("");
+    // if there is no data
     const [isEmpty, setIsEmpty] = useState(true);
-
+    /**
+     * set start date and hide button
+     * @param {Date} e 
+     */
     function handleStartDateChange(e) {
         setStartDate(e);
         setShowButton(false);
     }
+    /**
+     * set end date and hide button
+     * @param {Date} e 
+     */
     function handleEndDateChange(e) {
         setEndDate(e);
         setShowButton(false);
     }
+    /**
+     * set the graph start and end dates and id which are the query parameters for the API call.
+     */
     function setGraphDates() {
         setGraphStartDate(startDate);
         setGraphEndDate(endDate);
-
         setId(idTemp);
+        // set the final selected variables chosen by the user
         let newArr = [];
         checkedState.forEach(x => newArr.push(x));
         setSelectedVariables(newArr);
     }
+
+    // initial id = 1
     const [idTemp, setIdTemp] = useState(1);
     const [id, setId] = useState(1);
 
-    let  start = "";
+    /**
+     * name of the start date query parameter
+     */
+    let start = "";
+    /**
+     * name of the end date query parameter
+     */
     let end = "";
-
+    // clean and real time APIs have different query parameter names
     if (props.id == "Clean") {
         start = "start";
         end = "end";
@@ -109,19 +132,25 @@ function MeteorologyData(props) {
 
     },[startGraphDate,endGraphDate])
 
-    const [realTimeData, setRealTimeData] = useState([])
-    
+    // data in the csv
+    const [metcsv, setmetcsv] = useState([])
+    // headers of csv
     const [headers, setHeaders] = useState([])
+    // initially all variables are selected
+    // changes as user changes selection
     const [checkedState, setCheckedState] = useState(
         new Array(props.variables.length).fill(true)
     );
+    // changes when user clicks submit
     const [selectedVariables, setSelectedVariables] = useState(
         new Array(props.variables.length).fill(true)
     );
     
     useEffect(()=> {
         if (!isLoading && !isEmpty) {
-            // select variables
+            /**
+             * headers included in the csv
+             */
             let h = [];
             selectedVariables.map((x,index) => {
                 if (x) {
@@ -129,8 +158,10 @@ function MeteorologyData(props) {
                 }
             });
             setHeaders(h);
-            let selectedRealTimeData = [];
-            
+            /**
+             * all the data where each row only contains user selected columns of metData
+             */
+            let selectedMetData = [];
             metData.forEach((element => {
                 let oneRow = [];
                 selectedVariables.map((x,index) => {
@@ -138,23 +169,35 @@ function MeteorologyData(props) {
                         oneRow.push(element[props.variables[index]]);
                     }
                 })
-                selectedRealTimeData.push(oneRow);
+                selectedMetData.push(oneRow);
             }));
 
-            setRealTimeData(selectedRealTimeData);
+            setmetcsv(selectedMetData);
             setSiteName(metData[0].Station_ID)
             setShowButton(true);
         }
     },[isLoading,selectedVariables])
 
+    /**
+     * options for Multiselect
+     */
     const options = props.variables.map((x,index) => {return {name: x, id: index}})
+    /**
+     * set state of selected item to true and hide button
+     * @param {Array} _selectedList 
+     * @param {Object} selectedItem 
+     */
     function onSelect(_selectedList, selectedItem) {
         let temp = checkedState;
         temp[selectedItem.id] = true;
         setCheckedState(temp);
         setShowButton(false);
     }
-
+    /**
+     * set state of selected item to false and hide button
+     * @param {Array} _selectedList 
+     * @param {Object} selectedItem 
+     */
     function onRemove(_selectedList, selectedItem) {
         let temp = checkedState;
         temp[selectedItem.id] = false;
@@ -190,34 +233,34 @@ function MeteorologyData(props) {
             />
             <div className='date-container1'>
                 <div className='one-date-container'>
-                <p className='date-label'>Start Date</p>
-                <DatePicker
-                    selected={startDate}
-                    onChange={handleStartDateChange}
-                    selectsStart
-                    startDate={startDate}
-                    endDate={endDate}
-                    maxDate={endDate}
-                    minDate={new Date("2019/01/01")}
-                    showMonthDropdown
-                    showYearDropdown
-                    dropdownMode='select'
-                />
+                    <p className='date-label'>Start Date</p>
+                    <DatePicker
+                        selected={startDate}
+                        onChange={handleStartDateChange}
+                        selectsStart
+                        startDate={startDate}
+                        endDate={endDate}
+                        maxDate={endDate}
+                        minDate={new Date("2019/01/01")}
+                        showMonthDropdown
+                        showYearDropdown
+                        dropdownMode='select'
+                    />
                 </div>
                 <div className='one-date-container'>
-                <p className='date-label'>End Date</p>
-                <DatePicker
-                    selected={endDate}
-                    onChange={handleEndDateChange}
-                    selectsEnd
-                    startDate={startDate}
-                    endDate={endDate}
-                    minDate={startDate}
-                    maxDate={today}
-                    showMonthDropdown
-                    showYearDropdown
-                    dropdownMode='select'
-                />
+                    <p className='date-label'>End Date</p>
+                    <DatePicker
+                        selected={endDate}
+                        onChange={handleEndDateChange}
+                        selectsEnd
+                        startDate={startDate}
+                        endDate={endDate}
+                        minDate={startDate}
+                        maxDate={today}
+                        showMonthDropdown
+                        showYearDropdown
+                        dropdownMode='select'
+                    />
                 </div>
             </div>
             <button className="submitButton" onClick={setGraphDates}>Submit</button>
@@ -226,7 +269,7 @@ function MeteorologyData(props) {
 
         {!isLoading && !isEmpty && showButton && <>
         <CSVLink 
-            data={realTimeData}
+            data={metcsv}
             className="csv-link"
             target="_blank" 
             headers={headers}

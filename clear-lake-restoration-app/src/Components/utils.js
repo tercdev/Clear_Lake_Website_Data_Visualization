@@ -150,11 +150,11 @@ export function removeExcess(data, lastDate) {
 
     return data;
 }
+
 /**
  * checks if an array of arrays is truly empty
  * ref: https://stackoverflow.com/questions/44586558/how-to-check-if-an-array-is-an-array-of-empty-arrays-in-javascript
  * @param {Array} a 
  * @returns {Boolean}
  */
-
 export let isAllEmpty = a => Array.isArray(a) && a.every(isAllEmpty);

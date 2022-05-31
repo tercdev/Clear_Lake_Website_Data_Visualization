@@ -9,32 +9,47 @@ import { convertDate } from '../../utils';
  * @returns {JSX.Element}
  */
 function TChainData() {
+    // for the download button
     const [showButton, setShowButton] = useState(false);
+    // set start date as a week ago and end date as today
     var today = new Date();
     var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
     const [startDate, setStartDate] = useState(lastWeek);
     const [endDate, setEndDate] = useState(today);
     const [startGraphDate, setGraphStartDate] = useState(lastWeek);
     const [endGraphDate, setGraphEndDate] = useState(today);
-
+    // data from API call
     const [oxygenDataArr,setOxygenDataArr] = useState([])
     const [tempDataArr,setTempDataArr] = useState([])
+    // if the data is still being fetched or not
     const [isLoading,setIsLoading] = useState(true)
+    // name in the csv
     const [siteName, setSiteName] = useState("")
-
+    /**
+     * set start date and hide button
+     * @param {Date} e 
+     */
     function handleStartDateChange(e) {
         setStartDate(e);
         setShowButton(false)
     }
+    /**
+     * set end date and hide button
+     * @param {Date} e 
+     */
     function handleEndDateChange(e) {
         setEndDate(e);
         setShowButton(false)
     }
+    /**
+     * set the graph start and end dates and id which are the query parameters for the API call.
+     */
     function setGraphDates() {
         setGraphStartDate(startDate);
         setGraphEndDate(endDate);
         setId(idTemp);
     }
+    // initial id = 1
     const [idTemp, setIdTemp] = useState(1);
     const [id, setId] = useState(1);
 
@@ -42,6 +57,7 @@ function TChainData() {
 
     const lakeTemp = useFetch('https://18eduqff9f.execute-api.us-west-2.amazonaws.com/default/clearlake-laketemperature');
 
+    // data in the csv
     const [oxycsv, setoxycsv] = useState([])
     const [tempcsv, settempcsv] = useState([])
 
@@ -99,6 +115,7 @@ function TChainData() {
 
     useEffect(()=> {
         if (!isLoading) { 
+            // add info to csv files
             settempcsv(tempDataArr);                  
             setoxycsv(oxygenDataArr);
             if (oxygenDataArr.length !== 0 && tempDataArr.length !== 0) {
@@ -125,34 +142,34 @@ function TChainData() {
             </div>
             <div className='date-container1'>
                 <div className='one-date-container'>
-                <p className='date-label'>Start Date</p>
-                <DatePicker
-                    selected={startDate}
-                    onChange={handleStartDateChange}
-                    selectsStart
-                    startDate={startDate}
-                    endDate={endDate}
-                    maxDate={endDate}
-                    minDate={new Date("2019/1/1")}
-                    showMonthDropdown
-                    showYearDropdown
-                    dropdownMode='select'
-                />
+                    <p className='date-label'>Start Date</p>
+                    <DatePicker
+                        selected={startDate}
+                        onChange={handleStartDateChange}
+                        selectsStart
+                        startDate={startDate}
+                        endDate={endDate}
+                        maxDate={endDate}
+                        minDate={new Date("2019/1/1")}
+                        showMonthDropdown
+                        showYearDropdown
+                        dropdownMode='select'
+                    />
                 </div>
                 <div className='one-date-container'>
-                <p className='date-label'>End Date</p>
-                <DatePicker
-                    selected={endDate}
-                    onChange={handleEndDateChange}
-                    selectsEnd
-                    startDate={startDate}
-                    endDate={endDate}
-                    minDate={startDate}
-                    maxDate={today}
-                    showMonthDropdown
-                    showYearDropdown
-                    dropdownMode='select'
-                />
+                    <p className='date-label'>End Date</p>
+                    <DatePicker
+                        selected={endDate}
+                        onChange={handleEndDateChange}
+                        selectsEnd
+                        startDate={startDate}
+                        endDate={endDate}
+                        minDate={startDate}
+                        maxDate={today}
+                        showMonthDropdown
+                        showYearDropdown
+                        dropdownMode='select'
+                    />
                 </div>
             </div>
             <button className="submitButton" onClick={setGraphDates}>Submit</button>

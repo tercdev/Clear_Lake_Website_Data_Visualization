@@ -63,6 +63,9 @@ function SpecificDateSelect(props) {
             })
             // set year dropdown values
             setYear(Object.keys(datesByYear));
+            resetValues(yearRef);
+            resetValues(monthRef);
+            resetValues(dayRef);
         }
     },[props.isLoading])
     

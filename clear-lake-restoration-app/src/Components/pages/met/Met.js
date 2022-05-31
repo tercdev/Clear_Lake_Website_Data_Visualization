@@ -51,7 +51,11 @@ export default function Met(props) {
     function getFilteredData(data, dataType) {
         let m = [];
         data.forEach((element => {
-             let pstTime = convertGMTtoPSTTime(new Date(element.DateTime_UTC));
+
+            let split = element.DateTime_UTC.split(/[^0-9]/)
+            let newDate = new Date(...split);
+
+            let pstTime = convertGMTtoPSTTime(newDate);
             if (dataType === "Wind_Dir") {
                 m.push([pstTime.getTime(), cardinalToDeg(element[dataType])]);
             } else if (dataType === "Air_Temp") {

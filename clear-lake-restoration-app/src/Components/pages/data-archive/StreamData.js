@@ -146,8 +146,7 @@ function StreamData(props) {
                 selectedCreekData.push(oneRow);
             }));
             setcreekcsv(selectedCreekData); 
-
-            setSiteName(creekData[0].Station_ID)
+            setSiteName(creekData[0].Creek);
 
             setShowButton(true);
         }

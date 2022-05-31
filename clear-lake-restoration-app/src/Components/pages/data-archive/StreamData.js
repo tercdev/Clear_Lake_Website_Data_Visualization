@@ -189,6 +189,7 @@ function StreamData(props) {
                 onSelect={onSelect}
                 selectedValues={options}
                 className="multi-select"
+                avoidHighlightFirstOption={true}
             />
             
             <div className='date-container1'>

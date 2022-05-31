@@ -186,6 +186,7 @@ function MeteorologyData(props) {
                 onSelect={onSelect}
                 selectedValues={options}
                 className="multi-select"
+                avoidHighlightFirstOption={true}
             />
             <div className='date-container1'>
                 <div className='one-date-container'>

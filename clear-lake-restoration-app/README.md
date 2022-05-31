@@ -1,4 +1,10 @@
-# Getting Started with Create React App
+# Clear Lake Data Visualization and Monitoring React App
+
+![Clear Lake image](https://clearlakerehabilitation.ucdavis.edu/sites/g/files/dgvnsk12236/files/styles/sf_gallery_full/public/media/images/Clear%20Lake%20before%20sunset.png?itok=427_f7mg)
+
+## Background 
+
+Clear Lake, the largest lake in California and one of the oldest lakes in North America, is subject to eutrophication as a consequence of the high concentrations of nutrients. These nutrients stimulate high concentrations of algae and cyanobacteria and consequently present severe challenges to Lake County, the lake users, and stakeholders. UC Davis is engaged in a multi-year research study to understand the dominant processes in the Clear Lake watershed and in the lake itself that are negatively impacting the restoration of the lake water quality and the ecosystem health. We are currently collecting a wide variety of data to form the basis of a long-term monitoring strategy to measure the status and trends in the future in Clear Lake. 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -13,6 +19,11 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
+
+## `npm run deploy`
+
+Deploys new changes made on the main branch onto the hosted website using GitHub Pages
+The hosted site is [https://tercdev.github.io/Clear_Lake_Website_Data_Visualization/](https://tercdev.github.io/Clear_Lake_Website_Data_Visualization/)
 
 ### `npm test`
 

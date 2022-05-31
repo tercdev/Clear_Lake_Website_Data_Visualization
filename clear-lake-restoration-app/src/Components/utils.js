@@ -5,7 +5,7 @@
  */
 export function convertDate(date) {
     let year = date.getFullYear().toString();
-    let month = (date.getMonth()+1).toString();
+    let month = (date.getMonth() + 1).toString();
     let day = date.getDate().toString();
     if (month.length < 2) {
         month = '0' + month;
@@ -13,7 +13,7 @@ export function convertDate(date) {
     if (day.length < 2) {
         day = '0' + day;
     }
-    return year+month+day;
+    return year + month + day;
 }
 
 /**
@@ -40,7 +40,7 @@ export function convertGMTtoPSTTime (date) {
  */
 export function convertDatetoUTC(date) {
     let year = date.getUTCFullYear().toString();
-    let month = (date.getUTCMonth()+1).toString();
+    let month = (date.getUTCMonth() + 1).toString();
     let day = date.getUTCDate().toString();
     if (month.length < 2) {
         month = '0' + month;
@@ -48,7 +48,7 @@ export function convertDatetoUTC(date) {
     if (day.length < 2) {
         day = '0' + day;
     }
-    return year+month+day;
+    return year + month + day;
 }
 
 /**
@@ -58,58 +58,58 @@ export function convertDatetoUTC(date) {
  */
 export function cardinalToDeg(direction) {
     if (!isNaN(parseFloat(direction))) {
-        return parseFloat(direction)
+        return parseFloat(direction);
     }
     if (direction === 'N') {
-        return 360
+        return 360;
     };
     if (direction === 'NNE') {
-        return 22.5
+        return 22.5;
     };
     if (direction === 'NE') {
-        return 45
+        return 45;
     };
     if (direction === 'ENE') {
-        return 67.5
+        return 67.5;
     };
     if (direction === 'E') {
-        return 90
+        return 90;
     };
     if (direction === 'ESE') {
-        return 112.5
+        return 112.5;
     };
     if (direction === 'SE') {
-        return 135
+        return 135;
     };
     if (direction === 'SSE') {
-        return 157.5
+        return 157.5;
     };
     if (direction === 'S') {
-        return 180
+        return 180;
     };
     if (direction === 'SSW') {
-        return 202.5
+        return 202.5;
     };
     if (direction === 'SW') {
-        return 225
+        return 225;
     };
     if (direction === 'WSW') {
-        return 247.5
+        return 247.5;
     };
     if (direction === 'W') {
-        return 270
+        return 270;
     };
     if (direction === 'WNW') {
-        return 292.5
+        return 292.5;
     };
     if (direction === 'NW') {
-        return 315
+        return 315;
     };
     if (direction === 'NNW') {
-        return 337.5
+        return 337.5;
     };
 
-    return 0 // direction == '---'
+    return 0; // direction == '---'
 }
 
 /**
@@ -143,7 +143,7 @@ export function removeExcess(data, lastDate) {
     for (let i = data.length - 1; i >= 0; i--){
         for (let j = data[i].length - 2; j >= 0; j--) {
             if (new Date(data[i][j]["DateTime_UTC"]).getTime() > lastDate) {
-                data[i].splice(j,1)
+                data[i].splice(j,1);
             }
         }
     }

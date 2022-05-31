@@ -11,12 +11,12 @@ export default function LoginPage() {
     const adminUser = {
         email: "admin@admin.com",
         password: "admin123"
-    }
+    };
 
     const [user, setUser] = useState({name: "", email: ""});
 
     // set message to display when error logging in
-    const [error, setError] = useState("")
+    const [error, setError] = useState("");
 
     const Login = details => {
         console.log(details);
@@ -30,7 +30,7 @@ export default function LoginPage() {
             console.log("details not match");
             setError("Invalid login!");
         }
-    }
+    };
 
     const Logout = () => {
         console.log("log out");
@@ -38,7 +38,7 @@ export default function LoginPage() {
             name: "",
             email: ""
         });
-    }
+    };
 
     return (
         <div>

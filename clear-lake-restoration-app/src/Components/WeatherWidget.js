@@ -30,18 +30,18 @@ const WeatherWidget = (props) => {
         forecastRangeColor:  '#777',
         forecastIconColor:  '#022851',
     };
-      return (
+    return (
         <ReactWeather
-          theme={customStyles}
-          isLoading={props.isLoading}
-          errorMessage={props.errorMessage}
-          data={props.data}
-          lang="en"
-          locationLabel="Clear Lake"
-          unitsLabels={{ temperature: "°F", windSpeed: 'miles/h' }}
-          showForecast
+            theme={customStyles}
+            isLoading={props.isLoading}
+            errorMessage={props.errorMessage}
+            data={props.data}
+            lang="en"
+            locationLabel="Clear Lake"
+            unitsLabels={{ temperature: "°F", windSpeed: 'miles/h' }}
+            showForecast
         />
-      );
+    );
 };
 
 export default WeatherWidget;

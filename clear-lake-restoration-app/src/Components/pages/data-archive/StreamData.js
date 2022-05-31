@@ -38,7 +38,7 @@ function StreamData(props) {
      */
     function handleStartDateChange(e) {
         setStartDate(e);
-        setShowButton(false)
+        setShowButton(false);
     }
     /**
      * set end date and hide button
@@ -46,7 +46,7 @@ function StreamData(props) {
      */
     function handleEndDateChange(e) {
         setEndDate(e);
-        setShowButton(false)
+        setShowButton(false);
     }
     /**
      * set the graph start and end dates and id which are the query parameters for the API call.
@@ -75,11 +75,11 @@ function StreamData(props) {
     let end = "";
     // clean and real time APIs have different query parameter names
     if (props.id == "Clean") {
-        start = "start"
-        end = "end"
+        start = "start";
+        end = "end";
     } else if (props.id === "Real Time") {
-        start = "rptdate"
-        end = "rptend"
+        start = "rptdate";
+        end = "rptend";
     } 
 
     const creekDataURL = useFetch(props.url);
@@ -115,7 +115,7 @@ function StreamData(props) {
         // query one extra day since data retrieved is in UTC
         let endDayPlusOne = new Date(new Date(endGraphDate.getTime()).setDate(endGraphDate.getDate() + 1));
 
-        creekDataFetch.push(creekDataURL.get(`?id=${id}&${start}=${convertDate(compareDate)}&${end}=${convertDate(endDayPlusOne)}`))
+        creekDataFetch.push(creekDataURL.get(`?id=${id}&${start}=${convertDate(compareDate)}&${end}=${convertDate(endDayPlusOne)}`));
         setIsLoading(true); // Loading is true
         async function fetchData() {
             creekDataFetch = await Promise.all(creekDataFetch);
@@ -179,7 +179,7 @@ function StreamData(props) {
             if (creekData[0].hasOwnProperty('Creek')) {
                 setSiteName(creekData[0].Creek);
             } else {
-                setSiteName(creekData[0].Station_ID)
+                setSiteName(creekData[0].Station_ID);
             }
 
             setShowButton(true);
@@ -189,7 +189,7 @@ function StreamData(props) {
     /**
      * options for Multiselect
      */
-    const options = props.variables.map((x,index) => {return {name: x, id: index}})
+    const options = props.variables.map((x,index) => {return {name: x, id: index}});
     /**
      * set state of selected item to true and hide button
      * @param {Array} _selectedList 

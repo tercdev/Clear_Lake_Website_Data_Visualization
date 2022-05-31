@@ -133,9 +133,9 @@ function MeteorologyData(props) {
     },[startGraphDate,endGraphDate])
 
     // data in the csv
-    const [metcsv, setmetcsv] = useState([])
+    const [metcsv, setmetcsv] = useState([]);
     // headers of csv
-    const [headers, setHeaders] = useState([])
+    const [headers, setHeaders] = useState([]);
     // initially all variables are selected
     // changes as user changes selection
     const [checkedState, setCheckedState] = useState(
@@ -173,7 +173,7 @@ function MeteorologyData(props) {
             }));
 
             setmetcsv(selectedMetData);
-            setSiteName(metData[0].Station_ID)
+            setSiteName(metData[0].Station_ID);
             setShowButton(true);
         }
     },[isLoading,selectedVariables])
@@ -181,7 +181,7 @@ function MeteorologyData(props) {
     /**
      * options for Multiselect
      */
-    const options = props.variables.map((x,index) => {return {name: x, id: index}})
+    const options = props.variables.map((x,index) => {return {name: x, id: index}});
     /**
      * set state of selected item to true and hide button
      * @param {Array} _selectedList 

@@ -442,20 +442,20 @@ export default function Met(props) {
     }
 
     // endpoint provided by TERC
-    const realTime = useFetch('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/metweatherlink')
+    const realTime = useFetch('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/metweatherlink');
     // endpoint that contains clean data
-    const cleanMet = useFetch('https://4ery4fbt1i.execute-api.us-west-2.amazonaws.com/default/clearlake-met')
+    const cleanMet = useFetch('https://4ery4fbt1i.execute-api.us-west-2.amazonaws.com/default/clearlake-met');
 
     useEffect(()=> {
-        setCleanMetArr([])
-        setRealTimeArr([])
+        setCleanMetArr([]);
+        setRealTimeArr([]);
 
         // find difference between user picked dates
-        let diffTime = endGraphDate.getTime() - startGraphDate.getTime()
-        let diffDay = diffTime/(1000*3600*24)
+        let diffTime = endGraphDate.getTime() - startGraphDate.getTime();
+        let diffDay = diffTime/(1000*3600*24);
 
-        let realTimeFetchlist =[]
-        let cleanFetchList = []
+        let realTimeFetchlist =[];
+        let cleanFetchList = [];
         
         let newDay = 0;
         let compareDate = startGraphDate;
@@ -463,15 +463,15 @@ export default function Met(props) {
         while (diffDay > 150) {
             newDay = new Date(new Date(compareDate.getTime()).setDate(compareDate.getDate() + 150));
 
-            diffTime = endGraphDate.getTime() - newDay.getTime()
-            diffDay = diffTime/(1000*3600*24)
+            diffTime = endGraphDate.getTime() - newDay.getTime();
+            diffDay = diffTime/(1000*3600*24);
 
-            realTimeFetchlist.push(realTime.get(`?id=${props.id}&rptdate=${convertDate(compareDate)}&rptend=${convertDate(newDay)}`))
-            cleanFetchList.push(cleanMet.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(newDay)}`))
+            realTimeFetchlist.push(realTime.get(`?id=${props.id}&rptdate=${convertDate(compareDate)}&rptend=${convertDate(newDay)}`));
+            cleanFetchList.push(cleanMet.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(newDay)}`));
 
             // next query should be the last day +1 so no overlap with data
             let newDayPlusOne = new Date(new Date(compareDate.getTime()).setDate(compareDate.getDate() + 151));
-            compareDate = newDayPlusOne
+            compareDate = newDayPlusOne;
 
         }
         // query one extra day since data retrieved is in UTC
@@ -530,7 +530,7 @@ export default function Met(props) {
             else {
                 
                 let realTimearr =  await Promise.all(realTimeFetchlist);
-                let trimRealData = removeExcess(realTimearr ,lastEndDate.getTime())
+                let trimRealData = removeExcess(realTimearr ,lastEndDate.getTime());
                 setRealTimeArr(trimRealData);
                 isAllEmpty(trimRealData) ? setIsEmpty(true) : setIsEmpty(false);
             }
@@ -726,7 +726,7 @@ export default function Met(props) {
                         max: maxTemp
                     }, {
                     }, {}, {}, {}, {}]
-                })
+                });
             }
         }
     },[isLoading,graphUnit])
@@ -747,7 +747,7 @@ export default function Met(props) {
             header: "Why is no data showing up on my plots?",
             content: <p>If there is no data, please refer <a href='https://clearlakerestoration.sf.ucdavis.edu/metadata'>here</a> to read more about the metadata.</p>
         }
-    ]
+    ];
 
     return (
         <div>

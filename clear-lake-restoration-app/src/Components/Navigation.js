@@ -17,31 +17,32 @@ const Navigation = () => {
   // callback functions that change the state of the dropdown depending on mouse events
   const showStreamDropdown = () => {
       setShowStream(!showStream);
-  }
+  };
   const hideStreamDropdown = () => {
       setShowStream(false);
-  }
+  };
 
   const showMetDropdown = () => {
     setShowMet(!showMet);
-  }
+  };
   const hideMetDropdown = () => {
     setShowMet(false);
-  }
+  };
 
   const showLakeDropdown = () => {
     setShowLake(!showLake);
-  }
+  };
   const hideLakeDropdown = () => {
     setShowLake(false);
-  }
+  };
 
   const showLakeCTDDropdown = () => {
     setShowLakeCTD(!showLakeCTD);
-  }
+  };
   const hideLakeCTDDropdown = () => {
     setShowLakeCTD(false);
-  }
+  };
+
   return (
     <>
     <Navbar collapseOnSelect expand='sm' variant='dark'>

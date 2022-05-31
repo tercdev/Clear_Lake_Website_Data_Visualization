@@ -19,19 +19,19 @@ function TChainData() {
     const [startGraphDate, setGraphStartDate] = useState(lastWeek);
     const [endGraphDate, setGraphEndDate] = useState(today);
     // data from API call
-    const [oxygenDataArr,setOxygenDataArr] = useState([])
-    const [tempDataArr,setTempDataArr] = useState([])
+    const [oxygenDataArr,setOxygenDataArr] = useState([]);
+    const [tempDataArr,setTempDataArr] = useState([]);
     // if the data is still being fetched or not
-    const [isLoading,setIsLoading] = useState(true)
+    const [isLoading,setIsLoading] = useState(true);
     // name in the csv
-    const [siteName, setSiteName] = useState("")
+    const [siteName, setSiteName] = useState("");
     /**
      * set start date and hide button
      * @param {Date} e 
      */
     function handleStartDateChange(e) {
         setStartDate(e);
-        setShowButton(false)
+        setShowButton(false);
     }
     /**
      * set end date and hide button
@@ -39,7 +39,7 @@ function TChainData() {
      */
     function handleEndDateChange(e) {
         setEndDate(e);
-        setShowButton(false)
+        setShowButton(false);
     }
     /**
      * set the graph start and end dates and id which are the query parameters for the API call.
@@ -58,12 +58,12 @@ function TChainData() {
     const lakeTemp = useFetch('https://18eduqff9f.execute-api.us-west-2.amazonaws.com/default/clearlake-laketemperature');
 
     // data in the csv
-    const [oxycsv, setoxycsv] = useState([])
-    const [tempcsv, settempcsv] = useState([])
+    const [oxycsv, setoxycsv] = useState([]);
+    const [tempcsv, settempcsv] = useState([]);
 
     useEffect(() => {
-        setOxygenDataArr([])
-        setTempDataArr([])
+        setOxygenDataArr([]);
+        setTempDataArr([]);
 
         // find difference between user picked dates
         let diffTime = endGraphDate.getTime() - startGraphDate.getTime();
@@ -119,7 +119,7 @@ function TChainData() {
             settempcsv(tempDataArr);                  
             setoxycsv(oxygenDataArr);
             if (oxygenDataArr.length !== 0 && tempDataArr.length !== 0) {
-                setSiteName(tempDataArr[0].Site)
+                setSiteName(tempDataArr[0].Site);
             }
             setShowButton(true);
         }

@@ -37,7 +37,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - Used SiteFarm as it is easy to learn to use and has many training videos and UC Davis SiteFarm managers for more complex guidance
 - Link to the Main Clear Lake site is https://clearlakerehabilitation.ucdavis.edu/
 
-## Packages Used:
+## Packages Used
 
 
 

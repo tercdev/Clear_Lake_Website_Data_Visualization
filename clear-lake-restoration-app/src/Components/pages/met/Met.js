@@ -32,13 +32,14 @@ export default function Met(props) {
     // fahrenheit by default
     const [unit, setUnit] = useState('f'); 
     const [graphUnit, setGraphUnit] = useState('f');
+
     // set to fahrenheit
     function handleF() {
-        setUnit('f')
+        setUnit('f');
     }
     // set to celcius
     function handleC() {
-        setUnit('c')
+        setUnit('c');
     }
     
     /**
@@ -71,7 +72,7 @@ export default function Met(props) {
         }));
         // sort by date
         m.sort(function(a,b) {
-            return (a[0], b[0])
+            return (a[0], b[0]);
         })
         return m.reverse();
     }
@@ -404,10 +405,16 @@ export default function Met(props) {
     const [startGraphDate, setGraphStartDate] = useState(lastWeek);
     const [endGraphDate, setGraphEndDate] = useState(today);
 
+    // hooks for if graph is loading
     const [isLoading, setIsLoading] = useState(true);
-    const [realTime_arr,setRealTimeArr] = useState([]);
-    const [cleanMet_arr,setCleanMetArr] = useState([]);
-    const [isEmpty,setIsEmpty] = useState(true);
+
+    // hooks for if data is empty
+    const [isEmpty, setIsEmpty] = useState(true);
+
+    // hooks for data array changes
+    const [realTime_arr, setRealTimeArr] = useState([]);
+    const [cleanMet_arr, setCleanMetArr] = useState([]);
+    
 
     /**
      * set start date
@@ -470,20 +477,20 @@ export default function Met(props) {
         // query one extra day since data retrieved is in UTC
         let endDayPlusOne = new Date(new Date(endGraphDate.getTime()).setDate(endGraphDate.getDate() + 1));
 
-        realTimeFetchlist.push(realTime.get(`?id=${props.id}&rptdate=${convertDate(compareDate)}&rptend=${convertDate(endDayPlusOne)}`))
-        cleanFetchList.push(cleanMet.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(endDayPlusOne)}`))
+        realTimeFetchlist.push(realTime.get(`?id=${props.id}&rptdate=${convertDate(compareDate)}&rptend=${convertDate(endDayPlusOne)}`));
+        cleanFetchList.push(cleanMet.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(endDayPlusOne)}`));
 
         setIsLoading(true); // Loading is true
 
-        realTimeFetchlist = realTimeFetchlist.reverse() // reverse api calls since data is returned in reverse order 
+        realTimeFetchlist = realTimeFetchlist.reverse(); // reverse api calls since data is returned in reverse order 
 
         async function fetchData() {
             // start with fetching any potential clean data
-            let cleanArr = await Promise.all(cleanFetchList)
+            let cleanArr = await Promise.all(cleanFetchList);
 
-            let lastEndDate = new Date(endGraphDate)
-            lastEndDate.setHours(23,59,0,0)
-            lastEndDate.setTime(lastEndDate.getTime() + TIMEZONE_OFFSET*60*60*1000) // convert end date to pst time zone
+            let lastEndDate = new Date(endGraphDate);
+            lastEndDate.setHours(23,59,0,0);
+            lastEndDate.setTime(lastEndDate.getTime() + TIMEZONE_OFFSET*60*60*1000); // convert end date to pst time zone
 
             // if clean data is empty then move on with only realtime data
             if (cleanArr.length > 0 && cleanArr[0].length > 0 ) { 
@@ -491,18 +498,17 @@ export default function Met(props) {
                 // check if any empty arrays 
                 for (let j = 0;j< cleanArr.length;j++) {
                     if (cleanArr[j].length === 0) {
-                        cleanArr.splice(j,1)
+                        cleanArr.splice(j,1);
                     }
                 }
-                let lastArr = cleanArr.slice(-1)
-
-                let lastDateofCleanData = new Date(lastArr[0].slice(-1)[0]['DateTime_UTC']) // get last date of clean data
+                let lastArr = cleanArr.slice(-1);
+                let lastDateofCleanData = new Date(lastArr[0].slice(-1)[0]['DateTime_UTC']); // get last date of clean data
 
                 // if true then clean date is sufficient and no need for realtime
                 if ( lastDateofCleanData >= endGraphDate) {
                     /* trim any extra hours, this is because we query for an extra UTC day, we must
                      remove a couple hours */
-                    let trimData = removeExcess(cleanArr,lastEndDate.getTime())
+                    let trimData = removeExcess(cleanArr,lastEndDate.getTime());
                     setCleanMetArr(trimData);
                     isAllEmpty(trimData) ? setIsEmpty(true) : setIsEmpty(false);
                 
@@ -523,7 +529,7 @@ export default function Met(props) {
             // only realtime data is necessary 
             else {
                 
-                let realTimearr =  await Promise.all(realTimeFetchlist)
+                let realTimearr =  await Promise.all(realTimeFetchlist);
                 let trimRealData = removeExcess(realTimearr ,lastEndDate.getTime())
                 setRealTimeArr(trimRealData);
                 isAllEmpty(trimRealData) ? setIsEmpty(true) : setIsEmpty(false);
@@ -532,15 +538,15 @@ export default function Met(props) {
             setIsLoading(false); //loading is done
         }
 
-        fetchData()
+        fetchData();
         
     },[startGraphDate,endGraphDate])
 
     useEffect(()=> {
         if (!isLoading) {
 
-            let realTimeData = [].concat.apply([],realTime_arr)
-            let cleanMetData = [].concat.apply([],cleanMet_arr)
+            let realTimeData = [].concat.apply([],realTime_arr);
+            let cleanMetData = [].concat.apply([],cleanMet_arr);
     
             // if both arrays are empty then error
             if (cleanMetData.length !== 0 || realTimeData.length !== 0) { 
@@ -568,13 +574,13 @@ export default function Met(props) {
                         dataLastDate.getMonth() === realDataLastDate.getMonth() && 
                         dataLastDate.getDay() === realDataLastDate.getDay()) {
                         // don't need to use real time data
-                        realTimeAtmPresData = []
-                        realTimeRelHumidityData = []
-                        realTimeAirTempData = []
-                        realTimeWindSpeedData = []
-                        realTimeWindDirData = []
-                        realTimeSolarRadData = []
-                        lastdate = undefined
+                        realTimeAtmPresData = [];
+                        realTimeRelHumidityData = [];
+                        realTimeAirTempData = [];
+                        realTimeWindSpeedData = [];
+                        realTimeWindDirData = [];
+                        realTimeSolarRadData = [];
+                        lastdate = undefined;
                     }
                     // remove all the data before lastdate
                     realTimeAtmPresData = removePast(realTimeAtmPresData, lastdate);
@@ -588,27 +594,27 @@ export default function Met(props) {
                 // sort by date
                 let combinedAtmPresData = atmPresData.concat(realTimeAtmPresData);
                 combinedAtmPresData.sort(function(a,b) {
-                    return (a[0]-b[0])
+                    return (a[0]-b[0]);
                 })
                 let combinedRelHumidityData = relHumidityData.concat(realTimeRelHumidityData);
                 combinedRelHumidityData.sort(function(a,b) {
-                    return (a[0]-b[0])
+                    return (a[0]-b[0]);
                 })
                 let combinedAirTempData = airTempData.concat(realTimeAirTempData);
                 combinedAirTempData.sort(function(a,b) {
-                    return (a[0]-b[0])
+                    return (a[0]-b[0]);
                 })
                 let combinedWindSpeedData = windSpeedData.concat(realTimeWindSpeedData);
                 combinedWindSpeedData.sort(function(a,b) {
-                    return (a[0]-b[0])
+                    return (a[0]-b[0]);
                 })
                 let combinedWindDirData = windDirData.concat(realTimeWindDirData);
                 combinedWindDirData.sort(function(a,b) {
-                    return (a[0]-b[0])
+                    return (a[0]-b[0]);
                 })
                 let combinedSolarRadData = solarRadData.concat(realTimeSolarRadData);
                 combinedSolarRadData.sort(function(a,b) {
-                    return (a[0]-b[0])
+                    return (a[0]-b[0]);
                 })
     
                 /**
@@ -617,9 +623,9 @@ export default function Met(props) {
                  */
                 let zoneProps = [];
                 if (lastdate === undefined && realTimeAtmPresData.length !== 0) {
-                    zoneProps = [{value: realTimeAtmPresData[0][0]},{dashStyle: 'dash'}]
+                    zoneProps = [{value: realTimeAtmPresData[0][0]},{dashStyle: 'dash'}];
                 } else {
-                    zoneProps = [{value: lastdate}, {dashStyle: 'dash'}]
+                    zoneProps = [{value: lastdate}, {dashStyle: 'dash'}];
                 }
 
                 /**
@@ -634,29 +640,29 @@ export default function Met(props) {
                 /**
                  * title of the y axis
                  */
-                let ylabel = ''
+                let ylabel = '';
                 /**
                  * format of the y axis labels
                  */
-                let yformat = ''
+                let yformat = '';
                 /**
                  * name of the series
                  */
-                let yseries = ''
+                let yseries = '';
                 /**
                  * maximum temperature
                  */
                 let maxTemp = 0;
                 // set the variables depending on fahrenheit or celcius option 
                 if (graphUnit === 'f') {
-                    ylabel = 'Air Temperature [°F]'
-                    yformat = '{value} °F'
+                    ylabel = 'Air Temperature [°F]';
+                    yformat = '{value} °F';
                     yseries = 'Air Temperature in °F';
                     maxTemp = 120;
                 } else {
-                    ylabel = 'Air Temperature [°C]'
-                    yformat = '{value} °C'
-                    yseries = 'Air Temperature in °C'
+                    ylabel = 'Air Temperature [°C]';
+                    yformat = '{value} °C';
+                    yseries = 'Air Temperature in °C';
                     maxTemp = 40;
                 }
     

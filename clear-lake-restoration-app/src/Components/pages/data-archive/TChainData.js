@@ -38,9 +38,9 @@ function TChainData() {
     const [idTemp, setIdTemp] = useState(1);
     const [id, setId] = useState(1);
 
-    const lakeOxygen = useFetch('https://f6axabo7w6.execute-api.us-west-2.amazonaws.com/default/clearlake-lakeoxygen')
+    const lakeOxygen = useFetch('https://f6axabo7w6.execute-api.us-west-2.amazonaws.com/default/clearlake-lakeoxygen');
 
-    const lakeTemp = useFetch('https://18eduqff9f.execute-api.us-west-2.amazonaws.com/default/clearlake-laketemperature')
+    const lakeTemp = useFetch('https://18eduqff9f.execute-api.us-west-2.amazonaws.com/default/clearlake-laketemperature');
 
     const [oxycsv, setoxycsv] = useState([])
     const [tempcsv, settempcsv] = useState([])
@@ -50,11 +50,11 @@ function TChainData() {
         setTempDataArr([])
 
         // find difference between user picked dates
-        let diffTime = endGraphDate.getTime() - startGraphDate.getTime()
-        let diffDay = diffTime/(1000*3600*24)
+        let diffTime = endGraphDate.getTime() - startGraphDate.getTime();
+        let diffDay = diffTime/(1000*3600*24);
 
-        let oxygenFetch =[]
-        let tempFetch = []
+        let oxygenFetch = [];
+        let tempFetch = [];
         
         let newDay = 0;
         let compareDate = startGraphDate;
@@ -62,37 +62,38 @@ function TChainData() {
         while (diffDay > 366) {
             newDay = new Date(new Date(compareDate.getTime()).setDate(compareDate.getDate() + 366));
 
-            diffTime = endGraphDate.getTime() - newDay.getTime()
-            diffDay = diffTime/(1000*3600*24)
+            diffTime = endGraphDate.getTime() - newDay.getTime();
+            diffDay = diffTime/(1000*3600*24);
 
-            oxygenFetch.push(lakeOxygen.get(`?id=${id}&start=${convertDate(compareDate)}&end=${convertDate(newDay)}`))
-            tempFetch.push(lakeTemp.get(`?id=${id}&start=${convertDate(compareDate)}&end=${convertDate(newDay)}`))
+            oxygenFetch.push(lakeOxygen.get(`?id=${id}&start=${convertDate(compareDate)}&end=${convertDate(newDay)}`));
+            tempFetch.push(lakeTemp.get(`?id=${id}&start=${convertDate(compareDate)}&end=${convertDate(newDay)}`));
 
             // next query should be the last day +1 so no overlap with data
             let newDayPlusOne = new Date(new Date(compareDate.getTime()).setDate(compareDate.getDate() + 366));
-            compareDate = newDayPlusOne
+            compareDate = newDayPlusOne;
 
         }
 
         // query one extra day since data retrieved is in UTC
         let endDayPlusOne = new Date(new Date(endGraphDate.getTime()).setDate(endGraphDate.getDate() + 1));
 
-        oxygenFetch.push(lakeOxygen.get(`?id=${id}&start=${convertDate(compareDate)}&end=${convertDate(endDayPlusOne)}`))
-        tempFetch.push(lakeTemp.get(`?id=${id}&start=${convertDate(compareDate)}&end=${convertDate(endDayPlusOne)}`))
+        oxygenFetch.push(lakeOxygen.get(`?id=${id}&start=${convertDate(compareDate)}&end=${convertDate(endDayPlusOne)}`));
+        tempFetch.push(lakeTemp.get(`?id=${id}&start=${convertDate(compareDate)}&end=${convertDate(endDayPlusOne)}`));
         setIsLoading(true); // Loading is true
 
         async function fetchData() {
-            oxygenFetch = await Promise.all(oxygenFetch)
-            tempFetch = await Promise.all(tempFetch)
+            oxygenFetch = await Promise.all(oxygenFetch);
+            tempFetch = await Promise.all(tempFetch);
 
-            let combinedOxygenData = [].concat.apply([],oxygenFetch)
-            let combinedTempData = [].concat.apply([],tempFetch)
+            let combinedOxygenData = [].concat.apply([],oxygenFetch);
+            let combinedTempData = [].concat.apply([],tempFetch);
 
-            setOxygenDataArr(combinedOxygenData)
-            setTempDataArr(combinedTempData)
-            setIsLoading(false)
+            setOxygenDataArr(combinedOxygenData);
+            setTempDataArr(combinedTempData);
+            setIsLoading(false);
         }
-        fetchData()
+
+        fetchData();
 
     },[startGraphDate,endGraphDate])
 
@@ -103,7 +104,7 @@ function TChainData() {
             if (oxygenDataArr.length !== 0 && tempDataArr.length !== 0) {
                 setSiteName(tempDataArr[0].Site)
             }
-            setShowButton(true)
+            setShowButton(true);
         }
     },[isLoading])
     

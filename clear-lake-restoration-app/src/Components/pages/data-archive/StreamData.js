@@ -23,10 +23,10 @@ function StreamData(props) {
     const [endDate, setEndDate] = useState(today);
     const [startGraphDate, setGraphStartDate] = useState(lastWeek);
     const [endGraphDate, setGraphEndDate] = useState(today);
-    const [creekData,setCreekData] = useState([])
+    const [creekData,setCreekData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [siteName, setSiteName] = useState("")
-    const [isEmpty, setIsEmpty] = useState(true)
+    const [siteName, setSiteName] = useState("");
+    const [isEmpty, setIsEmpty] = useState(true);
     const [showButton, setShowButton] = useState(false);
 
     function handleStartDateChange(e) {
@@ -52,8 +52,8 @@ function StreamData(props) {
     const [idTemp, setIdTemp] = useState(1);
     const [id, setId] = useState(1);
 
-    let  start = ""
-    let end = ""
+    let  start = "";
+    let end = "";
     const creekDataURL = useFetch(props.url);
 
     if (props.id == "Clean") {
@@ -67,13 +67,13 @@ function StreamData(props) {
     // fetches data every time graphDates change
     useEffect(()=> {
         // make sure data is set to empty
-        setCreekData([])
+        setCreekData([]);
 
         // find difference between user picked dates
-        let diffTime = endGraphDate.getTime() - startGraphDate.getTime()
-        let diffDay = diffTime/(1000*3600*24)
+        let diffTime = endGraphDate.getTime() - startGraphDate.getTime();
+        let diffDay = diffTime/(1000*3600*24);
 
-        let creekDataFetch = []
+        let creekDataFetch = [];
 
 
         let newDay = 0;
@@ -82,16 +82,15 @@ function StreamData(props) {
         while (diffDay > 150) {
             newDay = new Date(new Date(compareDate.getTime()).setDate(compareDate.getDate() + 150));
 
-            diffTime = endGraphDate.getTime() - newDay.getTime()
-            diffDay = diffTime/(1000*3600*24)
+            diffTime = endGraphDate.getTime() - newDay.getTime();
+            diffDay = diffTime/(1000*3600*24);
 
-            creekDataFetch.push(creekDataURL.get(`?id=${id}&${start}=${convertDate(compareDate)}&${end}=${convertDate(newDay)}`))
+            creekDataFetch.push(creekDataURL.get(`?id=${id}&${start}=${convertDate(compareDate)}&${end}=${convertDate(newDay)}`));
 
 
             // next query should be the last day +1 so no overlap with data
             let newDayPlusOne = new Date(new Date(compareDate.getTime()).setDate(compareDate.getDate() + 151));
-            compareDate = newDayPlusOne
-
+            compareDate = newDayPlusOne;
         }
         // query one extra day since data retrieved is in UTC
         let endDayPlusOne = new Date(new Date(endGraphDate.getTime()).setDate(endGraphDate.getDate() + 1));
@@ -99,24 +98,25 @@ function StreamData(props) {
         creekDataFetch.push(creekDataURL.get(`?id=${id}&${start}=${convertDate(compareDate)}&${end}=${convertDate(endDayPlusOne)}`))
         setIsLoading(true); // Loading is true
         async function fetchData() {
-            creekDataFetch = await Promise.all(creekDataFetch)
+            creekDataFetch = await Promise.all(creekDataFetch);
 
             // check if all returned arrays are empty
-            isAllEmpty(creekDataFetch) ? setIsEmpty(true) : setIsEmpty(false)
+            isAllEmpty(creekDataFetch) ? setIsEmpty(true) : setIsEmpty(false);
 
             // combine all fetched arrays of data
-            let creekDataComb = [].concat.apply([],creekDataFetch)
+            let creekDataComb = [].concat.apply([],creekDataFetch);
 
-            setCreekData(creekDataComb)
-            setIsLoading(false)
+            setCreekData(creekDataComb);
+            setIsLoading(false);
         }
-        fetchData()
+
+        fetchData();
 
     },[startGraphDate,endGraphDate])
 
-    const [creekcsv, setcreekcsv] = useState([])
+    const [creekcsv, setcreekcsv] = useState([]);
     
-    const [headers, setHeaders] = useState([])
+    const [headers, setHeaders] = useState([]);
     const [checkedState, setCheckedState] = useState(
         new Array(props.variables.length).fill(true)
     );
@@ -125,6 +125,7 @@ function StreamData(props) {
         new Array(props.variables.length).fill(true)
     );
 
+    // looks for any changes with isLoading so processing of data can occur
     useEffect(()=> {
         if (!isLoading && !isEmpty) {
             let h = [];
@@ -155,15 +156,15 @@ function StreamData(props) {
     const options = props.variables.map((x,index) => {return {name: x, id: index}})
     function onSelect(_selectedList, selectedItem) {
         let temp = checkedState;
-        temp[selectedItem.id] = true
-        setCheckedState(temp)
-        setShowButton(false)
+        temp[selectedItem.id] = true;
+        setCheckedState(temp);
+        setShowButton(false);
     }
     function onRemove(_selectedList, selectedItem) {
-        let temp = checkedState
-        temp[selectedItem.id] = false
-        setCheckedState(temp)
-        setShowButton(false)
+        let temp = checkedState;
+        temp[selectedItem.id] = false;
+        setCheckedState(temp);
+        setShowButton(false);
     }
     return (
         <center>

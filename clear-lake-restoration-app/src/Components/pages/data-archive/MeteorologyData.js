@@ -22,17 +22,17 @@ function MeteorologyData(props) {
     const [endGraphDate, setGraphEndDate] = useState(today);
 
     const [isLoading, setIsLoading] = useState(true);
-    const [metData,setMetData] = useState([])
-    const [siteName, setSiteName] = useState("")
-    const [isEmpty, setIsEmpty] = useState(true)
+    const [metData,setMetData] = useState([]);
+    const [siteName, setSiteName] = useState("");
+    const [isEmpty, setIsEmpty] = useState(true);
 
     function handleStartDateChange(e) {
         setStartDate(e);
-        setShowButton(false)
+        setShowButton(false);
     }
     function handleEndDateChange(e) {
         setEndDate(e);
-        setShowButton(false)
+        setShowButton(false);
     }
     function setGraphDates() {
         setGraphStartDate(startDate);
@@ -46,15 +46,15 @@ function MeteorologyData(props) {
     const [idTemp, setIdTemp] = useState(1);
     const [id, setId] = useState(1);
 
-    let  start = ""
-    let end = ""
+    let  start = "";
+    let end = "";
 
     if (props.id == "Clean") {
-        start = "start"
-        end = "end"
+        start = "start";
+        end = "end";
     } else {
-        start = "rptdate"
-        end = "rptend"
+        start = "rptdate";
+        end = "rptend";
     }
 
 
@@ -63,13 +63,13 @@ function MeteorologyData(props) {
     // fetches data every time graphDates change
     useEffect(()=> {
         // make sure data is set to empty
-        setMetData([])
+        setMetData([]);
 
         // find difference between user picked dates
-        let diffTime = endGraphDate.getTime() - startGraphDate.getTime()
-        let diffDay = diffTime/(1000*3600*24)
+        let diffTime = endGraphDate.getTime() - startGraphDate.getTime();
+        let diffDay = diffTime/(1000*3600*24);
 
-        let metDataFetch = []
+        let metDataFetch = [];
 
         let newDay = 0;
         let compareDate = startGraphDate;
@@ -77,34 +77,35 @@ function MeteorologyData(props) {
         while (diffDay > 150) {
             newDay = new Date(new Date(compareDate.getTime()).setDate(compareDate.getDate() + 150));
 
-            diffTime = endGraphDate.getTime() - newDay.getTime()
-            diffDay = diffTime/(1000*3600*24)
+            diffTime = endGraphDate.getTime() - newDay.getTime();
+            diffDay = diffTime/(1000*3600*24);
 
-            metDataFetch.push(metDataURL.get(`?id=${id}&${start}=${convertDate(compareDate)}&${end}=${convertDate(newDay)}`))
+            metDataFetch.push(metDataURL.get(`?id=${id}&${start}=${convertDate(compareDate)}&${end}=${convertDate(newDay)}`));
 
 
             // next query should be the last day +1 so no overlap with data
             let newDayPlusOne = new Date(new Date(compareDate.getTime()).setDate(compareDate.getDate() + 151));
-            compareDate = newDayPlusOne
+            compareDate = newDayPlusOne;
 
         }
         // query one extra day since data retrieved is in UTC
         let endDayPlusOne = new Date(new Date(endGraphDate.getTime()).setDate(endGraphDate.getDate() + 1));
 
-        metDataFetch.push(metDataURL.get(`?id=${id}&${start}=${convertDate(compareDate)}&${end}=${convertDate(endDayPlusOne)}`))
+        metDataFetch.push(metDataURL.get(`?id=${id}&${start}=${convertDate(compareDate)}&${end}=${convertDate(endDayPlusOne)}`));
         setIsLoading(true); // Loading is true
         async function fetchData() {
-            metDataFetch = await Promise.all(metDataFetch)
+            metDataFetch = await Promise.all(metDataFetch);
 
             isAllEmpty(metDataFetch) ? setIsEmpty(true) : setIsEmpty(false)
 
             // combine all fetched arrays of data
-            let metDataComb = [].concat.apply([],metDataFetch)
+            let metDataComb = [].concat.apply([],metDataFetch);
 
-            setMetData(metDataComb)
-            setIsLoading(false)
+            setMetData(metDataComb);
+            setIsLoading(false);
         }
-        fetchData()
+
+        fetchData();
 
     },[startGraphDate,endGraphDate])
 
@@ -145,20 +146,22 @@ function MeteorologyData(props) {
             setShowButton(true);
         }
     },[isLoading,selectedVariables])
-    
+
     const options = props.variables.map((x,index) => {return {name: x, id: index}})
     function onSelect(_selectedList, selectedItem) {
         let temp = checkedState;
-        temp[selectedItem.id] = true
-        setCheckedState(temp)
-        setShowButton(false)
+        temp[selectedItem.id] = true;
+        setCheckedState(temp);
+        setShowButton(false);
     }
+
     function onRemove(_selectedList, selectedItem) {
-        let temp = checkedState
-        temp[selectedItem.id] = false
-        setCheckedState(temp)
-        setShowButton(false)
+        let temp = checkedState;
+        temp[selectedItem.id] = false;
+        setCheckedState(temp);
+        setShowButton(false);
     }
+
     return (
     <>
         <center>

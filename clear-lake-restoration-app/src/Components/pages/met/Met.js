@@ -13,7 +13,8 @@ import {
         convertGMTtoPSTTime,
         cardinalToDeg,
         removePast,
-        removeExcess
+        removeExcess,
+        isAllEmpty 
      } from '../../utils.js';
 
 /**
@@ -404,8 +405,9 @@ export default function Met(props) {
     const [endGraphDate, setGraphEndDate] = useState(today);
 
     const [isLoading, setIsLoading] = useState(true);
-    const [realTime_arr,setRealTimeArr] = useState([])
-    const [cleanMet_arr,setCleanMetArr] = useState([])
+    const [realTime_arr,setRealTimeArr] = useState([]);
+    const [cleanMet_arr,setCleanMetArr] = useState([]);
+    const [isEmpty,setIsEmpty] = useState(true);
 
     /**
      * set start date
@@ -477,9 +479,7 @@ export default function Met(props) {
 
         async function fetchData() {
             // start with fetching any potential clean data
-            let cleanArr = await Promise.all(
-                cleanFetchList
-                )
+            let cleanArr = await Promise.all(cleanFetchList)
 
             let lastEndDate = new Date(endGraphDate)
             lastEndDate.setHours(23,59,0,0)
@@ -502,28 +502,31 @@ export default function Met(props) {
                 if ( lastDateofCleanData >= endGraphDate) {
                     /* trim any extra hours, this is because we query for an extra UTC day, we must
                      remove a couple hours */
-
                     let trimData = removeExcess(cleanArr,lastEndDate.getTime())
-                    setCleanMetArr(trimData)
+                    setCleanMetArr(trimData);
+                    isAllEmpty(trimData) ? setIsEmpty(true) : setIsEmpty(false);
+                
                 }
                 else {
                     // fetch real time data if clean data doesn't cover the whole date
-                    let realTimedata = await Promise.all(
-                        realTimeFetchlist
-                    )
-                    let trimRealtimeData = removeExcess(realTimedata ,lastEndDate.getTime())
-                    setRealTimeArr(trimRealtimeData)
-                    setCleanMetArr(cleanArr)
+                    let realTimedata = await Promise.all(realTimeFetchlist);
+                    let trimRealtimeData = removeExcess(realTimedata ,lastEndDate.getTime());
+                    setRealTimeArr(trimRealtimeData);
+                    setCleanMetArr(cleanArr);
+                    if (isAllEmpty(realTimedata) && isAllEmpty(trimRealtimeData)) {
+                        setIsEmpty(true);
+                    } else {
+                        setIsEmpty(false);
+                    }
                 }
             }
             // only realtime data is necessary 
             else {
                 
-                let realTimearr =  await Promise.all(
-                    realTimeFetchlist
-                    )
+                let realTimearr =  await Promise.all(realTimeFetchlist)
                 let trimRealData = removeExcess(realTimearr ,lastEndDate.getTime())
-                setRealTimeArr(trimRealData)
+                setRealTimeArr(trimRealData);
+                isAllEmpty(trimRealData) ? setIsEmpty(true) : setIsEmpty(false);
             }
 
             setIsLoading(false); //loading is done
@@ -760,6 +763,7 @@ export default function Met(props) {
             <Chart 
                 chartProps={chartProps}
                 isLoading={isLoading}
+                isEmpty={isEmpty}
              />
         </div>
         

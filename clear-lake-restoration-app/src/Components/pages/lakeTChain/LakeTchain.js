@@ -602,8 +602,6 @@ export default function LakeTchain(props) {
             } else {
                 setIsEmpty(false);
             }
-            console.log("oxygenFetch", oxygenFetch);
-            console.log("tempFetch", tempFetch);
 
             let combinedOxygenData = [].concat.apply([],oxygenFetch)
             let combinedTempData = [].concat.apply([],tempFetch)

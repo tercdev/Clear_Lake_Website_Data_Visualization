@@ -19,9 +19,9 @@ export default function CollapsibleItem(props) {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-        <h3 className="data-desc" dangerouslySetInnerHTML={{__html: props.header}} />
+        <h3 className="data-desc">{props.header}</h3>
         </AccordionSummary>
-        <AccordionDetails  dangerouslySetInnerHTML={{__html: props.content}}/>
+        <AccordionDetails >{props.content}</AccordionDetails>
       </Accordion>
     </div>
   );

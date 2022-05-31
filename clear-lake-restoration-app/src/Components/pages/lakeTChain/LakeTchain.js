@@ -647,16 +647,17 @@ export default function LakeTchain(props) {
     },[isLoading])
 
     // for the collapsible FAQ
-    const header1 = "How to use the graphs and see the data below?";
-    const content1 = [<ol>
-            <li>Select start and end dates with maximum 365-day period. Local time is in PST.</li>
-            <li>Click submit to update the graphs below.</li>
-            <li>Graph and data loading will depend on the length of the selected time period. For example, longer time periods will result to longer loading times.</li>
-            *Note: The white dots on the left side of the charts represent depth of the loggers. The black line on the Dissolved Oxygen graph represents the depth of the water column.
-        </ol>];
-
-    const header2 = "Why is no data showing up on my plots?";
-    const content2 = [<p>If there is no data, check <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">here</a> to read more about the metadata.</p>];
+    const content = [
+        {   
+            id: "1",
+            header: "How to use the graphs and see the data below?",
+            content: "<ol><li>Select start and end dates with maximum 365-day period. Local time is in PST.</li><li>Click submit to update the graphs below.</li><li>Graph and data loading will depend on the length of the selected time period. For example, longer time periods will result to longer loading times.</li>*Note: The white dots on the left side of the charts represent depth of the loggers. The black line on the Dissolved Oxygen graph represents the depth of the water column.</ol>"
+        }, {
+            id: "2",
+            header: "Why is no data showing up on my plots?",
+            content: '<p>If there is no data, check <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">here</a> to read more about the metadata.</p>'
+        }
+    ]
 
     return (
         <div>
@@ -665,9 +666,10 @@ export default function LakeTchain(props) {
             </div>
             <DataDisclaimer/>
             <div className="collapsible-container">
-                <CollapsibleItem header={header1} content={content1}/>
-                <CollapsibleItem header={header2} content={content2}/>
+                <CollapsibleItem header={content[0].header} content={content[0].content}/>
+                <CollapsibleItem header={content[1].header} content={content[1].content}/>
             </div>
+
             <div className='date-container'>
                 <div className='one-date-container'>
                 <p className='date-label'>Start Date</p>

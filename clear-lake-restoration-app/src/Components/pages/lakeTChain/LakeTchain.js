@@ -84,7 +84,7 @@ export default function LakeTchain(props) {
             text: ''
         },
         subtitle: {
-            text: 'Click and drag in the plot area to zoom in.<br/>Use three-line icon on top right to download the data displayed in the graph.<br/>White Dots represent depth of the loggers. Black line is the depth of the water column',
+            text: 'Click and drag in the plot area to zoom in.<br/>Use three-line icon on top right to download the data displayed in the graph.<br/>White Dots represent depth of the loggers. Black line is the depth of the water column.',
             style: {
                 fontSize: '1rem'
             }
@@ -628,9 +628,10 @@ export default function LakeTchain(props) {
     // for the collapsible FAQ
     const header1 = "How to use the graphs and see the data below?";
     const content1 = [<ol>
-            <li>Select start and end dates with maximum 365-day period. Time is in ? time.</li>
+            <li>Select start and end dates with maximum 365-day period. Time is in PST.</li>
             <li>Click submit to update the graphs below.</li>
-            <li>Graph and data loading will depend on the length of the selected time period.</li>
+            <li>Graph and data loading will depend on the length of the selected time period. For example, longer time periods will result to longer loading times.</li>
+            *Note: The white dots on the left side of the charts represent depth of the loggers. The black line on the Dissolved Oxygen graph represents the depth of the water column.
         </ol>];
 
     const header2 = "Why is no data showing up on my plots?";

@@ -62,14 +62,12 @@ function DataArchive() {
                             <Tab>Real-Time Data</Tab>
                         </TabList>
                         <TabPanel>
-                        <center>Maximum 365 days at a time.</center>
                             <StreamData id="Clean" 
                                 url="https://1j27qzg916.execute-api.us-west-2.amazonaws.com/default/clearlake-streamturb-api" 
                                 variables={["Station_ID","DateTime_UTC","Turb","Temp"]}
                             />
                         </TabPanel>
                         <TabPanel>
-                            <center>Maximum 180 days at a time.</center>
                             <StreamData id="Real Time" 
                                 url="https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/cl-creeks"
                                 variables={["Creek","TmStamp","RecNum","Turb_BES","Turb_Mean","Turb_Median","Turb_Var","Turb_Min","Turb_Max","Turb_Temp"]}
@@ -84,13 +82,11 @@ function DataArchive() {
                             <Tab>Real Time Data</Tab>
                         </TabList>
                         <TabPanel>
-                            <center>Maximum 365 days at a time.</center>
                             <MeteorologyData id="Clean" 
                                 url="https://4ery4fbt1i.execute-api.us-west-2.amazonaws.com/default/clearlake-met"
                                 variables={["Station_ID","DateTime_UTC","Air_Temp","Rel_Humidity","Wind_Speed","Wind_Dir","Atm_Pres","Rain","Solar_Rad"]}/>
                         </TabPanel>
                         <TabPanel>
-                            <center>Maximum 150 days at a time.</center>
                             <MeteorologyData id="Real Time" 
                                 url="https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/metweatherlink"
                                 variables={["Station_ID","DateTime_UTC","Air_Temp","Hi_Air_Temp","Low_Air_Temp","Rel_Humidity","Dew_Point","Wind_Speed","Wind_Dir","Hi_Wind_Speed","Hi_Wind_Speed_Dir","Atm_Pres","Rain","Rain_Rate","Solar_Rad","Solar_Energy"]}/>
@@ -101,7 +97,6 @@ function DataArchive() {
                     <CTDData/>
                 </TabPanel>
                 <TabPanel>
-                    <center>Maximum 365 days at a time.</center>
                     <TChainData/>
                 </TabPanel>
             </Tabs>

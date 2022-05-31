@@ -22,7 +22,7 @@ function DataArchive() {
             id: "1",
             header: "How to download data?",
             content: <ol>
-                <li>Select location, start date, end date, and desired variables.</li>
+                <li>Select location, start date, end date, and desired variables. Downloaded CSV is in local time UTC</li>
                 <li>Click submit.</li>
                 <li>Wait for data to be fetched.</li>
                 <li>Buttons will then appear, allowing data downloads to your computer. Metadata README files are also available for further explanation on data variables.</li>

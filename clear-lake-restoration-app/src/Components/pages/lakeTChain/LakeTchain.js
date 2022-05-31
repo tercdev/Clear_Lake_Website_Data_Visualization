@@ -652,7 +652,7 @@ export default function LakeTchain(props) {
             id: "1",
             header: "How to use the graphs and see the data below?",
             content: <ol>
-                <li>Select start and end dates with maximum 365-day period. Local time is in PST.</li>
+                <li>Select start and end dates. Local time is in PST.</li>
                 <li>Click submit to update the graphs below.</li>
                 <li>Graph and data loading will depend on the length of the selected time period. For example, longer time periods will result to longer loading times.</li>
                 <p>*Note: The white dots on the left side of the charts represent depth of the loggers. The black line on the Dissolved Oxygen graph represents the depth of the water column.</p>

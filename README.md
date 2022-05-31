@@ -1,4 +1,6 @@
-# Clear Lake Data Visualization Website
+# Clear Lake Data Visualization and Monitoring Project
+
+![Clear Lake image](https://clearlakerehabilitation.ucdavis.edu/sites/g/files/dgvnsk12236/files/styles/sf_gallery_full/public/media/images/Clear%20Lake%20before%20sunset.png?itok=427_f7mg)
 
 ## Clean Data
 

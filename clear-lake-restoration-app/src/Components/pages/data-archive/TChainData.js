@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CSVLink } from 'react-csv';
-import useFetch from 'react-fetch-hook';
+import useFetch from 'use-http';
 import DatePicker from 'react-datepicker';
 import { convertDate } from '../../utils';
 
@@ -9,7 +9,6 @@ import { convertDate } from '../../utils';
  * @returns {JSX.Element}
  */
 function TChainData() {
-    const [error, setError] = useState(false);
     const [showButton, setShowButton] = useState(false);
     var today = new Date();
     var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
@@ -17,6 +16,12 @@ function TChainData() {
     const [endDate, setEndDate] = useState(today);
     const [startGraphDate, setGraphStartDate] = useState(lastWeek);
     const [endGraphDate, setGraphEndDate] = useState(today);
+
+    const [oxygenDataArr,setOxygenDataArr] = useState([])
+    const [tempDataArr,setTempDataArr] = useState([])
+    const [isLoading,setIsLoading] = useState(true)
+    const [siteName, setSiteName] = useState("")
+
     function handleStartDateChange(e) {
         setStartDate(e);
         setShowButton(false)
@@ -26,47 +31,81 @@ function TChainData() {
         setShowButton(false)
     }
     function setGraphDates() {
-        setError(false);
-        let latestDate = new Date(new Date(startDate).setDate(365));
         setGraphStartDate(startDate);
-        if (endDate > latestDate) {
-            setError(true);
-            setEndDate(latestDate);
-            setGraphEndDate(latestDate);
-        } else {
-            setGraphEndDate(endDate);
-        }
+        setGraphEndDate(endDate);
         setId(idTemp);
     }
     const [idTemp, setIdTemp] = useState(1);
     const [id, setId] = useState(1);
 
+    const lakeOxygen = useFetch('https://f6axabo7w6.execute-api.us-west-2.amazonaws.com/default/clearlake-lakeoxygen')
 
-    var temp_url = new URL('https://18eduqff9f.execute-api.us-west-2.amazonaws.com/default/clearlake-laketemperature')
-    var search_params_temp = temp_url.searchParams;
-    search_params_temp.set('id',id);
-    search_params_temp.set('start',convertDate(startGraphDate));
-    search_params_temp.set('end',convertDate(endGraphDate));
-    temp_url.search = search_params_temp.toString();
-    const tempData = useFetch(temp_url.toString());
-
-    var oxy_url = new URL('https://f6axabo7w6.execute-api.us-west-2.amazonaws.com/default/clearlake-lakeoxygen');
-    var search_params_oxy = oxy_url.searchParams;
-    search_params_oxy.set('id',id);
-    search_params_oxy.set('start',convertDate(startGraphDate));
-    search_params_oxy.set('end',convertDate(endGraphDate));
-    oxy_url.search = search_params_oxy.toString();
-    const oxyData = useFetch(oxy_url.toString());
+    const lakeTemp = useFetch('https://18eduqff9f.execute-api.us-west-2.amazonaws.com/default/clearlake-laketemperature')
 
     const [oxycsv, setoxycsv] = useState([])
     const [tempcsv, settempcsv] = useState([])
+
+    useEffect(() => {
+        setOxygenDataArr([])
+        setTempDataArr([])
+
+        // find difference between user picked dates
+        let diffTime = endGraphDate.getTime() - startGraphDate.getTime()
+        let diffDay = diffTime/(1000*3600*24)
+
+        let oxygenFetch =[]
+        let tempFetch = []
+        
+        let newDay = 0;
+        let compareDate = startGraphDate;
+
+        while (diffDay > 366) {
+            newDay = new Date(new Date(compareDate.getTime()).setDate(compareDate.getDate() + 366));
+
+            diffTime = endGraphDate.getTime() - newDay.getTime()
+            diffDay = diffTime/(1000*3600*24)
+
+            oxygenFetch.push(lakeOxygen.get(`?id=${id}&start=${convertDate(compareDate)}&end=${convertDate(newDay)}`))
+            tempFetch.push(lakeTemp.get(`?id=${id}&start=${convertDate(compareDate)}&end=${convertDate(newDay)}`))
+
+            // next query should be the last day +1 so no overlap with data
+            let newDayPlusOne = new Date(new Date(compareDate.getTime()).setDate(compareDate.getDate() + 366));
+            compareDate = newDayPlusOne
+
+        }
+
+        // query one extra day since data retrieved is in UTC
+        let endDayPlusOne = new Date(new Date(endGraphDate.getTime()).setDate(endGraphDate.getDate() + 1));
+
+        oxygenFetch.push(lakeOxygen.get(`?id=${id}&start=${convertDate(compareDate)}&end=${convertDate(endDayPlusOne)}`))
+        tempFetch.push(lakeTemp.get(`?id=${id}&start=${convertDate(compareDate)}&end=${convertDate(endDayPlusOne)}`))
+        setIsLoading(true); // Loading is true
+
+        async function fetchData() {
+            oxygenFetch = await Promise.all(oxygenFetch)
+            tempFetch = await Promise.all(tempFetch)
+
+            let combinedOxygenData = [].concat.apply([],oxygenFetch)
+            let combinedTempData = [].concat.apply([],tempFetch)
+
+            setOxygenDataArr(combinedOxygenData)
+            setTempDataArr(combinedTempData)
+            setIsLoading(false)
+        }
+        fetchData()
+
+    },[startGraphDate,endGraphDate])
+
     useEffect(()=> {
-        if (!oxyData.isLoading && !tempData.isLoading) { 
-            settempcsv(tempData.data);                  
-            setoxycsv(oxyData.data); 
+        if (!isLoading) { 
+            settempcsv(tempDataArr);                  
+            setoxycsv(oxygenDataArr);
+            if (oxygenDataArr.length !== 0 && tempDataArr.length !== 0) {
+                setSiteName(tempDataArr[0].Site)
+            }
             setShowButton(true)
         }
-    },[oxyData.isLoading,tempData.isLoading])
+    },[isLoading])
     
     return (
         <>
@@ -79,6 +118,7 @@ function TChainData() {
                     <option value="3">OA-04</option>
                     <option value="4">OA-01</option>
                     <option value="5">UA-06</option>
+                    <option value="7">UA-07</option>
                     <option value="6">UA-08</option>
                 </select>
             </div>
@@ -115,14 +155,14 @@ function TChainData() {
                 </div>
             </div>
             <button className="submitButton" onClick={setGraphDates}>Submit</button>
-            {error && <p className='error-message'>Selected date range was more than 365 days. End date was automatically changed.</p>}
-        {oxyData.isLoading && <center>Fetching Data...</center>}
-        {tempData.isLoading && <center>Fetching Data...</center>}
-        {!oxyData.isLoading && oxyData.data.length != 0 && showButton && <CSVLink data={oxycsv} className="csv-link" target="_blank">Download Lake Oxygen Data</CSVLink>}
-        {!oxyData.isLoading && oxyData.data.length == 0 && <p>There is no lake oxygen data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}
-        {!tempData.isLoading && tempData.data.length != 0 && showButton && <CSVLink data={tempcsv} className="csv-link" target="_blank">Download Lake Temperature Data</CSVLink>}
-        {!tempData.isLoading && tempData.data.length == 0 && <p>There is no lake temperature data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}
-        {((!oxyData.isLoading && oxyData.data.length) || (!tempData.isLoading && tempData.data.length != 0)) && showButton && <a href={require("../../../Metadata/README_tchain.txt")} download="README_Tchain">Download Tchain Metadata README</a>}
+
+        {isLoading && <center>Fetching Data...</center>}
+        {isLoading && <center>Fetching Data...</center>}
+        {!isLoading && oxygenDataArr.length !== 0 && showButton && <CSVLink data={oxycsv} filename = {siteName+"_"+startGraphDate.toISOString().slice(0,10)+"_"+endGraphDate.toISOString().slice(0,10)} className="csv-link" target="_blank">Download Lake Oxygen Data</CSVLink>}
+        {!isLoading && oxygenDataArr.length === 0 && <p>There is no lake oxygen data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}
+        {!isLoading && tempDataArr.length !== 0 && showButton && <CSVLink data={tempcsv} filename = {siteName+"_"+startGraphDate.toISOString().slice(0,10)+"_"+endGraphDate.toISOString().slice(0,10)} className="csv-link" target="_blank">Download Lake Temperature Data</CSVLink>}
+        {!isLoading && tempDataArr.length === 0 && <p>There is no lake temperature data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}
+        {((!isLoading && oxygenDataArr.length !==0) || (!isLoading && tempDataArr.length !== 0)) && showButton && <a href={require("../../../Metadata/README_tchain.txt")} download="README_Tchain">Download Tchain Metadata README</a>}
 
         </center>
     </>

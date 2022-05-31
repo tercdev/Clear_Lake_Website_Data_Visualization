@@ -9,6 +9,8 @@ The UC Davis Tahoe Environmental Research Center (TERC) team currently owns a no
 
 Moreover, the TERC team is looking to have more interactive and dynamic data visualizations, allowing lake users and stakeholders to view specific time windows of data, generate CSV files to their local computer, and filter different lake and stream variables within a specific data chart. We are innovating this problem to create more visually appealing and user-friendly data visualizations. We plan to increase the user journey and experience through this new site, which will encourage more lake holders and stakeholders to be part of the research and the findings of the TERC team.
 
+User guide can be found here: https://github.com/tercdev/Clear_Lake_Website_Data_Visualization/blob/main/Documentation/SiteFarm%20Documentation.pdf
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Main Features

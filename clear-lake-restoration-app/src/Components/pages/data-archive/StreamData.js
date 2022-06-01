@@ -251,7 +251,7 @@ function StreamData(props) {
                         startDate={startDate}
                         endDate={endDate}
                         maxDate={endDate}
-                        minDate={new Date("2019/01/01")}
+                        minDate={new Date("2018/10/01")}
                         showMonthDropdown
                         showYearDropdown
                         dropdownMode='select'

@@ -162,7 +162,7 @@ export let isAllEmpty = a => Array.isArray(a) && a.every(isAllEmpty);
 export function dateToDateTime(date_init) {
     let split = date_init.split(/[^0-9]/)
 
-    let monthNum = new Number(split[1])-1 
+    let monthNum = new Number(split[1])-1
     if ( monthNum < 10) {
      split[1] = "0"+monthNum.toString()
     }

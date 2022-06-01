@@ -365,49 +365,13 @@ export default function Stream(props) {
     }
 
     const creekRealTime = useFetch('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/cl-creeks');
-    // real-time data Endpoint URL 
-    // var url = new URL();
-    // var search_params = url.searchParams;
-    // search_params.set('id',props.id);
-    // let oldestDate = new Date(new Date().setDate(endGraphDate.getDate() - 150));
-    // if (startGraphDate < oldestDate) {
-    //     search_params.set('rptdate', convertDate(oldestDate));
-    // } else {
-    //     search_params.set('rptdate', convertDate(startGraphDate)); // at most 180 days away from endDate
-    // }
-    // search_params.set('rptend',convertDate(endGraphDate));
-    // url.search = search_params.toString();
-    // var new_url = url.toString();
-    // const creekData = useFetch(new_url);
 
-    // clean data Endpoint URL (includes turb and temp)
-    // var cleanurl = new URL('https://1j27qzg916.execute-api.us-west-2.amazonaws.com/default/clearlake-streamturb-api');
-    // var search_params_clean = cleanurl.searchParams;
-    // search_params_clean.set('id',props.id);
-    // search_params_clean.set('start',convertDate(startGraphDate));
-    // search_params_clean.set('end',convertDate(endGraphDate));
-    // cleanurl.search = search_params_clean.toString();
     const creekClean = useFetch('https://1j27qzg916.execute-api.us-west-2.amazonaws.com/default/clearlake-streamturb-api');
 
-    // flow data Endpoint URL
-    // var flowurl = new URL('https://b8xms0pkrf.execute-api.us-west-2.amazonaws.com/default/clearlake-streams')
-    // var search_params_flow = flowurl.searchParams;
-    // search_params_flow.set('id',props.id);
-    // search_params_flow.set('start',convertDate(startGraphDate));
-    // search_params_flow.set('end',convertDate(endGraphDate));
-    // flowurl.search = search_params_flow.toString();
-    // var flow_new_url = flowurl.toString();
     const creekFlow = useFetch('https://b8xms0pkrf.execute-api.us-west-2.amazonaws.com/default/clearlake-streams');
 
-    // rain data Endpoint URL
-    // var rainURL = new URL('https://ts09zwptz4.execute-api.us-west-2.amazonaws.com/default/clearlake-precipitation-api')
-    // var search_params_rain = rainURL.searchParams;
-    // search_params_rain.set('id',props.id);
-    // search_params_rain.set('start',convertDate(startGraphDate));
-    // search_params_rain.set('end',convertDate(endGraphDate));
-    // rainURL.search = search_params_rain.toString();
-    // var rain_new_url = rainURL.toString();
     const creekRain = useFetch('https://ts09zwptz4.execute-api.us-west-2.amazonaws.com/default/clearlake-precipitation-api');
+
     useEffect(()=> {
         setRealTimeData([]);
         setCleanData([]);

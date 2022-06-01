@@ -90,11 +90,8 @@ function TChainData() {
 
         }
 
-        // query one extra day since data retrieved is in UTC
-        let endDayPlusOne = new Date(new Date(endGraphDate.getTime()).setDate(endGraphDate.getDate() + 1));
-
-        oxygenFetch.push(lakeOxygen.get(`?id=${id}&start=${convertDate(compareDate)}&end=${convertDate(endDayPlusOne)}`));
-        tempFetch.push(lakeTemp.get(`?id=${id}&start=${convertDate(compareDate)}&end=${convertDate(endDayPlusOne)}`));
+        oxygenFetch.push(lakeOxygen.get(`?id=${id}&start=${convertDate(compareDate)}&end=${convertDate(endGraphDate)}`));
+        tempFetch.push(lakeTemp.get(`?id=${id}&start=${convertDate(compareDate)}&end=${convertDate(endGraphDate)}`));
         setIsLoading(true); // Loading is true
 
         async function fetchData() {
@@ -176,7 +173,13 @@ function TChainData() {
 
         {isLoading && <center>Fetching Data...</center>}
         {isLoading && <center>Fetching Data...</center>}
-        {!isLoading && oxygenDataArr.length !== 0 && showButton && <CSVLink data={oxycsv} filename = {siteName+"_"+startGraphDate.toISOString().slice(0,10)+"_"+endGraphDate.toISOString().slice(0,10)} className="csv-link" target="_blank">Download Lake Oxygen Data</CSVLink>}
+        {!isLoading && oxygenDataArr.length !== 0 && showButton && 
+        <CSVLink 
+            data={oxycsv} 
+            filename = {siteName+"_"+startGraphDate.toLocaleDateString().replace(/\//g, '-')+"_"+endGraphDate.toLocaleDateString().replace(/\//g, '-')} 
+            className="csv-link" target="_blank">
+                Download Lake Oxygen Data
+            </CSVLink>}
         {!isLoading && oxygenDataArr.length === 0 && <p>There is no lake oxygen data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}
         {!isLoading && tempDataArr.length !== 0 && showButton && <CSVLink data={tempcsv} filename = {siteName+"_"+startGraphDate.toISOString().slice(0,10)+"_"+endGraphDate.toISOString().slice(0,10)} className="csv-link" target="_blank">Download Lake Temperature Data</CSVLink>}
         {!isLoading && tempDataArr.length === 0 && <p>There is no lake temperature data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}

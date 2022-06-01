@@ -85,7 +85,6 @@ function MeteorologyData(props) {
 
     // fetches data every time graphDates change
     useEffect(()=> {
-        console.log("id",id)
         // make sure data is set to empty
         setMetData([]);
 

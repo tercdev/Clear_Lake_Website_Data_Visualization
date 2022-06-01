@@ -86,7 +86,6 @@ function StreamData(props) {
     
     // fetches data every time graphDates change
     useEffect(()=> {
-        console.log("stream id",id)
         // make sure data is set to empty
         setCreekData([]);
 
@@ -125,7 +124,6 @@ function StreamData(props) {
 
             // check if all returned arrays are empty
             isAllEmpty(creekDataFetch) ? setIsEmpty(true) : setIsEmpty(false);
-            console.log("creek data lists", creekDataFetch)
             // combine all fetched arrays of data
             let creekDataComb = [].concat.apply([],creekDataFetch);
             if (props.id === "Real Time") {

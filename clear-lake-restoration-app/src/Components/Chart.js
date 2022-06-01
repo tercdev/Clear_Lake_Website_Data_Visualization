@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import ErrorBoundary from './ErrorBoundary'
 
 // for the hamburger button in the top right corner of each chart that lets users download different formats of the chart
 require('highcharts/modules/exporting')(Highcharts);
@@ -30,15 +31,14 @@ export default function Chart({
     },[isLoading])
 
   return (
-    <div>
-        {isEmpty && !isLoading ? 
-        <p className='no-data-disclaimer'>No data to show. Please select a different period.</p>:<></>}
-        <HighchartsReact 
-        highcharts={Highcharts}
-        ref={chartComponent}
-        allowChartUpdate={true}
-        options={chartProps}  />
-        
-    </div>
+      <ErrorBoundary>        
+          {isEmpty && !isLoading ? 
+          <p className='no-data-disclaimer'>No data to show. Please select a different period.</p>:<></>}
+          <HighchartsReact 
+          highcharts={Highcharts}
+          ref={chartComponent}
+          allowChartUpdate={true}
+          options={chartProps}  />
+      </ErrorBoundary>
   )
 }

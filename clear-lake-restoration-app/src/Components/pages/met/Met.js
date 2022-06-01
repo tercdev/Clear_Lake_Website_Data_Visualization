@@ -14,7 +14,8 @@ import {
         cardinalToDeg,
         removePast,
         removeExcess,
-        isAllEmpty 
+        isAllEmpty,
+        dateToDateTime
      } from '../../utils.js';
 
 /**
@@ -52,8 +53,7 @@ export default function Met(props) {
         let m = [];
         data.forEach((element => {
 
-            let split = element.DateTime_UTC.split(/[^0-9]/)
-            let newDate = new Date(...split);
+           let newDate = dateToDateTime(element.DateTime_UTC)
 
             let pstTime = convertGMTtoPSTTime(newDate);
             if (dataType === "Wind_Dir") {

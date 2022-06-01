@@ -24,33 +24,33 @@ export default function LakeCTD(props) {
      * @returns {Array} Array of arrays for graphing
      */
     function getFilteredData(data, dataType) {
-        let m = []
+        let m = [];
         data.forEach((element => {
             if (parseFloat(element[dataType]) >= 0) { // remove negative values
                 m.push([parseFloat(element.Depth), parseFloat(element[dataType])]);
             }
-        }))
+        }));
 
         // sort by date
         m.sort(function(a,b) {
-            return (a[0]-b[0])
-        })
+            return (a[0]-b[0]);
+        });
 
         // remove duplicate entries in m
         /**
          * Array of unique entries depth,y as strings
          */
-        let uniq = []
+        let uniq = [];
         /**
          * Array of arrays [depth, y] where each entry is unique
          */
         let b = m.filter(function (v) {
             if (uniq.indexOf(v.toString()) < 0) {
-                uniq.push(v.toString())
-                return v
+                uniq.push(v.toString());
+                return v;
             }
         })
-        return b
+        return b;
     }
 
     /**
@@ -288,7 +288,7 @@ export default function LakeCTD(props) {
             setTime: 0,
             endTime: 0,
         }
-    })
+    });
     
     // set all initial dates to today
     var today = new Date();
@@ -301,7 +301,7 @@ export default function LakeCTD(props) {
      * @param {Date} e 
      */
     function handleStartDateChange(e) {
-        setStartDate(e)
+        setStartDate(e);
     }
 
     /**
@@ -356,7 +356,7 @@ export default function LakeCTD(props) {
                         data: turbData
                     }
                 ]
-            })
+            });
         }
     },[profileData.isLoading,startGraphDate])
 
@@ -389,7 +389,7 @@ export default function LakeCTD(props) {
                 <li>Click submit to update the graphs below.</li>
             </ol>
         }
-    ]
+    ];
 
     return (
         <div>

@@ -24,9 +24,9 @@ function SpecificDateSelect(props) {
     const [selectedDay, setSelectedDay] = useState();
     
     // references for each multiselect
-    const yearRef = useRef(null)
-    const monthRef = useRef(null)
-    const dayRef = useRef(null)
+    const yearRef = useRef(null);
+    const monthRef = useRef(null);
+    const dayRef = useRef(null);
 
     /**
      * Clear the values shown in the multiselect
@@ -45,13 +45,13 @@ function SpecificDateSelect(props) {
             // extract the dates
             props.data.forEach((element => {
                 m.push(new Date(element["DateTime_UTC"]));
-            }))
+            }));
             setDates(m);
             /**
              * Dates grouped by year
              * `Year`: `[Date,Date,...]`
              */
-            let datesByYear = {}
+            let datesByYear = {};
             // group dates by year
             m.forEach((element) => {
                 if (!(element.getFullYear() in datesByYear)) {
@@ -79,7 +79,7 @@ function SpecificDateSelect(props) {
          * Dates grouped by year
          * `Year`: `[Date,Date,...]`
          */
-        let datesByYear = {}
+        let datesByYear = {};
         // group dates by year
         dates.forEach((element) => {
             if (!(element.getFullYear() in datesByYear)) {
@@ -96,20 +96,20 @@ function SpecificDateSelect(props) {
         /**
          * Array of the months of allDates
          */
-        let m = []
+        let m = [];
         allDates.forEach((element) => {
-            let name = element.toLocaleString("en-US", { month: "long" })
+            let name = element.toLocaleString("en-US", { month: "long" });
             if (!(m.includes(name))) {
-                m.push(name)
+                m.push(name);
             }
         })
         // set month dropdown values
-        setMonth(m)
+        setMonth(m);
         // user selected the year
-        setSelectedYear(e[0])
+        setSelectedYear(e[0]);
         // clear month and day selection
-        resetValues(dayRef)
-        resetValues(monthRef)
+        resetValues(dayRef);
+        resetValues(monthRef);
     }
 
     /**
@@ -122,7 +122,7 @@ function SpecificDateSelect(props) {
          * Dates grouped by year
          * `Year`: `[Date,Date,...]`
          */
-        let datesByYear = {}
+        let datesByYear = {};
         // group dates by year
         dates.forEach((element) => {
             if (!(element.getFullYear() in datesByYear)) {
@@ -131,7 +131,7 @@ function SpecificDateSelect(props) {
             let n = datesByYear[element.getFullYear()];
             n.push(element);
             datesByYear[element.getFullYear()] = n;
-        })
+        });
         /**
          * all the dates of the selected year
          */
@@ -139,19 +139,19 @@ function SpecificDateSelect(props) {
         /**
          * Array of the dates in UTC of allDates
          */
-        let m = []
+        let m = [];
         allDates.forEach((element) => {
-            let name = element.toLocaleString("en-US", { month: "long" })
+            let name = element.toLocaleString("en-US", { month: "long" });
             if (name === e[0]) {
-                m.push(element.getUTCDate())
+                m.push(element.getUTCDate());
                 // user selected the month
-                setSelectedMonth(element.getUTCMonth())
+                setSelectedMonth(element.getUTCMonth());
             }
         })
         // set day dropdown values
-        setDay(m)
+        setDay(m);
         // clear day selection
-        resetValues(dayRef)
+        resetValues(dayRef);
     }
 
     /**
@@ -165,8 +165,8 @@ function SpecificDateSelect(props) {
         /**
          * Final date in UTC
          */
-        let x = new Date(Date.UTC(selectedYear,selectedMonth,e[0]))
-        props.onSelect(x)
+        let x = new Date(Date.UTC(selectedYear,selectedMonth,e[0]));
+        props.onSelect(x);
     }
 
     /**

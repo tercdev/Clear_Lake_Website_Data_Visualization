@@ -51,7 +51,7 @@ export default function Map(props) {
                     "name": "Stream Monitoring Sites"
                 }
             });
-            addEventsForMarkers('streams')
+            addEventsForMarkers('streams');
         });
     }
 
@@ -97,9 +97,9 @@ export default function Map(props) {
             while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
                 coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
             }
-            const description = contentOfPopUp(layerid, e.features[0].properties.name)
+            const description = contentOfPopUp(layerid, e.features[0].properties.name);
             // Create a popup, populate the popup, set coordinates, add to map
-            new mapboxgl.Popup({focusAfterOpen: false, closeButton: true, closeOnMove: false, closeOnClick: true}).setLngLat(coordinates).setHTML(description).addTo(map.current)
+            new mapboxgl.Popup({focusAfterOpen: false, closeButton: true, closeOnMove: false, closeOnClick: true}).setLngLat(coordinates).setHTML(description).addTo(map.current);
         }
     }
 
@@ -113,51 +113,51 @@ export default function Map(props) {
         /**
          * HTML that will be in the Pop up. Links reload the top frame.
          */
-        let contents = ''
+        let contents = '';
         /**
          * Full name of the location
          */
-        let description = ""
+        let description = "";
         /**
          * Additional info
          */
-        let note = ""
+        let note = "";
         if (layerid === 'streams') {
-            description = abbr.charAt(0).toUpperCase() + abbr.slice(1) + " Creek"
-            contents = "<a href='/Clear_Lake_Website_Data_Visualization/" + abbr + "' target='_top'>" + description + "</a>"                    
+            description = abbr.charAt(0).toUpperCase() + abbr.slice(1) + " Creek";
+            contents = "<a href='/Clear_Lake_Website_Data_Visualization/" + abbr + "' target='_top'>" + description + "</a>";
         } else if (layerid === 'met') {
             if (abbr === "bkp") {
                 description = "Buckingham Point";
             } else if (abbr === "nic") {
-                description = "Nice"
+                description = "Nice";
             } else if (abbr === "nlp") {
-                description = "North Lakeport"
+                description = "North Lakeport";
             } else if (abbr === "bvr") {
-                description = "Big Valley Rancheria"
+                description = "Big Valley Rancheria";
             } else if (abbr === "knb") {
-                description = "Konocti Bay"
+                description = "Konocti Bay";
             } else if (abbr === "clo") {
-                description = "Clearlake Oaks"
+                description = "Clearlake Oaks";
             } else if (abbr === "jgb") {
-                description = "Jago Bay"
-                note = "<br/>(relocated to <a href='/Clear_Lake_Website_Data_Visualization/bek' target='_top'>Beakbane Island</a> in June 2020)"
-                contents = description + note
+                description = "Jago Bay";
+                note = "<br/>(relocated to <a href='/Clear_Lake_Website_Data_Visualization/bek' target='_top'>Beakbane Island</a> in June 2020)";
+                contents = description + note;
             } else {
-                description = "Beakbane Island"
+                description = "Beakbane Island";
             }
             if (abbr !== 'jgb') {
-                contents = "<a href='/Clear_Lake_Website_Data_Visualization/" + abbr + "' target='_top'>" + description + "</a>" + note                
+                contents = "<a href='/Clear_Lake_Website_Data_Visualization/" + abbr + "' target='_top'>" + description + "</a>" + note;
             }
         } else if (layerid === 'lake') {
-            description = abbr.slice(0,2).toUpperCase() + '-' + abbr.slice(2).toUpperCase()
+            description = abbr.slice(0,2).toUpperCase() + '-' + abbr.slice(2).toUpperCase();
             if (abbr === "ua07") {
-                note = " (discontinued on 6/15/2020)"
+                note = " (discontinued on 6/15/2020)";
             }
             contents = "<b>"+ description + "</b><br/><a href='/Clear_Lake_Website_Data_Visualization/" + abbr 
                 + "' target='_top'> Lake Mooring</a>"+ note +"<br/><a href='/Clear_Lake_Website_Data_Visualization/" 
-                + abbr + "-profile' target='_top'>Lake Profile</a>"
+                + abbr + "-profile' target='_top'>Lake Profile</a>";
         }
-         return contents
+         return contents;
     }
 
     /**
@@ -193,7 +193,7 @@ export default function Map(props) {
                     name: "Meteorological Stations",
                 }
             });
-            addEventsForMarkers('met')
+            addEventsForMarkers('met');
         });
     }
 
@@ -232,7 +232,7 @@ export default function Map(props) {
             map.current.addSource('boundary', {
                 type: 'geojson',
                 data: '/Clear_Lake_Website_Data_Visualization/data/watershedboundary.geojson'
-            })
+            });
             map.current.addLayer({
                 id: 'bounds_line',
                 source: 'boundary',
@@ -240,7 +240,7 @@ export default function Map(props) {
                 metadata: {
                     "name": "Clear Lake Watershed Boundary Line"
                 }
-            },'waterway-label')
+            },'waterway-label');
         })
     }
 
@@ -262,35 +262,35 @@ export default function Map(props) {
          * Elements that will be added to the legend.  
          * `id_of_the_layer`: `name_to_appear_in_the_legend`
          */
-        let targets = {}
+        let targets = {};
         // Add markers to the map depending on the props.name parameter
         if (props.name === "stream") {
             addStreamMarkers();
-            targets.streams = "Stream Monitoring Sites"
+            targets.streams = "Stream Monitoring Sites";
         }
         if (props.name === "met") {
             addMetMarkers();
-            targets.met = "Meteorological Stations"
+            targets.met = "Meteorological Stations";
         }
         if (props.name === "lake") {
             addLakeMarkers();
-            targets.lake = "Lake Monitoring Sites"
+            targets.lake = "Lake Monitoring Sites";
         }
         if (props.name === "all") {
             addStreamMarkers();
             addMetMarkers();
             addLakeMarkers();
             addBoundary();
-            targets.streams = "Stream Monitoring Sites"
-            targets.met = "Meteorological Stations"
-            targets.lake = "Lake Monitoring Sites"
-            targets.bounds_line = "Watershed Boundary"
+            targets.streams = "Stream Monitoring Sites";
+            targets.met = "Meteorological Stations";
+            targets.lake = "Lake Monitoring Sites";
+            targets.bounds_line = "Watershed Boundary";
         }
         /**
          * Legend for the map.  
          * https://github.com/watergis/mapbox-gl-legend
          */
-        const legend = new MapboxLegendControl(targets, {accesstoken: mapboxgl.accessToken})
+        const legend = new MapboxLegendControl(targets, {accesstoken: mapboxgl.accessToken});
         map.current.addControl(legend, 'bottom-left');
     });
 

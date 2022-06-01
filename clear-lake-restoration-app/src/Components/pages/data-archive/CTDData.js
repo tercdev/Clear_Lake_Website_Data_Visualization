@@ -22,7 +22,7 @@ function CTDData() {
      */
     function handleStartDateChange(e) {
         setStartDate(e);
-        setShowButton(false)
+        setShowButton(false);
     }
     /**
      * Set the graph start and end dates and id which are the query parameters for the API call.
@@ -40,7 +40,7 @@ function CTDData() {
     /**
      * API endpoint for clean profile data
      */
-    var url = new URL('https://3kgpak926a.execute-api.us-west-2.amazonaws.com/default/clearlake-profiledata')
+    var url = new URL('https://3kgpak926a.execute-api.us-west-2.amazonaws.com/default/clearlake-profiledata');
     /**
      * query parameters: 
      * - `id`: of the site
@@ -59,7 +59,7 @@ function CTDData() {
      */
     const profileData = useFetch(url.toString());
     // data that will be in the downloadable csv
-    const [profilecsv, setprofilecsv] = useState([])
+    const [profilecsv, setprofilecsv] = useState([]);
 
     useEffect(()=> {
         if (!profileData.isLoading){ // data is ready

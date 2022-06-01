@@ -22,23 +22,23 @@ export default function Stream(props) {
     const [unit, setUnit] = useState('f'); 
     const [graphUnit, setGraphUnit] = useState('f');
 
-    const [realTimeData,setRealTimeData] = useState([])
-    const [cleanData,setCleanData] = useState([])
-    const [flowData,setFlowData] = useState([])
-    const [rainData,setRainData] = useState([])
+    const [realTimeData,setRealTimeData] = useState([]);
+    const [cleanData,setCleanData] = useState([]);
+    const [flowData,setFlowData] = useState([]);
+    const [rainData,setRainData] = useState([]);
 
     /**
      * set to fahrenheit
      */
     function handleF() {
-        setUnit('f')
+        setUnit('f');
     }
 
     /**
      * set to celcius
      */
     function handleC() {
-        setUnit('c')
+        setUnit('c');
     }
    
     /**
@@ -84,13 +84,13 @@ export default function Stream(props) {
                 } else if (element.hasOwnProperty('DateTime_PST')) {
                     m.push([new Date(element.DateTime_PST).getTime(), parseFloat(element[dataType])]);
                 }
-            }))
+            }));
         }
         // sort by date
         m.sort(function(a,b) {
-            return (a[0]-b[0])
+            return (a[0]-b[0]);
         })
-        return m.reverse()
+        return m.reverse();
     }
 
     /**
@@ -316,7 +316,7 @@ export default function Stream(props) {
             setTime: 0,
             endTime: 0,
         }
-    })
+    });
 
     // set start date as a week ago and end date as today
     var today = new Date();
@@ -398,19 +398,19 @@ export default function Stream(props) {
     // var rain_new_url = rainURL.toString();
     const creekRain = useFetch('https://ts09zwptz4.execute-api.us-west-2.amazonaws.com/default/clearlake-precipitation-api');
     useEffect(()=> {
-        setRealTimeData([])
-        setCleanData([])
-        setFlowData([])
-        setRainData([])
+        setRealTimeData([]);
+        setCleanData([]);
+        setFlowData([]);
+        setRainData([]);
 
         // find difference between user picked dates
-        let diffTime = endGraphDate.getTime() - startGraphDate.getTime()
-        let diffDay = diffTime/(1000*3600*24)
+        let diffTime = endGraphDate.getTime() - startGraphDate.getTime();
+        let diffDay = diffTime/(1000*3600*24);
 
-        let realTimeDataFetch = []
-        let cleanDataFetch = []
-        let flowDataFetch =[]
-        let rainDataFetch = []
+        let realTimeDataFetch = [];
+        let cleanDataFetch = [];
+        let flowDataFetch =[];
+        let rainDataFetch = [];
 
         let newDay = 0;
         let compareDate = startGraphDate;
@@ -418,65 +418,65 @@ export default function Stream(props) {
         while (diffDay > 150) {
             newDay = new Date(new Date(compareDate.getTime()).setDate(compareDate.getDate() + 150));
 
-            diffTime = endGraphDate.getTime() - newDay.getTime()
-            diffDay = diffTime/(1000*3600*24)
+            diffTime = endGraphDate.getTime() - newDay.getTime();
+            diffDay = diffTime/(1000*3600*24);
 
-            realTimeDataFetch.push(creekRealTime.get(`?id=${props.id}&rptdate=${convertDate(compareDate)}&rptend=${convertDate(newDay)}`))
-            cleanDataFetch.push(creekClean.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(newDay)}`))
+            realTimeDataFetch.push(creekRealTime.get(`?id=${props.id}&rptdate=${convertDate(compareDate)}&rptend=${convertDate(newDay)}`));
+            cleanDataFetch.push(creekClean.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(newDay)}`));
 
-            flowDataFetch.push(creekFlow.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(newDay)}`))
-            rainDataFetch.push(creekRain.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(newDay)}`))
+            flowDataFetch.push(creekFlow.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(newDay)}`));
+            rainDataFetch.push(creekRain.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(newDay)}`));
 
             // next query should be the last day +1 so no overlap with data
             let newDayPlusOne = new Date(new Date(compareDate.getTime()).setDate(compareDate.getDate() + 151));
             compareDate = newDayPlusOne
-
+;
         }
         // query one extra day since data retrieved is in UTC
         let endDayPlusOne = new Date(new Date(endGraphDate.getTime()).setDate(endGraphDate.getDate() + 1));
 
-        realTimeDataFetch.push(creekRealTime.get(`?id=${props.id}&rptdate=${convertDate(compareDate)}&rptend=${convertDate(endDayPlusOne)}`))
-        cleanDataFetch.push(creekClean.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(endDayPlusOne)}`))
+        realTimeDataFetch.push(creekRealTime.get(`?id=${props.id}&rptdate=${convertDate(compareDate)}&rptend=${convertDate(endDayPlusOne)}`));
+        cleanDataFetch.push(creekClean.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(endDayPlusOne)}`));
 
-        flowDataFetch.push(creekFlow.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(endGraphDate)}`))
-        rainDataFetch.push(creekRain.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(endGraphDate)}`))
+        flowDataFetch.push(creekFlow.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(endGraphDate)}`));
+        rainDataFetch.push(creekRain.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(endGraphDate)}`));
         setIsLoading(false); // Loading is true
 
-        realTimeDataFetch.reverse()
+        realTimeDataFetch.reverse();
         setIsLoading(true); // Loading is true
         async function fetchData() {
-            realTimeDataFetch = await Promise.all(realTimeDataFetch)
-            cleanDataFetch = await Promise.all(cleanDataFetch)
-            flowDataFetch = await Promise.all(flowDataFetch)
-            rainDataFetch = await Promise.all(rainDataFetch)
+            realTimeDataFetch = await Promise.all(realTimeDataFetch);
+            cleanDataFetch = await Promise.all(cleanDataFetch);
+            flowDataFetch = await Promise.all(flowDataFetch);
+            rainDataFetch = await Promise.all(rainDataFetch);
 
-            console.log("realtime",realTimeDataFetch)
-            console.log("clean data",cleanDataFetch)
-            console.log("flow data",flowDataFetch)
-            console.log("rain data",rainDataFetch)
+            console.log("realtime",realTimeDataFetch);
+            console.log("clean data",cleanDataFetch);
+            console.log("flow data",flowDataFetch);
+            console.log("rain data",rainDataFetch);
 
-            setRealTimeData(realTimeDataFetch)
-            setCleanData(cleanDataFetch)
-            setFlowData(flowDataFetch)
-            setRainData(rainDataFetch)
-            setIsLoading(false)
+            setRealTimeData(realTimeDataFetch);
+            setCleanData(cleanDataFetch);
+            setFlowData(flowDataFetch);
+            setRainData(rainDataFetch);
+            setIsLoading(false);
         }
-        fetchData()
+        fetchData();
 
     },[startGraphDate,endGraphDate] )
 
     useEffect(()=> {
-        console.log("use effect for turb temp")
+        console.log("use effect for turb temp");
         if (!isLoading) {
-            console.log("done loading...")
-            console.log("realtimedata",realTimeData)
-            console.log("cleandata",cleanData)
-            console.log("flowedata",flowData)
-            console.log("raindata",rainData)
-            let creekRealTimeData = [].concat.apply([],realTimeData)
-            let creekCleanData = [].concat.apply([],cleanData)
-            let creekFlowData = [].concat.apply([],flowData)
-            let creekRainData = [].concat.apply([],rainData)
+            console.log("done loading...");
+            console.log("realtimedata",realTimeData);
+            console.log("cleandata",cleanData);
+            console.log("flowedata",flowData);
+            console.log("raindata",rainData);
+            let creekRealTimeData = [].concat.apply([],realTimeData);
+            let creekCleanData = [].concat.apply([],cleanData);
+            let creekFlowData = [].concat.apply([],flowData);
+            let creekRainData = [].concat.apply([],rainData);
 
             let turbtempfiltereddata = getFilteredData(creekRealTimeData, "Turb_Temp");
             let turbfiltereddata = getFilteredData(creekRealTimeData, "Turb_BES");
@@ -509,9 +509,9 @@ export default function Stream(props) {
              */
             let zoneProps = [];
             if (lastdate === undefined && turbfiltereddata.length !== 0) {
-                zoneProps = [{value: turbfiltereddata[0][0]},{dashStyle: 'dash'}]
+                zoneProps = [{value: turbfiltereddata[0][0]},{dashStyle: 'dash'}];
             } else {
-                zoneProps = [{value: lastdate},{dashStyle: 'dash'}]
+                zoneProps = [{value: lastdate},{dashStyle: 'dash'}];
             }
 
             /**
@@ -526,40 +526,40 @@ export default function Stream(props) {
             // sort by date
             let combinedturb = cleanturbfiltereddata.concat(turbfiltereddata);
             combinedturb.sort(function(a,b) {
-                return (a[0]-b[0])
-            })
+                return (a[0]-b[0]);
+            });
             let combinedturbtemp = cleanturbtempfiltereddata.concat(turbtempfiltereddata);
             combinedturbtemp.sort(function(a,b) {
-                return (a[0]-b[0])
-            })
+                return (a[0]-b[0]);
+            });
             flowfiltereddata.sort(function(a,b) {
-                return (a[0]-b[0])
-            })
+                return (a[0]-b[0]);
+            });
             rainfiltereddata.sort(function(a,b) {
-                return (a[0]-b[0])
-            })
+                return (a[0]-b[0]);
+            });
 
             /**
              * title of the y axis
              */
-            let ylabel = ''
+            let ylabel = '';
             /**
              * format of the y axis labels
              */
-            let yformat = ''
+            let yformat = '';
             /**
              * name of the series
              */
-            let yseries = ''
+            let yseries = '';
             // set the variables depending on fahrenheit or celcius option 
             if (graphUnit === 'f') {
-                ylabel = 'Water Temperature [°F]'
-                yformat = '{value} °F'
-                yseries = 'Water Temperature in °F'
+                ylabel = 'Water Temperature [°F]';
+                yformat = '{value} °F';
+                yseries = 'Water Temperature in °F';
             } else {
-                ylabel = 'Water Temperature [°C]'
-                yformat = '{value} °C'
-                yseries = 'Water Temperature in °C'
+                ylabel = 'Water Temperature [°C]';
+                yformat = '{value} °C';
+                yseries = 'Water Temperature in °C';
             }
             
             // update chart properties with data
@@ -602,7 +602,7 @@ export default function Stream(props) {
                         color: Highcharts.getOptions().colors[7]
                     }
                 },},{}]
-            })
+            });
         }
     },[isLoading,graphUnit])
 
@@ -626,7 +626,7 @@ export default function Stream(props) {
             header: "Where is the data collected?",
             content: <p>Stream turbidity and temperature are measured by UC Davis sensors that are co-located with existing California Department of Water Resources gauging stations. However, river flow data and precipitation data are externally scraped from <a href="https://cdec.water.ca.gov/">California Department of Water Resources</a>.</p>
         }
-    ]
+    ];
 
     return (
         <div className="stream-container">

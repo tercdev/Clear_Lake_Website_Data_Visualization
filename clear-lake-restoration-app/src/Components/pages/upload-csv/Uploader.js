@@ -6,6 +6,10 @@ import './Uploader.css';
 
 // API endpoint : https://ckxm4p1ddg.execute-api.us-west-2.amazonaws.com/clearlake-getPresignedUrlTest
 
+/**
+ * Component for showing the upload area.
+ * @returns {JSX.Element}
+ */
 const Uploader = () => {
     const API_ENDPOINT = "https://ckxm4p1ddg.execute-api.us-west-2.amazonaws.com/clearlake-getPresignedUrlTest";
     const axios = require('axios').default;
@@ -28,7 +32,7 @@ const Uploader = () => {
           } else if ((parsedFileName[0] === "streams")) {
             fileName = parsedFileName[0] +"/"+ parsedFileName[1] +"/"+ parsedFileName[2] +"/" + f['file'].name;
           } else {
-            fileName = f['file'].name
+            fileName = f['file'].name;
           }
 
           // GET request: presigned URL
@@ -44,7 +48,7 @@ const Uploader = () => {
               }
           });
 
-          console.log("Response: ", response)
+          console.log("Response: ", response);
 
           // PUT request: upload file to S3
           // put the file into bucket
@@ -55,7 +59,7 @@ const Uploader = () => {
                   "Content-Type": "text/csv"
               },
               body: f['file']
-          })
+          });
 
           console.log('Result: ', result);
           f.remove();

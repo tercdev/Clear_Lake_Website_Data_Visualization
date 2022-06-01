@@ -41,9 +41,9 @@ export default function LakeTchain(props) {
         // destroy previous labels
         if (typeof templabel !== 'undefined') {
             templabel.destroy();
-            templabel = undefined
+            templabel = undefined;
             dolabel.destroy();
-            dolabel = undefined
+            dolabel = undefined;
         }
         // add new labels to the chart
         templabel = chart.renderer.text('Temperature [°C]', chart.chartWidth-30, top)
@@ -332,7 +332,7 @@ export default function LakeTchain(props) {
             setTime: 0,
             endTime: 0
         }
-    })
+    });
 
     // for the date range picker and dates displayed on the graph
     // initial start date is 1 year ago 
@@ -391,7 +391,7 @@ export default function LakeTchain(props) {
                 if (re.exec(key) !== null) {
                     m.push([pstTime.getTime(),parseFloat(re.exec(key)[1])]);
                 }
-            })
+            });
             if (dataType == "temp") { // add the instrument at the surface
                 let pstTime = convertGMTtoPSTTime(new Date(data[0].DateTime_UTC));
                 m.push([pstTime.getTime(),parseFloat(data[0].Height_max)]);
@@ -457,7 +457,7 @@ export default function LakeTchain(props) {
                     i += 0.01;
                 }
 
-            }))
+            }));
         } else if (dataType == "temp") {
             data.forEach((element => {
                 let pstTime = convertGMTtoPSTTime(new Date(element.DateTime_UTC));
@@ -544,25 +544,25 @@ export default function LakeTchain(props) {
                     m.push([pstTime.getTime(),Math.round(j*100)/100, Math.round(values*100)/100]);
                 }
                 m.push([pstTime.getTime(),heightMax,parseFloat(element["Height_surface"])]);
-            }))
+            }));
         }
         // sort by date
         m.sort(function(a,b) {
-            return (a[0]-b[0])
+            return (a[0]-b[0]);
         })
-        return m
+        return m;
     }
 
     useEffect(() => {
-        setOxygenDataArr([])
-        setTempDataArr([])
+        setOxygenDataArr([]);
+        setTempDataArr([]);
 
         // find difference between user picked dates
-        let diffTime = endGraphDate.getTime() - startGraphDate.getTime()
-        let diffDay = diffTime/(1000*3600*24)
+        let diffTime = endGraphDate.getTime() - startGraphDate.getTime();
+        let diffDay = diffTime/(1000*3600*24);
 
-        let oxygenFetch =[]
-        let tempFetch = []
+        let oxygenFetch =[];
+        let tempFetch = [];
         
         let newDay = 0;
         let compareDate = startGraphDate;
@@ -606,7 +606,7 @@ export default function LakeTchain(props) {
             setTempDataArr(combinedTempData);
             setIsLoading(false);
         }
-        fetchData()
+        fetchData();
 
     },[startGraphDate,endGraphDate]);
 
@@ -618,7 +618,7 @@ export default function LakeTchain(props) {
             
             if (oxyFiltered.length != 0) { // first and last date as min and max x axis values
                 var minX = oxyFiltered[0][0];
-                var maxX = oxyFiltered[oxyFiltered.length-1][0]
+                var maxX = oxyFiltered[oxyFiltered.length-1][0];
             }
             let depthFiltered = getFilteredData(oxygenDataArr, "depth");
             let oxyInstrument = getFilteredData(oxygenDataArr, "oxy", true);
@@ -642,7 +642,7 @@ export default function LakeTchain(props) {
                     min: minX,
                     max: maxX
                 }]
-            })
+            });
         }
     },[isLoading])
 
@@ -662,7 +662,7 @@ export default function LakeTchain(props) {
             header: "Why is no data showing up on my plots?",
             content: <p>If there is no data, check <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">here</a> to read more about the metadata.</p>
         }
-    ]
+    ];
 
     return (
         <div>

@@ -6,7 +6,7 @@ import DateRangePicker from '../../DateRangePicker';
 import DataDisclaimer from '../../DataDisclaimer';
 import CollapsibleItem from '../../CollapsibleItem';
 
-import { convertDate, convertGMTtoPSTTime, removePast } from '../../utils';
+import { convertDate, convertGMTtoPSTTime, removePast,dateToDateTime } from '../../utils';
 import useFetch from 'use-http';
 
 import "./Stream.css";
@@ -58,8 +58,7 @@ export default function Stream(props) {
                  */
                 const celToF = temp => Math.round((temp * 1.8) + 32);
                 if (element.hasOwnProperty('TmStamp')) {
-                    let split = element.TmStamp.split(/[^0-9]/);
-                    let newDate = new Date(...split);
+                    let newDate = dateToDateTime(element.TmStamp)
                     let pstTime = convertGMTtoPSTTime(newDate);
                     if (graphUnit === 'f') {
                         m.push([pstTime.getTime(), celToF(parseFloat(element[dataType]))]);
@@ -67,8 +66,7 @@ export default function Stream(props) {
                         m.push([pstTime.getTime(), parseFloat(element[dataType])]);
                     }
                 } else {
-                    let split = element.DateTime_UTC.split(/[^0-9]/)
-                    let newDate = new Date(...split);
+                    let newDate = dateToDateTime(element.DateTime_UTC)
                     let pstTime = convertGMTtoPSTTime(newDate);
 
                     if (graphUnit === 'f') {
@@ -81,20 +79,19 @@ export default function Stream(props) {
         } else {
             data.forEach((element => {
                 if (element.hasOwnProperty('TmStamp')) {
-                    let split = element.TmStamp.split(/[^0-9]/);
-                    let newDate = new Date(...split);
+                    // let split = element.TmStamp.split(/[^0-9]/);
+                    // let newDate = new Date(...split);
+                    let newDate = dateToDateTime(element.TmStamp)
                     let pstTime = convertGMTtoPSTTime(newDate);
                     m.push([pstTime.getTime(), parseFloat(element[dataType])]);
                 } 
                 else if (element.hasOwnProperty('DateTime_UTC')) {
-                    let split = element.DateTime_UTC.split(/[^0-9]/);
-                    let newDate = new Date(...split);
+                    let newDate = dateToDateTime(element.DateTime_UTC)
                     let pstTime = convertGMTtoPSTTime(newDate);
                     m.push([pstTime.getTime(), parseFloat(element[dataType])]);
                 } 
                 else if (element.hasOwnProperty('DateTime_PST')) {
-                    let split = element.DateTime_PST.split(/[^0-9]/);
-                    let newDate = new Date(...split);
+                    let newDate = dateToDateTime(element.DateTime_PST)
                     m.push([newDate.getTime(), parseFloat(element[dataType])]);
                 }
             }));

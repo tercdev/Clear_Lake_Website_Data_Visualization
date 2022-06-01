@@ -85,6 +85,7 @@ function MeteorologyData(props) {
 
     // fetches data every time graphDates change
     useEffect(()=> {
+        console.log("id",id)
         // make sure data is set to empty
         setMetData([]);
 
@@ -137,7 +138,7 @@ function MeteorologyData(props) {
 
         fetchData();
 
-    },[startGraphDate,endGraphDate])
+    },[startGraphDate,endGraphDate,id])
 
     // data in the csv
     const [metcsv, setmetcsv] = useState([]);

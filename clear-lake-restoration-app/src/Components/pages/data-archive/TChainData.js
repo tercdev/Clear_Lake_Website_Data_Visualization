@@ -108,7 +108,7 @@ function TChainData() {
 
         fetchData();
 
-    },[startGraphDate,endGraphDate])
+    },[startGraphDate,endGraphDate,id])
 
     useEffect(()=> {
         if (!isLoading) { 

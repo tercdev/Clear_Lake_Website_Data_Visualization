@@ -86,6 +86,7 @@ function StreamData(props) {
     
     // fetches data every time graphDates change
     useEffect(()=> {
+        console.log("stream id",id)
         // make sure data is set to empty
         setCreekData([]);
 
@@ -137,7 +138,7 @@ function StreamData(props) {
 
         fetchData();
 
-    },[startGraphDate,endGraphDate])
+    },[startGraphDate,endGraphDate,id])
 
     // data in the csv
     const [creekcsv, setcreekcsv] = useState([]);

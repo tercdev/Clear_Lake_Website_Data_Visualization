@@ -85,6 +85,7 @@ function MeteorologyData(props) {
 
     // fetches data every time graphDates change
     useEffect(()=> {
+        console.log("id",id)
         // make sure data is set to empty
         setMetData([]);
 
@@ -111,11 +112,15 @@ function MeteorologyData(props) {
             compareDate = newDayPlusOne;
 
         }
-        // query one extra day since data retrieved is in UTC
-        let endDayPlusOne = new Date(new Date(endGraphDate.getTime()).setDate(endGraphDate.getDate() + 1));
 
-        metDataFetch.push(metDataURL.get(`?id=${id}&${start}=${convertDate(compareDate)}&${end}=${convertDate(endDayPlusOne)}`));
+        metDataFetch.push(metDataURL.get(`?id=${id}&${start}=${convertDate(compareDate)}&${end}=${convertDate(endGraphDate)}`));
+        if (props.id === "Real Time") {
+            metDataFetch = metDataFetch.reverse();
+        }
+        
+
         setIsLoading(true); // Loading is true
+
         async function fetchData() {
             metDataFetch = await Promise.all(metDataFetch);
 
@@ -123,6 +128,9 @@ function MeteorologyData(props) {
 
             // combine all fetched arrays of data
             let metDataComb = [].concat.apply([],metDataFetch);
+            if (props.id === "Real Time") {
+                metDataComb = metDataComb.reverse();
+            }
 
             setMetData(metDataComb);
             setIsLoading(false);
@@ -130,7 +138,7 @@ function MeteorologyData(props) {
 
         fetchData();
 
-    },[startGraphDate,endGraphDate])
+    },[startGraphDate,endGraphDate,id])
 
     // data in the csv
     const [metcsv, setmetcsv] = useState([]);
@@ -273,7 +281,7 @@ function MeteorologyData(props) {
             className="csv-link"
             target="_blank" 
             headers={headers}
-            filename={siteName+"_"+startGraphDate.toISOString().slice(0,10)+"_"+endGraphDate.toISOString().slice(0,10)}
+            filename={siteName+"_"+startGraphDate.toLocaleDateString().replace(/\//g, '-')+"_"+endGraphDate.toLocaleDateString().replace(/\//g, '-')}
             >
                 Download {props.id} Met Data
         </CSVLink></>}

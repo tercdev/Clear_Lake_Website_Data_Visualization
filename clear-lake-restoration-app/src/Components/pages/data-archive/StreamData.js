@@ -86,6 +86,7 @@ function StreamData(props) {
     
     // fetches data every time graphDates change
     useEffect(()=> {
+        console.log("stream id",id)
         // make sure data is set to empty
         setCreekData([]);
 
@@ -112,19 +113,24 @@ function StreamData(props) {
             let newDayPlusOne = new Date(new Date(compareDate.getTime()).setDate(compareDate.getDate() + 151));
             compareDate = newDayPlusOne;
         }
-        // query one extra day since data retrieved is in UTC
-        let endDayPlusOne = new Date(new Date(endGraphDate.getTime()).setDate(endGraphDate.getDate() + 1));
 
-        creekDataFetch.push(creekDataURL.get(`?id=${id}&${start}=${convertDate(compareDate)}&${end}=${convertDate(endDayPlusOne)}`));
+        creekDataFetch.push(creekDataURL.get(`?id=${id}&${start}=${convertDate(compareDate)}&${end}=${convertDate(endGraphDate)}`));
+        
+        if (props.id === "Real Time") {
+            creekDataFetch = creekDataFetch.reverse();
+        }
         setIsLoading(true); // Loading is true
         async function fetchData() {
             creekDataFetch = await Promise.all(creekDataFetch);
 
             // check if all returned arrays are empty
             isAllEmpty(creekDataFetch) ? setIsEmpty(true) : setIsEmpty(false);
-
+            console.log("creek data lists", creekDataFetch)
             // combine all fetched arrays of data
             let creekDataComb = [].concat.apply([],creekDataFetch);
+            if (props.id === "Real Time") {
+                creekDataComb = creekDataComb.reverse();
+            }
 
             setCreekData(creekDataComb);
             setIsLoading(false);
@@ -132,7 +138,7 @@ function StreamData(props) {
 
         fetchData();
 
-    },[startGraphDate,endGraphDate])
+    },[startGraphDate,endGraphDate,id])
 
     // data in the csv
     const [creekcsv, setcreekcsv] = useState([]);
@@ -275,7 +281,7 @@ function StreamData(props) {
         {!isLoading && !isEmpty && showButton && 
         <CSVLink 
             data={creekcsv} 
-            filename ={siteName+"_"+startGraphDate.toISOString().slice(0,10)+"_"+endGraphDate.toISOString().slice(0,10)} 
+            filename ={siteName+"_"+startGraphDate.toLocaleDateString().replace(/\//g, '-')+"_"+endGraphDate.toLocaleDateString().replace(/\//g, '-')} 
             className="csv-link" target="_blank" 
             headers={headers}>
                 Download {props.id} Stream Data

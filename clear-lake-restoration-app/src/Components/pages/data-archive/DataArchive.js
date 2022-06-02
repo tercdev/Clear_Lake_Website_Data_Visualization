@@ -31,7 +31,7 @@ function DataArchive() {
             id: "2",
             header: "What is the difference between clean and real-time data?",
             content: <p>Clean data has been reviewed by the TERC team. Real-time data is information that is delivered immediately after the data collection process. 
-            There may be spikes or inconsistent data, as real-time data has not been reviewed by the TERC team. For more information regarding data, please visit the <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">Metadata Explanation page</a>.</p>
+            There may be spikes or inconsistent data, as real-time data has not been reviewed by the TERC team. For more information regarding data, please visit the <a href="https://clearlakerehabilitation.ucdavis.edu/metadata">Metadata Explanation page</a>.</p>
         }
     ];
 

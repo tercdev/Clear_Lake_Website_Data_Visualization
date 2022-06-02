@@ -74,6 +74,7 @@ export default function LakeCTD(props) {
             }
         },
         exporting: {
+            filename: props.name,
             buttons: {
                 contextButton: {
                     menuItems: [
@@ -81,41 +82,10 @@ export default function LakeCTD(props) {
                         "printChart",
                         "viewData",
                         "separator",
-                        {
-                            textKey: 'downloadPNG',
-                            onclick: function () {
-                                this.exportChart({
-                                    type: 'image/png',
-                                    filename: props.name
-                                });
-                            }
-                        }, {
-                            textKey: 'downloadJPEG',
-                            onclick: function () {
-                                this.exportChart({
-                                    type: 'image/jpeg',
-                                    filename: props.name
-                                });
-                            }
-                        },
-                        {
-                            textKey: 'downloadSVG',
-                            onclick: function () {
-                                this.exportChart({
-                                    type: 'image/svg+xml',
-                                    filename: props.name
-                                });
-                            }
-                        },
-                        {
-                            textKey: 'downloadPDF',
-                            onclick: function () {
-                                this.exportChart({
-                                    type: "application/pdf",
-                                    filename: props.name
-                                });
-                            }
-                        },
+                        "downloadPNG",
+                        "downloadJPEG", 
+                        "downloadSVG",
+                        "downloadPDF",
                         "separator",
                         "downloadCSV",
                         "downloadXLS",

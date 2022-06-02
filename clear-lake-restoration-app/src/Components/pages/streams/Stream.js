@@ -134,36 +134,28 @@ export default function Stream(props) {
         exporting: {
             buttons: {
                 contextButton: {
-                    menuItems: [{
-                        textKey: 'downloadPNG',
-                        onclick: function () {
-                            this.exportChart({
-                                type: 'image/png',
-                                filename: props.name
-                            });
+                    menuItems: [
+                        "viewFullscreen",
+                        "printChart",
+                        "separator",
+                        {
+                            textKey: 'downloadPNG',
+                            onclick: function () {
+                                this.exportChart({
+                                    type: 'image/png',
+                                    filename: props.name
+                                });
+                            }
+                        }, {
+                            textKey: 'downloadJPEG',
+                            onclick: function () {
+                                this.exportChart({
+                                    type: 'image/jpeg',
+                                    filename: props.name
+                                });
+                            }
                         }
-                    }, {
-                        textKey: 'downloadJPEG',
-                        onclick: function () {
-                            this.exportChart({
-                                type: 'image/jpeg',
-                                filename: props.name
-                            });
-                        }
-                    }, {
-                        separator: true
-                    }, {
-                        textKey: 'printChart',
-                        onclick: function () {
-                            this.print();
-                        }
-                    }, {
-                        textKey: 'viewFullscreen',
-                        onclick: function () {
-                            this.fullscreen.toggle()
-                        }
-                    },
-                ]
+                    ]
                 }
             }
         },

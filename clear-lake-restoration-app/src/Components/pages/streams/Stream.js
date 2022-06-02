@@ -131,6 +131,23 @@ export default function Stream(props) {
                 fontSize: '1rem'
             }
         },
+        exporting: {
+            filename: props.name,
+            buttons: {
+                contextButton: {
+                    menuItems: [
+                        "viewFullscreen",
+                        "printChart",
+                        "viewData",
+                        "separator",
+                        "downloadPNG",
+                        "downloadJPEG", 
+                        "downloadSVG",
+                        "downloadPDF",
+                    ]
+                }
+            }
+        },
         xAxis: [{ // for the bottom chart
             type: 'datetime',
             labels: {
@@ -344,7 +361,9 @@ export default function Stream(props) {
      * @param {Date} e 
      */
     function handleStartDateChange(e) {
-        setStartDate(e);
+        if (typeof e !== Date) {
+            setStartDate(e);
+        }
     }
     
     /**
@@ -352,7 +371,9 @@ export default function Stream(props) {
      * @param {Date} e 
      */
     function handleEndDateChange(e) {
-        setEndDate(e);
+        if (typeof e !== Date) {
+            setEndDate(e);
+        }
     }
     
     /**
@@ -584,7 +605,7 @@ export default function Stream(props) {
         }, {
             id: "2",
             header: "Why is no data showing up on my plots?",
-            content: <p>If there is no data, the sensors might not be submerged in the water. Check <a href='https://clearlakerestoration.sf.ucdavis.edu/metadata'>here</a> to read more about the metadata.</p>
+            content: <p>If there is no data, the sensors might not be submerged in the water. Check <a href='https://clearlakerehabilitation.ucdavis.edu/metadata'>here</a> to read more about the metadata. If you are loading more than one year's worth of data, expect low browser performance, as there are lots of data points to graph.</p>
         }, {
             id: "3",
             header: "Where is the data collected?",

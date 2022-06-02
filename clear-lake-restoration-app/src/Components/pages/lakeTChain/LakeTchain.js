@@ -95,6 +95,23 @@ export default function LakeTchain(props) {
                 fontSize: '1rem'
             }
         },
+        exporting: {
+            filename: props.name,
+            buttons: {
+                contextButton: {
+                    menuItems: [
+                        "viewFullscreen",
+                        "printChart",
+                        "viewData",
+                        "separator",
+                        "downloadPNG",
+                        "downloadJPEG", 
+                        "downloadSVG",
+                        "downloadPDF",
+                    ]
+                }
+            }
+        },
         credits: {
             enabled: false
         },
@@ -357,10 +374,15 @@ export default function LakeTchain(props) {
 
     // when the user changes the date, the date selector updates the date
     function handleStartDateChange(e) {
-        setStartDate(e);
+        if (typeof e !== Date) {
+            setStartDate(e);
+        }
     }
+
     function handleEndDateChange(e) {
-        setEndDate(e);
+        if (typeof e !== Date) {
+            setEndDate(e);
+        }
     }
 
     // set the graph's start and end date
@@ -676,7 +698,7 @@ export default function LakeTchain(props) {
         }, {
             id: "2",
             header: "Why is no data showing up on my plots?",
-            content: <p>If there is no data, check <a href="https://clearlakerestoration.sf.ucdavis.edu/metadata">here</a> to read more about the metadata.</p>
+            content: <p>If there is no data, check <a href="https://clearlakerehabilitation.ucdavis.edu/metadata">here</a> to read more about the metadata. If you are loading more than one year's worth of data, expect low browser performance, as there are lots of data points to graph.</p>
         }
     ];
 

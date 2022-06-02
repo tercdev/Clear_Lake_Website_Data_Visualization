@@ -73,6 +73,26 @@ export default function LakeCTD(props) {
                 fontSize: '1rem'
             }
         },
+        exporting: {
+            filename: props.name,
+            buttons: {
+                contextButton: {
+                    menuItems: [
+                        "viewFullscreen",
+                        "printChart",
+                        "viewData",
+                        "separator",
+                        "downloadPNG",
+                        "downloadJPEG", 
+                        "downloadSVG",
+                        "downloadPDF",
+                        "separator",
+                        "downloadCSV",
+                        "downloadXLS",
+                    ]
+                }
+            }
+        },
         credits: {
             enabled: false,
         },
@@ -301,7 +321,9 @@ export default function LakeCTD(props) {
      * @param {Date} e 
      */
     function handleStartDateChange(e) {
-        setStartDate(e);
+        if (typeof e !== Date) {
+            setStartDate(e);
+        }
     }
 
     /**

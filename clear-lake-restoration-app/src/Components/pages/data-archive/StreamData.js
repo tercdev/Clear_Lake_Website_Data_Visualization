@@ -86,7 +86,6 @@ function StreamData(props) {
     
     // fetches data every time graphDates change
     useEffect(()=> {
-        console.log("stream id",id)
         // make sure data is set to empty
         setCreekData([]);
 
@@ -125,7 +124,6 @@ function StreamData(props) {
 
             // check if all returned arrays are empty
             isAllEmpty(creekDataFetch) ? setIsEmpty(true) : setIsEmpty(false);
-            console.log("creek data lists", creekDataFetch)
             // combine all fetched arrays of data
             let creekDataComb = [].concat.apply([],creekDataFetch);
             if (props.id === "Real Time") {
@@ -251,7 +249,7 @@ function StreamData(props) {
                         startDate={startDate}
                         endDate={endDate}
                         maxDate={endDate}
-                        minDate={new Date("2019/01/01")}
+                        minDate={new Date("2018/10/01")}
                         showMonthDropdown
                         showYearDropdown
                         dropdownMode='select'
@@ -281,15 +279,15 @@ function StreamData(props) {
         {!isLoading && !isEmpty && showButton && 
         <CSVLink 
             data={creekcsv} 
-            filename ={siteName+"_"+startGraphDate.toLocaleDateString().replace(/\//g, '-')+"_"+endGraphDate.toLocaleDateString().replace(/\//g, '-')} 
+            filename ={props.id + " " + siteName + "_" + startGraphDate.toLocaleDateString().replace(/\//g, '-') + "_" + endGraphDate.toLocaleDateString().replace(/\//g, '-') + ".csv"} 
             className="csv-link" target="_blank" 
             headers={headers}>
                 Download {props.id} Stream Data
         </CSVLink>}
 
         {props.id == "Real Time" ? 
-            !isLoading && !isEmpty && showButton && <a href={require("../../../Metadata/README_realtime_streams.txt")} download="README_realtime_streams">Download {props.id} Stream Metadata README</a>
-            : !isLoading && !isEmpty && showButton && <a href={require("../../../Metadata/README_clean_streams.txt")} download="README_clean_stream">Download {props.id} Stream Metadata README</a>}
+            !isLoading && !isEmpty && showButton && <a href={require("../../../Metadata/README_realtime_streams.txt")} download="README_realtime_streams.txt">Download {props.id} Stream Metadata README</a>
+            : !isLoading && !isEmpty && showButton && <a href={require("../../../Metadata/README_clean_streams.txt")} download="README_clean_stream.txt">Download {props.id} Stream Metadata README</a>}
         
 
         {!isLoading && isEmpty && <p>There is no {props.id.toLowerCase()} stream data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}

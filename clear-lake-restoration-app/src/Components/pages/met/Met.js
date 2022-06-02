@@ -14,7 +14,8 @@ import {
         cardinalToDeg,
         removePast,
         removeExcess,
-        isAllEmpty 
+        isAllEmpty,
+        dateToDateTime
      } from '../../utils.js';
 
 /**
@@ -51,7 +52,10 @@ export default function Met(props) {
     function getFilteredData(data, dataType) {
         let m = [];
         data.forEach((element => {
-             let pstTime = convertGMTtoPSTTime(new Date(element.DateTime_UTC));
+
+           let newDate = dateToDateTime(element.DateTime_UTC)
+
+            let pstTime = convertGMTtoPSTTime(newDate);
             if (dataType === "Wind_Dir") {
                 m.push([pstTime.getTime(), cardinalToDeg(element[dataType])]);
             } else if (dataType === "Air_Temp") {
@@ -72,9 +76,9 @@ export default function Met(props) {
         }));
         // sort by date
         m.sort(function(a,b) {
-            return (a[0], b[0]);
+            return (a[0]-b[0]);
         })
-        return m.reverse();
+        return m;
     }
 
     /**
@@ -566,10 +570,12 @@ export default function Met(props) {
                 let realTimeSolarRadData = getFilteredData(realTimeData, "Solar_Rad");
     
                 if (atmPresData.length !== 0 && realTimeAtmPresData.length !== 0) {
-                    var lastdate = atmPresData[0][0];
-                    let dataLastDate = new Date(atmPresData[0][0]);
-                    let realDataLastDate = new Date(realTimeAtmPresData[0][0]);
-    
+                    var [lastdate] = atmPresData.slice(-1)[0];
+                    let dataLastDate = new Date(lastdate);
+
+                    let [reallastdate] = realTimeAtmPresData.slice(-1)[0]
+                    let realDataLastDate = new Date(reallastdate);
+
                     if (dataLastDate.getFullYear() === realDataLastDate.getFullYear() && 
                         dataLastDate.getMonth() === realDataLastDate.getMonth() && 
                         dataLastDate.getDay() === realDataLastDate.getDay()) {
@@ -623,7 +629,7 @@ export default function Met(props) {
                  */
                 let zoneProps = [];
                 if (lastdate === undefined && realTimeAtmPresData.length !== 0) {
-                    zoneProps = [{value: realTimeAtmPresData[0][0]},{dashStyle: 'dash'}];
+                    zoneProps = [{value: combinedAtmPresData[0][0]},{dashStyle: 'dash'}];
                 } else {
                     zoneProps = [{value: lastdate}, {dashStyle: 'dash'}];
                 }

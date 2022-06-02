@@ -6,7 +6,7 @@ import DateRangePicker from '../../DateRangePicker';
 import DataDisclaimer from '../../DataDisclaimer';
 import CollapsibleItem from '../../CollapsibleItem';
 
-import { convertDate, convertGMTtoPSTTime, removePast } from '../../utils';
+import { convertDate, convertGMTtoPSTTime, removePast,dateToDateTime } from '../../utils';
 import useFetch from 'use-http';
 
 import "./Stream.css";
@@ -58,14 +58,17 @@ export default function Stream(props) {
                  */
                 const celToF = temp => Math.round((temp * 1.8) + 32);
                 if (element.hasOwnProperty('TmStamp')) {
-                    let pstTime = convertGMTtoPSTTime(new Date(element.TmStamp));
+                    let newDate = dateToDateTime(element.TmStamp)
+                    let pstTime = convertGMTtoPSTTime(newDate);
                     if (graphUnit === 'f') {
                         m.push([pstTime.getTime(), celToF(parseFloat(element[dataType]))]);
                     } else {
                         m.push([pstTime.getTime(), parseFloat(element[dataType])]);
                     }
                 } else {
-                    let pstTime = convertGMTtoPSTTime(new Date(element.DateTime_UTC));
+                    let newDate = dateToDateTime(element.DateTime_UTC)
+                    let pstTime = convertGMTtoPSTTime(newDate);
+
                     if (graphUnit === 'f') {
                         m.push([pstTime.getTime(), celToF(parseFloat(element[dataType]))]);
                     } else {
@@ -76,13 +79,20 @@ export default function Stream(props) {
         } else {
             data.forEach((element => {
                 if (element.hasOwnProperty('TmStamp')) {
-                    let pstTime = convertGMTtoPSTTime(new Date(element.TmStamp));
+                    // let split = element.TmStamp.split(/[^0-9]/);
+                    // let newDate = new Date(...split);
+                    let newDate = dateToDateTime(element.TmStamp)
+                    let pstTime = convertGMTtoPSTTime(newDate);
                     m.push([pstTime.getTime(), parseFloat(element[dataType])]);
-                } else if (element.hasOwnProperty('DateTime_UTC')) {
-                    let pstTime = convertGMTtoPSTTime(new Date(element.DateTime_UTC));
+                } 
+                else if (element.hasOwnProperty('DateTime_UTC')) {
+                    let newDate = dateToDateTime(element.DateTime_UTC)
+                    let pstTime = convertGMTtoPSTTime(newDate);
                     m.push([pstTime.getTime(), parseFloat(element[dataType])]);
-                } else if (element.hasOwnProperty('DateTime_PST')) {
-                    m.push([new Date(element.DateTime_PST).getTime(), parseFloat(element[dataType])]);
+                } 
+                else if (element.hasOwnProperty('DateTime_PST')) {
+                    let newDate = dateToDateTime(element.DateTime_PST)
+                    m.push([newDate.getTime(), parseFloat(element[dataType])]);
                 }
             }));
         }
@@ -321,6 +331,7 @@ export default function Stream(props) {
     // set start date as a week ago and end date as today
     var today = new Date();
     var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate()-7);
+
     const [startDate, setStartDate] = useState(lastWeek);
     const [endDate, setEndDate] = useState(today);
     const [startGraphDate, setGraphStartDate] = useState(lastWeek);
@@ -354,49 +365,13 @@ export default function Stream(props) {
     }
 
     const creekRealTime = useFetch('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/cl-creeks');
-    // real-time data Endpoint URL 
-    // var url = new URL();
-    // var search_params = url.searchParams;
-    // search_params.set('id',props.id);
-    // let oldestDate = new Date(new Date().setDate(endGraphDate.getDate() - 150));
-    // if (startGraphDate < oldestDate) {
-    //     search_params.set('rptdate', convertDate(oldestDate));
-    // } else {
-    //     search_params.set('rptdate', convertDate(startGraphDate)); // at most 180 days away from endDate
-    // }
-    // search_params.set('rptend',convertDate(endGraphDate));
-    // url.search = search_params.toString();
-    // var new_url = url.toString();
-    // const creekData = useFetch(new_url);
 
-    // clean data Endpoint URL (includes turb and temp)
-    // var cleanurl = new URL('https://1j27qzg916.execute-api.us-west-2.amazonaws.com/default/clearlake-streamturb-api');
-    // var search_params_clean = cleanurl.searchParams;
-    // search_params_clean.set('id',props.id);
-    // search_params_clean.set('start',convertDate(startGraphDate));
-    // search_params_clean.set('end',convertDate(endGraphDate));
-    // cleanurl.search = search_params_clean.toString();
     const creekClean = useFetch('https://1j27qzg916.execute-api.us-west-2.amazonaws.com/default/clearlake-streamturb-api');
 
-    // flow data Endpoint URL
-    // var flowurl = new URL('https://b8xms0pkrf.execute-api.us-west-2.amazonaws.com/default/clearlake-streams')
-    // var search_params_flow = flowurl.searchParams;
-    // search_params_flow.set('id',props.id);
-    // search_params_flow.set('start',convertDate(startGraphDate));
-    // search_params_flow.set('end',convertDate(endGraphDate));
-    // flowurl.search = search_params_flow.toString();
-    // var flow_new_url = flowurl.toString();
     const creekFlow = useFetch('https://b8xms0pkrf.execute-api.us-west-2.amazonaws.com/default/clearlake-streams');
 
-    // rain data Endpoint URL
-    // var rainURL = new URL('https://ts09zwptz4.execute-api.us-west-2.amazonaws.com/default/clearlake-precipitation-api')
-    // var search_params_rain = rainURL.searchParams;
-    // search_params_rain.set('id',props.id);
-    // search_params_rain.set('start',convertDate(startGraphDate));
-    // search_params_rain.set('end',convertDate(endGraphDate));
-    // rainURL.search = search_params_rain.toString();
-    // var rain_new_url = rainURL.toString();
     const creekRain = useFetch('https://ts09zwptz4.execute-api.us-west-2.amazonaws.com/default/clearlake-precipitation-api');
+
     useEffect(()=> {
         setRealTimeData([]);
         setCleanData([]);
@@ -450,11 +425,6 @@ export default function Stream(props) {
             flowDataFetch = await Promise.all(flowDataFetch);
             rainDataFetch = await Promise.all(rainDataFetch);
 
-            console.log("realtime",realTimeDataFetch);
-            console.log("clean data",cleanDataFetch);
-            console.log("flow data",flowDataFetch);
-            console.log("rain data",rainDataFetch);
-
             setRealTimeData(realTimeDataFetch);
             setCleanData(cleanDataFetch);
             setFlowData(flowDataFetch);
@@ -466,13 +436,7 @@ export default function Stream(props) {
     },[startGraphDate,endGraphDate] )
 
     useEffect(()=> {
-        console.log("use effect for turb temp");
         if (!isLoading) {
-            console.log("done loading...");
-            console.log("realtimedata",realTimeData);
-            console.log("cleandata",cleanData);
-            console.log("flowedata",flowData);
-            console.log("raindata",rainData);
             let creekRealTimeData = [].concat.apply([],realTimeData);
             let creekCleanData = [].concat.apply([],cleanData);
             let creekFlowData = [].concat.apply([],flowData);

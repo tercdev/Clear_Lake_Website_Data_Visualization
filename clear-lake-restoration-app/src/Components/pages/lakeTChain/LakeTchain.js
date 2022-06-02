@@ -9,7 +9,8 @@ import useFetch from 'use-http';
 import { 
     convertDate,
     convertGMTtoPSTTime, 
-    isAllEmpty 
+    isAllEmpty,
+    dateToDateTime
 } from '../../utils';
 
 require('highcharts/modules/heatmap')(Highcharts);
@@ -386,14 +387,18 @@ export default function LakeTchain(props) {
             // Use regex to extract the depth of the instrument from the keys which look like Height_0.5m, Height_1m, etc
             // then add the depth to the array
             Object.keys(data[0]).forEach(key => {
-                let pstTime = convertGMTtoPSTTime(new Date(data[0].DateTime_UTC));
+                let newDate = dateToDateTime(data[0].DateTime_UTC)
+                let pstTime = convertGMTtoPSTTime(newDate);
+
                 let re = /^Height_([^m]*)m$/;
                 if (re.exec(key) !== null) {
                     m.push([pstTime.getTime(),parseFloat(re.exec(key)[1])]);
                 }
             });
             if (dataType == "temp") { // add the instrument at the surface
-                let pstTime = convertGMTtoPSTTime(new Date(data[0].DateTime_UTC));
+                let newDate = dateToDateTime(data[0].DateTime_UTC)
+                let pstTime = convertGMTtoPSTTime(newDate);
+
                 m.push([pstTime.getTime(),parseFloat(data[0].Height_max)]);
             }
             return m;
@@ -401,12 +406,17 @@ export default function LakeTchain(props) {
 
         if (dataType == "depth") { // return the maximum height of the water column at each time
             data.forEach((element => {
-                let pstTime = convertGMTtoPSTTime(new Date(element.DateTime_UTC));
+                let newDate = dateToDateTime(element.DateTime_UTC)
+
+                let pstTime = convertGMTtoPSTTime(newDate);
+
                 m.push([pstTime.getTime(), parseFloat(element["Height_max"])]);
             }))
         } else if (dataType == "oxy") {
             data.forEach((element => {
-                let pstTime = convertGMTtoPSTTime(new Date(element.DateTime_UTC));
+                let newDate = dateToDateTime(element.DateTime_UTC)
+
+                let pstTime = convertGMTtoPSTTime(newDate);
                 //start data
                 let s = 0.5;
 
@@ -460,7 +470,10 @@ export default function LakeTchain(props) {
             }));
         } else if (dataType == "temp") {
             data.forEach((element => {
-                let pstTime = convertGMTtoPSTTime(new Date(element.DateTime_UTC));
+                let newDate = dateToDateTime(element.DateTime_UTC)
+
+                let pstTime = convertGMTtoPSTTime(newDate);
+
                 //start data
                 let s = 0.5;
 
@@ -554,8 +567,9 @@ export default function LakeTchain(props) {
     }
 
     useEffect(() => {
-        setOxygenDataArr([]);
-        setTempDataArr([]);
+        console.log("hello")
+        setOxygenDataArr([])
+        setTempDataArr([])
 
         // find difference between user picked dates
         let diffTime = endGraphDate.getTime() - startGraphDate.getTime();
@@ -578,6 +592,7 @@ export default function LakeTchain(props) {
 
             // next query should be the last day +1 so no overlap with data
             let newDayPlusOne = new Date(new Date(compareDate.getTime()).setDate(compareDate.getDate() + 366));
+            console.log("new day plus one",newDayPlusOne)
             compareDate = newDayPlusOne;
 
         }
@@ -601,7 +616,8 @@ export default function LakeTchain(props) {
             let combinedOxygenData = [].concat.apply([],oxygenFetch);
             let combinedTempData = [].concat.apply([],tempFetch);
             
-            
+            console.log(combinedOxygenData
+                )
             setOxygenDataArr(combinedOxygenData);
             setTempDataArr(combinedTempData);
             setIsLoading(false);

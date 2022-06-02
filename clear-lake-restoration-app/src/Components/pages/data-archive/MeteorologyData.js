@@ -85,7 +85,6 @@ function MeteorologyData(props) {
 
     // fetches data every time graphDates change
     useEffect(()=> {
-        console.log("id",id)
         // make sure data is set to empty
         setMetData([]);
 
@@ -281,14 +280,14 @@ function MeteorologyData(props) {
             className="csv-link"
             target="_blank" 
             headers={headers}
-            filename={siteName+"_"+startGraphDate.toLocaleDateString().replace(/\//g, '-')+"_"+endGraphDate.toLocaleDateString().replace(/\//g, '-')}
+            filename={props.id + " " + siteName+"_"+startGraphDate.toLocaleDateString().replace(/\//g, '-')+"_"+endGraphDate.toLocaleDateString().replace(/\//g, '-')+".csv"}
             >
                 Download {props.id} Met Data
         </CSVLink></>}
 
         {props.id == "Real Time" ? 
-            !isLoading && !isEmpty && showButton && <a href={require("../../../Metadata/README_realtime_met.txt")} download="README_realtime_met">Download {props.id} Meteorology Metadata README</a>
-            : !isLoading && !isEmpty && showButton && <a href={require("../../../Metadata/README_clean_met.txt")} download="README_clean_met">Download {props.id} Meteorology Metadata README</a>}
+            !isLoading && !isEmpty && showButton && <a href={require("../../../Metadata/README_realtime_met.txt")} download="README_realtime_met.txt">Download {props.id} Meteorology Metadata README</a>
+            : !isLoading && !isEmpty && showButton && <a href={require("../../../Metadata/README_clean_met.txt")} download="README_clean_met.txt">Download {props.id} Meteorology Metadata README</a>}
         
         {!isLoading && isEmpty && <p>There is no {props.id.toLowerCase()} meterology data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}
         </center>

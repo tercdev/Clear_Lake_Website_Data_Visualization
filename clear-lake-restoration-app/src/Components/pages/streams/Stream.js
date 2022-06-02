@@ -155,7 +155,23 @@ export default function Stream(props) {
                                     filename: props.name
                                 });
                             }
-                        }
+                        }, {
+                            textKey: 'downloadSVG',
+                            onclick: function () {
+                                this.exportChart({
+                                    type: 'image/svg+xml',
+                                    filename: props.name
+                                });
+                            }
+                        }, {
+                            textKey: 'downloadPDF',
+                            onclick: function () {
+                                this.exportChart({
+                                    type: "application/pdf",
+                                    filename: props.name
+                                });
+                            }
+                        }, 
                     ]
                 }
             }

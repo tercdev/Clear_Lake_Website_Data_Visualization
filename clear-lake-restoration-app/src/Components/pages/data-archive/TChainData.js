@@ -24,7 +24,8 @@ function TChainData() {
     // if the data is still being fetched or not
     const [isLoading,setIsLoading] = useState(true);
     // name in the csv
-    const [siteName, setSiteName] = useState("");
+    const [siteNameTemp, setSiteNameTemp] = useState("");
+    const [siteNameOxy, setSiteNameOxy] = useState("");
     /**
      * set start date and hide button
      * @param {Date} e 
@@ -116,12 +117,13 @@ function TChainData() {
             settempcsv(tempDataArr);                  
             setoxycsv(oxygenDataArr);
             if (oxygenDataArr.length !== 0 && tempDataArr.length !== 0) {
-                setSiteName(tempDataArr[0].Site);
+                setSiteNameOxy(oxygenDataArr[0].Site);
+                setSiteNameTemp(tempDataArr[0].Site);
             }
             setShowButton(true);
         }
     },[isLoading])
-    
+
     return (
         <>
         <center>
@@ -176,14 +178,14 @@ function TChainData() {
         {!isLoading && oxygenDataArr.length !== 0 && showButton && 
         <CSVLink 
             data={oxycsv} 
-            filename = {siteName+"_"+startGraphDate.toLocaleDateString().replace(/\//g, '-')+"_"+endGraphDate.toLocaleDateString().replace(/\//g, '-')} 
+            filename = {siteNameOxy + "_" + startGraphDate.toLocaleDateString().replace(/\//g, '-') + "_" + endGraphDate.toLocaleDateString().replace(/\//g, '-') + ".csv"} 
             className="csv-link" target="_blank">
                 Download Lake Oxygen Data
             </CSVLink>}
         {!isLoading && oxygenDataArr.length === 0 && <p>There is no lake oxygen data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}
-        {!isLoading && tempDataArr.length !== 0 && showButton && <CSVLink data={tempcsv} filename = {siteName+"_"+startGraphDate.toISOString().slice(0,10)+"_"+endGraphDate.toISOString().slice(0,10)} className="csv-link" target="_blank">Download Lake Temperature Data</CSVLink>}
+        {!isLoading && tempDataArr.length !== 0 && showButton && <CSVLink data={tempcsv} filename = {siteNameTemp + "_" + startGraphDate.toLocaleDateString().replace(/\//g, '-') + "_" + endGraphDate.toLocaleDateString().replace(/\//g, '-')+".csv"} className="csv-link" target="_blank">Download Lake Temperature Data</CSVLink>}
         {!isLoading && tempDataArr.length === 0 && <p>There is no lake temperature data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}
-        {((!isLoading && oxygenDataArr.length !==0) || (!isLoading && tempDataArr.length !== 0)) && showButton && <a href={require("../../../Metadata/README_tchain.txt")} download="README_Tchain">Download Tchain Metadata README</a>}
+        {((!isLoading && oxygenDataArr.length !==0) || (!isLoading && tempDataArr.length !== 0)) && showButton && <a href={require("../../../Metadata/README_tchain.txt")} download="README_Tchain.txt">Download Tchain Metadata README</a>}
 
         </center>
     </>

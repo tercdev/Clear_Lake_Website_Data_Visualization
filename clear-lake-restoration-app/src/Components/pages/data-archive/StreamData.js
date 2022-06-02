@@ -279,15 +279,15 @@ function StreamData(props) {
         {!isLoading && !isEmpty && showButton && 
         <CSVLink 
             data={creekcsv} 
-            filename ={siteName+"_"+startGraphDate.toLocaleDateString().replace(/\//g, '-')+"_"+endGraphDate.toLocaleDateString().replace(/\//g, '-')} 
+            filename ={props.id + " " + siteName + "_" + startGraphDate.toLocaleDateString().replace(/\//g, '-') + "_" + endGraphDate.toLocaleDateString().replace(/\//g, '-') + ".csv"} 
             className="csv-link" target="_blank" 
             headers={headers}>
                 Download {props.id} Stream Data
         </CSVLink>}
 
         {props.id == "Real Time" ? 
-            !isLoading && !isEmpty && showButton && <a href={require("../../../Metadata/README_realtime_streams.txt")} download="README_realtime_streams">Download {props.id} Stream Metadata README</a>
-            : !isLoading && !isEmpty && showButton && <a href={require("../../../Metadata/README_clean_streams.txt")} download="README_clean_stream">Download {props.id} Stream Metadata README</a>}
+            !isLoading && !isEmpty && showButton && <a href={require("../../../Metadata/README_realtime_streams.txt")} download="README_realtime_streams.txt">Download {props.id} Stream Metadata README</a>
+            : !isLoading && !isEmpty && showButton && <a href={require("../../../Metadata/README_clean_streams.txt")} download="README_clean_stream.txt">Download {props.id} Stream Metadata README</a>}
         
 
         {!isLoading && isEmpty && <p>There is no {props.id.toLowerCase()} stream data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}

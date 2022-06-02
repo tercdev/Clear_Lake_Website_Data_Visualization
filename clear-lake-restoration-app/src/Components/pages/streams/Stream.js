@@ -425,11 +425,6 @@ export default function Stream(props) {
             flowDataFetch = await Promise.all(flowDataFetch);
             rainDataFetch = await Promise.all(rainDataFetch);
 
-            console.log("realtime",realTimeDataFetch);
-            console.log("clean data",cleanDataFetch);
-            console.log("flow data",flowDataFetch);
-            console.log("rain data",rainDataFetch);
-
             setRealTimeData(realTimeDataFetch);
             setCleanData(cleanDataFetch);
             setFlowData(flowDataFetch);
@@ -441,13 +436,7 @@ export default function Stream(props) {
     },[startGraphDate,endGraphDate] )
 
     useEffect(()=> {
-        console.log("use effect for turb temp");
         if (!isLoading) {
-            console.log("done loading...");
-            console.log("realtimedata",realTimeData);
-            console.log("cleandata",cleanData);
-            console.log("flowedata",flowData);
-            console.log("raindata",rainData);
             let creekRealTimeData = [].concat.apply([],realTimeData);
             let creekCleanData = [].concat.apply([],cleanData);
             let creekFlowData = [].concat.apply([],flowData);

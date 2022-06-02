@@ -584,7 +584,7 @@ export default function Stream(props) {
         }, {
             id: "2",
             header: "Why is no data showing up on my plots?",
-            content: <p>If there is no data, the sensors might not be submerged in the water. Check <a href='https://clearlakerehabilitation.ucdavis.edu/metadata'>here</a> to read more about the metadata.</p>
+            content: <p>If there is no data, the sensors might not be submerged in the water. Check <a href='https://clearlakerehabilitation.ucdavis.edu/metadata'>here</a> to read more about the metadata. If you are loading more than one year's worth of data, expect low browser performance, as there are lots of data points to graph.</p>
         }, {
             id: "3",
             header: "Where is the data collected?",

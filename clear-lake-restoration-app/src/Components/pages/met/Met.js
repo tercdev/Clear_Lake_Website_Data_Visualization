@@ -109,6 +109,34 @@ export default function Met(props) {
                 fontSize: '1rem'
             }
         },
+        exporting: {
+            buttons: {
+                contextButton: {
+                    menuItems: [
+                        "viewFullscreen",
+                        "printChart",
+                        "separator",
+                        {
+                            textKey: 'downloadPNG',
+                            onclick: function () {
+                                this.exportChart({
+                                    type: 'image/png',
+                                    filename: props.name
+                                });
+                            }
+                        }, {
+                            textKey: 'downloadJPEG',
+                            onclick: function () {
+                                this.exportChart({
+                                    type: 'image/jpeg',
+                                    filename: props.name
+                                });
+                            }
+                        }
+                    ]
+                }
+            }
+        },
         xAxis: [{ // for solar radiation (bottom chart)
             type: 'datetime',
             labels: {

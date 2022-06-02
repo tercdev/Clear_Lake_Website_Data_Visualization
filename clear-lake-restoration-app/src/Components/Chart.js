@@ -2,13 +2,10 @@ import React, { useEffect, useRef } from 'react'
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import ErrorBoundary from './ErrorBoundary';
-import fullscreen from "highcharts/modules/full-screen";
-
 
 // for the hamburger button in the top right corner of each chart that lets users download different formats of the chart
 require('highcharts/modules/exporting')(Highcharts);
 require('highcharts/modules/export-data')(Highcharts);
-fullscreen(Highcharts);
 
 /**
  * Component for showing Highcharts chart

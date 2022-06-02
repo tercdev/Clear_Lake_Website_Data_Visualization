@@ -301,7 +301,9 @@ export default function LakeCTD(props) {
      * @param {Date} e 
      */
     function handleStartDateChange(e) {
-        setStartDate(e);
+        if (typeof e !== Date) {
+            setStartDate(e);
+        }
     }
 
     /**

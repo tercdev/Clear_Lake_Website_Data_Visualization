@@ -37,16 +37,20 @@ function StreamData(props) {
      * @param {Date} e 
      */
     function handleStartDateChange(e) {
-        setStartDate(e);
-        setShowButton(false);
+        if (typeof e !== Date) {
+            setStartDate(e);
+            setShowButton(false);
+        }
     }
     /**
      * set end date and hide button
      * @param {Date} e 
      */
     function handleEndDateChange(e) {
-        setEndDate(e);
-        setShowButton(false);
+        if (typeof e !== Date) {
+            setEndDate(e);
+            setShowButton(false);
+        }
     }
     /**
      * set the graph start and end dates and id which are the query parameters for the API call.

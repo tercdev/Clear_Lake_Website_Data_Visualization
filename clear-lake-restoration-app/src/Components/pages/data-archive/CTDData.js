@@ -21,8 +21,10 @@ function CTDData() {
      * @param {Date} e 
      */
     function handleStartDateChange(e) {
-        setStartDate(e);
-        setShowButton(false);
+        if (typeof e !== Date) {
+            setStartDate(e);
+            setShowButton(false);
+        }
     }
     /**
      * Set the graph start and end dates and id which are the query parameters for the API call.

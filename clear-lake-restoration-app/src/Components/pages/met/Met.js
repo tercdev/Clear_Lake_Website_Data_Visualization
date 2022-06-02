@@ -453,7 +453,9 @@ export default function Met(props) {
      * @param {Date} e 
      */
     function handleStartDateChange(e) {
-        setStartDate(e);
+        if (typeof e !== Date) {
+            setStartDate(e);
+        }
     }
 
     /**
@@ -461,7 +463,9 @@ export default function Met(props) {
      * @param {Date} e 
      */
     function handleEndDateChange(e) {
-        setEndDate(e);
+        if (typeof e !== Date) {
+            setEndDate(e);
+        }
     }
 
     /**

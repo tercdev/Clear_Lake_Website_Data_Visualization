@@ -385,10 +385,15 @@ export default function LakeTchain(props) {
 
     // when the user changes the date, the date selector updates the date
     function handleStartDateChange(e) {
-        setStartDate(e);
+        if (typeof e !== Date) {
+            setStartDate(e);
+        }
     }
+
     function handleEndDateChange(e) {
-        setEndDate(e);
+        if (typeof e !== Date) {
+            setEndDate(e);
+        }
     }
 
     // set the graph's start and end date

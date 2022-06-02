@@ -131,6 +131,42 @@ export default function Stream(props) {
                 fontSize: '1rem'
             }
         },
+        exporting: {
+            buttons: {
+                contextButton: {
+                    menuItems: [{
+                        textKey: 'downloadPNG',
+                        onclick: function () {
+                            this.exportChart({
+                                type: 'image/png',
+                                filename: props.name
+                            });
+                        }
+                    }, {
+                        textKey: 'downloadJPEG',
+                        onclick: function () {
+                            this.exportChart({
+                                type: 'image/jpeg',
+                                filename: props.name
+                            });
+                        }
+                    }, {
+                        separator: true
+                    }, {
+                        textKey: 'printChart',
+                        onclick: function () {
+                            this.print();
+                        }
+                    }, {
+                        textKey: 'viewFullscreen',
+                        onclick: function () {
+                            this.fullscreen.toggle()
+                        }
+                    },
+                ]
+                }
+            }
+        },
         xAxis: [{ // for the bottom chart
             type: 'datetime',
             labels: {

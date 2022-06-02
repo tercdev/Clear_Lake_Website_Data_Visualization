@@ -280,7 +280,7 @@ function MeteorologyData(props) {
             className="csv-link"
             target="_blank" 
             headers={headers}
-            filename={props.id + siteName+"_"+startGraphDate.toLocaleDateString().replace(/\//g, '-')+"_"+endGraphDate.toLocaleDateString().replace(/\//g, '-')+".csv"}
+            filename={props.id + " " + siteName+"_"+startGraphDate.toLocaleDateString().replace(/\//g, '-')+"_"+endGraphDate.toLocaleDateString().replace(/\//g, '-')+".csv"}
             >
                 Download {props.id} Met Data
         </CSVLink></>}

@@ -279,7 +279,7 @@ function StreamData(props) {
         {!isLoading && !isEmpty && showButton && 
         <CSVLink 
             data={creekcsv} 
-            filename ={props.id + siteName + "_" + startGraphDate.toLocaleDateString().replace(/\//g, '-') + "_" + endGraphDate.toLocaleDateString().replace(/\//g, '-') + ".csv"} 
+            filename ={props.id + " " + siteName + "_" + startGraphDate.toLocaleDateString().replace(/\//g, '-') + "_" + endGraphDate.toLocaleDateString().replace(/\//g, '-') + ".csv"} 
             className="csv-link" target="_blank" 
             headers={headers}>
                 Download {props.id} Stream Data

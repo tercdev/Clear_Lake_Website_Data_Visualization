@@ -286,8 +286,8 @@ function MeteorologyData(props) {
         </CSVLink></>}
 
         {props.id == "Real Time" ? 
-            !isLoading && !isEmpty && showButton && <a href={require("../../../Metadata/README_realtime_met.txt")} download="README_realtime_met">Download {props.id} Meteorology Metadata README</a>
-            : !isLoading && !isEmpty && showButton && <a href={require("../../../Metadata/README_clean_met.txt")} download="README_clean_met">Download {props.id} Meteorology Metadata README</a>}
+            !isLoading && !isEmpty && showButton && <a href={require("../../../Metadata/README_realtime_met.txt")} download="README_realtime_met.txt">Download {props.id} Meteorology Metadata README</a>
+            : !isLoading && !isEmpty && showButton && <a href={require("../../../Metadata/README_clean_met.txt")} download="README_clean_met.txt">Download {props.id} Meteorology Metadata README</a>}
         
         {!isLoading && isEmpty && <p>There is no {props.id.toLowerCase()} meterology data from {startGraphDate.toDateString()} to {endGraphDate.toDateString()}.</p>}
         </center>

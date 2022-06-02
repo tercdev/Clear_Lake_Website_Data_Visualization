@@ -115,7 +115,7 @@ function CTDData() {
             </div>
         {profileData.isLoading && <center>Fetching Data...</center>}
         {!profileData.isLoading && profileData.data.length != 0 && showButton && <CSVLink filename={siteName + "_" + startGraphDate.toISOString().slice(0,10) + ".csv"} data={profilecsv} className="csv-link" target="_blank">Download Profile Data</CSVLink>}
-        {!profileData.isLoading && profileData.data.length != 0 && showButton && <a href={require("../../../Metadata/README_ctd.txt")} download="README_ctd">Download Profile Data Metadata README</a>}
+        {!profileData.isLoading && profileData.data.length != 0 && showButton && <a href={require("../../../Metadata/README_ctd.txt")} download="README_ctd.txt">Download Profile Data Metadata README</a>}
         </center>
     </>
     )

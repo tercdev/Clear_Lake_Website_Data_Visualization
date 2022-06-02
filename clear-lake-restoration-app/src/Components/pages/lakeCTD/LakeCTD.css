@@ -4,7 +4,7 @@
 }
 
 .profile-graph .chip {
-    background: #fff;
+    background: #fff !important;
     color: #000;
 }
 

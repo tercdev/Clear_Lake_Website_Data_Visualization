@@ -115,6 +115,7 @@ export default function Met(props) {
                     menuItems: [
                         "viewFullscreen",
                         "printChart",
+                        "viewData",
                         "separator",
                         {
                             textKey: 'downloadPNG',

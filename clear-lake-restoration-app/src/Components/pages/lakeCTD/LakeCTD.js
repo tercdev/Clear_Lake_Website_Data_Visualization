@@ -73,6 +73,56 @@ export default function LakeCTD(props) {
                 fontSize: '1rem'
             }
         },
+        exporting: {
+            buttons: {
+                contextButton: {
+                    menuItems: [
+                        "viewFullscreen",
+                        "printChart",
+                        "viewData",
+                        "separator",
+                        {
+                            textKey: 'downloadPNG',
+                            onclick: function () {
+                                this.exportChart({
+                                    type: 'image/png',
+                                    filename: props.name
+                                });
+                            }
+                        }, {
+                            textKey: 'downloadJPEG',
+                            onclick: function () {
+                                this.exportChart({
+                                    type: 'image/jpeg',
+                                    filename: props.name
+                                });
+                            }
+                        },
+                        {
+                            textKey: 'downloadSVG',
+                            onclick: function () {
+                                this.exportChart({
+                                    type: 'image/svg+xml',
+                                    filename: props.name
+                                });
+                            }
+                        },
+                        {
+                            textKey: 'downloadPDF',
+                            onclick: function () {
+                                this.exportChart({
+                                    type: "application/pdf",
+                                    filename: props.name
+                                });
+                            }
+                        },
+                        "separator",
+                        "downloadCSV",
+                        "downloadXLS",
+                    ]
+                }
+            }
+        },
         credits: {
             enabled: false,
         },

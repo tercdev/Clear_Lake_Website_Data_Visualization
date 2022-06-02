@@ -137,6 +137,7 @@ export default function Stream(props) {
                     menuItems: [
                         "viewFullscreen",
                         "printChart",
+                        "viewData",
                         "separator",
                         {
                             textKey: 'downloadPNG',

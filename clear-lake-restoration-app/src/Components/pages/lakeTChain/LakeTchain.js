@@ -101,6 +101,7 @@ export default function LakeTchain(props) {
                     menuItems: [
                         "viewFullscreen",
                         "printChart",
+                        "viewData",
                         "separator",
                         {
                             textKey: 'downloadPNG',

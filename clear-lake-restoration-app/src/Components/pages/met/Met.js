@@ -573,7 +573,7 @@ export default function Met(props) {
                     var lastdate = atmPresData[0][0];
                     let dataLastDate = new Date(atmPresData[0][0]);
                     let realDataLastDate = new Date(realTimeAtmPresData[0][0]);
-    
+                    console.log("dataLastDate",dataLastDate)
                     if (dataLastDate.getFullYear() === realDataLastDate.getFullYear() && 
                         dataLastDate.getMonth() === realDataLastDate.getMonth() && 
                         dataLastDate.getDay() === realDataLastDate.getDay()) {
@@ -588,6 +588,8 @@ export default function Met(props) {
                     }
                     // remove all the data before lastdate
                     realTimeAtmPresData = removePast(realTimeAtmPresData, lastdate);
+                    console.log("realtime atm",realTimeAtmPresData)
+                    console.log("last date",lastdate)
                     realTimeRelHumidityData = removePast(realTimeRelHumidityData, lastdate);
                     realTimeAirTempData = removePast(realTimeAirTempData, lastdate);
                     realTimeWindSpeedData = removePast(realTimeWindSpeedData, lastdate);
@@ -627,11 +629,15 @@ export default function Met(props) {
                  */
                 let zoneProps = [];
                 if (lastdate === undefined && realTimeAtmPresData.length !== 0) {
-                    zoneProps = [{value: realTimeAtmPresData[0][0]},{dashStyle: 'dash'}];
+                    console.log("undefined")
+                    console.log("realTimeAtmPresData",realTimeAtmPresData)
+                    console.log("combines atm",combinedAtmPresData)
+                    zoneProps = [{value: combinedAtmPresData[0][0]},{dashStyle: 'dash'}];
                 } else {
+                    console.log("else")
                     zoneProps = [{value: lastdate}, {dashStyle: 'dash'}];
                 }
-
+                console.log("zone props",zoneProps)
                 /**
                  * latest time
                  */

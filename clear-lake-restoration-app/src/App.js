@@ -27,7 +27,6 @@ import './App.css';
  * @returns {JSX.Element}
  */
 function App() {
-  console.log(metAPI)
   return (
     <Router basename='/Clear_Lake_Website_Data_Visualization/'>
       {window.location.pathname !== '/Clear_Lake_Website_Data_Visualization/map' ? <><FullHeader/><Navigation/></>:<></>}

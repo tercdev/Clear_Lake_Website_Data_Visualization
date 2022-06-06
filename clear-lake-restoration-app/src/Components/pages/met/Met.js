@@ -29,7 +29,12 @@ const TIMEZONE_OFFSET = 7;
  * @param {String} name Title of the page
  * @returns {JSX.Element}
  */
-export default function Met(props) {
+export default function Met({
+    id,
+    name,
+    cleanID = null
+}
+) {
     // fahrenheit by default
     const [unit, setUnit] = useState('f'); 
     const [graphUnit, setGraphUnit] = useState('f');
@@ -470,7 +475,7 @@ export default function Met(props) {
     const realTime = useFetch('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/metweatherlink');
     // endpoint that contains clean data
     const cleanMet = useFetch('https://4ery4fbt1i.execute-api.us-west-2.amazonaws.com/default/clearlake-met');
-
+    let cleanId = cleanID === null ? id : cleanID
     useEffect(()=> {
         setCleanMetArr([]);
         setRealTimeArr([]);
@@ -491,8 +496,8 @@ export default function Met(props) {
             diffTime = endGraphDate.getTime() - newDay.getTime();
             diffDay = diffTime/(1000*3600*24);
 
-            realTimeFetchlist.push(realTime.get(`?id=${props.id}&rptdate=${convertDate(compareDate)}&rptend=${convertDate(newDay)}`));
-            cleanFetchList.push(cleanMet.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(newDay)}`));
+            realTimeFetchlist.push(realTime.get(`?id=${id}&rptdate=${convertDate(compareDate)}&rptend=${convertDate(newDay)}`));
+            cleanFetchList.push(cleanMet.get(`?id=${cleanId}&start=${convertDate(compareDate)}&end=${convertDate(newDay)}`));
 
             // next query should be the last day +1 so no overlap with data
             let newDayPlusOne = new Date(new Date(compareDate.getTime()).setDate(compareDate.getDate() + 151));
@@ -502,8 +507,8 @@ export default function Met(props) {
         // query one extra day since data retrieved is in UTC
         let endDayPlusOne = new Date(new Date(endGraphDate.getTime()).setDate(endGraphDate.getDate() + 1));
 
-        realTimeFetchlist.push(realTime.get(`?id=${props.id}&rptdate=${convertDate(compareDate)}&rptend=${convertDate(endDayPlusOne)}`));
-        cleanFetchList.push(cleanMet.get(`?id=${props.id}&start=${convertDate(compareDate)}&end=${convertDate(endDayPlusOne)}`));
+        realTimeFetchlist.push(realTime.get(`?id=${id}&rptdate=${convertDate(compareDate)}&rptend=${convertDate(endDayPlusOne)}`));
+        cleanFetchList.push(cleanMet.get(`?id=${cleanId}&start=${convertDate(compareDate)}&end=${convertDate(endDayPlusOne)}`));
 
         setIsLoading(true); // Loading is true
 
@@ -779,7 +784,7 @@ export default function Met(props) {
     return (
         <div>
             <div className='station-page-header'>
-                <h1 className='station-page-title'>{props.name}</h1>
+                <h1 className='station-page-title'>{name}</h1>
             </div>
             <DataDisclaimer/>
 

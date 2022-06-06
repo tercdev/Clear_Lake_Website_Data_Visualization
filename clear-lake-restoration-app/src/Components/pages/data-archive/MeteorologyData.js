@@ -4,7 +4,7 @@ import useFetch from 'use-http';
 import DatePicker from 'react-datepicker';
 import { convertDate,isAllEmpty } from '../../utils';
 import Multiselect from 'multiselect-react-dropdown';
-
+import metAPI from '../../../Metadata/MetAPI.json'
 /**
  * Component showing the Meteorology data download.
  * @param {String} id 'Clean' or 'Real Time'
@@ -56,7 +56,12 @@ function MeteorologyData(props) {
     function setGraphDates() {
         setGraphStartDate(startDate);
         setGraphEndDate(endDate);
-        setId(idTemp);
+        if (props.id == "Clean") {
+            setId(metAPI.Met[Number(idTemp)-1].cleanId)
+        } else {
+            setId(metAPI.Met[Number(idTemp)-1].realtimeId)
+        }
+        //setId(idTemp);
         // set the final selected variables chosen by the user
         let newArr = [];
         checkedState.forEach(x => newArr.push(x));
@@ -224,7 +229,7 @@ function MeteorologyData(props) {
                 <select className="select-drop" onChange={(e) => {setIdTemp(e.target.value); setShowButton(false);}}>
                     <option value="1">Buckingham Point</option>
                     <option value="2">Clearlake Oaks</option>
-                    <option value="3">Jago Bay</option>
+                    <option value="3">Beakbane Island</option>
                     <option value="4">Konocti Bay</option>
                     <option value="5">Nice</option>
                     <option value="6">North Lakeport</option>

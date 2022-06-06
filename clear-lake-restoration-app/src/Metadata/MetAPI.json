@@ -1,0 +1,12 @@
+{
+    "Met":
+    [
+        {"route":"/bkp","name":"Buckingham Point","realtimeId":"1","cleanId":"1"},
+        {"route":"/clo","name":"Clearlake Oaks","realtimeId":"2","cleanId":"2"},
+        {"route":"/bek","name":"Beakbane Island","realtimeId":"8","cleanId":"3"},
+        {"route":"/knb","name":"Konocti Bay","realtimeId":"4","cleanId":"4"},
+        {"route":"/nic","name":"Nice","realtimeId":"5","cleanId":"5"},
+        {"route":"/nlp","name":"North Lakeport","realtimeId":"6","cleanId":"6"},
+        {"route":"/bvr","name":"Big Valley Rancheria","realtimeId":"7","cleanId":"7"}
+    ]
+}

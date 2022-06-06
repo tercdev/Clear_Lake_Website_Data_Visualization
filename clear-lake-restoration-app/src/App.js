@@ -17,6 +17,8 @@ import DataArchive from './Components/pages/data-archive/DataArchive.js';
 import Map from './Components/Map.js';
 import Footer from './Components/Footer.js';
 
+import metAPI from './Metadata/MetAPI.json'
+
 import './App.css';
 
 /**
@@ -25,6 +27,7 @@ import './App.css';
  * @returns {JSX.Element}
  */
 function App() {
+  console.log(metAPI)
   return (
     <Router basename='/Clear_Lake_Website_Data_Visualization/'>
       {window.location.pathname !== '/Clear_Lake_Website_Data_Visualization/map' ? <><FullHeader/><Navigation/></>:<></>}
@@ -35,14 +38,8 @@ function App() {
         <Route path='/middle' exact element={<Stream id={"2"} name={"Middle Creek"}/>} />
         <Route path='/scotts' exact element={<Stream id={"3"} name={"Scotts Creek"}/>} />
         
-        <Route path='/met' exact element={<MetHome/>} />
-        <Route path='/bkp' exact element={<Met id={"1"} name={"Buckingham Point"}/>} />
-        <Route path='/clo' exact element={<Met id={"2"} name={"Clearlake Oaks"}/>} />
-        <Route path='/bek' exact element={<Met id={"3"} name={"Beakbane Island"}/>} />
-        <Route path='/knb' exact element={<Met id={"4"} name={"Konocti Bay"}/>} />
-        <Route path='/nlp' exact element={<Met id={"6"} name={"North Lakeport"}/>} />
-        <Route path='/nic' exact element={<Met id={"5"} name={"Nice"}/>} />
-        <Route path='/bvr' exact element={<Met id={"7"} name={"Big Valley Rancheria"}/>} />
+
+        {metAPI.Met.map(site => (<Route path={site.route} exact element={<Met id={site.realtimeId} name={site.name} cleanID={site.cleanId}/>}/>))}
 
         <Route path='/lakemooring' exact element={<LakeTchainHome/>} />
         <Route path='/la03' exact element={<LakeTchain id={"1"} name={"LA-03 Station"}/>} />

@@ -115,7 +115,7 @@ export default function Met({
             }
         },
         exporting: {
-            filename: props.name,
+            filename: name,
             buttons: {
                 contextButton: {
                     menuItems: [

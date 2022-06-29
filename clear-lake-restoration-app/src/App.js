@@ -37,7 +37,7 @@ function App() {
         <Route path='/middle' exact element={<Stream id={"2"} name={"Middle Creek"}/>} />
         <Route path='/scotts' exact element={<Stream id={"3"} name={"Scotts Creek"}/>} />
         
-
+        <Route path='/met' exact element={<MetHome/>} />
         {metAPI.Met.map(site => (<Route path={site.route} exact element={<Met id={site.realtimeId} name={site.name} cleanID={site.cleanId}/>}/>))}
 
         <Route path='/lakemooring' exact element={<LakeTchainHome/>} />

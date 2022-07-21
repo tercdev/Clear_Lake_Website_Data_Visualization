@@ -58,7 +58,8 @@ function App() {
         <Route path='/nr02-profile' exact element={<LakeCTD id={"6"} name={"NR-02 Profile"}/>} />
         <Route path='/oa04-profile' exact element={<LakeCTD id={"7"} name={"OA-04 Profile"}/>} />
 
-        <Route path='/upload-csv' exact element={<LoginPage/>} />
+        {/* removed the CSV upload page for security purposes */}
+        {/* <Route path='/upload-csv' exact element={<LoginPage/>} /> */}
 
         <Route path='/data-archive' exact element={<DataArchive/>} />
 

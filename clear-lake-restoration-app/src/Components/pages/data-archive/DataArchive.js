@@ -69,7 +69,7 @@ function DataArchive() {
                         </TabList>
                         <TabPanel>
                             <StreamData id="Clean" 
-                                url="https://1j27qzg916.execute-api.us-west-2.amazonaws.com/default/clearlake-streamturb-api" 
+                                url="https://5fw1h3peqb.execute-api.us-west-2.amazonaws.com/v1/clearlake-streamturb-api" 
                                 variables={["Station_ID","DateTime_UTC","Turb","Temp"]}
                             />
                         </TabPanel>
@@ -89,7 +89,7 @@ function DataArchive() {
                         </TabList>
                         <TabPanel>
                             <MeteorologyData id="Clean" 
-                                url="https://4ery4fbt1i.execute-api.us-west-2.amazonaws.com/default/clearlake-met"
+                                url="https://5fw1h3peqb.execute-api.us-west-2.amazonaws.com/v1/clearlake-met"
                                 variables={["Station_ID","DateTime_UTC","Air_Temp","Rel_Humidity","Wind_Speed","Wind_Dir","Atm_Pres","Rain","Solar_Rad"]}/>
                         </TabPanel>
                         <TabPanel>

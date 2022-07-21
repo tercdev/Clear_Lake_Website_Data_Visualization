@@ -474,7 +474,7 @@ export default function Met({
     // endpoint provided by TERC
     const realTime = useFetch('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/metweatherlink');
     // endpoint that contains clean data
-    const cleanMet = useFetch('https://4ery4fbt1i.execute-api.us-west-2.amazonaws.com/default/clearlake-met');
+    const cleanMet = useFetch('https://5fw1h3peqb.execute-api.us-west-2.amazonaws.com/v1/clearlake-met');
     let cleanId = cleanID === null ? id : cleanID
     useEffect(()=> {
         setCleanMetArr([]);

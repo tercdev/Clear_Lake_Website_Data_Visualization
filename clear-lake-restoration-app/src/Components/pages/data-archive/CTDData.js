@@ -42,7 +42,7 @@ function CTDData() {
     /**
      * API endpoint for clean profile data
      */
-    var url = new URL('https://3kgpak926a.execute-api.us-west-2.amazonaws.com/default/clearlake-profiledata');
+    var url = new URL('https://5fw1h3peqb.execute-api.us-west-2.amazonaws.com/v1/clearlake-profiledata');
     /**
      * query parameters: 
      * - `id`: of the site
@@ -77,7 +77,7 @@ function CTDData() {
     /**
      * API endpoint for the distinct dates where the site has profile data
      */
-    var dates_url = new URL('https://v35v56rdp6.execute-api.us-west-2.amazonaws.com/default/clearlake-profiledata-sitedates');
+    var dates_url = new URL('https://5fw1h3peqb.execute-api.us-west-2.amazonaws.com/v1/clearlake-profiledata-sitedates');
     /**
      * query parameters:
      * - `id`: of the site

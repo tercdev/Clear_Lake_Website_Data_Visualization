@@ -1,6 +1,6 @@
 For more updated versions of the documentation, click on links. 
 
-Having a hard time accessing the docs? Contact Alicia Cortes.
+Having a hard time accessing the docs? Please contact Alicia Cortes.
 
 User Guide: https://docs.google.com/document/d/1b0EuIy6uSvgFCpyVQY8PcQR-DKxc6Oi7e69H84Ucgaw/edit?usp=sharing
 

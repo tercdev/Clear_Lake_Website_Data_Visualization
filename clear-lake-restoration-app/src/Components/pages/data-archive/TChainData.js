@@ -58,9 +58,9 @@ function TChainData() {
     const [idTemp, setIdTemp] = useState(1);
     const [id, setId] = useState(1);
 
-    const lakeOxygen = useFetch('https://f6axabo7w6.execute-api.us-west-2.amazonaws.com/default/clearlake-lakeoxygen');
+    const lakeOxygen = useFetch('https://5fw1h3peqb.execute-api.us-west-2.amazonaws.com/v1/clearlake-lakeoxygen');
 
-    const lakeTemp = useFetch('https://18eduqff9f.execute-api.us-west-2.amazonaws.com/default/clearlake-laketemperature');
+    const lakeTemp = useFetch('https://5fw1h3peqb.execute-api.us-west-2.amazonaws.com/v1/clearlake-laketemperature');
 
     // data in the csv
     const [oxycsv, setoxycsv] = useState([]);

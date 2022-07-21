@@ -69,7 +69,7 @@ function DataArchive() {
                         </TabList>
                         <TabPanel>
                             <StreamData id="Clean" 
-                                url="https://1j27qzg916.execute-api.us-west-2.amazonaws.com/default/clearlake-streamturb-api" 
+                                url="https://5fw1h3peqb.execute-api.us-west-2.amazonaws.com/v1/clearlake-streamturb-api" 
                                 variables={["Station_ID","DateTime_UTC","Turb","Temp"]}
                             />
                         </TabPanel>

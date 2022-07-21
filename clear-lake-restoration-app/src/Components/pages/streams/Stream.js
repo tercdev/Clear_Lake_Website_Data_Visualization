@@ -387,7 +387,7 @@ export default function Stream(props) {
 
     const creekRealTime = useFetch('https://tepfsail50.execute-api.us-west-2.amazonaws.com/v1/report/cl-creeks');
 
-    const creekClean = useFetch('https://1j27qzg916.execute-api.us-west-2.amazonaws.com/default/clearlake-streamturb-api');
+    const creekClean = useFetch('https://5fw1h3peqb.execute-api.us-west-2.amazonaws.com/v1/clearlake-streamturb-api');
 
     const creekFlow = useFetch('https://b8xms0pkrf.execute-api.us-west-2.amazonaws.com/default/clearlake-streams');
 

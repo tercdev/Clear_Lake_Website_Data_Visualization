@@ -392,8 +392,8 @@ export default function LakeTchain(props) {
     }
 
     // fetching data using API endpoints
-    const lakeOxygen = useFetch('https://f6axabo7w6.execute-api.us-west-2.amazonaws.com/default/clearlake-lakeoxygen');
-    const lakeTemp = useFetch('https://18eduqff9f.execute-api.us-west-2.amazonaws.com/default/clearlake-laketemperature');
+    const lakeOxygen = useFetch('https://5fw1h3peqb.execute-api.us-west-2.amazonaws.com/v1/clearlake-lakeoxygen');
+    const lakeTemp = useFetch('https://5fw1h3peqb.execute-api.us-west-2.amazonaws.com/v1/clearlake-laketemperature');
     
     /**
      * Given a data array, return an array of [time, y, value] or [time, y] to be used for graphing

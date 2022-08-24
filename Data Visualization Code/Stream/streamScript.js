@@ -129,7 +129,7 @@ async function asyncGetData(id,rptdate,rptend,dataType) {
         var new_url = url.toString();
     }
     else {
-        var flowurl = new URL('https://b8xms0pkrf.execute-api.us-west-2.amazonaws.com/default/clearlake-streams')
+        var flowurl = new URL('https://5fw1h3peqb.execute-api.us-west-2.amazonaws.com/v1/clearlake-streams-flow')
 
         var search_params_flow = flowurl.searchParams;
         search_params_flow.set('id',id);

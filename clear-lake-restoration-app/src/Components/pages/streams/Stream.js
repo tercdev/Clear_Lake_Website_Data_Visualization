@@ -389,9 +389,9 @@ export default function Stream(props) {
 
     const creekClean = useFetch('https://5fw1h3peqb.execute-api.us-west-2.amazonaws.com/v1/clearlake-streamturb-api');
 
-    const creekFlow = useFetch('https://b8xms0pkrf.execute-api.us-west-2.amazonaws.com/default/clearlake-streams');
+    const creekFlow = useFetch('https://5fw1h3peqb.execute-api.us-west-2.amazonaws.com/v1/clearlake-streams-flow');
 
-    const creekRain = useFetch('https://ts09zwptz4.execute-api.us-west-2.amazonaws.com/default/clearlake-precipitation-api');
+    const creekRain = useFetch('https://5fw1h3peqb.execute-api.us-west-2.amazonaws.com/v1/clearlake-precipitation-api');
 
     useEffect(()=> {
         setRealTimeData([]);
